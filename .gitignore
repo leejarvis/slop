@@ -1,3 +1,4 @@
 .yardoc
 doc
 *.swp
+*.gem
