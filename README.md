@@ -3,6 +3,9 @@ Slop
 
 Slop is a simple option parser with an easy to remember syntax and friendly API.
 
+**NOTE** This software is still in beta, it contains bugs and lacks core
+features
+
 Installation
 ------------
 
