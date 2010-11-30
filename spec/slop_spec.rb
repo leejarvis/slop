@@ -7,6 +7,15 @@ describe Slop do
     end
   end
 
+  describe "::options" do
+    it "should return the last set of options" do
+      s = Slop.new { option(:f, :foo, "foo") }
+      Slop.options.should == s.options
+      p = Slop.new { option(:b, :bar, "bar") }
+      Slop.options.should == p.options
+    end
+  end
+
   describe "option" do
     it "adds an option" do
       @slop.options.find do |opt|

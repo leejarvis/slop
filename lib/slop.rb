@@ -11,6 +11,11 @@ class Slop
   # @return [Set]
   attr_reader :options
 
+  # @return [Set] the last set of options used
+  def self.options
+    @@options
+  end
+
   # Sugar for new(..).parse(stuff)
   def self.parse(values=[], &blk)
     new(&blk).parse(values)
@@ -18,6 +23,7 @@ class Slop
 
   def initialize(&blk)
     @options = Set.new
+    @@options = @options
     instance_eval(&blk) if block_given?
   end
 
