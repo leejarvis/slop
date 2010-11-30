@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name = 'slop'
   s.version = '0.1.0'
-  s.summary = 'Option parsing made easy'
+  s.summary = 'Option gathering made easy'
   s.description = ''
   s.author = 'Lee Jarvis'
   s.email = 'lee@jarvis.co'
