@@ -59,6 +59,22 @@ Usage
     # using `--applicable_age`
     s.value_for(:applicable_age) #=> 20
 
+Callbacks
+---------
+
+If you'd like to trigger an event when an option is used, you can pass a
+block to your option. Here's how:
+
+    Slop.parse(ARGV) do
+      opt(:v, :version, "Display the version") do
+        puts "Version 1.0.1"
+        exit
+      end
+    end
+
+Now when using the `--version` option on the command line, the trigger will
+be called and its contents executed.
+
 Casting
 -------
 
