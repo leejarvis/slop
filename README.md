@@ -24,28 +24,30 @@ Usage
 -----
 
     s = Slop.parse(ARGV) do
-      option :v, :verbose, "Enable verbose mode", :default => false
-      option :n, :name, "Your name", true # compulsory argument
-      option :c, :country, "Your country", argument => true # the same thing
+      option(:v, :verbose, "Enable verbose mode", :default => false)
+      option(:n, :name, "Your name", true) # compulsory argument
+      option(:c, :country, "Your country", argument => true) # the same thing
 
-      option :a, :age, "Your age", true, :optional => true # optional argument
-      option :address, "Your address", :optional => true # the same
+      option(:a, :age, "Your age", true, :optional => true) # optional argument
+      option(:address, "Your address", :optional => true)   # the same
 
       # shortcut option aliases
-      opt :height, "Your height"
-      o :weight, "Your weight
+      opt(:height, "Your height")
+      o(:weight, "Your weight)
     end
 
     # using `--name Lee -a 100`
     s.options_hash #=> {:verbose=>false, :name=>"Lee", :age=>"100", :address=>nil}
     s.value_for(:name) #=> "Lee"
+
+    # or grab the Option object directly
     option = s.option_for(:name)
     option.description #=> "Your name"
 
     # You can also use switch values to set options according to arguments
     s = Slop.parse(ARGV) do
-      option :v, :verbose, :default => false, :switch => true
-      option :applicable_age, :default => 10, :switch => 20
+      option(:v, :verbose, :default => false, :switch => true)
+      option(:applicable_age, :default => 10, :switch => 20)
     end
 
     # without `-v`
@@ -64,7 +66,7 @@ If you want to return values of specific types, for example a Symbol or Integer
 you can pass the `:as` attribute to your option.
 
     s = Slop.parse("--age 20") do
-      opt :age, true, :as => Integer # :int/:integer both also work
+      opt(:age, true, :as => Integer) # :int/:integer both also work
     end
     s.value_for(:age) #=> 20 # not "20"
 
@@ -72,7 +74,7 @@ Slop will also check your default attributes type to see if it can cast the new
 value to the same type.
 
     s = Slop.parse("--port 110") do
-      opt :port, true, :default => 80
+      opt(port, true, :default => 80)
     end
     s.value_for(:port) #=> 110
 
@@ -82,14 +84,14 @@ Lists
 You can of course also parse lists into options. Here's how:
 
     s = Slop.parse("--people lee,injekt") do
-      opt :people, true, :as => Array
+      opt(:people, true, :as => Array)
     end
     s.value_for(:people) #=> ["lee", "injekt"]
 
 You can also change both the split delimiter and limit
 
     s = Slop.parse("--people lee:injekt:bob") do
-      opt :people, true, :as => Array, :delimiter => ':', :limit => 2
+      opt(:people, true, :as => Array, :delimiter => ':', :limit => 2)
     end
     s.value_for(:people) #=> ["lee", "injekt:bob"]
 
