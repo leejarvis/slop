@@ -5,11 +5,13 @@ require 'slop/option'
 class Slop
   VERSION = '0.1.0'
 
+  # Raised when an option expects an argument and none is given
   class MissingArgumentError < ArgumentError; end
 
   # @return [Set]
   attr_reader :options
 
+  # Sugar for new(..).parse(stuff)
   def self.parse(values=[], &blk)
     new(&blk).parse(values)
   end
@@ -67,13 +69,8 @@ class Slop
         next unless option = option_for(opt) # skip unknown values for now
         index = values.index(value)
 
-        if option.has_callback?
-          option.execute_callback
-        end
-
-        if option.has_switch?
-          option.switch_argument_value
-        end
+        option.execute_callback if option.has_callback?
+        option.switch_argument_value if option.has_switch?
 
         if option.requires_argument?
           value = values.at(index + 1)
@@ -97,11 +94,6 @@ class Slop
     self
   end
 
-  # traverse options
-  def each_option
-    @options.each {|o| yield o }
-  end
-
   # A simple Hash of options with option labels or flags as keys
   # and option values as.. values.
   #
@@ -121,7 +113,7 @@ class Slop
   #
   # @example
   #   s = Slop.new do
-  #     option :n, :name, "Your name"
+  #     option(:n, :name, "Your name")
   #   end
   #
   #   s.option_for(:name).description #=> "Your name"
@@ -138,7 +130,7 @@ class Slop
   #
   # @example When passing --name Lee
   #   s = Slop.new do
-  #     option :n, :name, true
+  #     option(:n, :name, true)
   #   end
   #
   #   s.value_for(:name) #=> "Lee"
