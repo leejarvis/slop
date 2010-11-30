@@ -40,7 +40,6 @@ class Slop
     options = Hash[attributes.zip(args)]
     options.merge!(opts)
     options[:as] = options[:default].class if options.key?(:default)
-    yield options if block_given?
 
     @options << Option.new(options)
   end

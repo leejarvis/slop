@@ -14,15 +14,6 @@ describe Slop do
       end.should be_kind_of(Slop::Option)
     end
 
-    it "adds an option with a block to alter option attributes" do
-      s = Slop.new do
-        option :n, :name, "Set your name!", true do |o|
-          o[:default] = "Lee"
-        end
-      end
-      s.option_for(:name).default.should == "Lee"
-    end
-
     it "takes no more than 4 arguments" do
       lambda do
         Slop.new { option :a, :b, :c, :d, :e }
