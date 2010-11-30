@@ -108,6 +108,7 @@ class Slop
     out
   end
   alias :to_hash :options_hash
+  alias :to_h :options_hash
 
   # Find an option using its flag or label
   #
