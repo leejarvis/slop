@@ -144,4 +144,5 @@ class Slop
     return unless option = option_for(flag)
     option.argument_value
   end
+  alias :[] :value_for
 end

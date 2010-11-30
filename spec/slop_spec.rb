@@ -46,7 +46,7 @@ describe Slop do
     end
   end
 
-  describe "value_for" do
+  describe "value_for/[]" do
     it "returns the value of an option" do
       s = Slop.parse("--name Lee") do
         opt :n, :name, "Your name", true
@@ -56,6 +56,7 @@ describe Slop do
 
     it "returns a default option if none is given" do
       Slop.new { opt :name, true, :default => "Lee" }.value_for(:name).should == "Lee"
+      Slop.new { opt :name, true, :default => "Lee" }[:name].should == "Lee"
     end
 
     it "returns nil if an option does not exist" do
