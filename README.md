@@ -26,7 +26,7 @@ Usage
     s = Slop.parse(ARGV) do
       option(:v, :verbose, "Enable verbose mode", :default => false)
       option(:n, :name, "Your name", true) # compulsory argument
-      option(:c, :country, "Your country", argument => true) # the same thing
+      option(:c, :country, "Your country", :argument => true) # the same thing
 
       option(:a, :age, "Your age", true, :optional => true) # optional argument
       option(:address, "Your address", :optional => true)   # the same
