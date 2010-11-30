@@ -39,10 +39,8 @@ class Slop
     args.unshift nil if args.first.size > 1
     args.push nil if args.size == 2
     args.push false if args.size == 3
-    if args[2] == true
-      args[2] = nil
-      args[3] = true
-    end
+
+    args[2..3] = [nil, true] if args[2] == true
 
     attributes = [:flag, :option, :description, :argument]
     options = Hash[attributes.zip(args)]
@@ -70,10 +68,11 @@ class Slop
     values = values.split(/\s+/) if values.respond_to?(:split)
 
     values.each do |value|
-      if value[1] == '-' or value[0] == '-'
-        opt = value.size == 2 ? value[1] : value[2..-1]
-        next unless option = option_for(opt) # skip unknown values for now
+      if flag_or_option?(value)
+        opt   = value.size == 2 ? value[1] : value[2..-1]
         index = values.index(value)
+
+        next unless option = option_for(opt) # skip unknown values for now
 
         option.execute_callback if option.has_callback?
         option.switch_argument_value if option.has_switch?
@@ -82,13 +81,13 @@ class Slop
           value = values.at(index + 1)
 
           unless option.optional_argument?
-            if not value or value[0] == '-' or value[1] == '-'
+            if not value or flag_or_option?(value)
               raise MissingArgumentError,
                   "#{option.key} requires a compulsory argument, none given"
               end
           end
 
-          unless !value or value[0] == '-' or value[1] == '-'
+          unless not value or flag_or_option?(value)
             option.argument_value = values.delete_at(values.index(value))
           end
         end
@@ -148,4 +147,11 @@ class Slop
     option.argument_value
   end
   alias :[] :value_for
+
+  private
+
+  def flag_or_option?(flag)
+    return unless flag
+    flag[1, 2].include?('-')
+  end
 end
