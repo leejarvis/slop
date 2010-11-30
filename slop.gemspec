@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'slop'
-  s.version = '0.1.0'
+  s.version = '0.1.4'
   s.summary = 'Option gathering made easy'
   s.description = ''
   s.author = 'Lee Jarvis'
