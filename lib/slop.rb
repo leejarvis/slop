@@ -40,6 +40,7 @@ class Slop
     options = Hash[attributes.zip(args)]
     options.merge!(opts)
     options[:as] = options[:default].class if options.key?(:default)
+    options[:callback] = blk if block_given?
 
     @options << Option.new(options)
   end
@@ -65,6 +66,10 @@ class Slop
         opt = value.size == 2 ? value[1] : value[2..-1]
         next unless option = option_for(opt) # skip unknown values for now
         index = values.index(value)
+
+        if option.has_callback?
+          option.execute_callback
+        end
 
         if option.has_switch?
           option.switch_argument_value

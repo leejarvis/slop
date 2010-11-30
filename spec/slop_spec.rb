@@ -20,6 +20,14 @@ describe Slop do
       end.should raise_error(ArgumentError, "Argument size must be no more than 4")
     end
 
+    it "accepts a block which assigns an option callback" do
+      s = Slop.parse("-v") do
+        opt(:v, :version, "Display version") { "Version 1" }
+      end
+      s.option_for(:version).callback.should be_kind_of(Proc)
+      s.option_for(:version).callback.call.should == "Version 1"
+    end
+
     it "does not parse option values unless option.argument is true" do
       Slop.parse("--name Lee") { opt :name }.value_for(:name).should be_nil
       Slop.parse("--name Lee") { opt :name, true }.value_for(:name).should == "Lee"

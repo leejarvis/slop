@@ -6,6 +6,7 @@ class Slop
     attr_reader :description
     attr_reader :argument_value
     attr_reader :default
+    attr_reader :callback
 
     def initialize(options={}, &blk)
       @options = options
@@ -17,6 +18,7 @@ class Slop
       @argument ||= @optional
       @default = options[:default]
       @as = options[:as]
+      @callback = options[:callback]
 
       # Array properties
       @delimiter = options[:delimiter] || ','
@@ -68,6 +70,16 @@ class Slop
       !!@options[:switch]
     end
 
+    # @return [Boolean] true if the option has a callback
+    def has_callback?
+      !!@callback
+    end
+
+    # execute this options callback
+    def execute_callback
+      @callback.call if has_callback?
+    end
+
     # does the option require an argument?
     # @return [Boolean]
     def requires_argument?
@@ -78,6 +90,11 @@ class Slop
     # @return [Boolean]
     def optional_argument?
       @options[:optional]
+    end
+
+    # @return
+    def [](key)
+      @options[key]
     end
 
     # Replace options argument value with the switch value supplied, used
