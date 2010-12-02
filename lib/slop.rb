@@ -3,7 +3,7 @@ require 'set'
 require 'slop/option'
 
 class Slop
-  VERSION = '0.1.4'
+  VERSION = '0.1.5'
 
   # Raised when an option expects an argument and none is given
   class MissingArgumentError < ArgumentError; end
