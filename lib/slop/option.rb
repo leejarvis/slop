@@ -1,13 +1,32 @@
 class Slop
   class Option
 
+    # @return [Symbol,#to_s]
     attr_reader :flag
+
+    # @return [Symbol,#to_s]
     attr_reader :option
+
+    # @return [String]
     attr_reader :description
-    attr_reader :argument_value
+
+    # @return [Object]
     attr_reader :default
+
+    # @return [Proc]
     attr_reader :callback
 
+    # @param [Hash] options Option attributes
+    # @option options [Symbol,#to_s] :flag
+    # @option options [Symbol,#to_s] :option
+    # @option options [Symbol,#to_s] :description
+    # @option options [Boolean] :argument
+    # @option options [Boolean] :optional
+    # @option options [Object] :default
+    # @option options [Object] :as
+    # @option options [Proc] :callback
+    # @option options [String,#to_s] :delimiter
+    # @option options [Integer] :limit
     def initialize(options={}, &blk)
       @options = options
       @flag = options[:flag]
