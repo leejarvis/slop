@@ -41,7 +41,7 @@ class Slop
 
       # Array properties
       @delimiter = options[:delimiter] || ','
-      @limit = options[:limit] || 1
+      @limit = options[:limit] || 0
 
       @argument_value = nil
     end
