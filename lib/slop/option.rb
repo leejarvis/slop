@@ -125,7 +125,7 @@ class Slop
     # Now when the `-v` or `--verbose` option is supplied, verbose will
     # be set to `true`, rather than the default `false` option
     def switch_argument_value
-      @argument_value = @option[:switch]
+      @argument_value = @options[:switch]
     end
 
     # return a key for an option, prioritize
