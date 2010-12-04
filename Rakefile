@@ -1,4 +1,5 @@
 require 'rspec/core/rake_task'
+require File.join(File.dirname(__FILE__), 'lib/slop')
 
 RSpec::Core::RakeTask.new(:spec) do |spec|
   spec.rspec_opts = ["-c", "--fail-fast", "-f documentation"]
@@ -9,7 +10,7 @@ namespace :readme do
 
   desc "Modify readme documentation automatically"
   task :compile do
-    latest_version  = 'slop-' + `git tag -l`.split("\n").last.gsub('v', '')
+    latest_version  = 'slop-' + Slop::VERSION
     readme_filepath = File.join(File.dirname(__FILE__), "README.md")
 
     puts "Updating gem commands to instruct developer with version #{latest_version}"
