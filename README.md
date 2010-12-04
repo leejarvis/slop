@@ -33,7 +33,7 @@ Usage
 
       # shortcut option aliases
       opt(:height, "Your height")
-      o(:weight, "Your weight)
+      o(:weight, "Your weight")
     end
 
     # using `--name Lee -a 100`
