@@ -3,9 +3,6 @@ Slop
 
 Slop is a simple option collector with an easy to remember syntax and friendly API.
 
-**NOTE** This software is still unstable, it contains bugs and lacks core
-features
-
 Installation
 ------------
 
@@ -19,7 +16,7 @@ Installation
     cd slop
     gem build slop.gemspec
     gem install slop-0.1.6.gem
-    
+
 Features Overview
 -----------------
 
