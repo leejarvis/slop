@@ -44,6 +44,12 @@ describe Slop do
     end
   end
 
+  describe "options_hash" do
+    it "returns a hash" do
+      @slop.options_hash.should be_kind_of(Hash)
+    end
+  end
+
   describe "option_for" do
     it "returns an option" do
       @slop.option_for(:v).should be_kind_of(Slop::Option)

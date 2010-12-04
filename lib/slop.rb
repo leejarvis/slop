@@ -106,7 +106,7 @@ class Slop
   # @return [Hash]
   def options_hash
     out = {}
-    each_option do |opt|
+    options.each do |opt|
       if opt.requires_argument? or opt.has_default?
         out[opt.key] = opt.argument_value || opt.default
       end
