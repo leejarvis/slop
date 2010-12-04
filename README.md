@@ -18,7 +18,12 @@ Installation
     git clone git://github.com/injekt/slop.git
     cd slop
     gem build slop.gemspec
-    gem install slop-<version>.gem
+    gem install slop-v0.1.5.gem
+        
+### GitHub + Rake = <3
+
+    git clone git://github.com/injekt/slop.git
+    rake build
 
 Usage
 -----

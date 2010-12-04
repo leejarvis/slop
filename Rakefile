@@ -5,4 +5,20 @@ RSpec::Core::RakeTask.new(:spec) do |spec|
   spec.pattern = 'spec/**/*_spec.rb'
 end
 
+namespace :readme do
+
+  desc "Modify readme documentation automatically"
+  task :compile do
+    latest_version  = 'slop-' + `git tag -l`.split("\n").last
+    readme_filepath = File.join(File.dirname(__FILE__), "README.md")
+
+    working_readme = File.read(readme_filepath)
+    working_readme.gsub! /(slop-[0-9]+\.[0-9]+\.[0-9]+)/, latest_version
+
+    File.open(readme_filepath, "w") { |readme| readme.puts working_readme }
+  end
+
+end
+
+
 task :default => :spec
