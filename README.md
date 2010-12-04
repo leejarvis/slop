@@ -19,11 +19,13 @@ Installation
     cd slop
     gem build slop.gemspec
     gem install slop-0.1.6.gem
-        
-### GitHub + Rake = <3
+    
+Features Overview
+-----------------
 
-    git clone git://github.com/injekt/slop.git
-    rake build
+ - Callbacks
+ - Casting
+ - Lists
 
 Usage
 -----

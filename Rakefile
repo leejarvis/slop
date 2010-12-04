@@ -22,5 +22,4 @@ namespace :readme do
 
 end
 
-
 task :default => :spec
