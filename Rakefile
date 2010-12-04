@@ -9,8 +9,10 @@ namespace :readme do
 
   desc "Modify readme documentation automatically"
   task :compile do
-    latest_version  = 'slop-' + `git tag -l`.split("\n").last
+    latest_version  = 'slop-' + `git tag -l`.split("\n").last.gsub('v', '')
     readme_filepath = File.join(File.dirname(__FILE__), "README.md")
+
+    puts "Updating gem commands to instruct developer with version #{latest_version}"
 
     working_readme = File.read(readme_filepath)
     working_readme.gsub! /(slop-[0-9]+\.[0-9]+\.[0-9]+)/, latest_version
