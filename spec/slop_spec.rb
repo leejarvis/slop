@@ -122,4 +122,27 @@ describe Slop do
     end
   end
 
+  describe "pad_options (private method)" do
+    before(:all) do
+      @args = [
+        [:n], [:n, :name], [:n, :name, "Desc"], [:n, :name, "Desc", true],
+        [:name], [:n, "Desc"], [:n, true], [:name, "Desc"], [:name, true]
+      ]
+    end
+
+    it "always returns an array of 4 elements" do
+      @args.each do |arr|
+        args = @slop.send(:pad_options, arr)
+        args.should be_kind_of(Array)
+        args.size.should == 4
+      end
+    end
+
+    it "ends with a true or false class object" do
+      @args.each do |arr|
+        [true, false].include?(@slop.send(:pad_options, arr).last).should be_true
+      end
+    end
+  end
+
 end
