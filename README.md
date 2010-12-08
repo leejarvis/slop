@@ -89,14 +89,6 @@ you can pass the `:as` attribute to your option.
     end
     s.value_for(:age) #=> 20 # not "20"
 
-Slop will also check your default attributes type to see if it can cast the new
-value to the same type.
-
-    s = Slop.parse("--port 110") do
-      opt(port, true, :default => 80)
-    end
-    s.value_for(:port) #=> 110
-
 Lists
 -----
 
