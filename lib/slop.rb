@@ -38,14 +38,8 @@ class Slop
       raise ArgumentError, "Argument size must be no more than 4"
     end
 
-    args.unshift nil if args.first.size > 1
-    args.push nil if args.size == 2
-    args.push false if args.size == 3
-
-    args[2..3] = [nil, true] if args[2] == true
-
     attributes = [:flag, :option, :description, :argument]
-    options = Hash[attributes.zip(args)]
+    options = Hash[attributes.zip(pad_options(args))]
     options.merge!(opts)
     options[:callback] = blk if block_given?
 
@@ -160,5 +154,14 @@ class Slop
   def flag_or_option?(flag)
     return unless flag
     flag[1, 2].include?('-')
+  end
+
+  def pad_options(args)
+    args.unshift nil if args.first.nil? || args.first.size > 1
+    args.push nil if args.size < 2
+    args.push nil if args.size == 2
+    args.push false if args.size == 3
+    args[2..3] = [nil, true] if args[2] == true
+    args
   end
 end
