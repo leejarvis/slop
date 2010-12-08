@@ -45,7 +45,6 @@ class Slop
     attributes = [:flag, :option, :description, :argument]
     options = Hash[attributes.zip(args)]
     options.merge!(opts)
-    options[:as] = options[:default].class if options.key?(:default)
     options[:callback] = blk if block_given?
 
     @options << Option.new(options)
