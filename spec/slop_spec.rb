@@ -7,6 +7,12 @@ describe Slop do
     end
   end
 
+  it "is enumerable" do
+    Enumerable.instance_methods.each do |meth|
+      @slop.respond_to?(meth).should be_true
+    end
+  end
+
   describe "::options" do
     it "should return the last set of options" do
       s = Slop.new { option(:f, :foo, "foo") }

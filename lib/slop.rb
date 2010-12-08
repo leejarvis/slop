@@ -3,6 +3,8 @@ require 'set'
 require 'slop/option'
 
 class Slop
+  include Enumerable
+
   VERSION = '0.1.6'
 
   # Raised when an option expects an argument and none is given
@@ -126,7 +128,7 @@ class Slop
   #
   # @return [Option] the option flag or label
   def option_for(flag)
-    @options.find do |opt|
+    find do |opt|
       opt.has_flag?(flag) || opt.has_option?(flag)
     end
   end
@@ -141,12 +143,17 @@ class Slop
   #
   #   s.value_for(:name) #=> "Lee"
   #
-  #
   def value_for(flag)
     return unless option = option_for(flag)
     option.argument_value
   end
   alias :[] :value_for
+
+  # Implement #each so our options set is enumerable
+  def each
+    return enum_for(:each) unless block_given?
+    @options.each { |opt| yield opt }
+  end
 
   private
 
