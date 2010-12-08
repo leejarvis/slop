@@ -2,7 +2,7 @@ Gem::Specification.new do |s|
   s.name = 'slop'
   s.version = '0.1.7'
   s.summary = 'Option gathering made easy'
-  s.description = ''
+  s.description = 'A simple DSL for gathering options and parsing the command line'
   s.author = 'Lee Jarvis'
   s.email = 'lee@jarvis.co'
   s.homepage = 'http://rubydoc.info/github/injekt/slop'
