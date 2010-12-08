@@ -58,10 +58,10 @@ class Slop
       @argument_value ||= @default
       return unless @argument_value
 
-      case @as.to_s
-      when 'array',   'Array'; @argument_value.split(@delimiter, @limit)
-      when 'integer', 'int', 'Integer'; @argument_value.to_i
-      when 'symbol',  'sym', 'Symbol' ; @argument_value.to_sym
+      case @as.to_s.downcase[0, 3]
+      when 'arr'; @argument_value.split(@delimiter, @limit)
+      when 'int'; @argument_value.to_i
+      when 'sym'; @argument_value.to_sym
       else
         @argument_value
       end
