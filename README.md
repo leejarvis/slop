@@ -14,8 +14,7 @@ Installation
 
     git clone git://github.com/injekt/slop.git
     cd slop
-    gem build slop.gemspec
-    gem install slop-0.1.6.gem
+    rake install
 
 Features Overview
 -----------------
