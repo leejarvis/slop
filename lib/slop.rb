@@ -152,8 +152,13 @@ class Slop
   private
 
   def flag_or_option?(flag)
-    return unless flag
-    flag[1, 2].include?('-')
+    return unless flag && flag.size > 1
+
+    if flag[1] == '-'
+      return flag[0] == '-' && flag[3]
+    elsif flag[0] == '-'
+      return !flag[3]
+    end
   end
 
   def pad_options(args)
