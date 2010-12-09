@@ -108,6 +108,11 @@ describe Slop do
     it "does not require argument to be true if optional is true" do
       Slop.parse("--name Lee") { opt :name, :optional => true }.value_for(:name).should == "Lee"
     end
+
+    it "responds to both long options and single character flags" do
+      Slop.parse("--name Lee") { opt :name, true }[:name].should == "Lee"
+      Slop.parse("-n Lee") { opt :n, :name, true }[:name].should == "Lee"
+    end
   end
 
   describe "options" do
@@ -142,6 +147,15 @@ describe Slop do
       @args.each do |arr|
         [true, false].include?(@slop.send(:pad_options, arr).last).should be_true
       end
+    end
+  end
+
+  describe "flag_or_option?" do
+    it "should be true if the string is a flag or an option" do
+      good = ["-f", "--flag"]
+      bad  = ["-flag", "f", "flag", "f-lag", "flag-", "--", "-"]
+      good.each {|g| @slop.send(:flag_or_option?, g).should be_true }
+      bad.each  {|b| @slop.send(:flag_or_option?, b).should be_false }
     end
   end
 
