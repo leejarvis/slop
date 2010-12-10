@@ -16,6 +16,8 @@ class Slop
     # @return [Proc]
     attr_reader :callback
 
+    @@max_option_size = 0
+
     # @param [Hash] options Option attributes
     # @option options [Symbol,#to_s] :flag
     # @option options [Symbol,#to_s] :option
@@ -44,6 +46,16 @@ class Slop
       @limit = options[:limit] || 0
 
       @argument_value = nil
+
+      if @option
+        if requires_argument?
+          size = (@option.size * 2) + 4
+        else
+          size = @option.size + 2
+        end
+
+        @@max_option_size = size if @@max_option_size < size
+      end
     end
 
     # Set the argument value
@@ -134,13 +146,36 @@ class Slop
       @option || @flag
     end
 
+    # @todo Write specs for the output string
     def to_s
       str = "\t"
-      str << "-#{@flag}" if @flag
-      str << "\t"
-      str << "--#{@option}\t\t" if @option
-      str << "#{@description}" if @description
-      str << "\n"
+
+      if @flag
+        str << "-#{@flag}"
+      else
+        str << " " * 4
+      end
+
+      if @option
+        str << ", " if @flag
+        optionstr = "--#{@option}"
+
+        if requires_argument?
+          if optional_argument?
+            optionstr << " [#{@option}]"
+          else
+            optionstr << " <#{@option}>"
+          end
+        end
+        size_diff = @@max_option_size - ((@option.size * 2) + 4)
+        optionstr << " " * size_diff
+        str << optionstr
+      else
+        str << " " * (@@max_option_size + 2)
+      end
+
+      str << "\t#{@description}" if @description
+      str
     end
 
     def inspect
