@@ -47,13 +47,13 @@ Usage
     end
 
     # without `-v`
-    s.value_for(:verbose) #=> false
+    s[:verbose] #=> false
 
     # using `-v`
-    s.value_for(:verbose) #=> true
+    s[:verbose] #=> true
 
     # using `--applicable_age`
-    s.value_for(:applicable_age) #=> 20
+    s[:applicable_age] #=> 20
 
 Callbacks
 ---------
