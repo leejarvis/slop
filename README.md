@@ -89,6 +89,26 @@ you can pass the `:as` attribute to your option.
     end
     s.value_for(:age) #=> 20 # not "20"
 
+Smart
+-----
+
+Slop is pretty smart when it comes to building your options, for example if you
+want your option to have a flag attribute, but no `--option` attribute, you
+can do this:
+
+    opt(:n, "Your name")
+
+and Slop will detect a description in place of an option, so you don't have to
+do this:
+
+    opt(:n, nil, "Your name")
+
+You can also try other variations:
+
+    opt(:name, "Your name")
+    opt(:n, :name)
+    opt(:name)
+
 Lists
 -----
 
