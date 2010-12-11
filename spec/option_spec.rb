@@ -44,7 +44,7 @@ describe Slop::Option do
         opt.argument_value.should == ["foo:bar"]
       end
 
-      it "can use a custom delimited" do
+      it "can use a custom delimiter" do
         opt = Slop::Option.new(:as => Array, :delimiter => ':')
         opt.argument_value = "foo,bar"
         opt.argument_value.should == ["foo,bar"]
