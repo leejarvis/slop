@@ -163,7 +163,7 @@ class Slop
 
   def pad_options(args)
     args.unshift nil if args.first.nil? || args.first.size > 1
-    args.push nil if args.size < 2
+    args.push nil if args.size == 1
     args.push nil if args.size == 2
     args.push false if args.size == 3
     args[2..3] = [nil, true] if args[2] == true
