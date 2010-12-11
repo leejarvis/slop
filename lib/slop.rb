@@ -162,11 +162,29 @@ class Slop
   end
 
   def pad_options(args)
+    # if the first value is not a single character, it's probably an option
+    # so we just replace it with nil
     args.unshift nil if args.first.nil? || args.first.size > 1
+
+    # if there's only one or two arguments, we pad the values out
+    # with nil values, eventually adding a 'false' to the end of the stack
+    # because that's the default to represent required arguments
     args.push nil if args.size == 1
     args.push nil if args.size == 2
     args.push false if args.size == 3
+
+    # if the second argument includes a space it's probably a
+    # description, so we insert a nil into the option field and
+    # insert the original value into the description field
+    args[1..2] = [nil, args[1]] if args[1].to_s.include?(" ")
+
+    # if there's no description given but the option requires an argument, it'll
+    # probably look like this: `[:f, :option, true]`
+    # so we replace the third option with nil to represent the description
+    # and push the true to the end of the stack
     args[2..3] = [nil, true] if args[2] == true
+
+    # phew
     args
   end
 end
