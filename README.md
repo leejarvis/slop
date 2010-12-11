@@ -16,13 +16,6 @@ Installation
     cd slop
     rake install
 
-Features Overview
------------------
-
- - Callbacks
- - Casting
- - Lists
-
 Usage
 -----
 
