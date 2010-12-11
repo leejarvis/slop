@@ -146,7 +146,6 @@ class Slop
       @option || @flag
     end
 
-    # @todo Write specs for the output string
     def to_s
       str = "\t"
 
