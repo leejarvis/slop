@@ -142,4 +142,45 @@ describe Slop::Option do
       Slop::Option.new(:flag => :n).key.should == :n
     end
   end
+
+  describe "to_s" do
+    before :all do
+      o = Slop.new do
+        opt(:n, nil, "Your name", true)
+        opt(:a, :age, "Your age", :optional => true)
+        opt(:verbose, "Enable verbose mode")
+        opt(:p, :password, "Your password", true)
+      end
+      @opt = {}
+      @opt[:flag] = o.option_for(:n)
+      @opt[:optional] = o.option_for(:age)
+      @opt[:option] = o.option_for(:verbose)
+      @opt[:required] = o.option_for(:password)
+    end
+
+    it "starts with a tab space" do
+      @opt[:flag].to_s[0].should == "\t"
+    end
+
+    it "displays a flag if one exists" do
+      @opt[:flag].to_s[1, 2].should == "-n"
+    end
+
+    it "appends a comma to the flag if an option exists" do
+      @opt[:flag].to_s[3].should_not == ","
+      @opt[:optional].to_s[3].should == ","
+    end
+
+    it "displays an option if one exists" do
+      @opt[:option].to_s[5, 9].should == "--verbose"
+    end
+
+    it "adds square brackes to the option if the argument is optional" do
+      @opt[:optional].to_s[5, 11].should == "--age [age]"
+    end
+
+    it "adds angle brackets to the option if the argument is required" do
+      @opt[:required].to_s[5, 21].should == "--password <password>"
+    end
+  end
 end
