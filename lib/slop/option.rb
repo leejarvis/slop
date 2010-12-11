@@ -16,6 +16,11 @@ class Slop
     # @return [Proc]
     attr_reader :callback
 
+    # The maximum size of any --option, recorded for
+    # padding out any output string with smaller option lengths
+    # with the correct amount of whitespace
+    #
+    # @return [Fixnum]
     @@max_option_size = 0
 
     # @param [Hash] options Option attributes
