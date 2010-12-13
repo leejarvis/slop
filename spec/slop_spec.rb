@@ -13,6 +13,15 @@ describe Slop do
     end
   end
 
+  describe "banner" do
+    it "adds a banner to the beginning of the help string" do
+      o = Slop.new do
+        banner("foo bar")
+      end
+      o.to_s.should == "foo bar\n"
+    end
+  end
+
   describe "::options" do
     it "should return the last set of options" do
       s = Slop.new { option(:f, :foo, "foo") }
@@ -164,4 +173,24 @@ describe Slop do
     end
   end
 
+  describe "help string" do
+    before :all do
+      @o = Slop.new do
+        banner("Usage: foo [options]")
+        opt(:n, :name, "Your name")
+        opt(:a, :age, "Your age")
+      end
+    end
+
+    it "starts with a banner if one exists" do
+      @o.to_s.split("\n").first.should == "Usage: foo [options]"
+    end
+
+    it "should include all options" do
+      @o.each do |option|
+        flag, opt, des = option.flag, option.option, option.description
+        [flag, opt, des].each {|a| @o.to_s.include?(a.to_s).should be_true }
+      end
+    end
+  end
 end
