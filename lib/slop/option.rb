@@ -172,13 +172,13 @@ class Slop
           end
         end
         size_diff = @@max_option_size - ((@option.size * 2) + 4)
-        optionstr << " " * size_diff
+        optionstr << " " * size_diff if size_diff > 0
         str << optionstr
       else
         str << " " * (@@max_option_size + 2)
       end
 
-      str << "\t#{@description}" if @description
+      str << "\t\t#{@description}" if @description
       str
     end
 
