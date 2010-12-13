@@ -191,10 +191,10 @@ class Slop
     args.push nil if args.size == 2
     args.push false if args.size == 3
 
-    # if the second argument includes a space it's probably a
-    # description, so we insert a nil into the option field and
+    # if the second argument includes a space or some odd character it's
+    # probably a description, so we insert a nil into the option field and
     # insert the original value into the description field
-    args[1..2] = [nil, args[1]] if args[1].to_s.include?(" ")
+    args[1..2] = [nil, args[1]] unless args[1].to_s =~ /\A[a-zA-Z_-]*\z/
 
     # if there's no description given but the option requires an argument, it'll
     # probably look like this: `[:f, :option, true]`
