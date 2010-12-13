@@ -55,6 +55,23 @@ Usage
     # using `--applicable_age`
     s[:applicable_age] #=> 20
 
+Want these options back in a nice readable help string? Just call `Slop.to_s`
+and Slop will return a nice indented option list. You can even add a banner to
+the help text using the `banner method` like so:
+
+    opts = Slop.new do
+      banner("Usage: foo [options]")
+
+      opt(:n, :name, "Your name", true)
+    end
+
+    puts opts
+
+Returns:
+
+    Usage: foo [options]
+	      -n, --name <name>	     Your name
+
 Callbacks
 ---------
 
