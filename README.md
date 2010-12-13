@@ -57,7 +57,7 @@ Usage
 
 Want these options back in a nice readable help string? Just call `Slop.to_s`
 and Slop will return a nice indented option list. You can even add a banner to
-the help text using the `banner method` like so:
+the help text using the `banner` method like so:
 
     opts = Slop.new do
       banner("Usage: foo [options]")
