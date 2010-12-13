@@ -145,8 +145,16 @@ describe Slop do
     end
 
     it "detects a description in place of an option, if one exists" do
-      args = @slop.send(:pad_options, [:n, "Description here"])
-      args.should == [:n, nil, "Description here", false]
+      valid = [ "Description here", "Description!", "de#scription" ]
+      invalid = [ "Description", "some-description" ] # these pass as valid options
+
+      valid.each do |v|
+        @slop.send(:pad_options, [:n, v]).should == [:n, nil, v, false]
+      end
+
+      invalid.each do |i|
+        @slop.send(:pad_options, [:n, i]).should == [:n, i, nil, false]
+      end
     end
 
     it "always returns an array of 4 elements" do
