@@ -24,9 +24,18 @@ class Slop
   end
 
   def initialize(&blk)
+    @banner = nil
     @options = Set.new
     @@options = @options
     instance_eval(&blk) if block_given?
+  end
+
+  # set the help string banner
+  # @param [String,#to_s] banner
+  # @return The banner, or nil
+  def banner(banner=nil)
+    @banner = banner if banner
+    @banner
   end
 
   # add an option
@@ -147,6 +156,15 @@ class Slop
   def each
     return enum_for(:each) unless block_given?
     @options.each { |opt| yield opt }
+  end
+
+  def to_s
+    str = ""
+    str << @banner + "\n" if @banner
+    each do |opt|
+      str << "#{opt}\n"
+    end
+    str
   end
 
   private
