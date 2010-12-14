@@ -97,7 +97,7 @@ you can pass the `:as` attribute to your option.
     s = Slop.parse("--age 20") do
       opt(:age, true, :as => Integer) # :int/:integer both also work
     end
-    s.value_for(:age) #=> 20 # not "20"
+    s[:age] #=> 20 # not "20"
 
 Smart
 -----
@@ -127,14 +127,14 @@ You can of course also parse lists into options. Here's how:
     s = Slop.parse("--people lee,injekt") do
       opt(:people, true, :as => Array)
     end
-    s.value_for(:people) #=> ["lee", "injekt"]
+    s[:people] #=> ["lee", "injekt"]
 
 You can also change both the split delimiter and limit
 
     s = Slop.parse("--people lee:injekt:bob") do
       opt(:people, true, :as => Array, :delimiter => ':', :limit => 2)
     end
-    s.value_for(:people) #=> ["lee", "injekt:bob"]
+    s[:people] #=> ["lee", "injekt:bob"]
 
 Contributing
 ------------
