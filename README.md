@@ -160,6 +160,13 @@ a filename destination. Let's see how we might build that in Slop:
     s.arguments #=> { :source => "foo.txt", :destination => "bar.txt" }
     s.options   #=> { :default => true }
 
+    # You can also fetch these arguments just like you can options:
+    s[:source] #=> "foo.txt"
+
+Do note that Slop will prioritize options over arguments, so if you have an
+option and argument with the same key, `Slop#[]` will return the option value,
+not the argument value.
+
 Contributing
 ------------
 
