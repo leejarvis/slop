@@ -136,6 +136,30 @@ You can also change both the split delimiter and limit
     end
     s[:people] #=> ["lee", "injekt:bob"]
 
+Arguments as keys
+-----------------
+
+If your application is especting some command line arguments which are not
+touched by Slop (for example a filename not given using a flag or option), you
+can find these inside of the `Slop.argv` method. But what if you wanted a simple
+method of mapping these values to keys, well.. Slop can do that for you.
+
+Lets say your application takes two optional arguments. A filename source, and
+a filename destination. Let's see how we might build that in Slop:
+
+    s = Slop.parse(ARGV) do
+      banner("Usage: convert <source> <destination>")
+      argument(:source, :destination)
+
+      opt(:r, :replace, "Replace the existing file?", default: false, switch: true)
+    end
+
+    # Now, using the command line string "foo.txt bar.txt -r" here's how
+    # Slop builds your arguments:
+
+    s.arguments #=> { :source => "foo.txt", :destination => "bar.txt" }
+    s.options   #=> { :default => true }
+
 Contributing
 ------------
 
