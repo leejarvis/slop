@@ -93,6 +93,34 @@ describe Slop do
     end
   end
 
+  describe "argument" do
+    it "adds an argument key" do
+      s = Slop.new { argument(:filename) }
+      s.instance_variable_get(:@argument_keys).should == [:filename]
+    end
+  end
+
+  describe "arguments" do
+    it "returns a hash" do
+      Slop.new.arguments.should be_kind_of Hash
+    end
+
+    it "maps arguments to keys" do
+      s = Slop.parse("foo.txt") { argument(:filename) }
+      s.arguments[:filename].should == "foo.txt"
+    end
+
+    it "maps in order of keys" do
+      s = Slop.parse("foo bar") { argument(:f, :b) }
+      s.arguments.values_at(:f, :b).should == ["foo", "bar"]
+    end
+
+    it "returns nil for excessive keys mapped to no argument" do
+      s = Slop.parse("") { argument(:foo) }
+      s.arguments[:foo].should be_nil
+    end
+  end
+
   describe "parse" do
     it "returns self (Slop)" do
       Slop.parse.should be_kind_of(Slop)
