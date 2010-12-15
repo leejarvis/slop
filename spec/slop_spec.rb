@@ -136,6 +136,23 @@ describe Slop do
     end
   end
 
+  describe "argv" do
+    it "contains all arguments which were unparsed by slop" do
+      o = Slop.parse("lorem --foo bar ipsum") { opt(:foo, true) }
+      o.argv.should == ["lorem", "ipsum"]
+    end
+
+    it "is empty if all arguments were sucked in by slop" do
+      o = Slop.parse("--foo bar") { opt(:foo, true) }
+      o.argv.should be_empty
+    end
+
+    it "contains arguments following options which do not require an argument" do
+      o = Slop.parse("--foo bar") { opt(:foo) }
+      o.argv.should == ["bar"]
+    end
+  end
+
   describe "pad_options (private method)" do
     before(:all) do
       @args = [
