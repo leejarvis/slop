@@ -159,8 +159,12 @@ class Slop
   #   s.value_for(:name) #=> "Lee"
   #
   def value_for(flag)
-    return unless option = option_for(flag)
-    option.argument_value
+    if option = option_for(flag)
+      return option.argument_value
+    elsif @arguments.key?(flag)
+      return @arguments[flag]
+    end
+    nil
   end
   alias :[] :value_for
 
