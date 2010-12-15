@@ -31,6 +31,8 @@ class Slop
     @options = Set.new
     @@options = @options
     @argv = []
+    @argument_keys = []
+    @arguments = {}
     instance_eval(&blk) if block_given?
   end
 
@@ -61,13 +63,18 @@ class Slop
   alias :opt :option
   alias :o :option
 
-  # add an argument
+  # add an argument key
+  # @param [Symbol,#to_s]
   def argument(*args)
-
+    @argument_keys.concat(args)
   end
   alias :arg :argument
-  alias :args :argument
-  alias :arguments :argument
+
+  # @return [Hash]
+  def arguments
+    @arguments
+  end
+  alias :args :arguments
 
   # Parse an Array (usually ARGV) of options
   #
@@ -102,6 +109,7 @@ class Slop
         end
       else
         @argv << value
+        @arguments[@argument_keys.shift] = value
       end
     end
 
