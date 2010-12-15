@@ -109,7 +109,7 @@ class Slop
         end
       else
         @argv << value
-        @arguments[@argument_keys.shift] = value
+        @arguments[@argument_keys.shift] = value if @argument_keys.size > 0
       end
     end
 
