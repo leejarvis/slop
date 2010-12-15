@@ -13,6 +13,9 @@ class Slop
   # @return [Set]
   attr_reader :options
 
+  # @return [Array] the Array of unparsed arguments
+  attr_reader :argv
+
   # @return [Set] the last set of options used
   def self.options
     @@options
@@ -27,6 +30,7 @@ class Slop
     @banner = nil
     @options = Set.new
     @@options = @options
+    @argv = []
     instance_eval(&blk) if block_given?
   end
 
@@ -97,7 +101,7 @@ class Slop
           end
         end
       else
-        # not a flag or option, parse as an argument
+        @argv << value
       end
     end
 
