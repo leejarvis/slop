@@ -91,6 +91,18 @@ describe Slop do
     it "returns nil if an option does not exist" do
       Slop.new.value_for(:name).should be_nil
     end
+
+    it "returns the value of an argument if one exists" do
+      Slop.parse("foo") { arg(:name) }[:name].should == "foo"
+    end
+
+    it "prioritizes options over arguments" do
+      o = Slop.parse("foo --foo bar") do
+        arg(:foo)
+        opt(:foo, true)
+      end
+      o[:foo].should == "bar"
+    end
   end
 
   describe "argument" do
