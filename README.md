@@ -139,7 +139,7 @@ You can also change both the split delimiter and limit
 Arguments as keys
 -----------------
 
-If your application is especting some command line arguments which are not
+If your application is expecting some command line arguments which are not
 touched by Slop (for example a filename not given using a flag or option), you
 can find these inside of the `Slop.argv` method. But what if you wanted a simple
 method of mapping these values to keys, well.. Slop can do that for you.
