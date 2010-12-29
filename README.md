@@ -70,7 +70,7 @@ the help text using the `banner` method like so:
 Returns:
 
     Usage: foo [options]
-	      -n, --name <name>	     Your name
+          -n, --name <name>      Your name
 
 Callbacks
 ---------
