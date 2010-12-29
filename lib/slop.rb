@@ -22,6 +22,7 @@ class Slop
   end
 
   # Sugar for new(..).parse(stuff)
+  # @return [Slop]
   def self.parse(values=[], &blk)
     new(&blk).parse(values)
   end
@@ -38,13 +39,14 @@ class Slop
 
   # set the help string banner
   # @param [String,#to_s] banner
-  # @return The banner, or nil
+  # @return [String,nil] The banner, or nil
   def banner(banner=nil)
     @banner = banner if banner
     @banner
   end
 
   # add an option
+  # @return [void]
   def option(*args, &blk)
     opts = args.pop if args.last.is_a?(Hash)
     opts ||= {}
@@ -65,6 +67,7 @@ class Slop
 
   # add an argument key
   # @param [Symbol,#to_s]
+  # @return [void]
   def argument(*args)
     @argument_keys.concat(args)
   end
@@ -80,6 +83,7 @@ class Slop
   #
   # @param [Array, #split] Array or String of options to parse
   # @raise [MissingArgumentError] raised when a compulsory argument is missing
+  # @return [self]
   def parse(values=[])
     values = values.split(/\s+/) if values.respond_to?(:split)
 
@@ -158,6 +162,7 @@ class Slop
   #
   #   s.value_for(:name) #=> "Lee"
   #
+  # @return [Object,nil]
   def value_for(flag)
     if option = option_for(flag)
       return option.argument_value
@@ -169,11 +174,13 @@ class Slop
   alias :[] :value_for
 
   # Implement #each so our options set is enumerable
+  # @return [void]
   def each
     return enum_for(:each) unless block_given?
     @options.each { |opt| yield opt }
   end
 
+  # @return [String]
   def to_s
     str = ""
     str << @banner + "\n" if @banner

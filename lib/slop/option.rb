@@ -112,6 +112,7 @@ class Slop
     end
 
     # execute this options callback
+    # @return [void]
     def execute_callback
       @callback.call if has_callback?
     end
@@ -128,7 +129,7 @@ class Slop
       @options[:optional]
     end
 
-    # @return
+    # @return [Object]
     def [](key)
       @options[key]
     end
@@ -141,16 +142,20 @@ class Slop
     #
     # Now when the `-v` or `--verbose` option is supplied, verbose will
     # be set to `true`, rather than the default `false` option
+    #
+    # @return [void]
     def switch_argument_value
       @argument_value = @options[:switch]
     end
 
     # return a key for an option, prioritize
     # option before flag as it's more descriptive
+    # @return [Symbol,#to_s]
     def key
       @option || @flag
     end
 
+    # @return [String]
     def to_s
       str = "\t"
 
@@ -182,6 +187,7 @@ class Slop
       str
     end
 
+    # @return [String]
     def inspect
       "#<#{self.class}: #{@options}>"
     end
