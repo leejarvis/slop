@@ -115,7 +115,7 @@ class Slop
 
   # Parse an Array (usually ARGV) of options
   #
-  # @param [Array, #split] Array or String of options to parse
+  # @param [Array, #split] values Array or String of options to parse
   # @raise [MissingArgumentError] raised when a compulsory argument is missing
   # @return [self]
   def parse(values=[])
