@@ -46,7 +46,41 @@ class Slop
   end
 
   # add an option
-  # @return [void]
+  # @return [Option]
+  # @overload option(short_name, long_name, description, options = {})
+  #   @param [Symbol] short_name
+  #   @param [Symbol] long_name
+  #   @param [String] description
+  #   @param [Hash,Boolean] options Either a hash of options (see
+  #     {Option#initialize} for a list of available options) or `true`
+  #     for a compulsory argument.
+  #   @return [Option]
+  # @overload option(short_name, description, options = {})
+  #   @param [Symbol] short_name
+  #   @param [String] description
+  #   @param [Hash,Boolean] options Either a hash of options (see
+  #     {Option#initialize} for a list of available options) or `true`
+  #     for a compulsory argument.
+  #   @return [Option]
+  # @overload option(short_name, options = {})
+  #   @param [Symbol] short_name
+  #   @param [Hash,Boolean] options Either a hash of options (see
+  #     {Option#initialize} for a list of available options) or `true`
+  #     for a compulsory argument.
+  #   @return [Option]
+  # @overload option(long_name, description, options = {})
+  #   @param [Symbol] long_name
+  #   @param [String] description
+  #   @param [Hash,Boolean] options Either a hash of options (see
+  #     {Option#initialize} for a list of available options) or `true`
+  #     for a compulsory argument.
+  #   @return [Option]
+  # @overload option(long_name, options = {})
+  #   @param [Symbol] long_name
+  #   @param [Hash,Boolean] options Either a hash of options (see
+  #     {Option#initialize} for a list of available options) or `true`
+  #     for a compulsory argument.
+  #   @return [Option]
   def option(*args, &blk)
     opts = args.pop if args.last.is_a?(Hash)
     opts ||= {}
