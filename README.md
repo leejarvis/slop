@@ -55,7 +55,7 @@ Usage
     # using `--applicable_age`
     s[:applicable_age] #=> 20
 
-Want these options back in a nice readable help string? Just call `Slop.to_s`
+Want these options back in a nice readable help string? Just call `Slop#to_s`
 and Slop will return a nice indented option list. You can even add a banner to
 the help text using the `banner` method like so:
 
@@ -141,7 +141,7 @@ Arguments as keys
 
 If your application is expecting some command line arguments which are not
 touched by Slop (for example a filename not given using a flag or option), you
-can find these inside of the `Slop.argv` method. But what if you wanted a simple
+can find these inside of the `Slop#argv` method. But what if you wanted a simple
 method of mapping these values to keys, well.. Slop can do that for you.
 
 Lets say your application takes two optional arguments. A filename source, and
