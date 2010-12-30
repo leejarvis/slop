@@ -53,7 +53,7 @@ describe Slop do
     end
 
     it "does not parse option values unless option.argument is true" do
-      Slop.parse("--name Lee") { opt :name }.value_for(:name).should be_nil
+      Slop.parse("--name Lee") { opt :name }.value_for(:name).should be_true
       Slop.parse("--name Lee") { opt :name, true }.value_for(:name).should == "Lee"
       Slop.parse("--name Lee") { opt :name, :argument => true }.value_for(:name).should == "Lee"
     end
@@ -90,6 +90,10 @@ describe Slop do
 
     it "returns nil if an option does not exist" do
       Slop.new.value_for(:name).should be_nil
+    end
+
+    it "returns true if a flag/option exists and does not require an argument" do
+      Slop.parse("-v") { opt(:v) }[:v].should be_true
     end
 
     it "returns the value of an argument if one exists" do

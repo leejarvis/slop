@@ -144,6 +144,8 @@ class Slop
           unless not value or flag_or_option?(value)
             option.argument_value = values.delete_at(values.index(value))
           end
+        else
+          option.argument_value = true
         end
       else
         @argv << value
