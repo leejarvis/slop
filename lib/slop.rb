@@ -5,8 +5,6 @@ require 'slop/option'
 class Slop
   include Enumerable
 
-  VERSION = '0.3.0'
-
   # Raised when an option expects an argument and none is given
   class MissingArgumentError < ArgumentError; end
 
