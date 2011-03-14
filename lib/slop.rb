@@ -69,13 +69,3 @@ private
   end
 
 end
-
-if $0 == __FILE__
-
-  Slop.parse do |opt|
-    opt.on(:n, :name, 'Your name', true) do |name|
-      p name
-    end
-  end
-
-end
