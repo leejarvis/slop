@@ -1,10 +1,19 @@
 class Slop
+  class Options < Array
+    def to_hash
+      each_with_object({}) do |option, out|
+        out[option.key] = option.argument_value
+      end
+    end
+  end
+
   class Option
 
     attr_reader :short_flag
     attr_reader :long_flag
     attr_reader :description
     attr_reader :callback
+    attr_writer :argument_value
 
     def initialize(short, long, description, argument, options={}, &block)
       @short_flag, @long_flag = short, long
@@ -12,6 +21,7 @@ class Slop
       @options = options
       @callback = block if block_given?
       @callback ||= options[:callback]
+      @argument_value = nil
     end
 
     def expects_argument?
@@ -30,5 +40,14 @@ class Slop
       @long_flag || @short_flag
     end
 
+    def default
+      @options[:default]
+    end
+
+    def argument_value
+      @argument_value ? @argument_value : default
+    end
+
   end
+
 end

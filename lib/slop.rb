@@ -12,10 +12,14 @@ class Slop
     slop
   end
 
-  def initialize(&block)
-    @options = []
+  attr_reader :options
 
-    yield self if block_given?
+  def initialize(&block)
+    @options = Options.new
+
+    if block_given?
+      block.arity == 1 ? yield(self) : instance_eval(&block)
+    end
   end
 
   def parse(items=ARGV)
@@ -30,6 +34,11 @@ class Slop
   def each
     return enum_for(:each) unless block_given?
     @options.each { |option| yield option }
+  end
+
+  def [](key)
+    option = @options.find { |option| option.key == key.to_s }
+    option ? option.argument_value : nil
   end
 
   # :short_flag
@@ -48,11 +57,20 @@ class Slop
   alias :opt :option
   alias :on :option
 
+  def method_missing(meth, *args, &block)
+    if meth.to_s =~ /\?$/
+      !!self[meth.to_s.chomp('?')]
+    else
+      super
+    end
+  end
+
 private
 
   def parse_items(items, delete=false)
+    trash = []
+
     items.each do |item|
-      next unless item =~ /^/
 
       flag = item.to_s.sub(/^--?/, '')
       if flag.length == 1
@@ -62,12 +80,15 @@ private
       end
 
       if option
+        option.argument_value = true
+        
         if option.expects_argument? || option.accepts_optional_argument?
           argument = items.at(items.index(item) + 1)
-          items.delete(argument) if delete
+          trash << argument if delete && argument !~ /^--?/
 
           if argument
-            option.callback.call(argument) if option.has_callback?
+            option.argument_value = argument
+            option.callback.call(option.argument_value) if option.has_callback?
           else
             if option.accepts_optional_argument?
               option.callback.call(nil) if option.has_callback?
@@ -77,9 +98,10 @@ private
             end
           end
         end
-        items.delete(item) if delete
+        trash << item if delete
       end
     end
+    items.delete_if { |item| trash.include? item }
   end
 
   # @param [Array] args
