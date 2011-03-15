@@ -10,7 +10,11 @@ class OptionTest < TestCase
     slop = Slop.new
     option = slop.opt(*args)
     slop.parse(options)
-    slop.find {|opt| opt.key == option.key }.argument_value
+    slop.find {|opt| opt.key == option.key }
+  end
+
+  def option_value(*args, &block)
+    option_with_argument(*args, &block).argument_value
   end
 
   test 'expects an argument if argument is true' do
@@ -35,32 +39,32 @@ class OptionTest < TestCase
   end
 
   test 'splits argument_value with :as => array' do
-    assert_equal %w/lee john bill/, option_with_argument(
+    assert_equal %w/lee john bill/, option_value(
       %w/--people lee,john,bill/, :people, true, :as => Array
     )
 
-    assert_equal %w/lee john bill/, option_with_argument(
+    assert_equal %w/lee john bill/, option_value(
       %w/--people lee:john:bill/, 
       :people, true, :as => Array, :delimiter => ':'
     )
 
-    assert_equal ['lee', 'john,bill'], option_with_argument(
+    assert_equal ['lee', 'john,bill'], option_value(
       %w/--people lee,john,bill/,
       :people, true, :as => Array, :limit => 2
     )
 
-    assert_equal ['lee', 'john:bill'], option_with_argument(
+    assert_equal ['lee', 'john:bill'], option_value(
       %w/--people lee:john:bill/,
       :people, true, :as => Array, :limit => 2, :delimiter => ':'
     )
   end
 
   test 'returns a symbol with :as => Symbol' do
-    assert_equal :foo, option_with_argument(%w/--name foo/, :name, true, :as => Symbol)
+    assert_equal :foo, option_value(%w/--name foo/, :name, true, :as => Symbol)
   end
 
   test 'returns an integer with :as => Integer' do
-    assert_equal 30, option_with_argument(%w/--age 30/, :age, true, :as => Integer)
+    assert_equal 30, option_value(%w/--age 30/, :age, true, :as => Integer)
   end
 
 end
