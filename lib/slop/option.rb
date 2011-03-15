@@ -5,6 +5,17 @@ class Slop
         out[option.key] = option.argument_value
       end
     end
+
+    def [](item)
+      item = item.to_s
+      if item =~ /^\d+/
+        super
+      else
+        find do |option|
+          option.short_flag == item || option.long_flag == item
+        end
+      end
+    end
   end
 
   class Option
@@ -61,6 +72,11 @@ class Slop
       end
     end
 
+    def inspect
+      "#<Slop::Option short_flag=#{@short_flag.inspect} " +
+      "long_flag=#{@long_flag.inspect} " +
+      "description=#{@description.inspect} "
+    end
   end
 
 end
