@@ -83,7 +83,6 @@ class Slop
       out += @short_flag ?  "-#{@short_flag}, " : ' ' * 4
 
       if @long_flag
-        p @long_flag
         out += "--#{@long_flag}"
         if expects_argument?
           out += " <#{@long_flag}>"
