@@ -5,6 +5,14 @@ class OptionTest < TestCase
     Slop.new.option(*args, &block)
   end
 
+  def option_with_argument(*args, &block)
+    options = args.shift
+    slop = Slop.new
+    option = slop.opt(*args)
+    slop.parse(options)
+    slop.find {|opt| opt.key == option.key }
+  end
+
   test 'expects an argument if argument is true' do
     assert option(:f, :foo, 'foo', true).expects_argument?
     assert option(:f, :argument => true).expects_argument?
@@ -24,6 +32,27 @@ class OptionTest < TestCase
     assert option(:callback => proc {}).has_callback?
 
     refute option(:f).has_callback?
+  end
+
+  test 'splits argument_value with :as => array' do
+    assert_equal %w/lee john bill/, option_with_argument(
+      %w/--people lee,john,bill/, :people, true, :as => Array
+    ).argument_value
+
+    assert_equal %w/lee john bill/, option_with_argument(
+      %w/--people lee:john:bill/, 
+      :people, true, :as => Array, :delimiter => ':'
+    ).argument_value
+
+    assert_equal ['lee', 'john,bill'], option_with_argument(
+      %w/--people lee,john,bill/,
+      :people, true, :as => Array, :limit => 2
+    ).argument_value
+
+    assert_equal ['lee', 'john:bill'], option_with_argument(
+      %w/--people lee:john:bill/,
+      :people, true, :as => Array, :limit => 2, :delimiter => ':'
+    ).argument_value
   end
 
 end
