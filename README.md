@@ -3,6 +3,12 @@ Slop
 
 Slop is a simple option collector with an easy to remember syntax and friendly API.
 
+**NOTE**: Slop is changing! You can view changes in the
+[fml branch](https://github.com/injekt/slop/tree/fml). These are the changes
+that will be building Slop up to 1.0. There **will** be backwards incompatible
+changes between master and the new branch. Until then this README will
+display instructions for version 0.3.0
+
 Installation
 ------------
 
