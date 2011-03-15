@@ -20,10 +20,6 @@ class Slop
       @description, @expects_argument = description, argument
       @options = options
 
-      # for :as => Array
-      @options[:delimiter] = options[:delimeter] ||  ','
-      @options[:limit] = options[:limit] || 0
-
       @callback = block if block_given?
       @callback ||= options[:callback]
       @argument_value = nil
@@ -53,13 +49,13 @@ class Slop
       value = @argument_value || default
       return unless value
 
-      case @options[:as]
-      when Array
-        value.split(@options[:delimeter], @options[:limit])
-      when String;  value.to_s
-      when Symbol;  value.to_s.to_sym
-      when Integer; value.to_i
-      when Float;   value.to_f
+      case @options[:as].to_s
+      when 'Array'
+        value.split(@options[:delimiter] || ',', @options[:limit] || 0)
+      when 'String';  value.to_s
+      when 'Symbol';  value.to_s.to_sym
+      when 'Integer'; value.to_i
+      when 'Float';   value.to_f
       else
         value
       end
