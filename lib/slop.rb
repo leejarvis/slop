@@ -104,6 +104,8 @@ private
                 "'#{flag}' expects an argument, none given"
             end
           end
+        elsif option.has_callback?
+          option.callback.call(nil)
         end
         trash << item if delete
       end
