@@ -37,10 +37,7 @@ class Slop
   end
 
   def [](key)
-    key = key.to_s
-    option = @options.find do |opt|
-      opt.short_flag == key || opt.long_flag == key
-    end
+    option = @options[key]
     option ? option.argument_value : nil
   end
 
