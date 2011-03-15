@@ -4,6 +4,7 @@ class Slop
     attr_reader :short_flag
     attr_reader :long_flag
     attr_reader :description
+    attr_reader :callback
 
     def initialize(short, long, description, argument, options={}, &block)
       @short_flag, @long_flag = short, long
@@ -23,6 +24,10 @@ class Slop
 
     def has_callback?
       !!@callback && @callback.respond_to?(:call)
+    end
+
+    def key
+      @long_flag || @short_flag
     end
 
   end

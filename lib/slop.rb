@@ -4,8 +4,12 @@ require 'slop/version'
 class Slop
   include Enumerable
 
+  class MissingArgumentError < ArgumentError; end
+
   def self.parse(items=ARGV, &block)
-    new(&block).parse(items)
+    slop = new(&block)
+    slop.parse(items)
+    slop
   end
 
   def initialize(&block)
@@ -15,8 +19,11 @@ class Slop
   end
 
   def parse(items)
+    parse_items(items)
+  end
 
-    self
+  def parse!(items)
+    parse_items(items, true)
   end
 
   # Enumerable interface
@@ -42,6 +49,38 @@ class Slop
   alias :on :option
 
 private
+
+  def parse_items(items, delete=false)
+    items.each do |item|
+      next unless item =~ /^/
+
+      flag = item.to_s.sub(/^--?/, '')
+      if flag.length == 1
+        option = find { |option| option.short_flag == flag }
+      else
+        option = find { |option| option.long_flag == flag }
+      end
+
+      if option
+        if option.expects_argument? || option.accepts_optional_argument?
+          argument = items.at(items.index(item) + 1)
+          items.delete(argument) if delete
+
+          if argument
+            option.callback.call(argument) if option.has_callback?
+          else
+            if option.accepts_optional_argument?
+              option.callback.call(nil) if option.has_callback?
+            else
+              raise MissingArgumentError,
+                "'#{flag}' expects an argument, none given"
+            end
+          end
+        end
+        items.delete(item) if delete
+      end
+    end
+  end
 
   # @param [Array] args
   # @return [Array]
