@@ -6,7 +6,7 @@ class Slop
 
   class MissingArgumentError < ArgumentError; end
 
-  def self.parse(items=ARGV, &block)
+  def self.parse(items, &block)
     slop = new(&block)
     slop.parse(items)
     slop
@@ -18,11 +18,11 @@ class Slop
     yield self if block_given?
   end
 
-  def parse(items)
+  def parse(items=ARGV)
     parse_items(items)
   end
 
-  def parse!(items)
+  def parse!(items=ARGV)
     parse_items(items, true)
   end
 
