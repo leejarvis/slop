@@ -18,7 +18,7 @@ Installation
 
 Usage
 -----
-
+	# parse assumes ARGV, otherwise you can pass it your own Array
 	opts = Slop.parse do
 	  on :v, :verbose, 'Enable verbose mode' 	   # boolean value
 	  on :n, :name, 'Your name', true              # compulsory argument
