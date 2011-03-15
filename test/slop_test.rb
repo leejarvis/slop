@@ -95,7 +95,7 @@ class SlopTest < TestCase
     slop = Slop.new
     slop.opt :name, true
     slop.opt :age, :optional => true
-    
+
     assert_raises(Slop::MissingArgumentError, /name/) { slop.parse %w/--name/ }
     assert slop.parse %w/--name 'foo'/
   end
