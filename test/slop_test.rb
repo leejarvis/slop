@@ -102,4 +102,12 @@ class SlopTest < TestCase
     assert_raises(Slop::MissingArgumentError, /name/) { slop.parse %w/--name/ }
     assert slop.parse %w/--name 'foo'/
   end
+
+  test 'printing help' do
+    slop = Slop.new
+    slop.banner = 'Usage: foo [options]'
+    slop.parse
+
+    assert slop.to_s =~ /^Usage: foo/
+  end
 end
