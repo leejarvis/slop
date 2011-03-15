@@ -6,7 +6,7 @@ class Slop
 
   class MissingArgumentError < ArgumentError; end
 
-  def self.parse(items, &block)
+  def self.parse(items=ARGV, &block)
     slop = new(&block)
     slop.parse(items)
     slop
@@ -60,6 +60,10 @@ class Slop
   alias :opt :option
   alias :on :option
 
+  def to_hash
+    @options.to_hash
+  end
+
   def method_missing(meth, *args, &block)
     if meth.to_s =~ /\?$/
       !!self[meth.to_s.chomp('?')]
@@ -84,7 +88,7 @@ private
 
       if option
         option.argument_value = true
-        
+
         if option.expects_argument? || option.accepts_optional_argument?
           argument = items.at(items.index(item) + 1)
           trash << argument if delete && argument !~ /^--?/
