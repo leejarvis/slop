@@ -26,10 +26,16 @@ class Slop
     attr_reader :callback
     attr_writer :argument_value
 
+    @@longest_flag = 0
+
     def initialize(short, long, description, argument, options={}, &block)
       @short_flag, @long_flag = short, long
       @description, @expects_argument = description, argument
       @options = options
+
+      if @long_flag && @long_flag.size > @@longest_flag
+        @@longest_flag = @long_flag.size
+      end
 
       @callback = block if block_given?
       @callback ||= options[:callback]
@@ -70,6 +76,28 @@ class Slop
       else
         value
       end
+    end
+
+    def to_s
+      out = "\t"
+      out += @short_flag ?  "-#{@short_flag}, " : ' ' * 4
+
+      if @long_flag
+        p @long_flag
+        out += "--#{@long_flag}"
+        if expects_argument?
+          out += " <#{@long_flag}>"
+        elsif accepts_optional_argument?
+          out += " [#{@long_flag}]"
+        end
+      end
+
+      diff = @@longest_flag - @long_flag.size if @long_flag
+      out += " " * (diff + 4) if diff
+
+      out += @description if @description
+
+      out
     end
 
     def inspect
