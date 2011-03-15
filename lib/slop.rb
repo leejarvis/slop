@@ -13,13 +13,19 @@ class Slop
   end
 
   attr_reader :options
+  attr_writer :banner
 
   def initialize(&block)
     @options = Options.new
-
+    @banner = nil
     if block_given?
       block.arity == 1 ? yield(self) : instance_eval(&block)
     end
+  end
+
+  def banner(text=nil)
+    @banner = text if text
+    @banner
   end
 
   def parse(items=ARGV)
@@ -67,6 +73,11 @@ class Slop
     else
       super
     end
+  end
+
+  def to_s
+    banner = "#{@banner}\n" if @banner
+    banner + options.map(&:to_s).join("\n")
   end
 
 private
