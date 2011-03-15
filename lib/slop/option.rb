@@ -82,17 +82,16 @@ class Slop
       out = "\t"
       out += @short_flag ?  "-#{@short_flag}, " : ' ' * 4
 
-      if @long_flag
-        out += "--#{@long_flag}"
-        if expects_argument?
-          out += " <#{@long_flag}>"
-        elsif accepts_optional_argument?
-          out += " [#{@long_flag}]"
-        end
-      end
+      out += "--#{@long_flag}" if @long_flag
 
-      diff = @@longest_flag - @long_flag.size if @long_flag
-      out += " " * (diff + 4) if diff
+      if @long_flag
+        diff = @@longest_flag - @long_flag.size
+        spaces = " " * (diff + 6)
+        out += spaces
+      else
+        spaces = " " * (@@longest_flag + 8)
+        out += spaces
+      end
 
       out += @description if @description
 

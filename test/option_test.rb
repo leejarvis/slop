@@ -44,7 +44,7 @@ class OptionTest < TestCase
     )
 
     assert_equal %w/lee john bill/, option_value(
-      %w/--people lee:john:bill/, 
+      %w/--people lee:john:bill/,
       :people, true, :as => Array, :delimiter => ':'
     )
 
@@ -67,4 +67,14 @@ class OptionTest < TestCase
     assert_equal 30, option_value(%w/--age 30/, :age, true, :as => Integer)
   end
 
+  test 'printing options' do
+    slop = Slop.new
+    slop.opt :n, :name, 'Your name', true
+    slop.opt :age, 'Your age', true
+    slop.opt :V, 'Display the version'
+
+    assert_equal "	-n, --name      Your name", slop.options[:name].to_s
+    assert_equal "	    --age       Your age", slop.options[:age].to_s
+    assert_equal "	-V,             Display the version", slop.options[:V].to_s
+  end
 end
