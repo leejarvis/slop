@@ -68,4 +68,26 @@ class SlopTest < TestCase
       clean_options('--optiononly')
     )
   end
+
+  test '[] returns an options argument value or nil' do
+    slop = Slop.new
+    slop.opt :n, :name, true
+    slop.parse %w/--name lee/
+
+    assert_equal 'lee', slop[:name]
+    assert_equal 'lee', slop[:n]
+  end
+
+  test 'arguments ending ? test for option existance' do
+    slop = Slop.new
+    slop.opt :v, :verbose
+    slop.opt :d, :debug
+    slop.parse %w/--verbose/
+
+    assert slop[:verbose]
+    assert slop.verbose?
+
+    refute slop[:debug]
+    refute slop.debug?
+  end
 end
