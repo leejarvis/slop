@@ -67,6 +67,9 @@ class SlopTest < TestCase
       [nil, 'optiononly', nil, false],
       clean_options('--optiononly')
     )
+
+    assert_equal(['c', nil, nil, true], clean_options(:c, true))
+    assert_equal(['c', nil, nil, false], clean_options(:c, false))
   end
 
   test '[] returns an options argument value or nil' do

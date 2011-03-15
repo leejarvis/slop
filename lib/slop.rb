@@ -123,7 +123,8 @@ private
       options.push nil
     end
 
-    if args.first.to_s =~ /\A(--?)?[a-zA-Z0-9_-]+\z/
+    long = args.first
+    if !long.is_a?(TrueClass) && !long.is_a?(FalseClass) && long.to_s =~ /\A(--?)?[a-zA-Z0-9_-]+\z/
       options.push args.shift.to_s.sub(/^--?/, '')
     else
       options.push nil
