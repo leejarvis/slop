@@ -70,8 +70,8 @@ class Slop
         value.split(@options[:delimiter] || ',', @options[:limit] || 0)
       when 'String';  value.to_s
       when 'Symbol';  value.to_s.to_sym
-      when 'Integer'; value.to_i
-      when 'Float';   value.to_f
+      when 'Integer'; value.to_s.to_i
+      when 'Float';   value.to_s.to_f
       else
         value
       end
