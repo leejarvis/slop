@@ -44,7 +44,8 @@ a callback), you can use the `opt` or `option` alternatives.
 	option :v, :verbose
 
 If you don't like that Slop evaluates your block, or you want slop access
-inside of your block without referring to `self`, you can pass a block to `parse`.
+inside of your block without referring to `self`, you can pass a block argument to
+`parse`.
 
 	Slop.parse do |opts|
 	  opts.on :v, :verbose
