@@ -77,4 +77,11 @@ class OptionTest < TestCase
     assert_equal "        --age       Your age", slop.options[:age].to_s
     assert_equal "    -V,             Display the version", slop.options[:V].to_s
   end
+
+  test 'falls back to default option' do
+    slop = Slop.new
+    slop.opt :foo, :optional => true, :default => 'lee'
+    slop.parse %w/--foo/
+    assert_equal 'lee', slop[:foo]
+  end
 end

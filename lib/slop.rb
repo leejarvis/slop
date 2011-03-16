@@ -109,6 +109,7 @@ private
             option.argument_value = argument
             option.callback.call(option.argument_value) if option.has_callback?
           else
+            option.argument_value = nil
             if option.accepts_optional_argument?
               option.callback.call(nil) if option.has_callback?
             else
