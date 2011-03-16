@@ -63,7 +63,7 @@ class Slop
 
     def argument_value
       value = @argument_value || default
-      return unless value
+      return if value.nil?
 
       case @options[:as].to_s
       when 'Array'
