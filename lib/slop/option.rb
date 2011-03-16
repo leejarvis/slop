@@ -81,9 +81,8 @@ class Slop
       out = "    "
       out += @short_flag ?  "-#{@short_flag}, " : ' ' * 4
 
-      out += "--#{@long_flag}" if @long_flag
-
       if @long_flag
+        out += "--#{@long_flag}"
         diff = @slop.longest_flag - @long_flag.size
         spaces = " " * (diff + 6)
         out += spaces
@@ -92,9 +91,7 @@ class Slop
         out += spaces
       end
 
-      out += @description if @description
-
-      out
+      "#{out}#{@description}"
     end
 
     def inspect
