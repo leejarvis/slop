@@ -3,16 +3,12 @@ Slop
 
 Slop is a simple option collector with an easy to remember syntax and friendly API.
 
-**NOTE** This branch refers to the prerelease 1.0.0.rc1 version, this version has
-incompatible changes from version 0.0.3 (the latest stable version). You **should**
-upgrade.
-
 Installation
 ------------
 
 ### Rubygems
 
-    gem install slop --pre
+    gem install slop
 
 ### GitHub
 
