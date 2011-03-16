@@ -31,8 +31,9 @@ class Slop
       @short_flag = short
       @long_flag = long
       @description = description
-      @expects_argument = argument
       @options = options
+      @expects_argument = argument
+      @expects_argument = true if options[:optional] == false
 
       if @long_flag && @long_flag.size > @slop.longest_flag
         @slop.longest_flag = @long_flag.size

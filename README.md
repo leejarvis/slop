@@ -26,10 +26,11 @@ Usage
 	opts = Slop.parse do
 	  on :v, :verbose, 'Enable verbose mode' 	   # boolean value
 	  on :n, :name, 'Your name', true              # compulsory argument
+	  on :s, :sex, 'Your sex', :optional => false  # the same thing
 	  on :a, :age, 'Your age', :optional => true   # optional argument
 	end
 
-	# if ARGV is `-v --name 'lee jarvis'`
+	# if ARGV is `-v --name 'lee jarvis' -s male`
 	opts.verbose? #=> true
 	opts.name?    #=> true
 	opts[:name]   #=> 'lee jarvis'
@@ -38,7 +39,7 @@ Usage
 
 You can also return your options as a Hash
 
-	opts.to_hash #=> {:name => 'Lee Jarvis', :verbose => true, :age => nil}
+	opts.to_hash #=> {:name => 'Lee Jarvis', :verbose => true, :age => nil, :sex => 'male'}
 
 If you don't like the method `on` (because it sounds like the option **expects**
 a callback), you can use the `opt` or `option` alternatives.

@@ -17,9 +17,10 @@ class OptionTest < TestCase
     option_with_argument(*args, &block).argument_value
   end
 
-  test 'expects an argument if argument is true' do
+  test 'expects an argument if argument is true or optional is false' do
     assert option(:f, :foo, 'foo', true).expects_argument?
     assert option(:f, :argument => true).expects_argument?
+    assert option(:f, :optional => false).expects_argument?
 
     refute option(:f, :foo).expects_argument?
   end
