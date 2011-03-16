@@ -127,6 +127,15 @@ class SlopTest < TestCase
     assert_equal({'name' => 'lee', 'version' => true, 'verbose' => false}, slop.to_hash)
   end
 
+  test 'iterating options' do
+    slop = Slop.new
+    slop.opt :a, :abc
+    slop.opt :f, :foo
+
+    assert_equal 2, slop.count
+    slop.each {|opt| assert_kind_of Slop::Option, opt }
+  end
+
   test 'printing help' do
     slop = Slop.new
     slop.banner = 'Usage: foo [options]'
