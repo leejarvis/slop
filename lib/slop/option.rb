@@ -26,15 +26,14 @@ class Slop
     attr_reader :callback
     attr_writer :argument_value
 
-    @@longest_flag = 0
-
-    def initialize(short, long, description, argument, options={}, &block)
+    def initialize(slop, short, long, description, argument, options={}, &block)
+      @slop = slop
       @short_flag, @long_flag = short, long
       @description, @expects_argument = description, argument
       @options = options
 
-      if @long_flag && @long_flag.size > @@longest_flag
-        @@longest_flag = @long_flag.size
+      if @long_flag && @long_flag.size > @slop.longest_flag
+        @slop.longest_flag = @long_flag.size
       end
 
       @callback = block if block_given?
@@ -85,11 +84,11 @@ class Slop
       out += "--#{@long_flag}" if @long_flag
 
       if @long_flag
-        diff = @@longest_flag - @long_flag.size
+        diff = @slop.longest_flag - @long_flag.size
         spaces = " " * (diff + 6)
         out += spaces
       else
-        spaces = " " * (@@longest_flag + 8)
+        spaces = " " * (@slop.longest_flag + 8)
         out += spaces
       end
 

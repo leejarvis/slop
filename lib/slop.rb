@@ -14,10 +14,13 @@ class Slop
 
   attr_reader :options
   attr_writer :banner
+  attr_accessor :longest_flag
 
   def initialize(&block)
     @options = Options.new
     @banner = nil
+    @longest_flag = 0
+
     if block_given?
       block.arity == 1 ? yield(self) : instance_eval(&block)
     end
@@ -55,7 +58,7 @@ class Slop
     options = args.pop if args.last.is_a?(Hash)
     options ||= {}
 
-    option = Option.new(*clean_options(args), options, &block)
+    option = Option.new(self, *clean_options(args), options, &block)
     @options << option
 
     option
