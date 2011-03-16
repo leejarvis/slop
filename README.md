@@ -134,7 +134,7 @@ do this:
 You can also try other variations:
 
     on :name, "Your name"
-    on :n, :name)
+    on :n, :name
     on :name, true
 
 Lists
