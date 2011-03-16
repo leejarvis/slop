@@ -26,7 +26,7 @@ class Slop
     attr_reader :callback
     attr_writer :argument_value
 
-    def initialize(slop, short, long, description, argument, options={}, &block)
+    def initialize(slop, short, long, description, argument, options={}, &blk)
       @slop = slop
       @short_flag = short
       @long_flag = long
@@ -38,7 +38,7 @@ class Slop
         @slop.longest_flag = @long_flag.size
       end
 
-      @callback = block if block_given?
+      @callback = blk if block_given?
       @callback ||= options[:callback]
       @argument_value = nil
     end
