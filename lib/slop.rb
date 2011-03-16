@@ -92,11 +92,7 @@ private
     items.each do |item|
 
       flag = item.to_s.sub(/^--?/, '')
-      if flag.length == 1
-        option = find { |option| option.short_flag == flag }
-      else
-        option = find { |option| option.long_flag == flag }
-      end
+      option = @options[flag]
 
       if option
         option.argument_value = true
