@@ -39,7 +39,7 @@ Usage
 
 You can also return your options as a Hash
 
-	opts.to_hash #=> {:name => 'Lee Jarvis', :verbose => true, :age => nil, :sex => 'male'}
+	opts.to_hash #=> {'name' => 'Lee Jarvis', 'verbose' => true, 'age' => nil, 'sex' => 'male'}
 
 If you don't like the method `on` (because it sounds like the option **expects**
 a callback), you can use the `opt` or `option` alternatives.
