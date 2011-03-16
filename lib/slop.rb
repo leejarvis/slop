@@ -79,6 +79,7 @@ class Slop
     banner = "#{@banner}\n" if @banner
     banner + options.map(&:to_s).join("\n")
   end
+  alias :help :to_s
 
 private
 
