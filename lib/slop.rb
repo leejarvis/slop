@@ -85,11 +85,11 @@ class Slop
   # Specify an option with a short or long version, description and type.
   #
   # @param [*] args Option configuration.
-  # @options args [Symbol, String] :short_flag Short option name.
-  # @options args [Symbol, String] :long_flag Full option name.
-  # @options args [String] :description Option description for use in Slop#help
-  # @options args [Boolean] :argument Specifies whether a required option or not.
-  # @options args [Hash] :options Optional option configurations.
+  # @option args [Symbol, String] :short_flag Short option name.
+  # @option args [Symbol, String] :long_flag Full option name.
+  # @option args [String] :description Option description for use in Slop#help
+  # @option args [Boolean] :argument Specifies whether a required option or not.
+  # @option args [Hash] :options Optional option configurations.
   # @example
   #   opts = Slop.parse do
   #     on :n, :name, 'Your username', true # Required argument
@@ -150,7 +150,7 @@ class Slop
   #    on :v, :verbose, "Enable verbose mode"
   #  end
   #  opts.to_s
-  #  #=> "Usage - ruby foo.rb [options]\n    -v, --verbose      Enable verbose mode" 
+  #  #=> "Usage - ruby foo.rb [options]\n    -v, --verbose      Enable verbose mode"
   # @see Slop#banner
   def to_s
     banner = "#{@banner}\n" if @banner
