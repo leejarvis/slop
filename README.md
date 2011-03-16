@@ -156,6 +156,44 @@ You can also change both the split delimiter and limit
     end
     opts[:people] #=> ["lee", "injekt:bob"]
 
+Woah woah, why you hating on OptionParser?
+------------------------------------------
+
+I'm not, honestly! I love OptionParser. I really do, it's a fantastic library.
+So why did I build Slop? Well, I find myself using OptionParser to simple
+gather a bunch of key/value options, usually you would do something like this:
+
+	require 'optparse'
+
+	things = {}
+
+	opt = OptionParser.new do |opt|
+	  opt.on('-n', '--name NAME', 'Your name') do |name|
+	    things[:name] = name
+	  end
+
+	  opt.on('-a', '--age AGE', 'Your age') do |age|
+		things[:age] = age
+	  end
+
+	  # you get the point
+	end
+
+	opt.parse
+	# do something with things
+
+Which is all great and stuff, but it can lead to some repetition, the same
+thing in Slop:
+
+	require 'slop'
+
+	opts = Slop.parse do
+	  on :n, :name, 'Your name', true
+	  on :a, :age, 'Your age', true
+	end
+
+	things = opts.to_hash
+
 Contributing
 ------------
 
