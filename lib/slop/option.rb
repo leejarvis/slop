@@ -51,10 +51,6 @@ class Slop
       @options[:optional]
     end
 
-    def has_callback?
-      !!@callback && @callback.respond_to?(:call)
-    end
-
     def key
       @long_flag || @short_flag
     end

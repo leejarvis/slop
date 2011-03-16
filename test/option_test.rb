@@ -32,10 +32,10 @@ class OptionTest < TestCase
   end
 
   test 'has a callback when passed a block or callback option' do
-    assert option(:f){}.has_callback?
-    assert option(:callback => proc {}).has_callback?
+    assert option(:f){}.callback
+    assert option(:callback => proc {}).callback
 
-    refute option(:f).has_callback?
+    refute option(:f).callback
   end
 
   test 'splits argument_value with :as => array' do

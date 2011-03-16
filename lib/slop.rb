@@ -102,17 +102,17 @@ private
 
           if argument
             option.argument_value = argument
-            option.callback.call(option.argument_value) if option.has_callback?
+            option.callback.call(option.argument_value) if option.callback
           else
             option.argument_value = nil
             if option.accepts_optional_argument?
-              option.callback.call(nil) if option.has_callback?
+              option.callback.call(nil) if option.callback
             else
               raise MissingArgumentError,
                 "'#{flag}' expects an argument, none given"
             end
           end
-        elsif option.has_callback?
+        elsif option.callback
           option.callback.call(nil)
         end
       end
