@@ -90,16 +90,15 @@ private
     trash = []
 
     items.each do |item|
-
       flag = item.to_s.sub(/^--?/, '')
-      option = @options[flag]
 
-      if option
+      if option = @options[flag]
+        trash << item if delete
         option.argument_value = true
 
         if option.expects_argument? || option.accepts_optional_argument?
           argument = items.at(items.index(item) + 1)
-          trash << argument if delete && argument !~ /^--?/
+          trash << argument if delete
 
           if argument
             option.argument_value = argument
@@ -116,9 +115,9 @@ private
         elsif option.has_callback?
           option.callback.call(nil)
         end
-        trash << item if delete
       end
     end
+
     items.delete_if { |item| trash.include? item }
   end
 
