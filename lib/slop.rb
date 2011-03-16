@@ -77,7 +77,7 @@ class Slop
 
   def to_s
     banner = "#{@banner}\n" if @banner
-    banner + options.map(&:to_s).join("\n")
+    (banner || '') + options.map(&:to_s).join("\n")
   end
   alias :help :to_s
 
