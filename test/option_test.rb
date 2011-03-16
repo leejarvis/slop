@@ -84,4 +84,9 @@ class OptionTest < TestCase
     slop.parse %w/--foo/
     assert_equal 'lee', slop[:foo]
   end
+
+  test 'key should default to long flag otherwise use short flag' do
+    assert_equal 'foo', option(:f, :foo).key
+    assert_equal 'b', option(:b).key
+  end
 end
