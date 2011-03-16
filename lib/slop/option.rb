@@ -28,8 +28,10 @@ class Slop
 
     def initialize(slop, short, long, description, argument, options={}, &block)
       @slop = slop
-      @short_flag, @long_flag = short, long
-      @description, @expects_argument = description, argument
+      @short_flag = short
+      @long_flag = long
+      @description = description
+      @expects_argument = argument
       @options = options
 
       if @long_flag && @long_flag.size > @slop.longest_flag
