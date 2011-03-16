@@ -1,1 +1,5 @@
---hide-void-return -m markdown
+--hide-void-return 
+-m markdown
+--title "slop"
+lib/**/*.rb
+--no-private

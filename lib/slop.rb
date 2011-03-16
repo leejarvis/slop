@@ -6,6 +6,21 @@ class Slop
 
   class MissingArgumentError < ArgumentError; end
 
+  # Parses the items from a CLI format into a friendly object.
+  #
+  # @param [Array] items Items to parse into options.
+  # @yield Specify available CLI arguments using Slop# methods such as Slop#banner and Slop#option
+  # @return [Slop] Returns an instance of Slop.
+  # @example Specifying three options to parse:
+  #  opts = Slops.parse do
+  #    on :v, :verbose, 'Enable verbose mode'
+  #    on :n, :name,    'Your name'
+  #    on :a, :age,     'Your age'
+  #  end
+  #  -------
+  #  program.rb --verbose -n 'Emily' -a 25
+  # @see Slop#banner
+  # @see Slop#option
   def self.parse(items=ARGV, &block)
     slop = new(&block)
     slop.parse(items)
@@ -26,6 +41,15 @@ class Slop
     end
   end
 
+  # Set or return banner text.
+  #
+  # @param [String] text Displayed banner text.
+  # @return [String] Returns current banner.
+  # @example
+  #   opts = Slop.parse do
+  #     banner "Usage - ruby foo.rb [arguments]"
+  #   end
+  # @see Slop#to_s
   def banner(text=nil)
     @banner = text if text
     @banner
@@ -45,15 +69,38 @@ class Slop
     @options.each { |option| yield option }
   end
 
+  # Return the value of an option via the subscript operator.
+  #
+  # @param [Symbol] key Option symbol.
+  # @return [Object] Returns the object associated with that option.
+  # @example
+  #   opts[:name]
+  #   #=> "Emily"
+  # @see Slop#method_missing
   def [](key)
     option = @options[key]
     option ? option.argument_value : nil
   end
 
-  # :short_flag
-  # :long_flag
-  # :description
-  # :argument
+  # Specify an option with a short or long version, description and type.
+  #
+  # @param [*] args Option configuration.
+  # @options args [Symbol, String] :short_flag Short option name.
+  # @options args [Symbol, String] :long_flag Full option name.
+  # @options args [String] :description Option description for use in Slop#help
+  # @options args [Boolean] :argument Specifies whether a required option or not.
+  # @options args [Hash] :options Optional option configurations.
+  # @example
+  #   opts = Slop.parse do
+  #     on :n, :name, 'Your username', true # Required argument
+  #     on :a, :age,  'Your age (optional)', :optional => true # Optional argument
+  #     on :g, :gender, 'Your gender', :optional => false # Required argument
+  #     on :V, :verbose, 'Run in verbose mode', :default => true # Runs verbose mode by default
+  #     on :P, :people, 'Your friends', true, :as => Array # Required, list of people.
+  #     on :h, :help, 'Print this help screen' do
+  #       puts help
+  #     end # Runs a block
+  #   end
   def option(*args, &block)
     options = args.pop if args.last.is_a?(Hash)
     options ||= {}
@@ -66,10 +113,26 @@ class Slop
   alias :opt :option
   alias :on :option
 
+  # Returns the parsed list into a option/value hash.
+  #
+  # @return [Hash] Returns a hash with each specified option as a symbolic key with an associated value.
+  # @example
+  #   opts.to_hash
+  #   #=> { :name => 'Emily' }
   def to_hash
     @options.to_hash
   end
 
+  # Allows you to check whether an option was specified in the parsed list.
+  #
+  # @return [Boolean] Whether the desired option was specified.
+  # @example
+  #   #== ruby foo.rb -v
+  #   opts.verbose?
+  #   #=> true
+  #   opts.name?
+  #   #=> false
+  # @see Slop#[]
   def method_missing(meth, *args, &block)
     if meth.to_s =~ /\?$/
       !!self[meth.to_s.chomp('?')]
@@ -78,6 +141,17 @@ class Slop
     end
   end
 
+  # Returns the banner followed by available options listed on the next line.
+  #
+  # @return [String] Help text.
+  # @example
+  #  opts = Slop.parse do
+  #    banner "Usage - ruby foo.rb [arguments]"
+  #    on :v, :verbose, "Enable verbose mode"
+  #  end
+  #  opts.to_s
+  #  #=> "Usage - ruby foo.rb [options]\n    -v, --verbose      Enable verbose mode" 
+  # @see Slop#banner
   def to_s
     banner = "#{@banner}\n" if @banner
     (banner || '') + options.map(&:to_s).join("\n")
