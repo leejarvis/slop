@@ -55,10 +55,16 @@ class Slop
     @banner
   end
 
+  # Parse a list of options, leaving the original Array unchanged.
+  #
+  # @param items
   def parse(items=ARGV)
     parse_items(items)
   end
 
+  # Parse a list of options, removing parsed options from the original Array.
+  #
+  # @parse items
   def parse!(items=ARGV)
     parse_items(items, true)
   end
