@@ -97,7 +97,7 @@ class Slop
     def inspect
       "#<Slop::Option short_flag=#{@short_flag.inspect} " +
       "long_flag=#{@long_flag.inspect} " +
-      "description=#{@description.inspect} "
+      "description=#{@description.inspect}>"
     end
   end
 
