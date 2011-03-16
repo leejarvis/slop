@@ -77,7 +77,7 @@ class Slop
 
     def to_s
       out = "    "
-      out += @short_flag ?  "-#{@short_flag}, " : ' ' * 4
+      out += @short_flag ? "-#{@short_flag}, " : ' ' * 4
 
       if @long_flag
         out += "--#{@long_flag}"
