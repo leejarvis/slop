@@ -52,6 +52,29 @@ inside of your block without referring to `self`, you can pass a block argument 
 	  opts.on :n, :name, 'Your name', true
 	end
 
+If you want some pretty output for the user to see your options, you can just
+send the Slop object to `puts` or use the `help` method.
+
+	puts opts
+	puts opts.help
+
+Will output something like
+
+	-v, --verbose      Enable verbose mode
+    -n, --name         Your name
+    -a, --age          Your age
+
+You can also add a banner using the `banner` method
+
+	opts = Slop.parse
+	opts.banner = "Usage: foo.rb [options]"
+
+or
+
+	opts = Slop.parse do
+	  banner "Usage: foo.rb [options]"
+	end
+
 Callbacks
 ---------
 
