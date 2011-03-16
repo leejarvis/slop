@@ -26,8 +26,22 @@ class SlopTest < TestCase
     slop.each { |option| assert option }
   end
 
-  test 'parsing options' do
+  test 'passing a block' do
+    assert Slop.new {}
+    slop = nil
+    assert Slop.new {|s| slop = s }
+    assert_kind_of Slop, slop
+  end
 
+  test 'setting the banner' do
+    slop = Slop.new
+    slop.banner = "foo bar"
+
+    assert_equal "foo bar", slop.banner
+    assert slop.to_s =~ /^foo bar/
+
+    slop.banner = nil
+    assert_equal "", slop.to_s
   end
 
   test '#parse does not remove parsed items' do
