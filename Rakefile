@@ -5,3 +5,5 @@ task :test do
   begin; require 'turn'; rescue LoadError; end
   Dir.glob("test/**/*_test.rb").each { |test| require_relative test }
 end
+
+task :default => :test
