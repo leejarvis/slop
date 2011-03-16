@@ -79,7 +79,7 @@ class Slop
     end
 
     def to_s
-      out = "\t"
+      out = "    "
       out += @short_flag ?  "-#{@short_flag}, " : ' ' * 4
 
       out += "--#{@long_flag}" if @long_flag

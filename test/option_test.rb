@@ -73,8 +73,8 @@ class OptionTest < TestCase
     slop.opt :age, 'Your age', true
     slop.opt :V, 'Display the version'
 
-    assert_equal "	-n, --name      Your name", slop.options[:name].to_s
-    assert_equal "	    --age       Your age", slop.options[:age].to_s
-    assert_equal "	-V,             Display the version", slop.options[:V].to_s
+    assert_equal "    -n, --name      Your name", slop.options[:name].to_s
+    assert_equal "        --age       Your age", slop.options[:age].to_s
+    assert_equal "    -V,             Display the version", slop.options[:V].to_s
   end
 end
