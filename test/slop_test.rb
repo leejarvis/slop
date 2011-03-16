@@ -136,6 +136,16 @@ class SlopTest < TestCase
     slop.each {|opt| assert_kind_of Slop::Option, opt }
   end
 
+  test 'fetching options and option values' do
+    slop = Slop.new
+    slop.opt :foo, true
+    slop.parse %w/--foo bar/
+
+    assert_kind_of Slop::Option, slop.options[:foo]
+    assert_equal "bar", slop[:foo]
+    assert_equal "bar", slop['foo']
+  end
+
   test 'printing help' do
     slop = Slop.new
     slop.banner = 'Usage: foo [options]'
