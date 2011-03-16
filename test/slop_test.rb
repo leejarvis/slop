@@ -103,6 +103,16 @@ class SlopTest < TestCase
     assert slop.parse %w/--name 'foo'/
   end
 
+  test 'returning a hash of options' do
+    slop = Slop.new
+    slop.opt :name, true
+    slop.opt :version
+    slop.opt :V, :verbose, :default => false
+    slop.parse %w/--name lee --version/
+
+    assert_equal({'name' => 'lee', 'version' => true, 'verbose' => false}, slop.to_hash)
+  end
+
   test 'printing help' do
     slop = Slop.new
     slop.banner = 'Usage: foo [options]'
