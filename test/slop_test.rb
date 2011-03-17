@@ -162,4 +162,12 @@ class SlopTest < TestCase
 
     assert slop.to_s =~ /^Usage: foo/
   end
+
+  test 'passing argument values to blocks' do
+    name = nil
+    opts = Slop.new
+    opts.on :name, true, :callback => proc {|n| name = n}
+    opts.parse %w/--name lee/
+    assert_equal 'lee', name
+  end
 end
