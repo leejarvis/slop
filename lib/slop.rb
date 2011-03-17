@@ -171,8 +171,9 @@ private
 
     items.each do |item|
       flag = item.to_s.sub(/^--?/, '')
+      option = @options[flag]
 
-      if option = @options[flag]
+      if option
         trash << item if delete
         option.argument_value = true
 
