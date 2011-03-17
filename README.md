@@ -151,6 +151,8 @@ You can also change both the split delimiter and limit
     opts = Slop.parse do
       opt :people, true, :as => Array, :delimiter => ':', :limit => 2)
     end
+
+    # ARGV is `--people lee:injekt:bob`
     opts[:people] #=> ["lee", "injekt:bob"]
 
 Woah woah, why you hating on OptionParser?
