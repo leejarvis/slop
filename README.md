@@ -159,7 +159,7 @@ Woah woah, why you hating on OptionParser?
 ------------------------------------------
 
 I'm not, honestly! I love OptionParser. I really do, it's a fantastic library.
-So why did I build Slop? Well, I find myself using OptionParser to simple
+So why did I build Slop? Well, I find myself using OptionParser to simply
 gather a bunch of key/value options, usually you would do something like this:
 
 	require 'optparse'
