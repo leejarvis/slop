@@ -201,8 +201,6 @@ private
     items.delete_if { |item| trash.include? item }
   end
 
-  # @param [Array] args
-  # @return [Array]
   def clean_options(args)
     options = []
 
