@@ -118,7 +118,8 @@ class Slop
     options = args.pop if args.last.is_a?(Hash)
     options ||= {}
 
-    option = Option.new(self, *clean_options(args), options, &block)
+    short, long, desc, arg = clean_options(args)
+    option = Option.new(self, short, long, desc, arg, options, &block)
     @options << option
 
     option
