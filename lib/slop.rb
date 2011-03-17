@@ -131,7 +131,7 @@ class Slop
   # @return [Hash] Returns a hash with each specified option as a symbolic key with an associated value.
   # @example
   #   opts.to_hash
-  #   #=> { :name => 'Emily' }
+  #   #=> { 'name' => 'Emily' }
   def to_hash
     @options.to_hash
   end
