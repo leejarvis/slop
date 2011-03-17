@@ -135,6 +135,7 @@ class Slop
   def to_hash
     @options.to_hash
   end
+  alias :to_h :to_hash
 
   # Allows you to check whether an option was specified in the parsed list.
   #
