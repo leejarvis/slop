@@ -44,6 +44,15 @@ class SlopTest < TestCase
     assert_equal "", slop.to_s
   end
 
+  test 'storing long option lengths' do
+    slop = Slop.new
+    assert_equal 0, slop.longest_flag
+    slop.opt(:name)
+    assert_equal 4, slop.longest_flag
+    slop.opt(:username)
+    assert_equal 8, slop.longest_flag
+  end
+
   test '#parse does not remove parsed items' do
     items = %w/--foo/
     Slop.new { |opt| opt.on :foo }.parse(items)
