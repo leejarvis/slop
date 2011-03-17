@@ -33,6 +33,15 @@ class SlopTest < TestCase
     assert_kind_of Slop, slop
   end
 
+  test 'yielding non-options when a block is passed to "parse"' do
+    opts = Slop.new do
+      on :name, true
+    end
+    opts.parse(%w/--name lee a/) do |v|
+      assert_equal 'a', v
+    end
+  end
+
   test 'setting the banner' do
     slop = Slop.new
     slop.banner = "foo bar"

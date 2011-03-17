@@ -35,6 +35,7 @@ class Slop
     @options = Options.new
     @banner = nil
     @longest_flag = 0
+    @items = []
 
     if block_given?
       block.arity == 1 ? yield(self) : instance_eval(&block)
@@ -59,7 +60,13 @@ class Slop
   #
   # @param items
   def parse(items=ARGV)
-    parse_items items
+    @items = parse_items items, block_given?
+
+    if block_given?
+      @items.each { |item| yield item }
+    end
+
+    @items
   end
 
   # Parse a list of options, removing parsed options from the original Array.
