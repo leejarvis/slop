@@ -9,7 +9,7 @@ class Slop
     def [](item)
       item = item.to_s
       if item =~ /^\d+$/
-        slice(item.to_i)
+        slice item.to_i
       else
         find do |option|
           option.short_flag == item || option.long_flag == item

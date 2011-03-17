@@ -23,7 +23,7 @@ class Slop
   # @see Slop#option
   def self.parse(items=ARGV, &block)
     slop = new(&block)
-    slop.parse(items)
+    slop.parse items
     slop
   end
 
@@ -59,14 +59,14 @@ class Slop
   #
   # @param items
   def parse(items=ARGV)
-    parse_items(items)
+    parse_items items
   end
 
   # Parse a list of options, removing parsed options from the original Array.
   #
   # @parse items
   def parse!(items=ARGV)
-    parse_items(items, true)
+    parse_items items, true
   end
 
   # Enumerable interface
@@ -183,18 +183,18 @@ private
 
           if argument
             option.argument_value = argument
-            option.callback.call(option.argument_value) if option.callback
+            option.callback.call option.argument_value if option.callback
           else
             option.argument_value = nil
             if option.accepts_optional_argument?
-              option.callback.call(nil) if option.callback
+              option.callback.call nil if option.callback
             else
               raise MissingArgumentError,
                 "'#{flag}' expects an argument, none given"
             end
           end
         elsif option.callback
-          option.callback.call(nil)
+          option.callback.call nil
         end
       end
     end
@@ -214,7 +214,7 @@ private
     end
 
     long = args.first
-    boolean = (long.is_a?(TrueClass) || long.is_a?(FalseClass))
+    boolean = long.is_a?(TrueClass) || long.is_a?(FalseClass)
     if !boolean && long.to_s =~ /\A(--?)?[a-zA-Z0-9_-]+\z/
       options.push args.shift.to_s.sub(/^--?/, '')
     else
