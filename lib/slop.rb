@@ -214,7 +214,8 @@ private
     end
 
     long = args.first
-    if !long.is_a?(TrueClass) && !long.is_a?(FalseClass) && long.to_s =~ /\A(--?)?[a-zA-Z0-9_-]+\z/
+    boolean = (long.is_a?(TrueClass) || long.is_a?(FalseClass))
+    if !boolean && long.to_s =~ /\A(--?)?[a-zA-Z0-9_-]+\z/
       options.push args.shift.to_s.sub(/^--?/, '')
     else
       options.push nil
