@@ -152,11 +152,7 @@ class Slop
   #   #=> false
   # @see Slop#[]
   def method_missing(meth, *args, &block)
-    if meth.to_s =~ /\?$/
-      !!self[meth.to_s.chomp('?')]
-    else
-      super
-    end
+    meth.to_s[/\?$/] ? !!self[meth.to_s.chomp('?')] : super
   end
 
   # Returns the banner followed by available options listed on the next line.
