@@ -1,8 +1,10 @@
 class Slop
   class Options < Array
-    def to_hash
+    def to_hash(symbols)
       each_with_object({}) do |option, out|
-        out[option.key] = option.argument_value
+        key = option.key
+        key = key.to_sym if symbols
+        out[key] = option.argument_value
       end
     end
 

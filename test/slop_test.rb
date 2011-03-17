@@ -143,6 +143,7 @@ class SlopTest < TestCase
     slop.parse %w/--name lee --version/
 
     assert_equal({'name' => 'lee', 'version' => true, 'verbose' => false}, slop.to_hash)
+    assert_equal({:name => 'lee', :version => true, :verbose => false}, slop.to_hash(true))
   end
 
   test 'iterating options' do
