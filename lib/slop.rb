@@ -132,6 +132,10 @@ class Slop
   # @example
   #   opts.to_hash
   #   #=> { 'name' => 'Emily' }
+  #
+  #   # symbols!
+  #   opts.to_hash(true)
+  #   #=> { :name => 'Emily' }
   def to_hash(symbols=nil)
     @options.to_hash(symbols)
   end
