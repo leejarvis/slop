@@ -55,7 +55,7 @@ does it.
 	bar
 
 If you don't like the method `on` (because it sounds like the option **expects**
-a callback), you can use the `opt` or `option` alternatives.
+a block), you can use the `opt` or `option` alternatives.
 
 	on :v, :verbose
 	opt :v, :verbose
