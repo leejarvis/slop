@@ -31,13 +31,22 @@ class Slop
   attr_writer :banner
   attr_accessor :longest_flag
 
-  def initialize(&block)
+  # @param [Hash] options
+  # @option options [Boolean] :help Automatically add the `help` option
+  def initialize(options={}, &block)
     @options = Options.new
     @banner = nil
     @longest_flag = 0
 
     if block_given?
       block.arity == 1 ? yield(self) : instance_eval(&block)
+    end
+
+    if options[:help]
+      on :h, :help, 'Print this help message', :tail => true do
+        puts help
+        exit
+      end
     end
   end
 

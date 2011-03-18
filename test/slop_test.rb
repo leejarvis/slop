@@ -33,6 +33,15 @@ class SlopTest < TestCase
     assert_kind_of Slop, slop
   end
 
+  test 'automatically adding the help option' do
+    slop = Slop.new
+    assert_empty slop.options
+
+    slop = Slop.new :help => true
+    refute_empty slop.options
+    assert_equal 'Print this help message', slop.options[:help].description
+  end
+
   test 'yielding non-options when a block is passed to "parse"' do
     opts = Slop.new do
       on :name, true
