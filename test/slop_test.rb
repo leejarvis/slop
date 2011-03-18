@@ -207,4 +207,12 @@ class SlopTest < TestCase
     opts.parse %w/--name lee/
     assert_equal 'lee', name
   end
+
+  test 'strict mode' do
+    strict = Slop.new :strict => true
+    totallynotstrict = Slop.new
+
+    assert_raises(Slop::InvalidOptionError, /--foo/) { strict.parse %w/--foo/ }
+    assert totallynotstrict.parse %w/--foo/
+  end
 end

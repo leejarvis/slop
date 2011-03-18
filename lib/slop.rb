@@ -6,6 +6,7 @@ class Slop
 
   class MissingArgumentError < ArgumentError; end
   class InvalidArgumentError < ArgumentError; end
+  class InvalidOptionError < ArgumentError; end
 
   # Parses the items from a CLI format into a friendly object.
   #
@@ -34,10 +35,13 @@ class Slop
 
   # @param [Hash] options
   # @option options [Boolean] :help Automatically add the `help` option
+  # @option options [Boolean] :strict Strict mode raises when a non listed
+  #   option is found, false by default
   def initialize(options={}, &block)
     @options = Options.new
     @banner = nil
     @longest_flag = 0
+    @strict = options[:strict]
 
     if block_given?
       block.arity == 1 ? yield(self) : instance_eval(&block)
@@ -214,6 +218,10 @@ private
           option.callback.call nil
         end
       else
+        if item[/^--?/] && @strict
+          raise InvalidOptionError, "Unknown option -- '#{flag}'"
+        end
+
         if block_given? && !trash.include?(item)
           block.call(item)
         end
