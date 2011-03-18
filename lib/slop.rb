@@ -23,8 +23,13 @@ class Slop
   #  program.rb --verbose -n 'Emily' -a 25
   # @see Slop#banner
   # @see Slop#option
-  def self.parse(items=ARGV, &block)
-    slop = new(&block)
+  def self.parse(items=ARGV, options={}, &block)
+    if items.is_a?(Hash) && options.empty?
+      options = items
+      items = ARGV
+    end
+
+    slop = new(options, &block)
     slop.parse items
     slop
   end
