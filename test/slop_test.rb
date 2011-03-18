@@ -42,6 +42,15 @@ class SlopTest < TestCase
     end
   end
 
+  test 'preserving order when yielding non-options' do
+    items = []
+
+    slop = Slop.new { on(:name, true) { |name| items << name } }
+    slop.parse(%w/foo --name bar baz/) { |value| items << value }
+
+    assert_equal %w/foo bar baz/, items
+  end
+
   test 'setting the banner' do
     slop = Slop.new
     slop.banner = "foo bar"
