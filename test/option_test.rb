@@ -95,4 +95,12 @@ class OptionTest < TestCase
     slop.on :b, :bar
     assert slop.to_s.strip =~ /foo$/
   end
+
+  test 'argument matching' do
+    slop = Slop.new
+    slop.on :f, :foo, true, :match => /^h/
+
+    assert_raises(Slop::InvalidArgumentError, /world/) { slop.parse %w/--foo world/ }
+    assert slop.parse %w/--foo hello/
+  end
 end

@@ -51,6 +51,9 @@ class Slop
     # @return [Boolean]
     attr_reader :tail
 
+    # @return [Regex]
+    attr_reader :match
+
     attr_writer :argument_value
 
     # @param [Slop] slop
@@ -66,6 +69,7 @@ class Slop
     # @option options [String, #to_s] :delimiter
     # @option options [Integer] :limit
     # @option options [Boolean] :tail
+    # @option options [Regexp] :match
     def initialize(slop, short, long, description, argument, options={}, &blk)
       @slop = slop
       @short_flag = short
@@ -75,6 +79,7 @@ class Slop
       @expects_argument = argument
       @expects_argument = true if options[:optional] == false
       @tail = options[:tail]
+      @match = options[:match]
 
       if @long_flag && @long_flag.size > @slop.longest_flag
         @slop.longest_flag = @long_flag.size

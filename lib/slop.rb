@@ -5,6 +5,7 @@ class Slop
   include Enumerable
 
   class MissingArgumentError < ArgumentError; end
+  class InvalidArgumentError < ArgumentError; end
 
   # Parses the items from a CLI format into a friendly object.
   #
@@ -193,6 +194,11 @@ private
           trash << argument
 
           if argument
+            if option.match && !argument.match(option.match)
+              raise InvalidArgumentError,
+                "'#{argument}' does not match #{option.match.inspect}"
+            end
+
             option.argument_value = argument
             option.callback.call option.argument_value if option.callback
           else
