@@ -37,6 +37,23 @@ You can also return your options as a Hash
 
 	opts.to_hash #=> {'name' => 'Lee Jarvis', 'verbose' => true, 'age' => nil, 'sex' => 'male'}
 
+If you pass a block to `Slop#parse`, Slop will yield non-options as
+they're found, just like
+[OptionParser](http://rubydoc.info/stdlib/optparse/1.9.2/OptionParser:order)
+does it.
+
+	opts = Slop.new do
+	  on :n, :name, :optional => false
+	end
+
+	opts.parse do |arg|
+	  puts arg
+	end
+
+	# if ARGV is `foo --name Lee bar`
+	foo
+	bar
+
 If you don't like the method `on` (because it sounds like the option **expects**
 a callback), you can use the `opt` or `option` alternatives.
 
