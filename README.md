@@ -37,6 +37,9 @@ You can also return your options as a Hash
 
 	opts.to_hash #=> {'name' => 'Lee Jarvis', 'verbose' => true, 'age' => nil, 'sex' => 'male'}
 
+	# Symbols
+	opts.to_hash(true) #=> {:name => 'Lee Jarvis', :verbose => true, :age => nil, :sex => 'male'}
+
 If you pass a block to `Slop#parse`, Slop will yield non-options as
 they're found, just like
 [OptionParser](http://rubydoc.info/stdlib/optparse/1.9.2/OptionParser:order)
