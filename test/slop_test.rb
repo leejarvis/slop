@@ -62,6 +62,15 @@ class SlopTest < TestCase
     assert_equal 8, slop.longest_flag
   end
 
+  test 'parse returning the list of arguments left after parsing' do
+    opts = Slop.new do
+      on :name, true
+    end
+
+    assert_equal %w/a/, opts.parse!(%w/--name lee a/)
+    assert_equal %w/--name lee a/, opts.parse(%w/--name lee a/)
+  end
+
   test '#parse does not remove parsed items' do
     items = %w/--foo/
     Slop.new { |opt| opt.on :foo }.parse(items)

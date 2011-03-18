@@ -35,7 +35,6 @@ class Slop
     @options = Options.new
     @banner = nil
     @longest_flag = 0
-    @items = []
 
     if block_given?
       block.arity == 1 ? yield(self) : instance_eval(&block)
@@ -59,21 +58,15 @@ class Slop
   # Parse a list of options, leaving the original Array unchanged.
   #
   # @param items
-  def parse(items=ARGV)
-    @items = parse_items items, block_given?
-
-    if block_given?
-      @items.each { |item| yield item }
-    end
-
-    @items
+  def parse(items=ARGV, &block)
+    parse_items items, &block
   end
 
   # Parse a list of options, removing parsed options from the original Array.
   #
   # @parse items
-  def parse!(items=ARGV)
-    parse_items items, true
+  def parse!(items=ARGV, &block)
+    parse_items items, true, &block
   end
 
   # Enumerable interface
@@ -175,7 +168,7 @@ class Slop
 
 private
 
-  def parse_items(items, delete=false)
+  def parse_items(items, delete=false, &block)
     trash = []
 
     items.each do |item|
@@ -183,12 +176,12 @@ private
       option = @options[flag]
 
       if option
-        trash << item if delete
+        trash << item
         option.argument_value = true
 
         if option.expects_argument? || option.accepts_optional_argument?
           argument = items.at(items.index(item) + 1)
-          trash << argument if delete
+          trash << argument
 
           if argument
             option.argument_value = argument
@@ -205,10 +198,15 @@ private
         elsif option.callback
           option.callback.call nil
         end
+      else
+        if block_given? && !trash.include?(item)
+          block.call(item)
+        end
       end
     end
 
-    items.delete_if { |item| trash.include? item }
+    items.delete_if { |item| trash.include? item } if delete
+    items
   end
 
   def clean_options(args)
