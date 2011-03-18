@@ -25,6 +25,13 @@ class Slop
         end
       end
     end
+
+    # @return [String]
+    def to_help
+      heads = select {|x| !x.tail }
+      tails = select {|x| x.tail }
+      (heads + tails).map(&:to_s).join("\n")
+    end
   end
 
   class Option
@@ -41,6 +48,9 @@ class Slop
     # @return [Proc, #call]
     attr_reader :callback
 
+    # @return [Boolean]
+    attr_reader :tail
+
     attr_writer :argument_value
 
     # @param [Slop] slop
@@ -55,6 +65,7 @@ class Slop
     # @option options [Proc, #call] :callback
     # @option options [String, #to_s] :delimiter
     # @option options [Integer] :limit
+    # @option options [Boolean] :tail
     def initialize(slop, short, long, description, argument, options={}, &blk)
       @slop = slop
       @short_flag = short
@@ -63,6 +74,7 @@ class Slop
       @options = options
       @expects_argument = argument
       @expects_argument = true if options[:optional] == false
+      @tail = options[:tail]
 
       if @long_flag && @long_flag.size > @slop.longest_flag
         @slop.longest_flag = @long_flag.size

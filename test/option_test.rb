@@ -88,4 +88,11 @@ class OptionTest < TestCase
     assert_equal 'foo', option(:f, :foo).key
     assert_equal 'b', option(:b).key
   end
+
+  test 'tail to append items to the options list when printing help' do
+    slop = Slop.new
+    slop.on :f, :foo, :tail => true
+    slop.on :b, :bar
+    assert slop.to_s.strip =~ /foo$/
+  end
 end
