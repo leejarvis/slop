@@ -1,5 +1,8 @@
 class Slop
   class Options < Array
+
+    # @param [Boolean] symbols true to cast hash keys to symbols
+    # @return [Hash]
     def to_hash(symbols)
       out = {}
       each do |option|
@@ -10,8 +13,10 @@ class Slop
       out
     end
 
-    def [](item)
-      item = item.to_s
+    # @param [Object] flag
+    # @return [Option] the option assoiated with this flag
+    def [](flag)
+      item = flag.to_s
       if item =~ /^\d+$/
         slice item.to_i
       else
@@ -24,12 +29,32 @@ class Slop
 
   class Option
 
+    # @return [String, #to_s]
     attr_reader :short_flag
+
+    # @return [String, #to_s]
     attr_reader :long_flag
+
+    # @return [String]
     attr_reader :description
+
+    # @return [Proc, #call]
     attr_reader :callback
+
     attr_writer :argument_value
 
+    # @param [Slop] slop
+    # @param [String, #to_s] short
+    # @param [String, #to_s] long
+    # @param [String] description
+    # @param [Boolean] argument
+    # @param [Hash] options
+    # @option options [Boolean] :optional
+    # @option options [Boolean] :argument
+    # @option options [Object] :default
+    # @option options [Proc, #call] :callback
+    # @option options [String, #to_s] :delimiter
+    # @option options [Integer] :limit
     def initialize(slop, short, long, description, argument, options={}, &blk)
       @slop = slop
       @short_flag = short
@@ -48,22 +73,28 @@ class Slop
       @argument_value = nil
     end
 
+    # @return [Boolean] true if this option expects an argument
     def expects_argument?
       @expects_argument || @options[:argument]
     end
 
+    # @return [Boolean] true if this option expects an optional argument
     def accepts_optional_argument?
       @options[:optional]
     end
 
+    # @return [String] either the long or short flag for this option
     def key
       @long_flag || @short_flag
     end
 
+    # @return [Object]
     def default
       @options[:default]
     end
 
+    # @return [Object] the argument value after it's been case
+    #   according to the `:as` option
     def argument_value
       value = @argument_value || default
       return if value.nil?
@@ -103,5 +134,4 @@ class Slop
       "description=#{@description.inspect}>"
     end
   end
-
 end
