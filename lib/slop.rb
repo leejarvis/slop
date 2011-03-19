@@ -24,14 +24,15 @@ class Slop
   # @see Slop#banner
   # @see Slop#option
   def self.parse(items=ARGV, options={}, &block)
-    if items.is_a?(Hash) && options.empty?
-      options = items
-      items = ARGV
-    end
+    initialize_and_parse(items, false, options, &block)
+  end
 
-    slop = new(options, &block)
-    slop.parse items
-    slop
+  # Identical to {Slop.parse}, but removes parsed options from the original Array.
+  #
+  # @yield Specify available CLI arguments using Slop# methods such as Slop#banner and Slop#option
+  # @return [Slop] Returns an instance of Slop.
+  def self.parse!(items=ARGV, options={}, &block)
+    initialize_and_parse(items, true, options, &block)
   end
 
   attr_reader :options
@@ -83,7 +84,7 @@ class Slop
 
   # Parse a list of options, removing parsed options from the original Array.
   #
-  # @parse items
+  # @param items
   def parse!(items=ARGV, &block)
     parse_items items, true, &block
   end
@@ -186,6 +187,17 @@ class Slop
   alias :help :to_s
 
 private
+
+  def self.initialize_and_parse(items, delete, options, &block)
+    if items.is_a?(Hash) && options.empty?
+      options = items
+      items = ARGV
+    end
+
+    slop = new(options, &block)
+    delete ? slop.parse!(items) : slop.parse(items)
+    slop
+  end
 
   def parse_items(items, delete=false, &block)
     trash = []
