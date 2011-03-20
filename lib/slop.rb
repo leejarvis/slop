@@ -221,38 +221,46 @@ private
           trash << argument
 
           if argument
-            if option.match && !argument.match(option.match)
-              raise InvalidArgumentError,
-                "'#{argument}' does not match #{option.match.inspect}"
-            end
-
+            check_matching_argument(option, argument)
             option.argument_value = argument
             option.callback.call option.argument_value if option.callback
           else
             option.argument_value = nil
-            if option.accepts_optional_argument?
-              option.callback.call nil if option.callback
-            else
-              raise MissingArgumentError,
-                "'#{flag}' expects an argument, none given"
-            end
+            check_optional_argument(option, flag)
           end
         elsif option.callback
           option.callback.call nil
         end
       else
-        if item[/^--?/] && @strict
-          raise InvalidOptionError, "Unknown option -- '#{flag}'"
-        end
-
-        if block_given? && !trash.include?(item)
-          block.call(item)
-        end
+        check_invalid_option(item, flag)
+        block.call(item) if block_given? && !trash.include?(item)
       end
     end
 
     items.delete_if { |item| trash.include? item } if delete
     items
+  end
+
+  def check_matching_argument(option, argument)
+    if option.match && !argument.match(option.match)
+      raise InvalidArgumentError,
+        "'#{argument}' does not match #{option.match.inspect}"
+    end
+  end
+
+  def check_optional_argument(option, flag)
+    if option.accepts_optional_argument?
+      option.callback.call nil if option.callback
+    else
+      raise MissingArgumentError,
+        "'#{flag}' expects an argument, none given"
+    end
+  end
+
+  def check_invalid_option(item, flag)
+    if item[/^--?/] && @strict
+      raise InvalidOptionError, "Unknown option -- '#{flag}'"
+    end
   end
 
   def clean_options(args)
