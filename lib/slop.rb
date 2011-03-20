@@ -203,15 +203,21 @@ private
     trash = []
 
     items.each do |item|
-      flag = item.to_s.sub(/^--?/, '')
+      item = item.to_s
+      flag = item.sub(/^--?/, '')
       option = @options[flag]
+
+      if !option && item =~ /^-[^-]/
+        flag, argument = flag.split('', 2)
+        option = @options[flag]
+      end
 
       if option
         trash << item
         option.argument_value = true
 
         if option.expects_argument? || option.accepts_optional_argument?
-          argument = items.at(items.index(item) + 1)
+          argument ||= items.at(items.index(item) + 1)
           trash << argument
 
           if argument

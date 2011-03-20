@@ -215,4 +215,14 @@ class SlopTest < TestCase
     assert_raises(Slop::InvalidOptionError, /--foo/) { strict.parse %w/--foo/ }
     assert totallynotstrict.parse %w/--foo/
   end
+
+  test 'short option flag with no space between flag and argument' do
+    slop = Slop.new
+    slop.opt :p, :password, true
+    slop.opt :s, :shortpass, true
+    slop.parse %w/-p foo -sbar/
+
+    assert_equal 'foo', slop[:password]
+    assert_equal 'bar', slop[:shortpass]
+  end
 end
