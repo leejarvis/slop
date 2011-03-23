@@ -210,6 +210,11 @@ private
       if !option && item =~ /^-[^-]/
         flag, argument = flag.split('', 2)
         option = @options[flag]
+      elsif !option && item =~ /--no-(.+)$/
+        if option = @options[$1]
+          option.force_argument_value false
+          next
+        end
       end
 
       if option

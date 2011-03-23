@@ -225,4 +225,16 @@ class SlopTest < TestCase
     assert_equal 'foo', slop[:password]
     assert_equal 'bar', slop[:shortpass]
   end
+
+  test 'prefixing --no- onto options for a negative result' do
+    slop = Slop.new
+    slop.opt :d, :debug
+    slop.opt :v, :verbose, :default => true
+    slop.parse %w/--no-debug --no-verbose --no-nothing/
+
+    refute slop.verbose?
+    refute slop.debug?
+    refute slop[:verbose]
+    refute slop[:debug]
+  end
 end

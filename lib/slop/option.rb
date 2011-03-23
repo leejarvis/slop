@@ -80,6 +80,7 @@ class Slop
       @expects_argument = true if options[:optional] == false
       @tail = options[:tail]
       @match = options[:match]
+      @forced = false
 
       if @long_flag && @long_flag.size > @slop.longest_flag
         @slop.longest_flag = @long_flag.size
@@ -113,6 +114,7 @@ class Slop
     # @return [Object] the argument value after it's been case
     #   according to the `:as` option
     def argument_value
+      return @argument_value if @forced
       value = @argument_value || default
       return if value.nil?
 
@@ -126,6 +128,15 @@ class Slop
       else
         value
       end
+    end
+
+    # Force an argument value, used when the desired argument value
+    # is negative (false or nil)
+    #
+    # @param [Object] value
+    def force_argument_value(value)
+      @argument_value = value
+      @forced = true
     end
 
     def to_s
