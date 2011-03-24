@@ -4,9 +4,9 @@ require 'slop/version'
 class Slop
   include Enumerable
 
-  class MissingArgumentError < ArgumentError; end
-  class InvalidArgumentError < ArgumentError; end
-  class InvalidOptionError < ArgumentError; end
+  class MissingArgumentError < RuntimeError; end
+  class InvalidArgumentError < RuntimeError; end
+  class InvalidOptionError < RuntimeError; end
 
   # Parses the items from a CLI format into a friendly object.
   #
