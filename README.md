@@ -8,13 +8,13 @@ Installation
 
 ### Rubygems
 
-  gem install slop
+    gem install slop
 
 ### GitHub
 
-  git clone git://github.com/injekt/slop.git
-	gem build slop.gemspec
-	gem install slop-<version>.gem
+    git clone git://github.com/injekt/slop.git
+    gem build slop.gemspec
+    gem install slop-<version>.gem
 
 Usage
 -----
@@ -78,6 +78,25 @@ or
 	opts = Slop.parse do
 	  banner "Usage: foo.rb [options]"
 	end
+
+Helpful Help
+------------
+
+Long form:
+
+    Slop.parse do
+      ...
+      on :h, :help, 'Print this help message', :tail => true do
+        puts help
+        exit
+      end
+    end
+
+Shortcut:
+
+    Slop.parse :help => true do
+      ...
+    end
 
 Callbacks
 ---------
