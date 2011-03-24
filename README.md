@@ -64,9 +64,9 @@ send the Slop object to `puts` or use the `help` method.
 
 Will output something like
 
-	-v, --verbose      Enable verbose mode
-  -n, --name         Your name
-  -a, --age          Your age
+    -v, --verbose      Enable verbose mode
+    -n, --name         Your name
+    -a, --age          Your age
 
 You can also add a banner using the `banner` method
 
