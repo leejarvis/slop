@@ -216,6 +216,14 @@ class SlopTest < TestCase
     assert totallynotstrict.parse %w/--foo/
   end
 
+  test 'strict mode parses options before raising Slop::InvalidOptionError' do
+    strict = Slop.new :strict => true
+    strict.opt :n, :name, true
+
+    assert_raises(Slop::InvalidOptionError, /--foo/) { strict.parse %w/--foo --name nelson/ }
+    assert_equal 'nelson', strict[:name]
+  end
+
   test 'short option flag with no space between flag and argument' do
     slop = Slop.new
     slop.opt :p, :password, true

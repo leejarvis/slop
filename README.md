@@ -214,6 +214,45 @@ You can also change both the split delimiter and limit
   # ARGV is `--people lee:injekt:bob`
   opts[:people] #=> ["lee", "injekt:bob"]
 
+Strict Mode
+-----------
+
+Passing `strict => true` to `Slop.parse` causes it to raise a `Slop::InvalidOptionError` 
+when an invalid option is found (`false` by default):
+
+    Slop.new(:strict => true).parse(%w/--foo/)
+    # => Slop::InvalidOptionError: Unknown option -- 'foo'
+
+and it handles multiple invalid options with a sprinkling of pluralization:
+
+    Slop.new(:strict => true).parse(%w/--foo --bar -z/)
+    # => Slop::InvalidOptionError: Unknown options -- 'foo', 'bar', 'z'
+
+Significantly, however, Slop will still parse the valid options:
+
+    begin
+      slop = Slop.new(:strict => true, :help => true) do
+        banner "Usage:\n\t./awesome_sauce [options]\n\nOptions:"
+        on :n, :name, 'Your name'
+      end
+      slop.parse(%w/--foo --bar -z/)
+    rescue Slop::InvalidOptionError => e
+      puts "\n#{e.message}\n\n"
+      puts slop
+      exit
+    end
+
+yields:
+
+    Unknown options -- 'foo', 'bar', 'z'
+
+    Usage:
+    	./awesome_sauce [options]
+
+    Options:
+        -n, --name      Your name
+        -h, --help      Print this help message
+
 Woah woah, why you hating on OptionParser?
 ------------------------------------------
 

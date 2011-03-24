@@ -50,6 +50,7 @@ class Slop
     @banner = nil
     @longest_flag = 0
     @strict = options[:strict]
+    @invalid_options = []
 
     if block_given?
       block.arity == 1 ? yield(self) : instance_eval(&block)
@@ -245,6 +246,7 @@ private
     end
 
     items.delete_if { |item| trash.include? item } if delete
+    raise_if_invalid_options
     items
   end
 
@@ -266,7 +268,7 @@ private
 
   def check_invalid_option(item, flag)
     if item[/^--?/] && @strict
-      raise InvalidOptionError, "Unknown option -- '#{flag}'"
+      @invalid_options << flag
     end
   end
 
@@ -293,6 +295,11 @@ private
     options.push args.shift ? true : false # force true/false
 
     options
+  end
+
+  def raise_if_invalid_options
+    return if !@strict || @invalid_options.empty?
+    raise InvalidOptionError, "Unknown option#{'s' if @invalid_options.size > 1} -- #{@invalid_options.map {|o| "'#{o}'"}.join(', ')}"
   end
 
 end
