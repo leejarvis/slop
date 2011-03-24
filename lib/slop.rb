@@ -35,7 +35,9 @@ class Slop
     initialize_and_parse(items, true, options, &block)
   end
 
+  # @return [Options]
   attr_reader :options
+
   attr_writer :banner
   attr_accessor :longest_flag
 
