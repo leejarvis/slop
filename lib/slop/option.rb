@@ -116,7 +116,6 @@ class Slop
     def argument_value
       return @argument_value if @forced
       value = @argument_value || default
-      return if value.nil?
 
       case @options[:as].to_s
       when 'Array'
