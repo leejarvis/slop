@@ -207,12 +207,12 @@ You can of course also parse lists into options. Here's how:
 
 You can also change both the split delimiter and limit
 
-	opts = Slop.parse do
-		opt :people, true, :as => Array, :delimiter => ':', :limit => 2)
-	end
+    opts = Slop.parse do
+    	opt :people, true, :as => Array, :delimiter => ':', :limit => 2)
+    end
 
-  # ARGV is `--people lee:injekt:bob`
-  opts[:people] #=> ["lee", "injekt:bob"]
+    # ARGV is `--people lee:injekt:bob`
+    opts[:people] #=> ["lee", "injekt:bob"]
 
 Strict Mode
 -----------
