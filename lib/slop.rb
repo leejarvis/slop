@@ -267,9 +267,7 @@ private
   end
 
   def check_invalid_option(item, flag)
-    if item[/^--?/] && @strict
-      @invalid_options << flag
-    end
+    @invalid_options << flag if item[/^--?/] && @strict
   end
 
   def clean_options(args)
