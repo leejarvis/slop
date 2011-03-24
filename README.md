@@ -8,11 +8,11 @@ Installation
 
 ### Rubygems
 
-    gem install slop
+  gem install slop
 
 ### GitHub
 
-    git clone git://github.com/injekt/slop.git
+  git clone git://github.com/injekt/slop.git
 	gem build slop.gemspec
 	gem install slop-<version>.gem
 
@@ -40,23 +40,6 @@ You can also return your options as a Hash
 	# Symbols
 	opts.to_hash(true) #=> {:name => 'Lee Jarvis', :verbose => true, :age => nil, :sex => 'male'}
 
-If you pass a block to `Slop#parse`, Slop will yield non-options as
-they're found, just like
-[OptionParser](http://rubydoc.info/stdlib/optparse/1.9.2/OptionParser:order)
-does it.
-
-	opts = Slop.new do
-	  on :n, :name, :optional => false
-	end
-
-	opts.parse do |arg|
-	  puts arg
-	end
-
-	# if ARGV is `foo --name Lee bar`
-	foo
-	bar
-
 If you don't like the method `on` (because it sounds like the option **expects**
 a block), you can use the `opt` or `option` alternatives.
 
@@ -82,8 +65,8 @@ send the Slop object to `puts` or use the `help` method.
 Will output something like
 
 	-v, --verbose      Enable verbose mode
-    -n, --name         Your name
-    -a, --age          Your age
+  -n, --name         Your name
+  -a, --age          Your age
 
 You can also add a banner using the `banner` method
 
@@ -102,15 +85,35 @@ Callbacks
 If you'd like to trigger an event when an option is used, you can pass a
 block to your option. Here's how:
 
-    Slop.parse do
-      on :V, :version, 'Print the version' do
-	  	puts 'Version 1.0.0'
-		exit
-	  end
-    end
+	Slop.parse do
+		on :V, :version, 'Print the version' do
+			puts 'Version 1.0.0'
+			exit
+		end
+	end
 
 Now when using the `--version` option on the command line, the trigger will
 be called and its contents executed.
+
+Yielding Non Options
+--------------------
+
+If you pass a block to `Slop#parse`, Slop will yield non-options as
+they're found, just like
+[OptionParser](http://rubydoc.info/stdlib/optparse/1.9.2/OptionParser:order)
+does it.
+
+	opts = Slop.new do
+	  on :n, :name, :optional => false
+	end
+
+	opts.parse do |arg|
+	  puts arg
+	end
+
+	# if ARGV is `foo --name Lee bar`
+	foo
+	bar
 
 Negative Options
 ----------------
@@ -158,18 +161,18 @@ Slop is pretty smart when it comes to building your options, for example if you
 want your option to have a flag attribute, but no `--option` attribute, you
 can do this:
 
-    on :n, "Your name"
+	on :n, "Your name"
 
 and Slop will detect a description in place of an option, so you don't have to
 do this:
 
-    on :n, nil, "Your name", true
+	on :n, nil, "Your name", true
 
 You can also try other variations:
 
-    on :name, "Your name"
-    on :n, :name
-    on :name, true
+	on :name, "Your name"
+	on :n, :name
+	on :name, true
 
 Lists
 -----
@@ -185,12 +188,12 @@ You can of course also parse lists into options. Here's how:
 
 You can also change both the split delimiter and limit
 
-    opts = Slop.parse do
-      opt :people, true, :as => Array, :delimiter => ':', :limit => 2)
-    end
+	opts = Slop.parse do
+		opt :people, true, :as => Array, :delimiter => ':', :limit => 2)
+	end
 
-    # ARGV is `--people lee:injekt:bob`
-    opts[:people] #=> ["lee", "injekt:bob"]
+  # ARGV is `--people lee:injekt:bob`
+  opts[:people] #=> ["lee", "injekt:bob"]
 
 Woah woah, why you hating on OptionParser?
 ------------------------------------------
