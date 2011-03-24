@@ -117,13 +117,13 @@ class Slop
       return @argument_value if @forced
       value = @argument_value || default
 
-      case @options[:as].to_s
-      when 'Array'
+      case @options[:as].to_s.downcase
+      when 'array'
         value.split(@options[:delimiter] || ',', @options[:limit] || 0)
-      when 'String';  value.to_s
-      when 'Symbol';  value.to_s.to_sym
-      when 'Integer'; value.to_s.to_i
-      when 'Float';   value.to_s.to_f
+      when 'string';  value.to_s
+      when 'symbol';  value.to_s.to_sym
+      when 'integer'; value.to_s.to_i
+      when 'float';   value.to_s.to_f
       else
         value
       end
