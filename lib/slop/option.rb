@@ -82,6 +82,9 @@ class Slop
       @match = options[:match]
       @forced = false
 
+      @delimiter = options[:delimiter] || ','
+      @limit = options[:limit] || 0
+
       if @long_flag && @long_flag.size > @slop.longest_flag
         @slop.longest_flag = @long_flag.size
       end
@@ -119,7 +122,7 @@ class Slop
 
       case @options[:as].to_s.downcase
       when 'array'
-        value.split(@options[:delimiter] || ',', @options[:limit] || 0)
+        value.split @delimiter, @limit
       when 'string';  value.to_s
       when 'symbol';  value.to_s.to_sym
       when 'integer'; value.to_s.to_i
