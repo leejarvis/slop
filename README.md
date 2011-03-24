@@ -229,10 +229,3 @@ thing in Slop:
 	end
 
 	things = opts.to_hash
-
-Contributing
-------------
-
-If you'd like to contribute to Slop (it's **really** appreciated) please fork
-the GitHub repository, create your feature/bugfix branch, add tests, and send
-me a pull request. I'd be more than happy to look at it.
