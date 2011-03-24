@@ -299,7 +299,10 @@ private
 
   def raise_if_invalid_options
     return if !@strict || @invalid_options.empty?
-    raise InvalidOptionError, "Unknown option#{'s' if @invalid_options.size > 1} -- #{@invalid_options.map {|o| "'#{o}'"}.join(', ')}"
+    message = "Unknown option"
+    message << 's' if @invalid_options.size > 1
+    message << ' -- ' << @invalid_options.map { |o| "'#{o}'" }.join(', ')
+    raise InvalidOptionError, message
   end
 
 end
