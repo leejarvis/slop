@@ -112,6 +112,23 @@ block to your option. Here's how:
 Now when using the `--version` option on the command line, the trigger will
 be called and its contents executed.
 
+Negative Options
+----------------
+
+Slop also allows you to prefix `--no-` to an option which will force the option
+to return a false value.
+
+		opts = Slop.parse do
+			on :v, :verbose, :default => true
+		end
+
+		# with no command line options
+		opts[:verbose] #=> true
+
+		# with `--no-verbose`
+		opts[:verbose] #=> false
+		opts.verbose?  #=> false
+
 Ugh, Symbols
 ------------
 
