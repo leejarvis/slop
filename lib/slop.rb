@@ -158,7 +158,8 @@ class Slop
   #   opts.name?    #=> false
   # @return [Boolean] Whether the desired option was specified.
   def method_missing(meth, *args, &block)
-    meth.to_s[/\?$/] ? !!self[meth.to_s.chomp('?')] : super
+    super unless meth.to_s =~ /\?$/
+    !!self[meth.to_s.chomp('?')]
   end
 
   # Returns the banner followed by available options listed on the next line.
