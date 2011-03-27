@@ -103,12 +103,12 @@ Parsing
 
 Slop's pretty good at parsing, let's take a look at what it'll extract for you
 
-		Slop.parse do
-			on 's', 'server', true
-			on 'p', 'port', true, :as => :integer
-			on 'username', true, :matches => /[^a-zA-Z]+$/
-			on 'password', true
-		end
+	Slop.parse do
+		on 's', 'server', true
+		on 'p', 'port', true, :as => :integer
+		on 'username', true, :matches => /[^a-zA-Z]+$/
+		on 'password', true
+	end
 
 Now throw some options at it:
 
@@ -116,12 +116,12 @@ Now throw some options at it:
 
 Here's what we'll get back
 
-		{
-			:server=>"ftp://foobar.com",
-			:port=>1234,
-			:username=>"FooBar",
-			:password=>"hello there"
-		}
+	{
+		:server=>"ftp://foobar.com",
+		:port=>1234,
+		:username=>"FooBar",
+		:password=>"hello there"
+	}
 
 Callbacks
 ---------
