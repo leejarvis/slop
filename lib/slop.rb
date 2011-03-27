@@ -210,13 +210,19 @@ private
       flag = item.sub(/^--?/, '')
       option = @options[flag]
 
-      if !option && item =~ /^-[^-]/
-        flag, argument = flag.split('', 2)
-        option = @options[flag]
-      elsif !option && item =~ /--no-(.+)$/
-        if option = @options[$1]
-          option.force_argument_value false
-          next
+      unless option
+        case item
+        when /^-[^-]/
+          flag, argument = flag.split('', 2)
+          option = @options[flag]
+        when /^--([^=]+)=(.+)$/
+          option = @options[$1]
+          argument = $2
+        when /--no-(.+)$/
+          if option = @options[$1]
+            option.force_argument_value false
+            next
+          end
         end
       end
 

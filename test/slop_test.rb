@@ -245,4 +245,13 @@ class SlopTest < TestCase
     refute slop[:verbose]
     refute slop[:debug]
   end
+
+  test 'option=value' do
+    slop = Slop.new
+    slop.opt :n, :name, true
+    slop.parse %w/--name=lee/
+
+    assert_equal 'lee', slop[:name]
+    assert slop.name?
+  end
 end
