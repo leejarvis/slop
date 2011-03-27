@@ -28,7 +28,7 @@ class Slop
 
     # @return [String]
     def to_help
-      heads = select {|x| !x.tail }
+      heads = reject {|x| x.tail }
       tails = select {|x| x.tail }
       (heads + tails).map(&:to_s).join("\n")
     end
