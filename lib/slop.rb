@@ -108,7 +108,7 @@ class Slop
   # @see Slop#method_missing
   def [](key)
     option = @options[key]
-    option ? option.argument_value : nil
+    option.argument_value if option
   end
 
   # Specify an option with a short or long version, description and type.
