@@ -76,11 +76,15 @@ class Slop
       @long_flag = long
       @description = description
       @options = options
+
       @expects_argument = argument
       @expects_argument = true if options[:optional] == false
+
       @tail = options[:tail]
       @match = options[:match]
+
       @forced = false
+      @argument_value = nil
 
       @delimiter = options[:delimiter] || ','
       @limit = options[:limit] || 0
@@ -91,7 +95,6 @@ class Slop
 
       @callback = blk if block_given?
       @callback ||= options[:callback]
-      @argument_value = nil
     end
 
     # @return [Boolean] true if this option expects an argument
