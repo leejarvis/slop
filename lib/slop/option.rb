@@ -17,7 +17,7 @@ class Slop
     # @return [Option] the option assoiated with this flag
     def [](flag)
       item = flag.to_s
-      if item =~ /^\d+$/
+      if item =~ /\A\d+\z/
         slice item.to_i
       else
         find do |option|
