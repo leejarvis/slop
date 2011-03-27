@@ -152,14 +152,11 @@ class Slop
 
   # Allows you to check whether an option was specified in the parsed list.
   #
-  # @return [Boolean] Whether the desired option was specified.
   # @example
   #   #== ruby foo.rb -v
-  #   opts.verbose?
-  #   #=> true
-  #   opts.name?
-  #   #=> false
-  # @see Slop#[]
+  #   opts.verbose? #=> true
+  #   opts.name?    #=> false
+  # @return [Boolean] Whether the desired option was specified.
   def method_missing(meth, *args, &block)
     meth.to_s[/\?$/] ? !!self[meth.to_s.chomp('?')] : super
   end
