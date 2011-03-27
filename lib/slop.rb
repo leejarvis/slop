@@ -158,7 +158,7 @@ class Slop
   #   opts.name?    #=> false
   # @return [Boolean] Whether the desired option was specified.
   def method_missing(meth, *args, &block)
-    super unless meth.to_s =~ /\?$/
+    super unless meth.to_s =~ /\?\z/
     !!self[meth.to_s.chomp('?')]
   end
 
@@ -200,13 +200,13 @@ private
 
       unless option
         case item
-        when /^-[^-]/
+        when /\A-[^-]/
           flag, argument = flag.split('', 2)
           option = @options[flag]
-        when /^--([^=]+)=(.+)$/
+        when /\A--([^=]+)=(.+)\z/
           option = @options[$1]
           argument = $2
-        when /--no-(.+)$/
+        when /\A--no-(.+)\z/
           if option = @options[$1]
             option.force_argument_value false
             next
@@ -261,13 +261,13 @@ private
   end
 
   def check_invalid_option(item, flag)
-    @invalid_options << flag if item[/^--?/] && @strict
+    @invalid_options << flag if item[/\A--?/] && @strict
   end
 
   def clean_options(args)
     options = []
 
-    short = args.first.to_s.sub(/^--?/, '')
+    short = args.first.to_s.sub(/\A--?/, '')
     if short.size == 1
       options.push short
       args.shift
@@ -278,7 +278,7 @@ private
     long = args.first
     boolean = long.is_a?(TrueClass) || long.is_a?(FalseClass)
     if !boolean && long.to_s =~ /\A(--?)?[a-zA-Z0-9_-]+\z/
-      options.push args.shift.to_s.sub(/^--?/, '')
+      options.push args.shift.to_s.sub(/\A--?/, '')
     else
       options.push nil
     end
