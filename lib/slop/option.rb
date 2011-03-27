@@ -109,16 +109,11 @@ class Slop
       @long_flag || @short_flag
     end
 
-    # @return [Object]
-    def default
-      @options[:default]
-    end
-
     # @return [Object] the argument value after it's been case
     #   according to the `:as` option
     def argument_value
       return @argument_value if @forced
-      value = @argument_value || default
+      value = @argument_value || @options[:default]
 
       case @options[:as].to_s.downcase
       when 'array'
