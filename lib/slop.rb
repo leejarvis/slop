@@ -159,7 +159,7 @@ class Slop
   # @return [Boolean] Whether the desired option was specified.
   def method_missing(meth, *args, &block)
     super unless meth.to_s =~ /\?\z/
-    !!self[meth.to_s.chomp('?')]
+    !!self[meth.to_s.chomp '?']
   end
 
   # Returns the banner followed by available options listed on the next line.
@@ -296,5 +296,4 @@ private
     message << ' -- ' << @invalid_options.map { |o| "'#{o}'" }.join(', ')
     raise InvalidOptionError, message
   end
-
 end
