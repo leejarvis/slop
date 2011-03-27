@@ -1,5 +1,5 @@
 --hide-void-return 
 -m markdown
---title "slop"
+--title "Slop - A simple DSL for gathering options and parsing the command line"
 lib/**/*.rb
 --no-private
