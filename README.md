@@ -217,7 +217,7 @@ You can also change both the split delimiter and limit
 Strict Mode
 -----------
 
-Passing `strict => true` to `Slop.parse` causes it to raise a `Slop::InvalidOptionError` 
+Passing `strict => true` to `Slop.parse` causes it to raise a `Slop::InvalidOptionError`
 when an invalid option is found (`false` by default):
 
     Slop.new(:strict => true).parse(%w/--foo/)
@@ -230,12 +230,13 @@ and it handles multiple invalid options with a sprinkling of pluralization:
 
 Significantly, however, Slop will still parse the valid options:
 
-    begin
-      slop = Slop.new(:strict => true, :help => true) do
-        banner "Usage:\n\t./awesome_sauce [options]\n\nOptions:"
-        on :n, :name, 'Your name'
-      end
-      slop.parse(%w/--foo --bar -z/)
+    slop = Slop.new(:strict => true, :help => true) do
+      banner "Usage:\n\t./awesome_sauce [options]\n\nOptions:"
+      on :n, :name, 'Your name'
+    end
+
+		begin
+			slop.parse(%w/--foo --bar -z/)
     rescue Slop::InvalidOptionError => e
       puts "\n#{e.message}\n\n"
       puts slop
