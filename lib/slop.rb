@@ -207,15 +207,13 @@ private
           option = @options[$1]
           argument = $2
         when /--no-(.+)$/
-          if option = @options[$1]
-            option.force_argument_value false
-            next
-          end
+          option.force_argument_value(false) if option = @options[$1]
         end
       end
 
       if option
         trash << item
+        next if option.forced?
         option.argument_value = true
 
         if option.expects_argument? || option.accepts_optional_argument?
