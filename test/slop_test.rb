@@ -101,6 +101,12 @@ class SlopTest < TestCase
     assert_empty items
   end
 
+  test '#parse! removes parsed items prefixed with --no-' do
+    items = %w/--no-foo/
+    Slop.new { |opt| opt.on :foo }.parse!(items)
+    assert_empty items
+  end
+
   test 'the shit out of clean_options' do
     assert_equal(
       ['s', 'short', 'short option', false],

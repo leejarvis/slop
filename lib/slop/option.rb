@@ -139,6 +139,10 @@ class Slop
       @forced = true
     end
 
+    def forced?
+      @forced
+    end
+
     def to_s
       out = "    "
       out += @short_flag ? "-#{@short_flag}, " : ' ' * 4
