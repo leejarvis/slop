@@ -260,4 +260,10 @@ class SlopTest < TestCase
     assert_equal 'lee', slop[:name]
     assert slop.name?
   end
+
+  test 'parsing options with options as arguments' do
+    slop = Slop.new { on :f, :foo, true }
+
+    assert_raises(Slop::MissingArgumentError) { slop.parse %w/-f --bar/ }
+  end
 end

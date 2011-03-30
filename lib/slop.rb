@@ -218,6 +218,7 @@ private
 
         if option.expects_argument? || option.accepts_optional_argument?
           argument ||= items.at(items.index(item) + 1)
+          check_valid_argument(option, argument)
           trash << argument
 
           if argument
@@ -240,6 +241,13 @@ private
     items.delete_if { |item| trash.include? item } if delete
     raise_if_invalid_options
     items
+  end
+
+  def check_valid_argument(option, argument)
+    if !option.accepts_optional_argument? && argument =~ /\A--?.+\z/
+      raise MissingArgumentError,
+        "'#{option.key}' expects an argument, none given"
+    end
   end
 
   def check_matching_argument(option, argument)
