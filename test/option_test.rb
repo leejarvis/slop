@@ -104,4 +104,12 @@ class OptionTest < TestCase
     assert_raises(Slop::InvalidArgumentError, /world/) { slop.parse %w/--foo world/ }
     assert slop.parse %w/--foo hello/
   end
+
+  test 'non-casting of nil options' do
+    slop = Slop.new { on :f, :foo, true, :as => String }
+    slop.parse []
+
+    assert_equal nil, slop[:foo]
+    refute_equal "", slop[:foo]
+  end
 end
