@@ -42,6 +42,9 @@ class Slop
   # @option options [Boolean] :help Automatically add the `help` option
   # @option options [Boolean] :strict Strict mode raises when a non listed
   #   option is found, false by default
+  # @option options [Boolean] :multiple_switches Allows `-abc` to be processed
+  #   as the options 'a', 'b', 'c' and will force their argument values to
+  #   true. By default Slop with parse this as 'a' with the argument 'bc'
   def initialize(options={}, &block)
     @options = Options.new
     @banner = nil
