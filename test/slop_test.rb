@@ -9,6 +9,14 @@ class SlopTest < TestCase
     assert Slop.included_modules.include?(Enumerable)
   end
 
+  test 'new accepts a hash or array of symbols' do
+    slop = Slop.new :strict, :multiple_switches => true
+
+    [ :@multiple_switches, :@strict ].each do |var|
+      assert slop.instance_variable_get var
+    end
+  end
+
   test 'parse returns a Slop object' do
     slop = Slop.parse([])
     assert_kind_of Slop, slop

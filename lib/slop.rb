@@ -39,25 +39,29 @@ class Slop
   attr_accessor :longest_flag
 
   # @param [Hash] options
-  # @option options [Boolean] :help Automatically add the `help` option
-  # @option options [Boolean] :strict Strict mode raises when a non listed
+  # @option opts [Boolean] :help Automatically add the `help` option
+  # @option opts [Boolean] :strict Strict mode raises when a non listed
   #   option is found, false by default
-  # @option options [Boolean] :multiple_switches Allows `-abc` to be processed
+  # @option opts [Boolean] :multiple_switches Allows `-abc` to be processed
   #   as the options 'a', 'b', 'c' and will force their argument values to
   #   true. By default Slop with parse this as 'a' with the argument 'bc'
-  def initialize(options={}, &block)
+  def initialize(*opts, &block)
+    slop_options = {}
+    slop_options.merge! opts.pop if opts.last.is_a? Hash
+    opts.map { |o| slop_options[o] = true }
+
     @options = Options.new
     @banner = nil
     @longest_flag = 0
-    @strict = options[:strict]
+    @strict = slop_options[:strict]
     @invalid_options = []
-    @multiple_switches = options[:multiple_switches]
+    @multiple_switches = slop_options[:multiple_switches]
 
     if block_given?
       block.arity == 1 ? yield(self) : instance_eval(&block)
     end
 
-    if options[:help]
+    if slop_options[:help]
       on :h, :help, 'Print this help message', :tail => true do
         puts help
         exit
