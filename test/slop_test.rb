@@ -5,10 +5,6 @@ class SlopTest < TestCase
     Slop.new.send(:clean_options, args)
   end
 
-  def parse(items, &block)
-    Slop.parse(items, &block)
-  end
-
   test 'includes Enumerable' do
     assert Slop.included_modules.include?(Enumerable)
   end
