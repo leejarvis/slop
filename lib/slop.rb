@@ -7,6 +7,7 @@ class Slop
   class MissingArgumentError < RuntimeError; end
   class InvalidArgumentError < RuntimeError; end
   class InvalidOptionError < RuntimeError; end
+  class UnknownOptionError < RuntimeError; end
 
   # Parses the items from a CLI format into a friendly object.
   #
@@ -47,6 +48,7 @@ class Slop
     @longest_flag = 0
     @strict = options[:strict]
     @invalid_options = []
+    @multiple_switches = options[:multiple_switches]
 
     if block_given?
       block.arity == 1 ? yield(self) : instance_eval(&block)
@@ -201,8 +203,13 @@ private
       unless option
         case item
         when /\A-[^-]/
-          flag, argument = flag.split('', 2)
-          option = @options[flag]
+          if @multiple_switches
+            enable_multiple_switches(item)
+            next
+          else
+            flag, argument = flag.split('', 2)
+            option = @options[flag]
+          end
         when /\A--([^=]+)=(.+)\z/
           option = @options[$1]
           argument = $2
@@ -268,6 +275,23 @@ private
 
   def check_invalid_option(item, flag)
     @invalid_options << flag if item[/\A--?/] && @strict
+  end
+
+  def enable_multiple_switches(item)
+    item[1..-1].split('').each do |switch|
+      if option = @options[switch]
+        if option.expects_argument?
+          raise MissingArgumentError,
+            "'-#{switch}' expects an argument, used in multiple_switch context"
+        else
+          option.argument_value = true
+        end
+      else
+        if @strict
+          raise UnknownOptionError, "Unknown option '-#{switch}'"
+        end
+      end
+    end
   end
 
   def clean_options(args)

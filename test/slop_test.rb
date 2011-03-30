@@ -22,6 +22,21 @@ class SlopTest < TestCase
     slop.each { |option| assert option }
   end
 
+  test 'multiple switches with the :multiple_switches flag' do
+    slop = Slop.new :multiple_switches => true, :strict => true
+    %w/a b c/.each { |f| slop.on f }
+    slop.on :z, true
+    slop.parse %w/-abc/
+
+    %w/a b c/.each do |flag|
+      assert slop[flag]
+      assert slop.send(flag + '?')
+    end
+
+    assert_raises(Slop::UnknownOptionError, /d/)   { slop.parse %w/-abcd/  }
+    assert_raises(Slop::MissingArgumentError, /z/) { slop.parse %w/-abcz/ }
+  end
+
   test 'passing a block' do
     assert Slop.new {}
     slop = nil
