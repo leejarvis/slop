@@ -1,5 +1,4 @@
 require 'slop/option'
-require 'slop/version'
 
 class Slop
   include Enumerable
@@ -8,6 +7,9 @@ class Slop
   class InvalidArgumentError < RuntimeError; end
   class InvalidOptionError < RuntimeError; end
   class UnknownOptionError < RuntimeError; end
+
+  # @return [String] The current version string
+  VERSION = '1.3.1'
 
   # Parses the items from a CLI format into a friendly object.
   #
