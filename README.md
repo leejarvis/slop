@@ -176,6 +176,26 @@ to return a false value.
 	opts[:verbose] #=> false
 	opts.verbose?  #=> false
 
+Short Switches
+--------------
+
+Want to enable multiple switches at once like rsync does? By default Slop will
+parse `-abcd` as the option `a` with the argument `bcd`, this can be disabled
+by passing the `:multiple_switches` option to a new Slop object.
+
+    opts = Slop.new(:strict, :multiple_switches) do
+			on :a, 'First switch'
+			on :b, 'Second switch'
+			on :c, 'Third switch'
+		end
+
+		opts.parse
+
+		# Using `-ac`
+		opts[:a] #=> true
+		opts[:b] #=> false
+		opts[:c] #=> true
+
 Ugh, Symbols
 ------------
 
