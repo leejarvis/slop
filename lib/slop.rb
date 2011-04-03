@@ -48,22 +48,22 @@ class Slop
   #   as the options 'a', 'b', 'c' and will force their argument values to
   #   true. By default Slop with parse this as 'a' with the argument 'bc'
   def initialize(*opts, &block)
-    slop_options = {}
-    slop_options.merge! opts.pop if opts.last.is_a? Hash
-    opts.each { |o| slop_options[o] = true }
+    sloptions = {}
+    sloptions.merge! opts.pop if opts.last.is_a? Hash
+    opts.each { |o| sloptions[o] = true }
 
     @options = Options.new
     @banner = nil
     @longest_flag = 0
-    @strict = slop_options[:strict]
+    @strict = sloptions[:strict]
     @invalid_options = []
-    @multiple_switches = slop_options[:multiple_switches]
+    @multiple_switches = sloptions[:multiple_switches]
 
     if block_given?
       block.arity == 1 ? yield(self) : instance_eval(&block)
     end
 
-    if slop_options[:help]
+    if sloptions[:help]
       on :h, :help, 'Print this help message', :tail => true do
         puts help
         exit
