@@ -253,7 +253,7 @@ You can of course also parse lists into options. Here's how:
 You can also change both the split delimiter and limit
 
     opts = Slop.parse do
-    	opt :people, true, :as => Array, :delimiter => ':', :limit => 2)
+      opt :people, true, :as => Array, :delimiter => ':', :limit => 2)
     end
 
     # ARGV is `--people lee:injekt:bob`
@@ -280,8 +280,8 @@ Significantly, however, Slop will still parse the valid options:
       on :n, :name, 'Your name'
     end
 
-		begin
-			slop.parse(%w/--foo --bar -z/)
+    begin
+      slop.parse(%w/--foo --bar -z/)
     rescue Slop::InvalidOptionError => e
       puts "\n#{e.message}\n\n"
       puts slop
