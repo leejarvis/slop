@@ -140,6 +140,7 @@ class Slop
       @forced = true
     end
 
+    # @return [Boolean] true if this argument value has been forced
     def forced?
       @forced
     end
