@@ -129,12 +129,12 @@ Callbacks
 If you'd like to trigger an event when an option is used, you can pass a
 block to your option. Here's how:
 
-	Slop.parse do
-		on :V, :version, 'Print the version' do
-			puts 'Version 1.0.0'
-			exit
-		end
-	end
+    Slop.parse do
+      on :V, :version, 'Print the version' do
+        puts 'Version 1.0.0'
+        exit
+      end
+    end
 
 Now when using the `--version` option on the command line, the trigger will
 be called and its contents executed.
@@ -184,17 +184,17 @@ parse `-abcd` as the option `a` with the argument `bcd`, this can be disabled
 by passing the `:multiple_switches` option to a new Slop object.
 
     opts = Slop.new(:strict, :multiple_switches) do
-			on :a, 'First switch'
-			on :b, 'Second switch'
-			on :c, 'Third switch'
-		end
+      on :a, 'First switch'
+      on :b, 'Second switch'
+      on :c, 'Third switch'
+    end
 
-		opts.parse
+    opts.parse
 
-		# Using `-ac`
-		opts[:a] #=> true
-		opts[:b] #=> false
-		opts[:c] #=> true
+    # Using `-ac`
+    opts[:a] #=> true
+    opts[:b] #=> false
+    opts[:c] #=> true
 
 Ugh, Symbols
 ------------
