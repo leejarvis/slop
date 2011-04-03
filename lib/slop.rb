@@ -11,11 +11,9 @@ class Slop
   # options argument does not match this regexp
   class InvalidArgumentError < RuntimeError; end
 
-  class InvalidOptionError < RuntimeError; end
-
   # Raised when the `:strict` option is enabled and an unknown
   # or unspecified option is used
-  class UnknownOptionError < RuntimeError; end
+  class InvalidOptionError < RuntimeError; end
 
   # @return [String] The current version string
   VERSION = '1.3.1'
@@ -306,7 +304,7 @@ private
         end
       else
         if @strict
-          raise UnknownOptionError, "Unknown option '-#{switch}'"
+          raise InvalidOptionError, "Unknown option '-#{switch}'"
         end
       end
     end

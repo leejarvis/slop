@@ -41,7 +41,7 @@ class SlopTest < TestCase
       assert slop.send(flag + '?')
     end
 
-    assert_raises(Slop::UnknownOptionError, /d/)   { slop.parse %w/-abcd/  }
+    assert_raises(Slop::InvalidOptionError, /d/)   { slop.parse %w/-abcd/ }
     assert_raises(Slop::MissingArgumentError, /z/) { slop.parse %w/-abcz/ }
   end
 
