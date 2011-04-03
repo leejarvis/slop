@@ -4,9 +4,17 @@ require 'slop/option'
 class Slop
   include Enumerable
 
+  # Raised when an option expects an argument and none is given
   class MissingArgumentError < RuntimeError; end
+
+  # Raised when an option specifies the `:match` attribute and this
+  # options argument does not match this regexp
   class InvalidArgumentError < RuntimeError; end
+
   class InvalidOptionError < RuntimeError; end
+
+  # Raised when the `:strict` option is enabled and an unknown
+  # or unspecified option is used
   class UnknownOptionError < RuntimeError; end
 
   # @return [String] The current version string
