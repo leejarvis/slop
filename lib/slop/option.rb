@@ -1,24 +1,28 @@
 class Slop
   class Option
 
-    # @return [String, #to_s]
+    # @return [String, #to_s] The short flag used for this option
     attr_reader :short_flag
 
-    # @return [String, #to_s]
+    # @return [String, #to_s] The long flag used for this option
     attr_reader :long_flag
 
-    # @return [String]
+    # @return [String] This options description
     attr_reader :description
 
-    # @return [Proc, #call]
+    # @return [Proc, #call] The object to execute when this option is used
     attr_reader :callback
 
-    # @return [Boolean]
+    # @return [Boolean] True if the option should be grouped at the
+    #   tail of the help list
     attr_reader :tail
 
-    # @return [Regex]
+    # @return [Regexp] If provided, an options argument **must** match this
+    #   regexp, otherwise Slop will raise an InvalidArgumentError
     attr_reader :match
 
+    # @overload argument_value=(value)
+    #   Set this options argument value
     attr_writer :argument_value
 
     # @param [Slop] slop
@@ -31,9 +35,9 @@ class Slop
     # @option options [Boolean] :argument
     # @option options [Object] :default
     # @option options [Proc, #call] :callback
-    # @option options [String, #to_s] :delimiter
-    # @option options [Integer] :limit
-    # @option options [Boolean] :tail
+    # @option options [String, #to_s] :delimiter (',')
+    # @option options [Integer] :limit (0)
+    # @option options [Boolean] :tail (false)
     # @option options [Regexp] :match
     def initialize(slop, short, long, description, argument, options={}, &blk)
       @slop = slop
@@ -67,7 +71,7 @@ class Slop
       @expects_argument || @options[:argument]
     end
 
-    # @return [Boolean] true if this option expects an optional argument
+    # @return [Boolean] true if this option accepts an optional argument
     def accepts_optional_argument?
       @options[:optional]
     end
@@ -110,6 +114,10 @@ class Slop
       @forced
     end
 
+    # This option in a nice pretty string, including a short flag, long
+    #   flag, and description (if they exist).
+    # @see Slop#help
+    # @return [String]
     def to_s
       out = "    "
       out += @short_flag ? "-#{@short_flag}, " : ' ' * 4
@@ -127,6 +135,7 @@ class Slop
       "#{out}#{@description}"
     end
 
+    # @return [String]
     def inspect
       "#<Slop::Option short_flag=#{@short_flag.inspect} " +
       "long_flag=#{@long_flag.inspect} " +
