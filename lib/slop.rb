@@ -50,7 +50,7 @@ class Slop
   def initialize(*opts, &block)
     slop_options = {}
     slop_options.merge! opts.pop if opts.last.is_a? Hash
-    opts.map { |o| slop_options[o] = true }
+    opts.each { |o| slop_options[o] = true }
 
     @options = Options.new
     @banner = nil
