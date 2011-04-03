@@ -13,7 +13,7 @@ class Slop
       out
     end
 
-    # @param [Object] flag
+    # @param [Object] flag The short/long flag representing the option
     # @return [Option] the option assoiated with this flag
     def [](flag)
       item = flag.to_s
@@ -26,7 +26,8 @@ class Slop
       end
     end
 
-    # @return [String]
+    # @see Slop#help
+    # @return [String] All options in a pretty help string
     def to_help
       heads = reject {|x| x.tail }
       tails = select {|x| x.tail }
