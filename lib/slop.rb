@@ -1,3 +1,4 @@
+require 'slop/options'
 require 'slop/option'
 
 class Slop
