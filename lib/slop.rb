@@ -57,10 +57,10 @@ class Slop
   def initialize(*opts, &block)
     sloptions = {}
     sloptions.merge! opts.pop if opts.last.is_a? Hash
+    @banner = opts.shift if opts[0].respond_to?(:to_str)
     opts.each { |o| sloptions[o] = true }
 
     @options = Options.new
-    @banner = nil
     @longest_flag = 0
     @strict = sloptions[:strict]
     @invalid_options = []

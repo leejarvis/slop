@@ -102,6 +102,9 @@ class SlopTest < TestCase
 
     slop.banner = nil
     assert_equal "", slop.to_s
+
+    slop = Slop.new "foo bar"
+    assert_equal "foo bar", slop.banner
   end
 
   test 'storing long option lengths' do
