@@ -195,7 +195,7 @@ class Slop
   end
   alias :help :to_s
 
-private
+  private
 
   def self.initialize_and_parse(items, delete, options, &block)
     if items.is_a?(Hash) && options.empty?
