@@ -79,6 +79,10 @@ or
       banner "Usage: foo.rb [options]"
     end
 
+or
+
+    opts = Slop.new "Usage: foo.rb [options]"
+
 Helpful Help
 ------------
 
