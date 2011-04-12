@@ -323,7 +323,7 @@ gather a bunch of key/value options, usually you would do something like this:
 	end
 
 	opt.parse
-	# do something with things
+	things #=> { :name => 'lee', :age => 105 }
 
 Which is all great and stuff, but it can lead to some repetition, the same
 thing in Slop:
@@ -335,4 +335,4 @@ thing in Slop:
 	  on :a, :age, 'Your age', true
 	end
 
-	things = opts.to_hash
+  slop.to_hash(true) #=> { :name => 'lee', :age => 105 }
