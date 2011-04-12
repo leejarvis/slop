@@ -163,7 +163,7 @@ class Slop
   #   # symbols!
   #   opts.to_hash(true) #=> { :name => 'Emily' }
   # @return [Hash]
-  def to_hash(symbols=nil)
+  def to_hash(symbols=false)
     @options.to_hash(symbols)
   end
   alias :to_h :to_hash
