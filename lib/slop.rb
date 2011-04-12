@@ -331,8 +331,6 @@ class Slop
 
     options.push args.first.respond_to?(:to_sym) ? args.shift : nil
     options.push args.shift ? true : false # force true/false
-
-    options
   end
 
   def raise_if_invalid_options
