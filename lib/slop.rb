@@ -323,7 +323,7 @@ class Slop
 
     long = args.first
     boolean = long.is_a?(TrueClass) || long.is_a?(FalseClass)
-    if !boolean && long.to_s =~ /\A(--?)?[a-zA-Z0-9_-]+\z/
+    if !boolean && long.to_s =~ /\A(?:--?)?[a-zA-Z0-9_-]+\z/
       options.push args.shift.to_s.sub(/\A--?/, '')
     else
       options.push nil
