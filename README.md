@@ -196,6 +196,27 @@ by passing the `:multiple_switches` option to a new Slop object.
     opts[:b] #=> false
     opts[:c] #=> true
 
+Lists
+-----
+
+You can of course also parse lists into options. Here's how:
+
+	opts = Slop.parse do
+	  opt :people, true, :as => Array
+	end
+
+	# ARGV is `--people lee,john,bill`
+	opts[:people] #=> ['lee', 'john', 'bill']
+
+You can also change both the split delimiter and limit
+
+    opts = Slop.parse do
+      opt :people, true, :as => Array, :delimiter => ':', :limit => 2)
+    end
+
+    # ARGV is `--people lee:injekt:bob`
+    opts[:people] #=> ["lee", "injekt:bob"]
+
 Ugh, Symbols
 ------------
 
@@ -237,27 +258,6 @@ You can also try other variations:
 	on :name, "Your name"
 	on :n, :name
 	on :name, true
-
-Lists
------
-
-You can of course also parse lists into options. Here's how:
-
-	opts = Slop.parse do
-	  opt :people, true, :as => Array
-	end
-
-	# ARGV is `--people lee,john,bill`
-	opts[:people] #=> ['lee', 'john', 'bill']
-
-You can also change both the split delimiter and limit
-
-    opts = Slop.parse do
-      opt :people, true, :as => Array, :delimiter => ':', :limit => 2)
-    end
-
-    # ARGV is `--people lee:injekt:bob`
-    opts[:people] #=> ["lee", "injekt:bob"]
 
 Strict Mode
 -----------
