@@ -5,6 +5,14 @@ class SlopTest < TestCase
     Slop.new.send(:clean_options, args)
   end
 
+  def temp_argv(items)
+    old_argv = ARGV.clone
+    ARGV.replace items
+    yield
+  ensure
+    ARGV.replace old_argv
+  end
+
   test 'includes Enumerable' do
     assert Slop.included_modules.include?(Enumerable)
   end
@@ -28,6 +36,12 @@ class SlopTest < TestCase
     slop.opt(:b, :bar, 'bar')
 
     slop.each { |option| assert option }
+  end
+
+  test 'defaulting to ARGV' do
+    temp_argv(%w/--name lee/) do
+      assert_equal('lee', Slop.parse { on :name, true }[:name])
+    end
   end
 
   test 'multiple switches with the :multiple_switches flag' do
