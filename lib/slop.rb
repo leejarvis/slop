@@ -44,6 +44,7 @@ class Slop
   # @return [Options]
   attr_reader :options
 
+  # @return [Hash]
   attr_reader :commands
 
   attr_writer :banner
@@ -160,6 +161,21 @@ class Slop
   alias :opt :option
   alias :on :option
 
+
+  # Namespace options depending on what command is executed
+  #
+  # @param [Symbol, String] label
+  # @param [Hash] options
+  # @example
+  #   opts = Slop.new do
+  #     command :create do
+  #       on :v, :verbose
+  #     end
+  #   end
+  #
+  #   # ARGV is `create -v`
+  #   opts.commands[:create].verbose? #=> true
+  # @return [Slop] a new instance of Slop namespaced to +label+
   def command(label, options={}, &block)
     if @commands[label]
       raise ArgumentError, "command `#{label}` already exists"
