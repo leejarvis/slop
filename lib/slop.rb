@@ -313,6 +313,14 @@ class Slop
     @invalid_options << flag if item[/\A--?/] && @strict
   end
 
+  def raise_if_invalid_options!
+    return if !@strict || @invalid_options.empty?
+    message = "Unknown option"
+    message << 's' if @invalid_options.size > 1
+    message << ' -- ' << @invalid_options.map { |o| "'#{o}'" }.join(', ')
+    raise InvalidOptionError, message
+  end
+
   def enable_multiple_switches(item)
     item[1..-1].split('').each do |switch|
       if option = @options[switch]
@@ -351,13 +359,5 @@ class Slop
 
     options.push args.first.respond_to?(:to_sym) ? args.shift : nil
     options.push args.shift ? true : false # force true/false
-  end
-
-  def raise_if_invalid_options!
-    return if !@strict || @invalid_options.empty?
-    message = "Unknown option"
-    message << 's' if @invalid_options.size > 1
-    message << ' -- ' << @invalid_options.map { |o| "'#{o}'" }.join(', ')
-    raise InvalidOptionError, message
   end
 end
