@@ -67,6 +67,13 @@ class OptionTest < TestCase
     assert_equal "1.0", option_value(%w/--id 1/, :id, true, :as => Float).to_s
   end
 
+  test 'ranges' do
+    assert_equal (1..10), option_value(%w/-r 1..10/, :r, true, :as => Range)
+    assert_equal (1..10), option_value(%w/-r 1-10/, :r, true, :as => Range)
+    assert_equal (1..10), option_value(%w/-r 1,10/, :r, true, :as => Range)
+    assert_equal (1...10), option_value(%w/-r 1...10/, :r, true, :as => Range)
+  end
+
   test 'printing options' do
     slop = Slop.new
     slop.opt :n, :name, 'Your name', true

@@ -91,6 +91,8 @@ class Slop
       case @options[:as].to_s.downcase
       when 'array'
         value.split @delimiter, @limit
+      when 'range'
+        value_to_range value
       when 'string';  value.to_s
       when 'symbol';  value.to_s.to_sym
       when 'integer'; value.to_s.to_i
@@ -140,6 +142,19 @@ class Slop
       "#<Slop::Option short_flag=#{@short_flag.inspect} " +
       "long_flag=#{@long_flag.inspect} " +
       "description=#{@description.inspect}>"
+    end
+
+    private
+
+    def value_to_range(value)
+      case value.to_s
+      when /\A(\d+?)(?:\.\.|-|,)(\d+)\z/
+        Integer($1) .. Integer($2)
+      when /\A(\d+?)...(\d+)\z/
+        Integer($1) ... Integer($2)
+      else
+        value
+      end
     end
   end
 end
