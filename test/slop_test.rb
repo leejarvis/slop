@@ -327,4 +327,12 @@ class SlopTest < TestCase
     assert 'baz', slop.commands[:bar][:bar]
     assert_nil slop.commands['bar']
   end
+
+  test 'commands inheriting options' do
+    slop = Slop.new :strict do
+      command :foo do end
+    end
+
+    assert slop.commands[:foo].instance_variable_get(:@strict)
+  end
 end

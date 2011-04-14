@@ -69,6 +69,7 @@ class Slop
     @invalid_options = []
     @multiple_switches = sloptions[:multiple_switches]
     @on_empty = sloptions[:on_empty]
+    @sloptions = sloptions
 
     if block_given?
       block.arity == 1 ? yield(self) : instance_eval(&block)
@@ -164,6 +165,7 @@ class Slop
       raise ArgumentError, "command `#{label}` already exists"
     end
 
+    options = @sloptions.merge(options)
     slop = Slop.new(options)
     @commands[label] = slop
     slop.instance_eval(&block)
