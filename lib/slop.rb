@@ -211,15 +211,19 @@ class Slop
 
   private
 
-  def self.initialize_and_parse(items, delete, options, &block)
-    if items.is_a?(Hash) && options.empty?
-      options = items
-      items = ARGV
-    end
+  class << self
+    private
 
-    slop = new(options, &block)
-    delete ? slop.parse!(items) : slop.parse(items)
-    slop
+    def initialize_and_parse(items, delete, options, &block)
+      if items.is_a?(Hash) && options.empty?
+        options = items
+        items = ARGV
+      end
+
+      slop = new(options, &block)
+      delete ? slop.parse!(items) : slop.parse(items)
+      slop
+    end
   end
 
   def parse_items(items, delete=false, &block)
