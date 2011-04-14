@@ -150,7 +150,7 @@ class Slop
       case value.to_s
       when /\A(\d+?)(?:\.\.|-|,)(\d+)\z/
         Integer($1) .. Integer($2)
-      when /\A(\d+?)...(\d+)\z/
+      when /\A(\d+?)\.\.\.(\d+)\z/
         Integer($1) ... Integer($2)
       else
         value
