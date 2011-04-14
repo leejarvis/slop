@@ -230,7 +230,7 @@ class Slop
 
     trash = []
 
-    items.each do |item|
+    items.each_with_index do |item, index|
       item = item.to_s
       flag = item.sub(/^--?/, '')
       option = @options[flag]
@@ -260,7 +260,7 @@ class Slop
         option.argument_value = true
 
         if option.expects_argument? || option.accepts_optional_argument?
-          argument ||= items.at(items.index(item) + 1)
+          argument ||= items.at(index + 1)
           check_valid_argument(option, argument)
           trash << argument
 
