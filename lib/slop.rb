@@ -249,7 +249,8 @@ class Slop
           option = @options[$1]
           argument = $2
         when /\A--no-(.+)\z/
-          option.force_argument_value(false) if option = @options[$1]
+          option = @options[$1]
+          option.force_argument_value(false) if option
         end
       end
 
