@@ -112,9 +112,8 @@ class Slop
   end
 
   # Enumerable interface
-  def each
-    return enum_for(:each) unless block_given?
-    @options.each { |option| yield option }
+  def each(&block)
+    @options.each(&block)
   end
 
   # Return the value of an option via the subscript operator.
