@@ -152,6 +152,8 @@ class Slop
         Integer($1) .. Integer($2)
       when /\A(\d+?)\.\.\.(\d+)\z/
         Integer($1) ... Integer($2)
+      when /\A\d+\z/
+        Integer(value)
       else
         value
       end
