@@ -19,7 +19,6 @@ class SlopTest < TestCase
 
   test 'new accepts a hash or array of symbols' do
     slop = Slop.new :strict, :multiple_switches => true
-
     [ :@multiple_switches, :@strict ].each do |var|
       assert slop.instance_variable_get var
     end
@@ -94,10 +93,8 @@ class SlopTest < TestCase
 
   test 'preserving order when yielding non-options' do
     items = []
-
     slop = Slop.new { on(:name, true) { |name| items << name } }
     slop.parse(%w/foo --name bar baz/) { |value| items << value }
-
     assert_equal %w/foo bar baz/, items
   end
 
@@ -128,7 +125,6 @@ class SlopTest < TestCase
     opts = Slop.new do
       on :name, true
     end
-
     assert_equal %w/a/, opts.parse!(%w/--name lee a/)
     assert_equal %w/--name lee a/, opts.parse(%w/--name lee a/)
   end
@@ -246,7 +242,6 @@ class SlopTest < TestCase
     slop = Slop.new
     slop.banner = 'Usage: foo [options]'
     slop.parse
-
     assert slop.to_s =~ /^Usage: foo/
   end
 
@@ -307,7 +302,6 @@ class SlopTest < TestCase
 
   test 'parsing options with options as arguments' do
     slop = Slop.new { on :f, :foo, true }
-
     assert_raises(Slop::MissingArgumentError) { slop.parse %w/-f --bar/ }
   end
 
