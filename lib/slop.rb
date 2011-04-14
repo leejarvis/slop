@@ -44,6 +44,8 @@ class Slop
   # @return [Options]
   attr_reader :options
 
+  attr_reader :commands
+
   attr_writer :banner
   attr_accessor :longest_flag
 
@@ -61,6 +63,7 @@ class Slop
     opts.each { |o| sloptions[o] = true }
 
     @options = Options.new
+    @commands = {}
     @longest_flag = 0
     @strict = sloptions[:strict]
     @invalid_options = []
@@ -156,6 +159,16 @@ class Slop
   alias :opt :option
   alias :on :option
 
+  def command(label, options={}, &block)
+    label = label.to_s
+    raise if @commands[label]
+
+    slop = Slop.new(options)
+    @commands[label] = slop
+    slop.instance_eval(&block)
+    slop
+  end
+
   # Add an object to be called when Slop has no values to parse
   #
   # @param [Object, nil] proc The object (which can be anything
@@ -231,6 +244,8 @@ class Slop
       @on_empty.call self
       return
     end
+
+    return if execute_command(items, delete)
 
     trash = []
 
@@ -339,6 +354,16 @@ class Slop
           raise InvalidOptionError, "Unknown option '-#{switch}'"
         end
       end
+    end
+  end
+
+  def execute_command(items, delete)
+    command = items[0]
+    if @commands.key?(command)
+      items.shift
+      opts = @commands[command]
+      delete ? opts.parse!(items) : opts.parse(items)
+      true
     end
   end
 
