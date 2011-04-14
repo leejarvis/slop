@@ -65,6 +65,7 @@ class Slop
     @strict = sloptions[:strict]
     @invalid_options = []
     @multiple_switches = sloptions[:multiple_switches]
+    @on_empty = sloptions[:on_empty]
 
     if block_given?
       block.arity == 1 ? yield(self) : instance_eval(&block)
@@ -155,6 +156,19 @@ class Slop
   alias :opt :option
   alias :on :option
 
+  # Add an object to be called when Slop has no values to parse
+  #
+  # @param [Object, nil] proc The object (which can be anything
+  #   responding to :call)
+  # @example
+  #   Slop.parse do
+  #     on_empty { puts 'No argument given!' }
+  #   end
+  def on_empty(obj=nil, &block)
+    @on_empty ||= (obj || block)
+  end
+  alias :on_empty= :on_empty
+
   # Returns the parsed list into a option/value hash.
   #
   # @example
@@ -209,6 +223,11 @@ class Slop
   end
 
   def parse_items(items, delete=false, &block)
+    if items.empty? && @on_empty.respond_to?(:call)
+      @on_empty.call self
+      return
+    end
+
     trash = []
 
     items.each do |item|

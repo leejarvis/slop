@@ -44,6 +44,14 @@ class SlopTest < TestCase
     end
   end
 
+  test 'callback when option array is empty' do
+    item1 = item2 = nil
+    Slop.new { on_empty { item1 = 'foo' } }.parse
+
+    assert_equal 'foo', item1
+    assert_nil item2
+  end
+
   test 'multiple switches with the :multiple_switches flag' do
     slop = Slop.new :multiple_switches => true, :strict => true
     %w/a b c/.each { |f| slop.on f }
