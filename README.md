@@ -221,6 +221,18 @@ You can also change both the split delimiter and limit
     # ARGV is `--people lee:injekt:bob`
     opts[:people] #=> ["lee", "injekt:bob"]
 
+Ranges
+------
+
+What would Slop be if it didn't know what ranges were?
+
+    opts = Slop.parse do
+      opt :r, :range, true, :as => Range
+    end
+
+    # ARGV is `--range 1..10` or 1-10, or 1,10 (yes Slop supports them all)
+    opts[:range].to_a #=> [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
 Ugh, Symbols
 ------------
 
