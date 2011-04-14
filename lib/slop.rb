@@ -261,46 +261,46 @@ class Slop
 
         if option.expects_argument? || option.accepts_optional_argument?
           argument ||= items.at(index + 1)
-          check_valid_argument(option, argument)
+          check_valid_argument!(option, argument)
           trash << argument
 
           if argument
-            check_matching_argument(option, argument)
+            check_matching_argument!(option, argument)
             option.argument_value = argument
             option.callback.call option.argument_value if option.callback
           else
             option.argument_value = nil
-            check_optional_argument(option, flag)
+            check_optional_argument!(option, flag)
           end
         elsif option.callback
           option.callback.call nil
         end
       else
-        check_invalid_option(item, flag)
+        check_invalid_option!(item, flag)
         block.call(item) if block_given? && !trash.include?(item)
       end
     end
 
     items.delete_if { |item| trash.include? item } if delete
-    raise_if_invalid_options
+    raise_if_invalid_options!
     items
   end
 
-  def check_valid_argument(option, argument)
+  def check_valid_argument!(option, argument)
     if !option.accepts_optional_argument? && argument =~ /\A--?.+\z/
       raise MissingArgumentError,
         "'#{option.key}' expects an argument, none given"
     end
   end
 
-  def check_matching_argument(option, argument)
+  def check_matching_argument!(option, argument)
     if option.match && !argument.match(option.match)
       raise InvalidArgumentError,
         "'#{argument}' does not match #{option.match.inspect}"
     end
   end
 
-  def check_optional_argument(option, flag)
+  def check_optional_argument!(option, flag)
     if option.accepts_optional_argument?
       option.callback.call nil if option.callback
     else
@@ -309,7 +309,7 @@ class Slop
     end
   end
 
-  def check_invalid_option(item, flag)
+  def check_invalid_option!(item, flag)
     @invalid_options << flag if item[/\A--?/] && @strict
   end
 
@@ -353,7 +353,7 @@ class Slop
     options.push args.shift ? true : false # force true/false
   end
 
-  def raise_if_invalid_options
+  def raise_if_invalid_options!
     return if !@strict || @invalid_options.empty?
     message = "Unknown option"
     message << 's' if @invalid_options.size > 1
