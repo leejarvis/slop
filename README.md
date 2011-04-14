@@ -347,11 +347,11 @@ Here's how commands might look:
       end
     end
 
-Run with `run.rb -v`
-Output:  `version 1`
+* Run with `run.rb -v`
+* Output:  `version 1`
 
-Run with: `run.rb clean -v`
-Output:   `Enabled verbose mode for clean`
+* Run with: `run.rb clean -v`
+* Output:   `Enabled verbose mode for clean`
 
 Woah woah, why you hating on OptionParser?
 ------------------------------------------
