@@ -335,4 +335,12 @@ class SlopTest < TestCase
     end
     assert slop.commands[:foo].instance_variable_get(:@strict)
   end
+
+  test 'inception' do
+    slop = Slop.new do
+      command(:foo) { command(:bar) { command(:baz) { on :f, 'D:' } } }
+    end
+    desc = slop.commands[:foo].commands[:bar].commands[:baz].options[:f].description
+    assert_equal 'D:', desc
+  end
 end
