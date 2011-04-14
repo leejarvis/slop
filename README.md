@@ -327,7 +327,7 @@ check if it is a `command`.
     Slop.parse ['foo', '--bar', 'baz']
 
 Slop will look to see if the `foo` command exists, and if it does, it'll pass
-the options ['--bar', 'baz'] to the instance of Slop that belongs to `foo`.
+the options `['--bar', 'baz']` to the instance of Slop that belongs to `foo`.
 Here's how commands might look:
 
     opts = Slop.new do
@@ -347,8 +347,11 @@ Here's how commands might look:
       end
     end
 
-Now with `run.rb -v` this will print `version 1` and with
-`run.rb clean -v` it will print `Enabled verbose mode for clean`
+Run with `run.rb -v`
+Output:  `version 1`
+
+Run with: `run.rb clean -v`
+Output:   `Enabled verbose mode for clean`
 
 Woah woah, why you hating on OptionParser?
 ------------------------------------------
