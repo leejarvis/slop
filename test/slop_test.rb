@@ -310,4 +310,20 @@ class SlopTest < TestCase
 
     assert_raises(Slop::MissingArgumentError) { slop.parse %w/-f --bar/ }
   end
+
+  test 'commands' do
+    slop = Slop.new do
+      command :foo do on :f, :foo, 'foo option' end
+      command :bar do on :f, :foo; on :b, :bar, true end
+    end
+
+    slop.commands.each_value do |command|
+      assert_kind_of Slop, command
+    end
+
+    assert 'foo option', slop.commands['foo'].options[:foo].description
+
+    slop.parse %w/bar --bar baz/
+    assert 'baz', slop.commands['bar'][:bar]
+  end
 end
