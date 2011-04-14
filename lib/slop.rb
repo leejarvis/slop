@@ -161,7 +161,9 @@ class Slop
 
   def command(label, options={}, &block)
     label = label.to_s
-    raise if @commands[label]
+    if @commands[label]
+      raise ArgumentError, "command `#{label}` already exists"
+    end
 
     slop = Slop.new(options)
     @commands[label] = slop
