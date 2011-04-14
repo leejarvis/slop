@@ -168,7 +168,11 @@ class Slop
     options = @sloptions.merge(options)
     slop = Slop.new(options)
     @commands[label] = slop
-    slop.instance_eval(&block)
+
+    if block_given?
+      block.arity == 1 ? yield(slop) : slop.instance_eval(&block)
+    end
+
     slop
   end
 
