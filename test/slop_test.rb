@@ -321,9 +321,10 @@ class SlopTest < TestCase
       assert_kind_of Slop, command
     end
 
-    assert 'foo option', slop.commands['foo'].options[:foo].description
+    assert 'foo option', slop.commands[:foo].options[:foo].description
 
     slop.parse %w/bar --bar baz/
-    assert 'baz', slop.commands['bar'][:bar]
+    assert 'baz', slop.commands[:bar][:bar]
+    assert_nil slop.commands['bar']
   end
 end

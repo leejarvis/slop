@@ -160,7 +160,6 @@ class Slop
   alias :on :option
 
   def command(label, options={}, &block)
-    label = label.to_s
     if @commands[label]
       raise ArgumentError, "command `#{label}` already exists"
     end
@@ -361,6 +360,7 @@ class Slop
 
   def execute_command(items, delete)
     command = items[0]
+    command = @commands.find { |cmd| cmd == command.to_s }
     if @commands.key?(command)
       items.shift
       opts = @commands[command]
