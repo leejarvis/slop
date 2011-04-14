@@ -332,7 +332,13 @@ class SlopTest < TestCase
     slop = Slop.new :strict do
       command :foo do end
     end
+    assert slop.commands[:foo].instance_variable_get(:@strict)
+  end
 
+  test 'commands setting options' do
+    slop = Slop.new :strict => false do
+      command :foo, :strict => true do end
+    end
     assert slop.commands[:foo].instance_variable_get(:@strict)
   end
 end
