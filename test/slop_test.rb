@@ -322,6 +322,12 @@ class SlopTest < TestCase
     assert_nil slop.commands['bar']
   end
 
+  test 'repeating existing commands' do
+    slop = Slop.new
+    slop.command :foo
+    assert_raises(ArgumentError) { slop.command :foo }
+  end
+
   test 'commands inheriting options' do
     slop = Slop.new :strict do
       command :foo do end
