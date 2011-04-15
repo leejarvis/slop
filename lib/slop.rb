@@ -57,6 +57,9 @@ class Slop
   # @option opts [Boolean] :multiple_switches Allows `-abc` to be processed
   #   as the options 'a', 'b', 'c' and will force their argument values to
   #   true. By default Slop with parse this as 'a' with the argument 'bc'
+  # @option opts [String] :banner The banner text used for the help
+  # @option opts [Proc, #call] :on_empty Any object that respondes to `call`
+  #   which is executed when Slop has no items to parse
   def initialize(*opts, &block)
     sloptions = {}
     sloptions.merge! opts.pop if opts.last.is_a? Hash
@@ -65,9 +68,12 @@ class Slop
 
     @options = Options.new
     @commands = {}
+
     @longest_flag = 0
-    @strict = sloptions[:strict]
     @invalid_options = []
+
+    @banner ||= sloptions[:banner]
+    @strict = sloptions[:strict]
     @multiple_switches = sloptions[:multiple_switches]
     @on_empty = sloptions[:on_empty]
     @sloptions = sloptions
