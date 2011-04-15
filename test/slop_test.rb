@@ -1,5 +1,3 @@
-require File.dirname(__FILE__) + '/helper'
-
 class SlopTest < TestCase
   def clean_options(*args)
     Slop.new.send(:clean_options, args)
