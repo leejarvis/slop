@@ -352,4 +352,13 @@ class SlopTest < TestCase
     desc = slop.commands[:foo].commands[:bar].commands[:baz].options[:f].description
     assert_equal 'D:', desc
   end
+
+  test 'commands with banners' do
+    slop = Slop.new do
+      command(:foo, :banner => 'bar') { }
+      command(:bar) { banner 'bar' }
+    end
+    assert_equal 'bar', slop.commands[:foo].banner
+    assert_equal 'bar', slop.commands[:bar].banner
+  end
 end
