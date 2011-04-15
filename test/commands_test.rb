@@ -20,7 +20,7 @@ class CommandsTest < TestCase
 
   test 'repeating existing commands' do
     slop = Slop.new
-    slop.command :foo
+    assert slop.command :foo
     assert_raises(ArgumentError) { slop.command :foo }
   end
 
