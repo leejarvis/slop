@@ -387,7 +387,7 @@ class Slop
 
   def execute_command(items, delete)
     command = items[0]
-    command = @commands.find { |cmd| cmd == command.to_s }
+    command = @commands.keys.find { |cmd| cmd.to_s == command.to_s }
     if @commands.key?(command)
       items.shift
       opts = @commands[command]

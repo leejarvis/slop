@@ -54,4 +54,19 @@ class CommandsTest < TestCase
     assert_equal 'bar', slop.commands[:foo].banner
     assert_equal 'bar', slop.commands[:bar].banner
   end
+
+  test 'executing on_empty on separate commands' do
+    incmd = inslop = false
+    slop = Slop.new do
+      command(:foo) { on(:bar) {}; on_empty { incmd = true }}
+      on_empty { inslop = true }
+    end
+    slop.parse %w//
+    assert inslop
+    refute incmd
+    inslop = false
+    slop.parse %w/foo/
+    assert incmd
+    refute inslop
+  end
 end
