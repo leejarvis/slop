@@ -13,17 +13,6 @@ class SlopTest < TestCase
     ARGV.replace old_argv
   end
 
-  test 'Slop.split' do
-    assert_equal ['foo', 'bar'], Slop.split("foo bar")
-    assert_equal ['foo bar', 'baz'], Slop.split("'foo bar' baz")
-    assert_equal ['foo bar', 'baz'], Slop.split(' "foo bar" baz ')
-    assert_equal [' foo bar ', 'baz'], Slop.split('" foo bar " baz')
-    assert_equal ['foo,', 'bar'], Slop.split("foo, bar")
-    assert_equal [], Slop.split("")
-    assert_nil Slop.split []
-    assert_nil Slop.split :foo
-  end
-
   test 'includes Enumerable' do
     assert Slop.included_modules.include?(Enumerable)
   end
