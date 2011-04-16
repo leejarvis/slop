@@ -18,6 +18,20 @@ class Slop
   # @return [String] The current version string
   VERSION = '1.4.1'
 
+  # Split a string into easily parsable segments for sending to Slop
+  # @param [String] string The string to be parsed
+  # @example
+  #   Slop.split("foo 'bar baz' stuff") #=> ["foo", "bar baz", "stuff"]
+  # @return [Array]
+  def self.split(string)
+    return unless string && string.respond_to?(:to_str)
+    strings = []
+    string.scan(/(['"]([^'"]+)['"]|\S+)/) do |s|
+      strings << (s[1] || s[0])
+    end
+    strings
+  end
+
   # Parses the items from a CLI format into a friendly object.
   #
   # @param [Array] items Items to parse into options.
