@@ -130,7 +130,7 @@ class Slop
   # @return [Object] Returns the value associated with that option.
   def [](key)
     option = @options[key]
-    option.argument_value if option
+    option ? option.argument_value : @commands[key]
   end
 
   # Specify an option with a short or long version, description and type.
