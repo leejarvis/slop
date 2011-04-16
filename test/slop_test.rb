@@ -1,5 +1,3 @@
-require File.dirname(__FILE__) + '/helper'
-
 class SlopTest < TestCase
   def clean_options(*args)
     Slop.new.send(:clean_options, args)
@@ -19,7 +17,6 @@ class SlopTest < TestCase
 
   test 'new accepts a hash or array of symbols' do
     slop = Slop.new :strict, :multiple_switches => true
-
     [ :@multiple_switches, :@strict ].each do |var|
       assert slop.instance_variable_get var
     end
@@ -94,10 +91,8 @@ class SlopTest < TestCase
 
   test 'preserving order when yielding non-options' do
     items = []
-
     slop = Slop.new { on(:name, true) { |name| items << name } }
     slop.parse(%w/foo --name bar baz/) { |value| items << value }
-
     assert_equal %w/foo bar baz/, items
   end
 
@@ -112,6 +107,9 @@ class SlopTest < TestCase
     assert_equal "", slop.to_s
 
     slop = Slop.new "foo bar"
+    assert_equal "foo bar", slop.banner
+
+    slop = Slop.new :banner => "foo bar"
     assert_equal "foo bar", slop.banner
   end
 
@@ -128,7 +126,6 @@ class SlopTest < TestCase
     opts = Slop.new do
       on :name, true
     end
-
     assert_equal %w/a/, opts.parse!(%w/--name lee a/)
     assert_equal %w/--name lee a/, opts.parse(%w/--name lee a/)
   end
@@ -181,13 +178,21 @@ class SlopTest < TestCase
     assert_equal(['c', nil, nil, false], clean_options(:c, false))
   end
 
-  test '[] returns an options argument value or nil' do
+  test '[] returns an options argument value or a command or nil (in that order)' do
     slop = Slop.new
     slop.opt :n, :name, true
-    slop.parse %w/--name lee/
+    slop.opt :foo
+    slop.command(:foo) { }
+    slop.command(:bar) { }
+    slop.parse %w/--name lee --foo/
 
     assert_equal 'lee', slop[:name]
     assert_equal 'lee', slop[:n]
+
+    assert_equal true, slop[:foo]
+    assert_kind_of Slop, slop[:bar]
+
+    assert_nil slop[:baz]
   end
 
   test 'arguments ending ? test for option existance' do
@@ -246,7 +251,6 @@ class SlopTest < TestCase
     slop = Slop.new
     slop.banner = 'Usage: foo [options]'
     slop.parse
-
     assert slop.to_s =~ /^Usage: foo/
   end
 
@@ -307,7 +311,6 @@ class SlopTest < TestCase
 
   test 'parsing options with options as arguments' do
     slop = Slop.new { on :f, :foo, true }
-
     assert_raises(Slop::MissingArgumentError) { slop.parse %w/-f --bar/ }
   end
 end

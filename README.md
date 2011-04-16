@@ -315,6 +315,44 @@ yields:
         -n, --name      Your name
         -h, --help      Print this help message
 
+Commands
+--------
+
+Slop allows you to nest more instances of Slop inside of `commands`. These
+instances will then be used to parse arguments if they're called upon.
+
+Slop will use the first argument in the list of items passed to `parse` to
+check if it is a `command`.
+
+    Slop.parse ['foo', '--bar', 'baz']
+
+Slop will look to see if the `foo` command exists, and if it does, it'll pass
+the options `['--bar', 'baz']` to the instance of Slop that belongs to `foo`.
+Here's how commands might look:
+
+    opts = Slop.new do
+      command :foo do
+        on :b, :bar, 'something', true
+      end
+
+      command :clean do
+        on :v, :verbose, do
+          puts 'Enabled verbose mode for clean'
+        end
+      end
+
+      # non-command specific options
+      on :v, :version do
+        puts 'version 1'
+      end
+    end
+
+* Run with `run.rb -v`
+* Output:  `version 1`
+
+* Run with: `run.rb clean -v`
+* Output:   `Enabled verbose mode for clean`
+
 Woah woah, why you hating on OptionParser?
 ------------------------------------------
 

@@ -44,6 +44,9 @@ class Slop
   # @return [Options]
   attr_reader :options
 
+  # @return [Hash]
+  attr_reader :commands
+
   attr_writer :banner
   attr_accessor :longest_flag
 
@@ -54,6 +57,9 @@ class Slop
   # @option opts [Boolean] :multiple_switches Allows `-abc` to be processed
   #   as the options 'a', 'b', 'c' and will force their argument values to
   #   true. By default Slop with parse this as 'a' with the argument 'bc'
+  # @option opts [String] :banner The banner text used for the help
+  # @option opts [Proc, #call] :on_empty Any object that respondes to `call`
+  #   which is executed when Slop has no items to parse
   def initialize(*opts, &block)
     sloptions = {}
     sloptions.merge! opts.pop if opts.last.is_a? Hash
@@ -61,11 +67,16 @@ class Slop
     opts.each { |o| sloptions[o] = true }
 
     @options = Options.new
+    @commands = {}
+
     @longest_flag = 0
-    @strict = sloptions[:strict]
     @invalid_options = []
+
+    @banner ||= sloptions[:banner]
+    @strict = sloptions[:strict]
     @multiple_switches = sloptions[:multiple_switches]
     @on_empty = sloptions[:on_empty]
+    @sloptions = sloptions
 
     if block_given?
       block.arity == 1 ? yield(self) : instance_eval(&block)
@@ -119,7 +130,7 @@ class Slop
   # @return [Object] Returns the value associated with that option.
   def [](key)
     option = @options[key]
-    option.argument_value if option
+    option ? option.argument_value : @commands[key]
   end
 
   # Specify an option with a short or long version, description and type.
@@ -154,6 +165,37 @@ class Slop
   end
   alias :opt :option
   alias :on :option
+
+
+  # Namespace options depending on what command is executed
+  #
+  # @param [Symbol, String] label
+  # @param [Hash] options
+  # @example
+  #   opts = Slop.new do
+  #     command :create do
+  #       on :v, :verbose
+  #     end
+  #   end
+  #
+  #   # ARGV is `create -v`
+  #   opts.commands[:create].verbose? #=> true
+  # @return [Slop] a new instance of Slop namespaced to +label+
+  def command(label, options={}, &block)
+    if @commands[label]
+      raise ArgumentError, "command `#{label}` already exists"
+    end
+
+    options = @sloptions.merge(options)
+    slop = Slop.new(options)
+    @commands[label] = slop
+
+    if block_given?
+      block.arity == 1 ? yield(slop) : slop.instance_eval(&block)
+    end
+
+    slop
+  end
 
   # Add an object to be called when Slop has no values to parse
   #
@@ -230,6 +272,8 @@ class Slop
       @on_empty.call self
       return
     end
+
+    return if execute_command(items, delete)
 
     trash = []
 
@@ -338,6 +382,17 @@ class Slop
           raise InvalidOptionError, "Unknown option '-#{switch}'"
         end
       end
+    end
+  end
+
+  def execute_command(items, delete)
+    command = items[0]
+    command = @commands.keys.find { |cmd| cmd.to_s == command.to_s }
+    if @commands.key?(command)
+      items.shift
+      opts = @commands[command]
+      delete ? opts.parse!(items) : opts.parse(items)
+      true
     end
   end
 
