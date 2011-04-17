@@ -47,6 +47,9 @@ class Slop
   # @return [Hash]
   attr_reader :commands
 
+  # @overload banner=(string)
+  #   Set the banner
+  #   @param [String] string The text to set the banner to
   attr_writer :banner
 
   # @return [Integer] The length of the longest flag slop knows of
