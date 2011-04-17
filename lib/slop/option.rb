@@ -23,6 +23,7 @@ class Slop
 
     # @overload argument_value=(value)
     #   Set this options argument value
+    #   @param [Object] value The value you'd like applied to this option
     attr_writer :argument_value
 
     # @param [Slop] slop
