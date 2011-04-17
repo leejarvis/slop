@@ -43,7 +43,9 @@ class SlopTest < TestCase
 
   test 'callback when option array is empty' do
     item1 = item2 = nil
-    Slop.new { on_empty { item1 = 'foo' } }.parse
+    temp_argv([]) do
+      Slop.new { on_empty { item1 = 'foo' } }.parse
+    end
 
     assert_equal 'foo', item1
     assert_nil item2
