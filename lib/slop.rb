@@ -16,7 +16,7 @@ class Slop
   class InvalidOptionError < RuntimeError; end
 
   # @return [String] The current version string
-  VERSION = '1.5.0'
+  VERSION = '1.5.1'
 
   # Parses the items from a CLI format into a friendly object.
   #
