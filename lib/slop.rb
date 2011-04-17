@@ -48,6 +48,8 @@ class Slop
   attr_reader :commands
 
   attr_writer :banner
+
+  # @return [Integer] The length of the longest flag slop knows of
   attr_accessor :longest_flag
 
   # @param [Hash] options
@@ -179,6 +181,7 @@ class Slop
   #
   #   # ARGV is `create -v`
   #   opts.commands[:create].verbose? #=> true
+  # @since 1.5.0
   # @return [Slop] a new instance of Slop namespaced to +label+
   def command(label, options={}, &block)
     if @commands[label]
@@ -204,6 +207,7 @@ class Slop
   #   Slop.parse do
   #     on_empty { puts 'No argument given!' }
   #   end
+  # @since 1.5.0
   def on_empty(obj=nil, &block)
     @on_empty ||= (obj || block)
   end
