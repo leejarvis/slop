@@ -166,7 +166,6 @@ class Slop
   alias :opt :option
   alias :on :option
 
-
   # Namespace options depending on what command is executed
   #
   # @param [Symbol, String] label
