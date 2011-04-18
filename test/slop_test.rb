@@ -247,6 +247,8 @@ class SlopTest < TestCase
     assert_kind_of Slop::Option, slop.options[:foo]
     assert_equal "bar", slop[:foo]
     assert_equal "bar", slop['foo']
+    assert_kind_of Slop::Option, slop.options[0]
+    assert_nil slop.options['0']
   end
 
   test 'printing help' do
