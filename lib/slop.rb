@@ -65,6 +65,8 @@ class Slop
   # @option opts [String] :banner The banner text used for the help
   # @option opts [Proc, #call] :on_empty Any object that respondes to `call`
   #   which is executed when Slop has no items to parse
+  # @option opts [IO, #puts] :io ($stderr) An IO object for writing to when
+  #   :help => true is used
   def initialize(*opts, &block)
     sloptions = {}
     sloptions.merge! opts.pop if opts.last.is_a? Hash
@@ -82,6 +84,7 @@ class Slop
     @multiple_switches = sloptions[:multiple_switches]
     @on_empty = sloptions[:on_empty]
     @sloptions = sloptions
+    io = sloptions[:io] || $stderr
 
     if block_given?
       block.arity == 1 ? yield(self) : instance_eval(&block)
@@ -89,7 +92,7 @@ class Slop
 
     if sloptions[:help]
       on :h, :help, 'Print this help message', :tail => true do
-        puts help
+        io.puts help
         exit
       end
     end

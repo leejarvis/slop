@@ -317,4 +317,16 @@ class SlopTest < TestCase
     slop = Slop.new { on :f, :foo, true }
     assert_raises(Slop::MissingArgumentError) { slop.parse %w/-f --bar/ }
   end
+
+  test 'custom IO object' do
+    require 'stringio'
+    io = StringIO.new
+    slop = Slop.new(:help => true, :io => io)
+    slop.on :f, :foo, 'something fooey'
+    begin
+      slop.parse %w/--help/
+    rescue SystemExit
+    end
+    assert io.string.include? 'something fooey'
+  end
 end
