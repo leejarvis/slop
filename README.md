@@ -21,7 +21,7 @@ Usage
     # parse assumes ARGV, otherwise you can pass it your own Array
     opts = Slop.parse do
       on :v, :verbose, 'Enable verbose mode' 	   # boolean value
-      on :n, :name, 'Your name', true              # compulsory argument
+      on :n, :name, 'Your name', true              # option requires a compulsory argument
       on :s, :sex, 'Your sex', :optional => false  # the same thing
       on :a, :age, 'Your age', :optional => true   # optional argument
     end
