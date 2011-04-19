@@ -110,6 +110,12 @@ class OptionTest < TestCase
     assert slop.to_s.strip =~ /foo$/
   end
 
+  test 'do not print help for options with :help => false' do
+    slop = Slop.new
+    slop.on :f, :foo, :help => false
+    refute slop.help.include?('foo')
+  end
+
   test 'argument matching' do
     slop = Slop.new
     slop.on :f, :foo, true, :match => /^h/

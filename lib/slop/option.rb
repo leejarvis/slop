@@ -21,6 +21,9 @@ class Slop
     #   regexp, otherwise Slop will raise an InvalidArgumentError
     attr_reader :match
 
+    # @return [Boolean] false if this option should not display a help message
+    attr_reader :help
+
     # @overload argument_value=(value)
     #   Set this options argument value
     #   @param [Object] value The value you'd like applied to this option
@@ -40,6 +43,7 @@ class Slop
     # @option options [Integer] :limit (0)
     # @option options [Boolean] :tail (false)
     # @option options [Regexp] :match
+    # @option options [Boolean] :help
     def initialize(slop, short, long, description, argument, options={}, &blk)
       @slop = slop
       @short_flag = short
@@ -52,6 +56,8 @@ class Slop
 
       @tail = options[:tail]
       @match = options[:match]
+      @help = options[:help]
+      @help = true if @help.nil?
 
       @forced = false
       @argument_value = nil
