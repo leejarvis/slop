@@ -21,7 +21,7 @@ class Slop
     #   regexp, otherwise Slop will raise an InvalidArgumentError
     attr_reader :match
 
-    # @return [Boolean] false if this option should not display a help message
+    # @return [Object] true/false, or an optional help string to append
     attr_reader :help
 
     # @overload argument_value=(value)
@@ -43,7 +43,7 @@ class Slop
     # @option options [Integer] :limit (0)
     # @option options [Boolean] :tail (false)
     # @option options [Regexp] :match
-    # @option options [Boolean] :help
+    # @option options [Boolean, String] :help
     def initialize(slop, short, long, description, argument, options={}, &blk)
       @slop = slop
       @short_flag = short
@@ -66,7 +66,12 @@ class Slop
       @limit = options[:limit] || 0
 
       if @long_flag && @long_flag.size > @slop.longest_flag
-        @slop.longest_flag = @long_flag.size
+        if @help.respond_to? :to_str
+          size = @long_flag.size + @help.size
+        else
+          size = @long_flag.size
+        end
+        @slop.longest_flag = size
       end
 
       @callback = blk if block_given?
@@ -133,7 +138,13 @@ class Slop
 
       if @long_flag
         out += "--#{@long_flag}"
-        diff = @slop.longest_flag - @long_flag.size
+        if @help.respond_to? :to_str
+          out += " #{@help}"
+          size = @long_flag.size + @help.size + 1
+        else
+          size = @long_flag.size
+        end
+        diff = @slop.longest_flag - size
         spaces = " " * (diff + 6)
         out += spaces
       else

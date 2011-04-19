@@ -116,6 +116,12 @@ class OptionTest < TestCase
     refute slop.help.include?('foo')
   end
 
+  test 'appends a help string with :help => "string"' do
+    slop = Slop.new
+    slop.on :n, :name, 'Your name', true, :help => '<YOUR NAME HERE>'
+    assert_equal '    -n, --name <YOUR NAME HERE>     Your name', slop.options[:name].to_s
+  end
+
   test 'argument matching' do
     slop = Slop.new
     slop.on :f, :foo, true, :match => /^h/
