@@ -97,9 +97,9 @@ class Slop
         value.split @delimiter, @limit
       when 'range'
         value_to_range value
-      when 'string';  value.to_s
-      when 'symbol';  value.to_s.to_sym
-      when 'integer'; value.to_s.to_i
+      when 'string', 'str';  value.to_s
+      when 'symbol', 'sym';  value.to_s.to_sym
+      when 'integer', 'int'; value.to_s.to_i
       when 'float';   value.to_s.to_f
       else
         value
