@@ -4,13 +4,12 @@ class Slop
     # @param [Boolean] symbols true to cast hash keys to symbols
     # @return [Hash]
     def to_hash(symbols)
-      out = {}
-      each do |option|
+      reduce({}) do |hsh, option|
         key = option.key
         key = key.to_sym if symbols
-        out[key] = option.argument_value
+        hsh[key] = option.argument_value
+        hsh
       end
-      out
     end
 
     # @param [Object] flag The short/long flag representing the option
