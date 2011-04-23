@@ -34,7 +34,7 @@ class SlopTest < TestCase
     slop.opt(:f, :foo, 'foo')
     slop.opt(:b, :bar, 'bar')
 
-    slop.each { |option| assert option }
+    slop.each { |option| assert_kind_of Slop::Option, option }
   end
 
   test 'defaulting to ARGV' do
