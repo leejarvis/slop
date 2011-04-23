@@ -65,17 +65,10 @@ class Slop
       @delimiter = options[:delimiter] || ','
       @limit = options[:limit] || 0
 
-      if @long_flag && @long_flag.size > @slop.longest_flag
-        if @help.respond_to? :to_str
-          size = @long_flag.size + @help.size
-        else
-          size = @long_flag.size
-        end
-        @slop.longest_flag = size
-      end
-
       @callback = blk if block_given?
       @callback ||= options[:callback]
+
+      build_longest_flag
     end
 
     # @return [Boolean] true if this option expects an argument
@@ -174,6 +167,17 @@ class Slop
         Integer(value)
       else
         value
+      end
+    end
+
+    def build_longest_flag
+      if @long_flag && @long_flag.size > @slop.longest_flag
+        if @help.respond_to? :to_str
+          size = @long_flag.size + @help.size
+        else
+          size = @long_flag.size
+        end
+        @slop.longest_flag = size
       end
     end
   end
