@@ -56,14 +56,13 @@ class Slop
 
       @tail = options[:tail]
       @match = options[:match]
+      @delimiter = options[:delimiter] || ','
+      @limit = options[:limit] || 0
       @help = options[:help]
       @help = true if @help.nil?
 
       @forced = false
       @argument_value = nil
-
-      @delimiter = options[:delimiter] || ','
-      @limit = options[:limit] || 0
 
       @callback = blk if block_given?
       @callback ||= options[:callback]
