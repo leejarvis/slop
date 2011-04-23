@@ -329,4 +329,14 @@ class SlopTest < TestCase
     end
     assert io.string.include? 'something fooey'
   end
+
+  test 'exiting when using :help option' do
+    require 'stringio'
+    io = StringIO.new
+    opts = Slop.new(:help => true, :io => io)
+    assert_raises(SystemExit) { opts.parse %w/--help/ }
+
+    opts = Slop.new(:help => true, :io => io, :exit_on_help => false)
+    assert opts.parse %w/--help/
+  end
 end
