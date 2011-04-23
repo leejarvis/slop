@@ -30,7 +30,7 @@ class Slop
     def to_help
       heads = reject {|x| x.tail }
       tails = select {|x| x.tail }
-      all = (heads + tails).reject {|x| !x.help }
+      all = (heads + tails).select {|x| x.help }
       all.map(&:to_s).join("\n")
     end
   end
