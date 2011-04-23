@@ -15,10 +15,10 @@ class Slop
     # @param [Object] flag The short/long flag representing the option
     # @return [Option] the option assoiated with this flag
     def [](flag)
-      item = flag.to_s
       if flag.is_a?(Integer)
         slice flag
       else
+        item = flag.to_s
         find do |option|
           option.short_flag == item || option.long_flag == item
         end
