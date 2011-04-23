@@ -44,13 +44,12 @@ class SlopTest < TestCase
   end
 
   test 'callback when option array is empty' do
-    item1 = item2 = nil
+    item1 = nil
     temp_argv([]) do
       Slop.new { on_empty { item1 = 'foo' } }.parse
     end
 
     assert_equal 'foo', item1
-    assert_nil item2
   end
 
   test 'multiple switches with the :multiple_switches flag' do
