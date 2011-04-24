@@ -29,6 +29,9 @@ class Slop
     #   @param [Object] value The value you'd like applied to this option
     attr_writer :argument_value
 
+    # @return [Integer] The amount of times this option has been invoked
+    attr_accessor :count
+
     # @param [Slop] slop
     # @param [String, #to_s] short
     # @param [String, #to_s] long
@@ -63,6 +66,7 @@ class Slop
 
       @forced = false
       @argument_value = nil
+      @count = 0
 
       @callback = blk if block_given?
       @callback ||= options[:callback]

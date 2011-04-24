@@ -138,4 +138,11 @@ class OptionTest < TestCase
     assert_equal nil, slop[:foo]
     refute_equal "", slop[:foo]
   end
+
+  test 'counting options' do
+    slop = Slop.new { on :v; on :x }
+    slop.parse %w/-v -v -v -x/
+    assert_equal 1, slop.options[:x].count
+    assert_equal 3, slop.options[:v].count
+  end
 end
