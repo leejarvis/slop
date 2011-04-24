@@ -263,6 +263,11 @@ class Slop
   end
   alias :help :to_s
 
+  def inspect
+    "#<Slop config_options=#{@sloptions.inspect}\n  " +
+    options.map(&:inspect).join("\n  ") + "\n>"
+  end
+
   private
 
   class << self
