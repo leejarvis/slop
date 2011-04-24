@@ -233,6 +233,30 @@ What would Slop be if it didn't know what ranges were?
     # ARGV is `--range 1..10` or 1-10, or 1,10 (yes Slop supports them all)
     opts[:range].to_a #=> [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
+Directories
+-----------
+
+Would you like to run a glob on a directory? Sure you can do it like this:
+
+    opts = Slop.parse do
+      on :d, :dir, 'A directory glob string', true do |str|
+        files = Dir.glob(str)
+      end
+    end
+
+Which is great, but it would be nicer if we didn't **need** that event block.
+Luckily, we don't:
+
+    opts = Slop.parse do
+      on :d, :dir, 'A directory glob string', true, :as => Dir
+    end
+
+    # --dir /home/injekt/*.rb
+    opts[:d] #=> ["/home/injekt/foo.rb", "/home/injekt/etc.rb"]
+
+You can also add the `:basename => true` option which will ask Slop to return
+an Array of filenames rather than an Array of paths.
+
 Ugh, Symbols
 ------------
 
