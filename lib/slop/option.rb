@@ -44,6 +44,9 @@ class Slop
     # @option options [Boolean] :tail (false)
     # @option options [Regexp] :match
     # @option options [Boolean, String] :help
+    # @option options [Boolean] :basename (false) If true and coupled with
+    #   `:as => Dir` - Slop will return the basename of files instead of
+    #   full paths
     def initialize(slop, short, long, description, argument, options={}, &blk)
       @slop = slop
       @short_flag = short
@@ -59,6 +62,7 @@ class Slop
       @delimiter = options[:delimiter] || ','
       @limit = options[:limit] || 0
       @help = options[:help]
+      @basename = options[:basename]
       @help = true if @help.nil?
 
       @forced = false
@@ -97,6 +101,10 @@ class Slop
         value.split @delimiter, @limit
       when 'range'
         value_to_range value
+      when 'dir'
+        files = Dir.glob(value)
+        files.map! { |file| File.basename(file) } if @basename
+        files
       when 'string', 'str';  value.to_s
       when 'symbol', 'sym';  value.to_s.to_sym
       when 'integer', 'int'; value.to_s.to_i
