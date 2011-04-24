@@ -81,17 +81,6 @@ class OptionTest < TestCase
     assert_equal 1, option_value(%w/-r 1/, :r, true, :as => Range)
   end
 
-  test 'as => Dir' do
-    files = ['commands_test.rb', 'helper.rb', 'option_test.rb', 'slop_test.rb']
-    fnames = files.dup
-    files.map! { |file| File.expand_path("test/#{file}") }
-    dir = File.expand_path('../', __FILE__)
-    dirstr = "#{dir}/**/*"
-
-    assert_equal files, option_value(['-d', dirstr], :d, true, :as => Dir)
-    assert_equal fnames, option_value(['-d', dirstr], :d, true, :as => Dir, :basename => true)
-  end
-
   test 'printing options' do
     slop = Slop.new
     slop.opt :n, :name, 'Your name', true
