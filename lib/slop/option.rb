@@ -24,6 +24,9 @@ class Slop
     # @return [Object] true/false, or an optional help string to append
     attr_reader :help
 
+    # @return [Boolean] true if this options argument value has been forced
+    attr_reader :forced
+
     # @overload argument_value=(value)
     #   Set this options argument value
     #   @param [Object] value The value you'd like applied to this option
@@ -117,11 +120,6 @@ class Slop
     def force_argument_value(value)
       @argument_value = value
       @forced = true
-    end
-
-    # @return [Boolean] true if this argument value has been forced
-    def forced?
-      @forced
     end
 
     # This option in a nice pretty string, including a short flag, long

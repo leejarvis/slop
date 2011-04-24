@@ -317,7 +317,7 @@ class Slop
       if option
         option.count += 1
         trash << item
-        next if option.forced?
+        next if option.forced
         option.argument_value = true
 
         if option.expects_argument? || option.accepts_optional_argument?
