@@ -127,8 +127,8 @@ Here's what we'll get back
     	:password=>"hello there"
     }
 
-Callbacks
----------
+Events
+------
 
 If you'd like to trigger an event when an option is used, you can pass a
 block to your option. Here's how:
