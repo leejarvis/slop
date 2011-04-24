@@ -109,7 +109,7 @@ class Slop
   #   opts = Slop.parse do
   #     banner "Usage - ruby foo.rb [arguments]"
   #   end
-  # @return [String] Returns current banner.
+  # @return [String] The current banner.
   def banner(text=nil)
     @banner = text if text
     @banner
@@ -134,12 +134,11 @@ class Slop
     @options.each(&block)
   end
 
-  # Return the value of an option via the subscript operator.
-  #
   # @param [Symbol] key Option symbol.
   # @example
   #   opts[:name] #=> "Emily"
-  # @return [Object] Returns the value associated with that option.
+  # @return [Object] Returns the value associated with that option. If an
+  #   option doesn't exist, a command will instead be searched for
   def [](key)
     option = @options[key]
     option ? option.argument_value : @commands[key]
