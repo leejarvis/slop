@@ -244,7 +244,16 @@ class Slop
   # @return [Boolean] Whether the desired option was specified.
   def method_missing(meth, *args, &block)
     super unless meth.to_s =~ /\?\z/
-    !!self[meth.to_s.chomp '?']
+    present? meth.to_s.chomp '?'
+  end
+
+  # Check if an option is specified in the parsed list. Does the same as
+  # Slop#option? but a convenience method for unacceptable method names.
+  #
+  # @param [Object] The object name to check
+  # @return [Boolean] true if this option is present
+  def present?(option_name)
+    !!self[option_name]
   end
 
   # Returns the banner followed by available options listed on the next line.
