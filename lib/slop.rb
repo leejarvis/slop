@@ -137,12 +137,14 @@ class Slop
   # @param [Symbol] key Option symbol.
   # @example
   #   opts[:name] #=> "Emily"
+  #   opts.get(:name) #=> "Emily"
   # @return [Object] Returns the value associated with that option. If an
   #   option doesn't exist, a command will instead be searched for
   def [](key)
     option = @options[key]
     option ? option.argument_value : @commands[key]
   end
+  alias :get :[]
 
   # Specify an option with a short or long version, description and type.
   #
