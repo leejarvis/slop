@@ -255,7 +255,7 @@ class Slop
   # @param [Object] The object name to check
   # @return [Boolean] true if this option is present
   def present?(option_name)
-    !!self[option_name]
+    !!get(option_name)
   end
 
   # Returns the banner followed by available options listed on the next line.
