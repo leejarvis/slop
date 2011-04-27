@@ -1,3 +1,15 @@
+unless Object.const_defined? 'Slop'
+  $:.unshift File.expand_path('../../lib', __FILE__)
+  require 'slop'
+end
+
+require 'minitest/autorun'
+
+begin
+  require 'turn'
+rescue LoadError
+end
+
 class TestCase < MiniTest::Unit::TestCase
   def self.test(name, &block)
     test_name = "test_#{name.gsub(/\s+/, '_')}".to_sym
