@@ -1,4 +1,4 @@
-require File.expand_path('../helper', __FILE__)
+require 'helper'
 
 class SlopTest < TestCase
   def clean_options(*args)
