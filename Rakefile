@@ -1,5 +1,5 @@
 task :test do
-  $LOAD_PATH.unshift './test'
+  $:.unshift './test'
   Dir.glob("test/*_test.rb").each { |test| require "./#{test}" }
 end
 
