@@ -11,7 +11,6 @@ Gem::Specification.new do |s|
   s.email = 'lee@jarvis.co'
   s.homepage = 'http://github.com/injekt/slop'
 
-  s.files         = `git ls-files`.split("\n")
-  s.test_files    = `git ls-files -- test/*`.split("\n")
-  s.require_paths = ["lib"]
+  s.files      = `git ls-files`.split("\n")
+  s.test_files = `git ls-files -- test/*`.split("\n")
 end
