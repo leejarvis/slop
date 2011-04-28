@@ -4,7 +4,6 @@ require 'slop'
 Gem::Specification.new do |s|
   s.name = 'slop'
   s.version = Slop::VERSION
-  s.platform = Gem::Platform::RUBY
   s.summary = 'Option gathering made easy'
   s.description = 'A simple DSL for gathering options and parsing the command line'
   s.author = 'Lee Jarvis'
