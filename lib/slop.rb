@@ -357,7 +357,7 @@ class Slop
       end
     end
 
-    items.reject!.with_index{|o, i| trash.include?(i)} if delete
+    items.reject!.with_index { |o, i| trash.include?(i) } if delete
     raise_if_invalid_options!
     items
   end
