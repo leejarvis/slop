@@ -331,14 +331,14 @@ class Slop
 
       if option
         option.count += 1
-        trash << item
+        trash << index
         next if option.forced
         option.argument_value = true
 
         if option.expects_argument? || option.accepts_optional_argument?
           argument ||= items.at(index + 1)
           check_valid_argument!(option, argument)
-          trash << argument
+          trash << index + 1
 
           if argument
             check_matching_argument!(option, argument)
@@ -353,11 +353,11 @@ class Slop
         end
       else
         check_invalid_option!(item, flag)
-        block.call(item) if block_given? && !trash.include?(item)
+        block.call(item) if block_given? && !trash.include?(index)
       end
     end
 
-    items.delete_if { |item| trash.include? item } if delete
+    items.reject!.with_index{|o, i| trash.include?(i)} if delete
     raise_if_invalid_options!
     items
   end
