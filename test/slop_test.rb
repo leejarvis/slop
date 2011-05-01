@@ -145,6 +145,12 @@ class SlopTest < TestCase
     assert_empty items
   end
 
+  test '#parse! does not remove unparsed items with same value as a parsed item' do
+    items = %w/bar --foo bar/
+    Slop.new { |opt| opt.on :foo, 'foo', true }.parse!(items)
+    assert_equal %w/bar/, items
+  end
+
   test '#parse! removes parsed items prefixed with --no-' do
     items = %w/--no-foo/
     Slop.new { |opt| opt.on :foo }.parse!(items)
