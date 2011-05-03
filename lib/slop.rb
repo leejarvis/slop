@@ -69,6 +69,7 @@ class Slop
   #   :help => true is used
   # @option opts [Boolean] :exit_on_help (true) When false and coupled with
   #   the :help option, Slop will not exit inside of the `help` option
+  # @option opts [Boolean] :ignore_case (false) Ignore options case
   def initialize(*opts, &block)
     sloptions = {}
     sloptions.merge! opts.pop if opts.last.is_a? Hash
@@ -83,6 +84,7 @@ class Slop
 
     @banner = sloptions[:banner]
     @strict = sloptions[:strict]
+    @ignore_case = sloptions[:ignore_case]
     @multiple_switches = sloptions[:multiple_switches]
     @on_empty = sloptions[:on_empty]
     @sloptions = sloptions
@@ -308,7 +310,7 @@ class Slop
     items.each_with_index do |item, index|
       item = item.to_s
       flag = item.sub(/\A--?/, '')
-      option = @options[flag] if item[/\A-/]
+      option = extract_option(item, flag)
 
       unless option
         case item
@@ -412,6 +414,16 @@ class Slop
         end
       end
     end
+  end
+
+  def extract_option(item, flag)
+    if item[/\A-/]
+      option = @options[flag]
+      if !option && @ignore_case
+        option = @options[flag.downcase]
+      end
+    end
+    option
   end
 
   def execute_command(items, delete)

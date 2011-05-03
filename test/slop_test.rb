@@ -359,4 +359,11 @@ class SlopTest < TestCase
     opts = Slop.new(:help => true, :io => io, :exit_on_help => false)
     assert opts.parse %w/--help/
   end
+
+  test 'ignoring case' do
+    opts = Slop.new(:ignore_case => true)
+    opts.on :n, :name, true
+    opts.parse %w/--NAME lee/
+    assert_equal 'lee', opts[:name]
+  end
 end
