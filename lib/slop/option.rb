@@ -123,7 +123,8 @@ class Slop
     end
 
     # This option in a nice pretty string, including a short flag, long
-    #   flag, and description (if they exist).
+    # flag, and description (if they exist).
+    #
     # @see Slop#help
     # @return [String]
     def to_s
