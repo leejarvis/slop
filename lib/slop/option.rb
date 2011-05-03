@@ -92,7 +92,7 @@ class Slop
       @long_flag || @short_flag
     end
 
-    # @return [Object] the argument value after it's been case
+    # @return [Object] the argument value after it's been cast
     #   according to the `:as` option
     def argument_value
       return @argument_value if @forced
