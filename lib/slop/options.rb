@@ -12,7 +12,13 @@ class Slop
       end
     end
 
+    # Fetch an Option object
+    #
     # @param [Object] flag The short/long flag representing the option
+    # @example
+    #   opts = Slop.parse { on :v, "Verbose mode" }
+    #   opts.options[:v] #=> Option
+    #   opts.options[:v].description #=> "Verbose mode"
     # @return [Option] the option assoiated with this flag
     def [](flag)
       if flag.is_a?(Integer)
