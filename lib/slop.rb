@@ -119,14 +119,14 @@ class Slop
 
   # Parse a list of options, leaving the original Array unchanged.
   #
-  # @param items
+  # @param [Array] items A list of items to parse
   def parse(items=ARGV, &block)
     parse_items items, &block
   end
 
   # Parse a list of options, removing parsed options from the original Array.
   #
-  # @param items
+  # @param [Array] items A list of items to parse
   def parse!(items=ARGV, &block)
     parse_items items, true, &block
   end
