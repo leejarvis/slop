@@ -99,6 +99,11 @@ class SlopTest < TestCase
     assert_equal %w/foo bar baz/, items
   end
 
+  test 'only parsing options' do
+    slop = Slop.new { on :n, true }
+    assert slop.parse %w/n/
+  end
+
   test 'setting the banner' do
     slop = Slop.new
     slop.banner = "foo bar"

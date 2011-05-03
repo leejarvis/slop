@@ -308,7 +308,7 @@ class Slop
     items.each_with_index do |item, index|
       item = item.to_s
       flag = item.sub(/^--?/, '')
-      option = @options[flag]
+      option = @options[flag] if item[/\A-/]
 
       unless option
         case item
