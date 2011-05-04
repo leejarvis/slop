@@ -255,6 +255,7 @@ class Slop
   # Slop#option? but a convenience method for unacceptable method names.
   #
   # @param [Object] The object name to check
+  # @since 1.5.0
   # @return [Boolean] true if this option is present
   def present?(option_name)
     !!get(option_name)
