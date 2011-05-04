@@ -25,5 +25,5 @@
 * Add `Slop#get` as alias to `Slop#[]`
 * Add `Slop#present?` as alias for `Slop#<option>?`
 * Add `Option#count` for monitoring how many times an option is called
-• Add `:io` for using a custom IO object when using the `:help` option
+* Add `:io` for using a custom IO object when using the `:help` option
 * Numerous performance tweaks
