@@ -7,7 +7,7 @@
 ------------------
 
 * Bugfix: `parse!` should not remove items with the same value as items used
-  in option arguments. Fixes #22
+  in option arguments. Fixes #22 (Utkarsh Kukreti)
 
 1.5.3 (2011-04-22)
 ------------------
