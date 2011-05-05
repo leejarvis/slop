@@ -146,6 +146,7 @@ class SlopTest < TestCase
     end
     assert_equal %w/a/, opts.parse!(%w/--name lee a/)
     assert_equal %w/--name lee a/, opts.parse(%w/--name lee a/)
+    assert_equal ['foo', :bar, 1], opts.parse(['foo', :bar, 1])
   end
 
   test '#parse does not remove parsed items' do
