@@ -302,7 +302,7 @@ class Slop
   def parse_items(items, delete=false, &block)
     if items.empty? && @on_empty.respond_to?(:call)
       @on_empty.call self
-      return
+      return items
     end
 
     return if execute_command(items, delete)

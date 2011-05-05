@@ -54,6 +54,7 @@ class SlopTest < TestCase
     end
 
     assert_equal 'foo', item1
+    assert_equal [], Slop.new { on_empty {} }.parse
   end
 
   test 'multiple switches with the :multiple_switches flag' do
