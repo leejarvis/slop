@@ -154,7 +154,8 @@ class Slop
   # @option args [Symbol, String] :short_flag Short option name.
   # @option args [Symbol, String] :long_flag Full option name.
   # @option args [String] :description Option description for use in Slop#help
-  # @option args [Boolean] :argument Specifies whether a required option or not.
+  # @option args [Boolean] :argument Specifies whether this option requires
+  #   an argument
   # @option args [Hash] :options Optional option configurations.
   # @example
   #   opts = Slop.parse do
