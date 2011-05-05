@@ -364,7 +364,7 @@ class Slop
 
   def check_optional_argument!(option, flag)
     if option.accepts_optional_argument?
-      option.callback.call nil if option.callback
+      option.callback.call if option.callback
     else
       raise MissingArgumentError,
         "'#{flag}' expects an argument, none given"
