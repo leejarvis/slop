@@ -1,3 +1,8 @@
+1.6.0 (TBA)
+-----------
+
+* Add `:ignore_case` to Slop options for case insensitive option matching
+
 1.5.5 (2011-05-03)
 ------------------
 
