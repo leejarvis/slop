@@ -29,6 +29,11 @@ class SlopTest < TestCase
     assert_kind_of Slop, slop
   end
 
+  test 'parsing calls to_s on all of the items in the array' do
+    opts = Slop.parse([:'--foo']) { on :foo }
+    assert opts.foo?
+  end
+
   test '#opt returns an Slop::Option' do
     assert_kind_of Slop::Option, Slop.new.option(:n)
   end
