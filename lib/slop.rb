@@ -312,26 +312,8 @@ class Slop
     items.each_with_index do |item, index|
       item = item.to_s
       flag = item.sub(/\A--?/, '')
-      option = extract_option(item, flag)
-
-      unless option
-        case item
-        when /\A-[^-]/
-          if @multiple_switches
-            enable_multiple_switches(item)
-            next
-          else
-            flag, argument = flag.split('', 2)
-            option = @options[flag]
-          end
-        when /\A--([^=]+)=(.+)\z/
-          option = @options[$1]
-          argument = $2
-        when /\A--no-(.+)\z/
-          option = @options[$1]
-          option.force_argument_value(false) if option
-        end
-      end
+      option, argument = extract_option(item, flag)
+      next if @multiple_switches
 
       if option
         option.count += 1
@@ -425,7 +407,24 @@ class Slop
         option = @options[flag.downcase]
       end
     end
-    option
+    unless option
+      case item
+      when /\A-[^-]/
+        if @multiple_switches
+          enable_multiple_switches(item)
+        else
+          flag, argument = flag.split('', 2)
+          option = @options[flag]
+        end
+      when /\A--([^=]+)=(.+)\z/
+        option = @options[$1]
+        argument = $2
+      when /\A--no-(.+)\z/
+        option = @options[$1]
+        option.force_argument_value(false) if option
+      end
+    end
+    [option, argument]
   end
 
   def execute_command(items, delete)
