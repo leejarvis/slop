@@ -29,6 +29,10 @@ class SlopTest < TestCase
     assert_kind_of Slop, slop
   end
 
+  test '#opt returns an Slop::Option' do
+    assert_kind_of Slop::Option, Slop.new.option(:n)
+  end
+
   test 'enumerating options' do
     slop = Slop.new
     slop.opt(:f, :foo, 'foo')
