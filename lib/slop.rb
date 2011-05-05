@@ -335,7 +335,7 @@ class Slop
             check_optional_argument!(option, flag)
           end
         elsif option.callback
-          option.callback.call nil
+          option.callback.call
         end
       else
         check_invalid_option!(item, flag)
