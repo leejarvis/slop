@@ -62,6 +62,12 @@ class SlopTest < TestCase
     assert_equal [], Slop.new { on_empty {} }.parse
   end
 
+  test 'callback when arguments contain no options' do
+    item = nil
+    Slop.new { on_optionless { item = 'foo' } }.parse %w/a b c/
+    assert_equal 'foo', item
+  end
+
   test 'multiple switches with the :multiple_switches flag' do
     slop = Slop.new :multiple_switches => true, :strict => true
     %w/a b c/.each { |f| slop.on f }

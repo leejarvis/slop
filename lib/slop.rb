@@ -70,6 +70,8 @@ class Slop
   # @option opts [Boolean] :exit_on_help (true) When false and coupled with
   #   the :help option, Slop will not exit inside of the `help` option
   # @option opts [Boolean] :ignore_case (false) Ignore options case
+  # @option opts [Proc, #call] :on_noopts Trigger an event when no options
+  #   are found
   def initialize(*opts, &block)
     sloptions = {}
     sloptions.merge! opts.pop if opts.last.is_a? Hash
@@ -87,6 +89,7 @@ class Slop
     @ignore_case = sloptions[:ignore_case]
     @multiple_switches = sloptions[:multiple_switches]
     @on_empty = sloptions[:on_empty]
+    @on_noopts = sloptions[:on_noopts] || sloptions[:on_optionless]
     @sloptions = sloptions
 
     io = sloptions[:io] || $stderr
@@ -227,6 +230,20 @@ class Slop
   end
   alias :on_empty= :on_empty
 
+  # Trigger an event when the arguments contain no options
+  #
+  # @param [Object, nil] obj The object to be triggered (anything
+  #   responding to `call`)
+  # @example
+  #   Slop.parse do
+  #     on_noopts { puts 'No options here!' }
+  #   end
+  # @since 1.6.0
+  def on_noopts(obj=nil, &block)
+    @on_noopts ||= (obj || block)
+  end
+  alias :on_optionless :on_noopts
+
   # Returns the parsed list into a option/value hash.
   #
   # @example
@@ -302,6 +319,9 @@ class Slop
   def parse_items(items, delete=false, &block)
     if items.empty? && @on_empty.respond_to?(:call)
       @on_empty.call self
+      return items
+    elsif !items.any? {|i| i.to_s[/\A--?/] } && @on_noopts.respond_to?(:call)
+      @on_noopts.call self
       return items
     end
 
