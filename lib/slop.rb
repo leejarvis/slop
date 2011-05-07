@@ -216,10 +216,10 @@ class Slop
     slop
   end
 
-  # Add an object to be called when Slop has no values to parse
+  # Trigger an event when Slop has no values to parse
   #
   # @param [Object, nil] proc The object (which can be anything
-  #   responding to :call)
+  #   responding to `call`)
   # @example
   #   Slop.parse do
   #     on_empty { puts 'No argument given!' }
