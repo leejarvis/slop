@@ -10,9 +10,6 @@ class Slop
     # @return [String] This options description
     attr_reader :description
 
-    # @return [Proc, #call] The object to execute when this option is used
-    attr_reader :callback
-
     # @return [Boolean] True if the option should be grouped at the
     #   tail of the help list
     attr_reader :tail
@@ -120,6 +117,10 @@ class Slop
     def force_argument_value(value)
       @argument_value = value
       @forced = true
+    end
+
+    def call(obj=nil)
+      @callback.call(obj) if @callback.respond_to?(:call)
     end
 
     # This option in a nice pretty string, including a short flag, long

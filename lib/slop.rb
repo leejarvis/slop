@@ -349,13 +349,13 @@ class Slop
           if argument
             check_matching_argument!(option, argument)
             option.argument_value = argument
-            option.callback.call option.argument_value if option.callback
+            option.call option.argument_value
           else
             option.argument_value = nil
             check_optional_argument!(option, flag)
           end
-        elsif option.callback
-          option.callback.call
+        else
+          option.call
         end
       else
         check_invalid_option!(item, flag)
@@ -384,7 +384,7 @@ class Slop
 
   def check_optional_argument!(option, flag)
     if option.accepts_optional_argument?
-      option.callback.call if option.callback
+      option.call
     else
       raise MissingArgumentError,
         "'#{flag}' expects an argument, none given"
