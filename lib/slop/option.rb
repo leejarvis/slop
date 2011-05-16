@@ -32,8 +32,8 @@ class Slop
     # @return [Integer] The amount of times this option has been invoked
     attr_accessor :count
 
-    # @return [Object] Do not set this option if this value is an already
-    #   used option
+    # @return [Object] Omit execution of this Options block or callback if
+    #   this object exists in the Array of items passed to `Slop.new`
     attr_accessor :unless
 
     # @param [Slop] slop
