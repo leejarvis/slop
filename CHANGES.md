@@ -4,6 +4,8 @@
 * Add `:ignore_case` to Slop options for case insensitive option matching
 * Add `:on_noopts` for triggering an event when the arguments contain no
   options
+* Add `:unless` to Slop::Option for omitting execution of the Options block
+  when this object exists in the Array of items passed to Slop.new
 
 1.5.5 (2011-05-03)
 ------------------
