@@ -129,6 +129,9 @@ class Slop
       @callback.call(obj) if @callback.respond_to?(:call)
     end
 
+    # @param [Array] items The original array of objects passed to `Slop.new`
+    # @return [Boolean] true if this options `:unless` argument exists
+    #   inside *items*
     def omit_exec?(items)
       string = @unless.to_s.sub(/\A--?/, '')
       items.any? { |i| i.to_s.sub(/\A--?/, '') == string }
