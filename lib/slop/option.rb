@@ -125,6 +125,9 @@ class Slop
       @forced = true
     end
 
+    # Execute the block or callback object associated with this Option
+    #
+    # @param [Object] The object to be sent to `:call`
     def call(obj=nil)
       @callback.call(obj) if @callback.respond_to?(:call)
     end
