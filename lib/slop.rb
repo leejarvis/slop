@@ -349,13 +349,13 @@ class Slop
           if argument
             check_matching_argument!(option, argument)
             option.argument_value = argument
-            option.call option.argument_value
+            option.call option.argument_value unless option.omit_exec?(items)
           else
             option.argument_value = nil
             check_optional_argument!(option, flag)
           end
         else
-          option.call
+          option.call unless option.omit_exec?(items)
         end
       else
         check_invalid_option!(item, flag)

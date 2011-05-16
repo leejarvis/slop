@@ -32,6 +32,10 @@ class Slop
     # @return [Integer] The amount of times this option has been invoked
     attr_accessor :count
 
+    # @return [Object] Do not set this option if this value is an already
+    #   used option
+    attr_accessor :unless
+
     # @param [Slop] slop
     # @param [String, #to_s] short
     # @param [String, #to_s] long
@@ -46,6 +50,7 @@ class Slop
     # @option options [Integer] :limit (0)
     # @option options [Boolean] :tail (false)
     # @option options [Regexp] :match
+    # @option options [String, #to_s] :unless
     # @option options [Boolean, String] :help
     def initialize(slop, short, long, description, argument, options={}, &blk)
       @slop = slop
@@ -61,6 +66,7 @@ class Slop
       @match = options[:match]
       @delimiter = options[:delimiter] || ','
       @limit = options[:limit] || 0
+      @unless = options[:unless]
       @help = options[:help]
       @help = true if @help.nil?
 
@@ -121,6 +127,11 @@ class Slop
 
     def call(obj=nil)
       @callback.call(obj) if @callback.respond_to?(:call)
+    end
+
+    def omit_exec?(items)
+      string = @unless.to_s.sub(/\A--?/, '')
+      items.any? { |i| i.to_s.sub(/\A--?/, '') == string }
     end
 
     # This option in a nice pretty string, including a short flag, long

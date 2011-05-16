@@ -149,4 +149,16 @@ class OptionTest < TestCase
     assert_equal 1, slop.options[:x].count
     assert_equal 3, slop.options[:v].count
   end
+
+  test 'omit block execution with :unless option' do
+    item = nil
+    opts = Slop.new do
+      on :foo
+      on :bar, true, :unless => 'foo' do; item = "foo"; end
+    end
+    opts.parse %w/--foo --bar 1/
+
+    assert_equal "1", opts[:bar]
+    refute item
+  end
 end
