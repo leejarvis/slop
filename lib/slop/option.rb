@@ -179,11 +179,11 @@ class Slop
 
     def value_to_range(value)
       case value.to_s
-      when /\A(\d+?)(?:\.\.|-|,)(\d+)\z/
+      when /\A(-?\d+?)(?:\.\.|-|,)(-?\d+)\z/
         $1.to_i .. $2.to_i
-      when /\A(\d+?)\.\.\.(\d+)\z/
+      when /\A(-?\d+?)\.\.\.(-?\d+)\z/
         $1.to_i ... $2.to_i
-      when /\A\d+\z/
+      when /\A-?\d+\z/
         value.to_i
       else
         value

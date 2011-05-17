@@ -8,6 +8,7 @@
   when this object exists in the Array of items passed to Slop.new
 * Bugfix: Do not parse negative integers as options. A valid option must
   start with an alphabet character
+* Bugfix: Allow a Range to accept a negative Integer at either end
 
 1.5.5 (2011-05-03)
 ------------------

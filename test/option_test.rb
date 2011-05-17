@@ -82,6 +82,8 @@ class OptionTest < TestCase
     assert_equal (1..10), option_value(%w/-r 1-10/, :r, true, :as => Range)
     assert_equal (1..10), option_value(%w/-r 1,10/, :r, true, :as => Range)
     assert_equal (1...10), option_value(%w/-r 1...10/, :r, true, :as => Range)
+    assert_equal (-1..10), option_value(%w/-r -1..10/, :r, true, :as => Range)
+    assert_equal (1..-10), option_value(%w/-r 1..-10/, :r, true, :as => Range)
 
     # default back to the string unless a regex is successful
     # return value.to_i if the value is /\A\d+\z/
