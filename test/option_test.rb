@@ -70,6 +70,11 @@ class OptionTest < TestCase
     assert_equal :foo, option_value(%w/--name foo/, :name, true, :as => :sym)
     assert_equal 30, option_value(%w/--age 30/, :age, true, :as => Integer)
     assert_equal "1.0", option_value(%w/--id 1/, :id, true, :as => Float).to_s
+
+    assert_equal -1, option_value(%w/-i -1/, :i, true, :as => Integer)
+    assert_equal -1, option_value(%w/-i -1.1/, :i, true, :as => Integer)
+    assert_equal "-1.1", option_value(%w/-i -1.1/, :i, true, :as => Float).to_s
+    assert_equal "foo", option_value(%w/--foo1 foo/, :foo1, true)
   end
 
   test 'ranges' do

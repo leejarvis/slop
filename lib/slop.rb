@@ -369,7 +369,7 @@ class Slop
   end
 
   def check_valid_argument!(option, argument)
-    if !option.accepts_optional_argument? && argument =~ /\A--?.+\z/
+    if !option.accepts_optional_argument? && flag?(argument)
       raise MissingArgumentError,
         "'#{option.key}' expects an argument, none given"
     end
@@ -471,7 +471,7 @@ class Slop
 
     long = args.first
     boolean = [true, false].include?(long)
-    if !boolean && long.to_s =~ /\A(?:--?)?[a-zA-Z0-9_-]+\z/
+    if !boolean && long.to_s =~ /\A(?:--?)?[a-zA-Z][a-zA-Z0-9_-]+\z/
       options.push args.shift.to_s.sub(/\A--?/, '')
     else
       options.push nil
@@ -479,5 +479,9 @@ class Slop
 
     options.push args.first.respond_to?(:to_sym) ? args.shift : nil
     options.push args.shift ? true : false # force true/false
+  end
+
+  def flag?(str)
+    str =~ /\A--?[a-zA-Z][a-zA-Z0-9_-]+\z/
   end
 end

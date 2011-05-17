@@ -6,6 +6,8 @@
   options
 * Add `:unless` to Slop::Option for omitting execution of the Options block
   when this object exists in the Array of items passed to Slop.new
+* Bugfix: Do not parse negative integers as options. A valid option must
+  start with an alphabet character
 
 1.5.5 (2011-05-03)
 ------------------
