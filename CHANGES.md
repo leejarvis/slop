@@ -1,5 +1,5 @@
-1.6.0 (TBA)
------------
+1.6.0 (2011-05-18)
+------------------
 
 * Add `:ignore_case` to Slop options for case insensitive option matching
 * Add `:on_noopts` for triggering an event when the arguments contain no
