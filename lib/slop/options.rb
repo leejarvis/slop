@@ -23,7 +23,7 @@ class Slop
     # @return [Option] the option assoiated with this flag
     def [](flag)
       if flag.is_a?(Integer)
-        slice flag
+        super
       else
         item = flag.to_s
         find do |option|
