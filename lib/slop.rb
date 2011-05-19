@@ -262,7 +262,7 @@ class Slop
   #   opts.name?    #=> false
   # @return [Boolean] Whether the desired option was specified.
   def method_missing(meth, *args, &block)
-    super unless meth.to_s =~ /\?\z/
+    super unless meth.to_s[-1, 1] == '?'
     present? meth.to_s.chomp '?'
   end
 
