@@ -27,8 +27,6 @@ class Slop
   #    on :n, :name,    'Your name'
   #    on :a, :age,     'Your age'
   #  end
-  #  -------
-  #  program.rb --verbose -n 'Emily' -a 25
   # @return [Slop] Returns an instance of Slop.
   def self.parse(items=ARGV, options={}, &block)
     initialize_and_parse(items, false, options, &block)
