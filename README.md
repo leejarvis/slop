@@ -246,15 +246,6 @@ Fine, don't use them
 
 All of these options will do the same thing
 
-Ugh, Blocks
------------
-
-C'mon man, this is Ruby, GTFO if you don't like blocks.
-
-    opts = Slop.new
-    opts.on :v, :verbose
-    opts.parse
-
 Smart
 -----
 
