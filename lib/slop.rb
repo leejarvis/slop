@@ -92,17 +92,14 @@ class Slop
     @on_noopts = sloptions[:on_noopts] || sloptions[:on_optionless]
     @sloptions = sloptions
 
-    io = sloptions[:io] || $stderr
-    eoh = true if sloptions[:exit_on_help].nil?
-
     if block_given?
       block.arity == 1 ? yield(self) : instance_eval(&block)
     end
 
     if sloptions[:help]
       on :h, :help, 'Print this help message', :tail => true do
-        io.puts help
-        exit if eoh
+        (sloptions[:io] || $stderr).puts help
+        exit unless sloptions[:exit_on_help] == false
       end
     end
   end
