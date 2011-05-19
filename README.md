@@ -275,11 +275,6 @@ when an invalid option is found (`false` by default):
     Slop.new(:strict => true).parse(%w/--foo/)
     # => Slop::InvalidOptionError: Unknown option -- 'foo'
 
-and it handles multiple invalid options with a sprinkling of pluralization:
-
-    Slop.new(:strict => true).parse(%w/--foo --bar -z/)
-    # => Slop::InvalidOptionError: Unknown options -- 'foo', 'bar', 'z'
-
 Significantly, however, Slop will still parse the valid options:
 
     slop = Slop.new(:strict => true, :help => true) do
