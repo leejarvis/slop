@@ -4,6 +4,7 @@ unless Object.const_defined? 'Slop'
 end
 
 require 'minitest/autorun'
+require 'stringio'
 
 begin
   require 'turn'

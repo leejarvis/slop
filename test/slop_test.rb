@@ -356,7 +356,6 @@ class SlopTest < TestCase
   end
 
   test 'custom IO object' do
-    require 'stringio'
     io = StringIO.new
     slop = Slop.new(:help => true, :io => io)
     slop.on :f, :foo, 'something fooey'
@@ -368,7 +367,6 @@ class SlopTest < TestCase
   end
 
   test 'exiting when using :help option' do
-    require 'stringio'
     io = StringIO.new
     opts = Slop.new(:help => true, :io => io)
     assert_raises(SystemExit) { opts.parse %w/--help/ }
