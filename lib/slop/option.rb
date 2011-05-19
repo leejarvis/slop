@@ -51,7 +51,7 @@ class Slop
     # @option options [Boolean] :tail (false)
     # @option options [Regexp] :match
     # @option options [String, #to_s] :unless
-    # @option options [Boolean, String] :help
+    # @option options [Boolean, String] :help (true)
     def initialize(slop, short, long, description, argument, options={}, &blk)
       @slop = slop
       @short_flag = short
