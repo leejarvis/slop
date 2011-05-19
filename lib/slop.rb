@@ -255,12 +255,14 @@ class Slop
   alias :to_h :to_hash
 
   # Allows you to check whether an option was specified in the parsed list.
+  # Merely sugar for `present?`
   #
   # @example
   #   #== ruby foo.rb -v
   #   opts.verbose? #=> true
   #   opts.name?    #=> false
-  # @return [Boolean] Whether the desired option was specified.
+  # @see Slop#present?
+  # @return [Boolean] true if this option is present, false otherwise
   def method_missing(meth, *args, &block)
     super unless meth.to_s[-1, 1] == '?'
     present? meth.to_s.chomp '?'
