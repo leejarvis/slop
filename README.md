@@ -353,7 +353,7 @@ gather a bunch of key/value options, usually you would do something like this:
       end
 
       opt.on('-a', '--age AGE', 'Your age') do |age|
-    	things[:age] = age
+        things[:age] = age
       end
 
       # you get the point
