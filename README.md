@@ -347,7 +347,7 @@ gather a bunch of key/value options, usually you would do something like this:
 
     things = {}
 
-    opt = OptionParser.new do |opt|
+    OptionParser.new do |opt|
       opt.on('-n', '--name NAME', 'Your name') do |name|
         things[:name] = name
       end
