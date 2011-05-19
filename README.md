@@ -362,7 +362,7 @@ gather a bunch of key/value options, usually you would do something like this:
     opt.parse
     things #=> { :name => 'lee', :age => 105 }
 
-Which is all great and stuff, but it can lead to some repetition, the same
+Which is all great and stuff, but it can lead to some repetition. The same
 thing in Slop:
 
     require 'slop'
