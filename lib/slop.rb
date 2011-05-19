@@ -481,6 +481,6 @@ class Slop
   end
 
   def flag?(str)
-    str =~ /\A--?[a-zA-Z][a-zA-Z0-9_-]+\z/
+    str =~ /\A--?[a-zA-Z][a-zA-Z0-9_-]*\z/
   end
 end
