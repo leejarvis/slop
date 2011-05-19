@@ -229,7 +229,7 @@ class Slop
 
   # Trigger an event when the arguments contain no options
   #
-  # @param [Object, nil] obj The object to be triggered (anything
+  # @param [Object] obj The object to be triggered (anything
   #   responding to `call`)
   # @example
   #   Slop.parse do
