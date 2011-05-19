@@ -2,6 +2,7 @@ class Slop
   class Options < Array
 
     # @param [Boolean] symbols true to cast hash keys to symbols
+    # @see Slop#to_hash
     # @return [Hash]
     def to_hash(symbols)
       reduce({}) do |hsh, option|
