@@ -215,7 +215,7 @@ class Slop
 
   # Trigger an event when Slop has no values to parse
   #
-  # @param [Object] proc The object (which can be anything
+  # @param [Object] obj The object (which can be anything
   #   responding to `call`)
   # @example
   #   Slop.parse do
