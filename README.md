@@ -170,7 +170,7 @@ Slop also allows you to prefix `--no-` to an option which will force the option
 to return a false value.
 
     opts = Slop.parse do
-    	on :v, :verbose, :default => true
+      on :v, :verbose, :default => true
     end
 
     # with no command line options
