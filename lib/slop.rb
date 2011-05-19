@@ -29,14 +29,14 @@ class Slop
   #  end
   # @return [Slop] Returns an instance of Slop.
   def self.parse(items=ARGV, options={}, &block)
-    initialize_and_parse(items, false, options, &block)
+    initialize_and_parse items, false, options, &block
   end
 
   # Identical to {Slop.parse}, but removes parsed options from the original Array.
   #
   # @return [Slop] Returns an instance of Slop.
   def self.parse!(items=ARGV, options={}, &block)
-    initialize_and_parse(items, true, options, &block)
+    initialize_and_parse items, true, options, &block
   end
 
   # @return [Options]
@@ -73,7 +73,7 @@ class Slop
   def initialize(*opts, &block)
     sloptions = {}
     sloptions.merge! opts.pop if opts.last.is_a? Hash
-    sloptions[:banner] = opts.shift if opts[0].respond_to?(:to_str)
+    sloptions[:banner] = opts.shift if opts[0].respond_to? :to_str
     opts.each { |o| sloptions[o] = true }
 
     @options = Options.new
@@ -131,7 +131,7 @@ class Slop
 
   # Enumerable interface
   def each(&block)
-    @options.each(&block)
+    @options.each &block
   end
 
   # @param [Symbol] key Option symbol.
@@ -168,11 +168,11 @@ class Slop
   #   end
   # @return [Slop::Option]
   def option(*args, &block)
-    options = args.pop if args.last.is_a?(Hash)
+    options = args.pop if args.last.is_a? Hash
     options ||= {}
 
-    short, long, desc, arg = clean_options(args)
-    option = Option.new(self, short, long, desc, arg, options, &block)
+    short, long, desc, arg = clean_options args
+    option = Option.new self, short, long, desc, arg, options, &block
     @options << option
 
     option
@@ -200,8 +200,7 @@ class Slop
       raise ArgumentError, "command `#{label}` already exists"
     end
 
-    options = @sloptions.merge(options)
-    slop = Slop.new(options)
+    slop = Slop.new @sloptions.merge options
     @commands[label] = slop
 
     if block_given?
@@ -248,7 +247,7 @@ class Slop
   #   opts.to_hash(true) #=> { :name => 'Emily' }
   # @return [Hash]
   def to_hash(symbols=false)
-    @options.to_hash(symbols)
+    @options.to_hash symbols
   end
   alias :to_h :to_hash
 
