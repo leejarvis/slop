@@ -353,7 +353,7 @@ gather a bunch of key/value options, usually you would do something like this:
       end
 
       opt.on('-a', '--age AGE', 'Your age') do |age|
-        things[:age] = age
+        things[:age] = age.to_i
       end
 
       # you get the point
@@ -369,7 +369,7 @@ thing in Slop:
 
     opts = Slop.parse do
       on :n, :name, 'Your name', true
-      on :a, :age, 'Your age', true
+      on :a, :age, 'Your age', true, :as => :int
     end
 
     opts.to_hash(true) #=> { :name => 'lee', :age => 105 }
