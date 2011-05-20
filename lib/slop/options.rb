@@ -22,7 +22,7 @@ class Slop
     #   opts.options[:v].description #=> "Verbose mode"
     # @return [Option] the option assoiated with this flag
     def [](flag)
-      if flag.is_a?(Integer)
+      if flag.is_a? Integer
         super
       else
         item = flag.to_s
