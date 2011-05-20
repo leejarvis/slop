@@ -442,7 +442,7 @@ class Slop
 
   def execute_command(items, delete)
     command = @commands.keys.find { |cmd| cmd.to_s == items[0].to_s }
-    if @commands.key?(command)
+    if @commands.key? command
       items.shift
       opts = @commands[command]
       delete ? opts.parse!(items) : opts.parse(items)
@@ -453,7 +453,7 @@ class Slop
   def clean_options(args)
     options = []
 
-    short = args.first.to_s.sub(/\A--?/, '')
+    short = args.first.to_s.sub /\A--?/, ''
     if short.size == 1
       options.push short
       args.shift
@@ -462,9 +462,9 @@ class Slop
     end
 
     long = args.first
-    boolean = [true, false].include?(long)
+    boolean = [true, false].include? long
     if !boolean && long.to_s =~ /\A(?:--?)?[a-zA-Z][a-zA-Z0-9_-]+\z/
-      options.push args.shift.to_s.sub(/\A--?/, '')
+      options.push args.shift.to_s.sub /\A--?/, ''
     else
       options.push nil
     end
