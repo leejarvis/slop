@@ -31,9 +31,8 @@ class Slop
       if flag.is_a? Integer
         super
       else
-        item = flag.to_s
         find do |option|
-          option.short_flag == item || option.long_flag == item
+          [option.short_flag, option.long_flag].include? flag.to_s
         end
       end
     end
