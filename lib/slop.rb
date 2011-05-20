@@ -354,7 +354,7 @@ class Slop
           option.call unless option.omit_exec?(items)
         end
       else
-        check_invalid_option!(item, flag)
+        @invalid_options << flag if item[/\A--?/] && @strict
         block.call(item) if block_given? && !trash.include?(index)
       end
     end
@@ -385,10 +385,6 @@ class Slop
       raise MissingArgumentError,
         "'#{flag}' expects an argument, none given"
     end
-  end
-
-  def check_invalid_option!(item, flag)
-    @invalid_options << flag if item[/\A--?/] && @strict
   end
 
   def raise_if_invalid_options!
