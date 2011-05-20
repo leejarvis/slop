@@ -400,7 +400,7 @@ class Slop
   end
 
   def enable_multiple_switches(item)
-    item[1..-1].split('').each do |switch|
+    item[1..-1].each_char do |switch|
       if option = @options[switch]
         if option.expects_argument?
           raise MissingArgumentError,
