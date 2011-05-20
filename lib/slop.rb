@@ -319,9 +319,9 @@ class Slop
     elsif !items.any? {|i| i.to_s[/\A--?/] } && @on_noopts.respond_to?(:call)
       @on_noopts.call self
       return items
+    elsif execute_command(items, delete)
+      return items
     end
-
-    return if execute_command(items, delete)
 
     trash = []
 
