@@ -409,9 +409,7 @@ class Slop
           option.argument_value = true
         end
       else
-        if @strict
-          raise InvalidOptionError, "Unknown option '-#{switch}'"
-        end
+        raise InvalidOptionError, "Unknown option '-#{switch}'" if @strict
       end
     end
   end
