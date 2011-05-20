@@ -417,9 +417,7 @@ class Slop
   def extract_option(item, flag)
     if item[0, 1] == '-'
       option = @options[flag]
-      if !option && @ignore_case
-        option = @options[flag.downcase]
-      end
+      option = @options[flag.downcase] if !option && @ignore_case
     end
     unless option
       case item
