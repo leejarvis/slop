@@ -32,7 +32,8 @@ class Slop
     initialize_and_parse items, false, options, &block
   end
 
-  # Identical to {Slop.parse}, but removes parsed options from the original Array.
+  # Identical to {Slop.parse}, but removes parsed options from the
+  # original Array.
   #
   # @return [Slop] Returns an instance of Slop.
   def self.parse!(items=ARGV, options={}, &block)
