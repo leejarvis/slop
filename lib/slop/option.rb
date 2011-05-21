@@ -158,11 +158,9 @@ class Slop
           size = @long_flag.size
         end
         diff = @slop.longest_flag - size
-        spaces = " " * (diff + 6)
-        out += spaces
+        out += " " * (diff + 6)
       else
-        spaces = " " * (@slop.longest_flag + 8)
-        out += spaces
+        out += " " * (@slop.longest_flag + 8)
       end
 
       "#{out}#{@description}"
