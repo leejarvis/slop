@@ -95,14 +95,12 @@ class Slop
       return if value.nil?
 
       case @options[:as].to_s.downcase
-      when 'array'
-        value.split @delimiter, @limit
-      when 'range'
-        value_to_range value
+      when 'array'; value.split @delimiter, @limit
+      when 'range'; value_to_range value
+      when 'float'; value.to_s.to_f
       when 'string', 'str';  value.to_s
       when 'symbol', 'sym';  value.to_s.to_sym
       when 'integer', 'int'; value.to_s.to_i
-      when 'float';   value.to_s.to_f
       else
         value
       end
