@@ -53,10 +53,8 @@ class Slop
       @short_flag = short
       @long_flag = long
       @description = description
+      @argument = argument
       @options = options
-
-      @expects_argument = argument
-      @expects_argument = true if options[:optional] == false
 
       @tail = options[:tail]
       @match = options[:match]
@@ -77,7 +75,7 @@ class Slop
 
     # @return [Boolean] true if this option expects an argument
     def expects_argument?
-      @expects_argument || @options[:argument]
+      @argument || @options[:argument] || @options[:optional] == false
     end
 
     # @return [Boolean] true if this option accepts an optional argument
