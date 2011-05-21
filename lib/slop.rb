@@ -167,8 +167,7 @@ class Slop
   #   end
   # @return [Slop::Option]
   def option(*args, &block)
-    options = args.pop if args.last.is_a? Hash
-    options ||= {}
+    options = args.last.is_a?(Hash) ? args.pop : {}
 
     short, long, desc, arg = clean_options args
     option = Option.new self, short, long, desc, arg, options, &block
