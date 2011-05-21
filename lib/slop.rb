@@ -71,8 +71,7 @@ class Slop
   # @option opts [Proc, #call] :on_noopts Trigger an event when no options
   #   are found
   def initialize(*opts, &block)
-    sloptions = {}
-    sloptions.merge! opts.pop if opts.last.is_a? Hash
+    sloptions = opts.last.is_a?(Hash) ? opts.pop : {}
     sloptions[:banner] = opts.shift if opts[0].respond_to? :to_str
     opts.each { |o| sloptions[o] = true }
 
