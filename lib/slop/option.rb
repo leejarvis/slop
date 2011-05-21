@@ -48,7 +48,7 @@ class Slop
     # @option options [Regexp] :match
     # @option options [String, #to_s] :unless
     # @option options [Boolean, String] :help (true)
-    def initialize(slop, short, long, description, argument, options={}, &blk)
+    def initialize(slop, short, long, description, argument, options, &blk)
       @slop = slop
       @short_flag = short
       @long_flag = long
