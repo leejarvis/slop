@@ -364,15 +364,13 @@ class Slop
 
   def check_valid_argument!(option, argument)
     if !option.accepts_optional_argument? && flag?(argument)
-      raise MissingArgumentError,
-        "'#{option.key}' expects an argument, none given"
+      raise MissingArgumentError, "'#{option.key}' expects an argument, none given"
     end
   end
 
   def check_matching_argument!(option, argument)
     if option.match && !argument.match(option.match)
-      raise InvalidArgumentError,
-        "'#{argument}' does not match #{option.match.inspect}"
+      raise InvalidArgumentError, "'#{argument}' does not match #{option.match.inspect}"
     end
   end
 
@@ -380,8 +378,7 @@ class Slop
     if option.accepts_optional_argument?
       option.call
     else
-      raise MissingArgumentError,
-        "'#{flag}' expects an argument, none given"
+      raise MissingArgumentError, "'#{flag}' expects an argument, none given"
     end
   end
 
@@ -397,8 +394,7 @@ class Slop
     item[1..-1].each_char do |switch|
       if option = @options[switch]
         if option.expects_argument?
-          raise MissingArgumentError,
-            "'-#{switch}' expects an argument, used in multiple_switch context"
+          raise MissingArgumentError, "'-#{switch}' expects an argument, used in multiple_switch context"
         else
           option.argument_value = true
         end
