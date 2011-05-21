@@ -60,8 +60,7 @@ class Slop
       @match = options[:match]
       @delimiter = options.fetch(:delimiter, ',')
       @limit = options.fetch(:limit, 0)
-      @help = options[:help]
-      @help = true if @help.nil?
+      @help = options.fetch(:help, true)
 
       @forced = false
       @argument_value = nil
