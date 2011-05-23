@@ -20,10 +20,10 @@ Usage
 -----
     # parse assumes ARGV, otherwise you can pass it your own Array
     opts = Slop.parse do
-      on :v, :verbose, 'Enable verbose mode' 	   # boolean value
-      on :n, :name, 'Your name', true              # option requires a compulsory argument
-      on :s, :sex, 'Your sex', :optional => false  # the same thing
-      on :a, :age, 'Your age', :optional => true   # optional argument
+      on :v, :verbose, 'Enable verbose mode' 	         # boolean value
+      on :n, :name, 'Your name', true                  # option requires a compulsory argument
+      on :s, :sex, 'Your sex', :optional => false      # the same thing
+      on '-a', '--age', 'Your age', :optional => true  # optional argument
     end
 
     # if ARGV is `-v --name 'lee jarvis' -s male`
@@ -36,25 +36,6 @@ Usage
 You can also return your options as a Hash
 
     opts.to_hash #=> {'name' => 'Lee Jarvis', 'verbose' => true, 'age' => nil, 'sex' => 'male'}
-
-    # Symbols
-    opts.to_hash(true) #=> {:name => 'Lee Jarvis', :verbose => true, :age => nil, :sex => 'male'}
-
-If you don't like the method `on` (because it sounds like the option **expects**
-a block), you can use the `opt` or `option` alternatives.
-
-    on :v, :verbose
-    opt :v, :verbose
-    option :v, :verbose
-
-If you don't like that Slop evaluates your block, or you want slop access
-inside of your block without referring to `self`, you can pass a block argument to
-`parse`.
-
-    Slop.parse do |opts|
-      opts.on :v, :verbose
-      opts.on :n, :name, 'Your name', true
-    end
 
 If you want some pretty output for the user to see your options, you can just
 send the Slop object to `puts` or use the `help` method.
@@ -233,19 +214,6 @@ What would Slop be if it didn't know what ranges were?
     # ARGV is `--range 1..10` or 1-10, or 1,10 (yes Slop supports them all)
     opts[:range].to_a #=> [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-Ugh, Symbols
-------------
-
-Fine, don't use them
-
-    Slop.parse do
-      on :n, :name, 'Your name'
-      on 'n', 'name', 'Your name'
-      on '-n', '--name', 'Your name'
-    end
-
-All of these options will do the same thing
-
 Smart
 -----
 
@@ -274,32 +242,6 @@ when an invalid option is found (`false` by default):
 
     Slop.new(:strict => true).parse(%w/--foo/)
     # => Slop::InvalidOptionError: Unknown option -- 'foo'
-
-Significantly, however, Slop will still parse the valid options:
-
-    slop = Slop.new(:strict => true, :help => true) do
-      banner "Usage:\n\t./awesome_sauce [options]\n\nOptions:"
-      on :n, :name, 'Your name'
-    end
-
-    begin
-      slop.parse(%w/--foo --bar -z/)
-    rescue Slop::InvalidOptionError => e
-      puts "\n#{e.message}\n\n"
-      puts slop
-      exit
-    end
-
-yields:
-
-    Unknown options -- 'foo', 'bar', 'z'
-
-    Usage:
-    	./awesome_sauce [options]
-
-    Options:
-        -n, --name      Your name
-        -h, --help      Print this help message
 
 Commands
 --------
