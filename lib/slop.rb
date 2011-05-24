@@ -131,7 +131,7 @@ class Slop
 
   # Enumerable interface
   def each(&block)
-    @options.each &block
+    @options.each(&block)
   end
 
   # @param [Symbol] key Option symbol.
@@ -442,7 +442,7 @@ class Slop
   def clean_options(args)
     options = []
 
-    short = args.first.to_s.sub /\A--?/, ''
+    short = args.first.to_s.sub(/\A--?/, '')
     if short.size == 1
       options.push short
       args.shift
@@ -453,7 +453,7 @@ class Slop
     long = args.first
     boolean = [true, false].include? long
     if !boolean && long.to_s =~ /\A(?:--?)?[a-zA-Z][a-zA-Z0-9_-]+\z/
-      options.push args.shift.to_s.sub /\A--?/, ''
+      options.push args.shift.to_s.sub(/\A--?/, '')
     else
       options.push nil
     end
