@@ -1,3 +1,9 @@
+1.6.1 (2011-06-01)
+------------------
+
+* Fix tests and using a temporary Array for ARGV, fixes RubyGems Test issues
+* General cleanup of code
+
 1.6.0 (2011-05-18)
 ------------------
 
