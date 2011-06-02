@@ -1,9 +1,6 @@
-$:.push File.expand_path('../lib', __FILE__)
-require 'slop'
-
 Gem::Specification.new do |s|
   s.name = 'slop'
-  s.version = Slop::VERSION
+  s.version = '1.6.1'
   s.summary = 'Option gathering made easy'
   s.description = 'A simple DSL for gathering options and parsing the command line'
   s.author = 'Lee Jarvis'
