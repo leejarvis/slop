@@ -86,6 +86,13 @@ class Slop
       @long_flag || @short_flag
     end
 
+    # Set this options argument value.
+    #
+    # If this options argument type is expected to be an Array, this
+    # method will split the value and concat elements into the original
+    # argument value
+    #
+    # @param [Object] value The value to set this options argument to
     def argument_value=(value)
       if @type == 'array'
         @argument_value ||= []
