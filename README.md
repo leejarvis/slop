@@ -196,18 +196,6 @@ You can of course also parse lists into options. Here's how:
 Slop supports a few styles of list parsing. Check out
 [this wiki page](https://github.com/injekt/slop/wiki/Lists) for more info.
 
-Ranges
-------
-
-What would Slop be if it didn't know what ranges were?
-
-    opts = Slop.parse do
-      opt :r, :range, true, :as => Range
-    end
-
-    # ARGV is `--range 1..10` or 1-10, or 1,10 (yes Slop supports them all)
-    opts[:range].to_a #=> [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-
 Smart
 -----
 
@@ -277,6 +265,7 @@ Features
 
 Check out the following wiki pages for more features:
 
+* [Ranges](https://github.com/injekt/slop/wiki/Ranges)
 * [Auto Create](https://github.com/injekt/slop/wiki/Auto-Create)
 
 Woah woah, why you hating on OptionParser?
