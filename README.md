@@ -193,14 +193,8 @@ You can of course also parse lists into options. Here's how:
     # ARGV is `--people lee,john,bill`
     opts[:people] #=> ['lee', 'john', 'bill']
 
-You can also change both the split delimiter and limit
-
-    opts = Slop.parse do
-      opt :people, true, :as => Array, :delimiter => ':', :limit => 2)
-    end
-
-    # ARGV is `--people lee:injekt:bob`
-    opts[:people] #=> ["lee", "injekt:bob"]
+Slop supports a few styles of list parsing. Check out
+[this wiki page](https://github.com/injekt/slop/wiki/Lists) for more info.
 
 Ranges
 ------
