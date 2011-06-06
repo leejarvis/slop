@@ -18,9 +18,6 @@ class Slop
     #   regexp, otherwise Slop will raise an InvalidArgumentError
     attr_reader :match
 
-    # @return [Object] The type of object this argument should be cast to
-    attr_reader :type
-
     # @return [Object] true/false, or an optional help string to append
     attr_reader :help
 
@@ -59,7 +56,7 @@ class Slop
       @delimiter = options.fetch(:delimiter, ',')
       @limit = options.fetch(:limit, 0)
       @help = options.fetch(:help, true)
-      @type = options[:as].to_s.downcase
+      @argument_type = options[:as].to_s.downcase
 
       @forced = false
       @argument_value = nil
@@ -94,7 +91,7 @@ class Slop
     #
     # @param [Object] value The value to set this options argument to
     def argument_value=(value)
-      if @type == 'array'
+      if @argument_type == 'array'
         @argument_value ||= []
         if value.respond_to?(:to_str)
           @argument_value.concat value.split(@delimiter, @limit)
@@ -111,7 +108,7 @@ class Slop
       value = @argument_value || @options[:default]
       return if value.nil?
 
-      case @type
+      case @argument_type
       when 'array'; @argument_value
       when 'range'; value_to_range value
       when 'float'; value.to_s.to_f
