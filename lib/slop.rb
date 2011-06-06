@@ -446,10 +446,8 @@ class Slop
   def autocreate(flag, index, items)
     return if present? flag
     short, long = clean_options Array(flag)
-    next_item = items[index + 1]
-    arg = (next_item && next_item !~ /\A--?/)
-    option = Option.new self, short, long, nil, arg, {}
-    @options << option
+    arg = (items[index + 1] && items[index + 1] !~ /\A--?/)
+    @options << Option.new(self, short, long, nil, arg, {})
   end
 
   def clean_options(args)
