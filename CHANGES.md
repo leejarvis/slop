@@ -1,3 +1,8 @@
+TBA
+---
+
+* Feature: Autocreate (auto create options at parse time, making assumptions)
+
 1.6.1 (2011-06-01)
 ------------------
 

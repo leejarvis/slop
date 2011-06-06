@@ -384,4 +384,17 @@ class SlopTest < TestCase
     opts.parse %w/--NAME lee/
     assert_equal 'lee', opts[:name]
   end
+
+  test 'autocreating options' do
+    opts = Slop.new(:autocreate => true) do |o|
+      o.on '--lorem', true
+    end
+    opts.parse %w/--hello --foo bar -a --lorem ipsum/
+
+    assert opts.hello?
+    assert opts.foo?
+    assert_equal 'bar', opts[:foo]
+    assert opts.a?
+    assert_equal 'ipsum', opts[:lorem]
+  end
 end

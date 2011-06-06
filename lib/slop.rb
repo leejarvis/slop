@@ -71,6 +71,8 @@ class Slop
   # @option opts [Boolean] :ignore_case (false) Ignore options case
   # @option opts [Proc, #call] :on_noopts Trigger an event when no options
   #   are found
+  # @option opts [Boolean] :autocreate (false) Autocreate options depending
+  #   on the Array passed to {parse}
   def initialize(*opts, &block)
     sloptions = opts.last.is_a?(Hash) ? opts.pop : {}
     sloptions[:banner] = opts.shift if opts[0].respond_to? :to_str
@@ -86,6 +88,7 @@ class Slop
     @strict = sloptions[:strict]
     @ignore_case = sloptions[:ignore_case]
     @multiple_switches = sloptions[:multiple_switches]
+    @autocreate = sloptions[:autocreate]
     @on_empty = sloptions[:on_empty]
     @on_noopts = sloptions[:on_noopts] || sloptions[:on_optionless]
     @sloptions = sloptions
@@ -327,6 +330,7 @@ class Slop
     items.each_with_index do |item, index|
       item = item.to_s
       flag = item.sub(/\A--?/, '')
+      autocreate(flag, index, items) if @autocreate
       option, argument = extract_option(item, flag)
       next if @multiple_switches
 
@@ -437,6 +441,15 @@ class Slop
       delete ? opts.parse!(items) : opts.parse(items)
       true
     end
+  end
+
+  def autocreate(flag, index, items)
+    return if present? flag
+    short, long = clean_options Array(flag)
+    next_item = items[index + 1]
+    arg = (next_item && next_item !~ /\A--?/)
+    option = Option.new self, short, long, nil, arg, {}
+    @options << option
   end
 
   def clean_options(args)
