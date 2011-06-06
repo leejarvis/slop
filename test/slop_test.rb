@@ -397,4 +397,14 @@ class SlopTest < TestCase
     assert opts.a?
     assert_equal 'ipsum', opts[:lorem]
   end
+
+  test 'multiple elements for array option' do
+    opts = Slop.new do
+      on :a, true, :as => Array
+    end
+    opts.parse %w/-a foo -a bar baz -a etc/
+
+    assert_equal %w/foo bar etc/, opts[:a]
+  end
+
 end

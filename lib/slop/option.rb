@@ -18,16 +18,14 @@ class Slop
     #   regexp, otherwise Slop will raise an InvalidArgumentError
     attr_reader :match
 
+    # @return [Object] The type of object this argument should be cast to
+    attr_reader :type
+
     # @return [Object] true/false, or an optional help string to append
     attr_reader :help
 
     # @return [Boolean] true if this options argument value has been forced
-    attr_reader :forced
-
-    # @overload argument_value=(value)
-    #   Set this options argument value
-    #   @param [Object] value The value you'd like applied to this option
-    attr_writer :argument_value
+    attr_accessor :forced
 
     # @return [Integer] The amount of times this option has been invoked
     attr_accessor :count
@@ -61,6 +59,7 @@ class Slop
       @delimiter = options.fetch(:delimiter, ',')
       @limit = options.fetch(:limit, 0)
       @help = options.fetch(:help, true)
+      @type = options[:as]
 
       @forced = false
       @argument_value = nil
@@ -87,6 +86,17 @@ class Slop
       @long_flag || @short_flag
     end
 
+    def argument_value=(value)
+      if @type.to_s.downcase == 'array'
+        @argument_value ||= []
+        if value.respond_to?(:to_str)
+          @argument_value.concat value.split(@delimiter, @limit)
+        end
+      else
+        @argument_value = value
+      end
+    end
+
     # @return [Object] the argument value after it's been cast
     #   according to the `:as` option
     def argument_value
@@ -95,7 +105,7 @@ class Slop
       return if value.nil?
 
       case @options[:as].to_s.downcase
-      when 'array'; value.split @delimiter, @limit
+      when 'array'; @argument_value
       when 'range'; value_to_range value
       when 'float'; value.to_s.to_f
       when 'string', 'str';  value.to_s
