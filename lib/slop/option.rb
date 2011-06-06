@@ -59,7 +59,7 @@ class Slop
       @delimiter = options.fetch(:delimiter, ',')
       @limit = options.fetch(:limit, 0)
       @help = options.fetch(:help, true)
-      @type = options[:as]
+      @type = options[:as].to_s.downcase
 
       @forced = false
       @argument_value = nil
@@ -87,7 +87,7 @@ class Slop
     end
 
     def argument_value=(value)
-      if @type.to_s.downcase == 'array'
+      if @type == 'array'
         @argument_value ||= []
         if value.respond_to?(:to_str)
           @argument_value.concat value.split(@delimiter, @limit)
@@ -104,7 +104,7 @@ class Slop
       value = @argument_value || @options[:default]
       return if value.nil?
 
-      case @options[:as].to_s.downcase
+      case @type
       when 'array'; @argument_value
       when 'range'; value_to_range value
       when 'float'; value.to_s.to_f
