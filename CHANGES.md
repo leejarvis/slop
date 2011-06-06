@@ -1,5 +1,5 @@
-TBA
----
+1.7.0 (2011-06-06)
+------------------
 
 * Feature: Autocreate (auto create options at parse time, making assumptions)
 * Feature: When parsing options as arrays, push multiple arguments into a
