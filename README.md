@@ -272,6 +272,13 @@ Here's how commands might look:
 * `run.rb -v       #=> version 1`
 * `run.rb clean -v #=> Enabled verbose mode for clean`
 
+Features
+--------
+
+Check out the following wiki pages for more features:
+
+* [Auto Create](https://github.com/injekt/slop/wiki/Auto-Create)
+
 Woah woah, why you hating on OptionParser?
 ------------------------------------------
 
