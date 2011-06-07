@@ -345,11 +345,17 @@ class Slop
 
         if option.expects_argument? || option.accepts_optional_argument?
           argument ||= items.at(index + 1)
-          check_valid_argument!(option, argument)
           trash << index + 1
 
+          if !option.accepts_optional_argument? && flag?(argument)
+            raise MissingArgumentError, "'#{option.key}' expects an argument, none given"
+          end
+
           if argument
-            check_matching_argument!(option, argument)
+            if option.match && !argument.match(option.match)
+              raise InvalidArgumentError, "'#{argument}' does not match #{option.match.inspect}"
+            end
+
             option.argument_value = argument
             option.call option.argument_value unless option.omit_exec?(items)
           else
@@ -368,18 +374,6 @@ class Slop
     items.reject!.with_index { |o, i| trash.include?(i) } if delete
     raise_if_invalid_options!
     items
-  end
-
-  def check_valid_argument!(option, argument)
-    if !option.accepts_optional_argument? && flag?(argument)
-      raise MissingArgumentError, "'#{option.key}' expects an argument, none given"
-    end
-  end
-
-  def check_matching_argument!(option, argument)
-    if option.match && !argument.match(option.match)
-      raise InvalidArgumentError, "'#{argument}' does not match #{option.match.inspect}"
-    end
   end
 
   def check_optional_argument!(option, flag)
