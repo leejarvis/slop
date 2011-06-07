@@ -33,6 +33,10 @@ Usage
     opts.age?     #=> false
     opts[:age]    #=> nil
 
+For more information about creating options, see the
+[Creating Options](https://github.com/injekt/slop/wiki/Creating-Options)
+wiki page.
+
 You can also return your options as a Hash
 
     opts.to_hash #=> {'name' => 'Lee Jarvis', 'verbose' => true, 'age' => nil, 'sex' => 'male'}
