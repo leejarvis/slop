@@ -54,27 +54,43 @@ class Slop
   # @return [Integer] The length of the longest flag slop knows of
   attr_accessor :longest_flag
 
-  # @param [Hash] options
-  # @option opts [Boolean] :help Automatically add the `help` option
-  # @option opts [Boolean] :strict Strict mode raises when a non listed
-  #   option is found, false by default
-  # @option opts [Boolean] :multiple_switches Allows `-abc` to be processed
-  #   as the options 'a', 'b', 'c' and will force their argument values to
-  #   true. By default Slop with parse this as 'a' with the argument 'bc'
-  # @option opts [String] :banner The banner text used for the help
-  # @option opts [Proc, #call] :on_empty Any object that respondes to `call`
-  #   which is executed when Slop has no items to parse
-  # @option opts [IO, #puts] :io ($stderr) An IO object for writing to when
-  #   :help => true is used
-  # @option opts [Boolean] :exit_on_help (true) When false and coupled with
-  #   the :help option, Slop will not exit inside of the `help` option
-  # @option opts [Boolean] :ignore_case (false) Ignore options case
-  # @option opts [Proc, #call] :on_noopts Trigger an event when no options
-  #   are found
-  # @option opts [Boolean] :autocreate (false) Autocreate options depending
-  #   on the Array passed to {parse}
-  # @option opts [Boolean] :arguments (false) Set to true to enable all
-  #   specified options to accept arguments by default
+  # @option opts [Boolean] :help
+  #   * Automatically add the `help` option
+  #
+  # @option opts [Boolean] :strict
+  #   * Raises when a non listed option is found, false by default
+  #
+  # @option opts [Boolean] :multiple_switches
+  #   * Allows `-abc` to be processed as the options 'a', 'b', 'c' and will
+  #     force their argument values to true. By default Slop with parse this
+  #     as 'a' with the argument 'bc'
+  #
+  # @option opts [String] :banner
+  #   * The banner text used for the help
+  #
+  # @option opts [Proc, #call] :on_empty
+  #   * Any object that respondes to `call` which is executed when Slop has
+  #     no items to parse
+  #
+  # @option opts [IO, #puts] :io ($stderr)
+  #   * An IO object for writing to when :help => true is used
+  #
+  # @option opts [Boolean] :exit_on_help (true)
+  #   * When false and coupled with the :help option, Slop will not exit
+  #     inside of the `help` option
+  #
+  # @option opts [Boolean] :ignore_case (false)
+  #   * Ignore options case
+  #
+  # @option opts [Proc, #call] :on_noopts
+  #   * Trigger an event when no options are found
+  #
+  # @option opts [Boolean] :autocreate (false)
+  #   * Autocreate options depending on the Array passed to {#parse}
+  #
+  # @option opts [Boolean] :arguments (false)
+  #   * Set to true to enable all specified options to accept arguments
+  #     by default
   def initialize(*opts, &block)
     sloptions = opts.last.is_a?(Hash) ? opts.pop : {}
     sloptions[:banner] = opts.shift if opts[0].respond_to? :to_str
