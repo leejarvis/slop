@@ -200,26 +200,6 @@ You can of course also parse lists into options. Here's how:
 Slop supports a few styles of list parsing. Check out
 [this wiki page](https://github.com/injekt/slop/wiki/Lists) for more info.
 
-Smart
------
-
-Slop is pretty smart when it comes to building your options, for example if you
-want your option to have a flag attribute, but no `--option` attribute, you
-can do this:
-
-    on :n, "Your name"
-
-and Slop will detect a description in place of an option, so you don't have to
-do this:
-
-    on :n, nil, "Your name", true
-
-You can also try other variations:
-
-    on :name, "Your name"
-    on :n, :name
-    on :name, true
-
 Strict Mode
 -----------
 
