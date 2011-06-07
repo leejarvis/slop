@@ -442,7 +442,6 @@ class Slop
       items.shift
       opts = @commands[command]
       delete ? opts.parse!(items) : opts.parse(items)
-      true
     end
   end
 
