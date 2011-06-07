@@ -407,4 +407,11 @@ class SlopTest < TestCase
     assert_equal %w/foo bar etc/, opts[:a]
   end
 
+  test ':arguments => true' do
+    opts = Slop.new(:arguments) { on :foo }
+    opts.parse %w/--foo bar/
+
+    assert_equal 'bar', opts[:foo]
+  end
+
 end

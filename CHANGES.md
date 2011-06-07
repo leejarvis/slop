@@ -1,3 +1,8 @@
+TBA
+---
+
+* Feature: `:arguments` setting to enable argument passing for all options
+
 1.7.0 (2011-06-06)
 ------------------
 

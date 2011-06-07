@@ -73,6 +73,8 @@ class Slop
   #   are found
   # @option opts [Boolean] :autocreate (false) Autocreate options depending
   #   on the Array passed to {parse}
+  # @option opts [Boolean] :arguments (false) Set to true to enable all
+  #   specified options to accept arguments by default
   def initialize(*opts, &block)
     sloptions = opts.last.is_a?(Hash) ? opts.pop : {}
     sloptions[:banner] = opts.shift if opts[0].respond_to? :to_str
@@ -89,6 +91,7 @@ class Slop
     @ignore_case = sloptions[:ignore_case]
     @multiple_switches = sloptions[:multiple_switches]
     @autocreate = sloptions[:autocreate]
+    @arguments = sloptions[:arguments]
     @on_empty = sloptions[:on_empty]
     @on_noopts = sloptions[:on_noopts] || sloptions[:on_optionless]
     @sloptions = sloptions
@@ -470,7 +473,12 @@ class Slop
     end
 
     options.push args.first.respond_to?(:to_sym) ? args.shift : nil
-    options.push args.shift ? true : false # force true/false
+
+    if @arguments
+      options.push true
+    else
+      options.push args.shift ? true : false # force true/false
+    end
   end
 
   def flag?(str)
