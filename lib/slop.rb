@@ -473,12 +473,7 @@ class Slop
     end
 
     options.push args.first.respond_to?(:to_sym) ? args.shift : nil
-
-    if @arguments
-      options.push true
-    else
-      options.push args.shift ? true : false # force true/false
-    end
+    options.push @arguments ?  true : (args.shift ? true : false)
   end
 
   def flag?(str)
