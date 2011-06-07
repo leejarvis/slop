@@ -195,11 +195,10 @@ class Slop
     def build_longest_flag
       if @long_flag && @long_flag.size > @slop.longest_flag
         if @help.respond_to? :to_str
-          size = @long_flag.size + @help.size
+          @slop.longest_flag = @long_flag.size + @help.size
         else
-          size = @long_flag.size
+          @slop.longest_flag = @long_flag.size
         end
-        @slop.longest_flag = size
       end
     end
   end
