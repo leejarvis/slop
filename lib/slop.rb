@@ -403,9 +403,8 @@ class Slop
       if option = @options[switch]
         if option.expects_argument?
           raise MissingArgumentError, "'-#{switch}' expects an argument, used in multiple_switch context"
-        else
-          option.argument_value = true
         end
+        option.argument_value = true
       else
         raise InvalidOptionError, "Unknown option '-#{switch}'" if @strict
       end
