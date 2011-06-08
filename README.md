@@ -224,26 +224,6 @@ Slop will look to see if the `foo` command exists, and if it does, it'll pass
 the options `['--bar', 'baz']` to the instance of Slop that belongs to `foo`.
 Here's how commands might look:
 
-    opts = Slop.new do
-      command :foo do
-        on :b, :bar, 'something', true
-      end
-
-      command :clean do
-        on :v, :verbose, do
-          puts 'Enabled verbose mode for clean'
-        end
-      end
-
-      # non-command specific options
-      on :v, :version do
-        puts 'version 1'
-      end
-    end
-
-* `run.rb -v       #=> version 1`
-* `run.rb clean -v #=> Enabled verbose mode for clean`
-
 Features
 --------
 
@@ -251,6 +231,7 @@ Check out the following wiki pages for more features:
 
 * [Ranges](https://github.com/injekt/slop/wiki/Ranges)
 * [Auto Create](https://github.com/injekt/slop/wiki/Auto-Create)
+* [Commands](https://github.com/injekt/slop/wiki/Commands)
 
 Woah woah, why you hating on OptionParser?
 ------------------------------------------
