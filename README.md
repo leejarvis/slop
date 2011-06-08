@@ -209,21 +209,6 @@ when an invalid option is found (`false` by default):
     Slop.new(:strict => true).parse(%w/--foo/)
     # => Slop::InvalidOptionError: Unknown option -- 'foo'
 
-Commands
---------
-
-Slop allows you to nest more instances of Slop inside of `commands`. These
-instances will then be used to parse arguments if they're called upon.
-
-Slop will use the first argument in the list of items passed to `parse` to
-check if it is a `command`.
-
-    Slop.parse ['foo', '--bar', 'baz']
-
-Slop will look to see if the `foo` command exists, and if it does, it'll pass
-the options `['--bar', 'baz']` to the instance of Slop that belongs to `foo`.
-Here's how commands might look:
-
 Features
 --------
 
