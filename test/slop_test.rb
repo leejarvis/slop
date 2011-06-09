@@ -184,32 +184,42 @@ class SlopTest < TestCase
 
   test 'the shit out of clean_options' do
     assert_equal(
-      ['s', 'short', 'short option', false],
+      ['s', 'short', 'short option', false, {}],
       clean_options('-s', '--short', 'short option')
     )
 
     assert_equal(
-      [nil, 'long', 'long option only', true],
+      [nil, 'long', 'long option only', true, {}],
       clean_options('--long', 'long option only', true)
     )
 
     assert_equal(
-      ['S', 'symbol', 'symbolize', false],
+      ['S', 'symbol', 'symbolize', false, {}],
       clean_options(:S, :symbol, 'symbolize')
     )
 
     assert_equal(
-      ['a', nil, 'alphabetical only', true],
+      ['a', nil, 'alphabetical only', true, {}],
       clean_options('a', 'alphabetical only', true)
     )
 
     assert_equal( # for description-less options
-      [nil, 'optiononly', nil, false],
+      [nil, 'optiononly', nil, false, {}],
       clean_options('--optiononly')
     )
 
-    assert_equal(['c', nil, nil, true], clean_options(:c, true))
-    assert_equal(['c', nil, nil, false], clean_options(:c, false))
+    assert_equal(
+      ['f', 'foo', 'some description', false, {:optional => false, :help => 'BAR'}],
+      clean_options(:f, 'foo BAR', 'some description')
+    )
+
+    assert_equal(
+      [nil, 'bar', nil, false, {:optional => true, :help => '[STUFF]'}],
+      clean_options('bar [STUFF]')
+    )
+
+    assert_equal(['c', nil, nil, true, {}], clean_options(:c, true))
+    assert_equal(['c', nil, nil, false, {}], clean_options(:c, false))
   end
 
   test '[] returns an options argument value or a command or nil (in that order)' do
@@ -412,6 +422,19 @@ class SlopTest < TestCase
     opts.parse %w/--foo bar/
 
     assert_equal 'bar', opts[:foo]
+  end
+
+  test 'long flag strings' do
+    opts = Slop.new do
+      on 'f', 'foo BAR'
+      on 'bar [HELLO]'
+    end
+
+    assert opts.options[:foo].expects_argument?
+    assert opts.options[:bar].accepts_optional_argument?
+
+    assert_equal '    -f, --foo BAR     ', opts.options[:foo].to_s
+    assert_equal '        --bar [HELLO] ', opts.options[:bar].to_s
   end
 
 end

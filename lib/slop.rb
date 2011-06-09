@@ -192,7 +192,8 @@ class Slop
   def option(*args, &block)
     options = args.last.is_a?(Hash) ? args.pop : {}
 
-    short, long, desc, arg = clean_options args
+    short, long, desc, arg, extras = clean_options args
+    options.merge!(extras)
     option = Option.new self, short, long, desc, arg, options, &block
     @options << option
 
@@ -462,6 +463,7 @@ class Slop
 
   def clean_options(args)
     options = []
+    extras = {}
 
     short = args.first.to_s.sub(/\A--?/, '')
     if short.size == 1
@@ -473,7 +475,12 @@ class Slop
 
     long = args.first
     boolean = [true, false].include? long
-    if !boolean && long.to_s =~ /\A(?:--?)?[a-zA-Z][a-zA-Z0-9_-]+\z/
+    if !boolean && long.to_s =~ /\A(?:--?)?[a-z_-]+\s[A-Z\s\[\]]+\z/
+      arg, help = args.shift.split(/ /, 2)
+      options.push arg.sub(/\A--?/, '')
+      extras[:optional] = help[0, 1] == '[' && help[-1, 1] == ']'
+      extras[:help] = help
+    elsif !boolean && long.to_s =~ /\A(?:--?)?[a-zA-Z][a-zA-Z0-9_-]+\z/
       options.push args.shift.to_s.sub(/\A--?/, '')
     else
       options.push nil
@@ -481,6 +488,7 @@ class Slop
 
     options.push args.first.respond_to?(:to_sym) ? args.shift : nil
     options.push @arguments ?  true : (args.shift ? true : false)
+    options.push extras
   end
 
   def flag?(str)
