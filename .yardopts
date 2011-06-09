@@ -4,4 +4,4 @@
 lib/**/*.rb
 --no-private
 --main README.md
---readme
+--readme README.md
