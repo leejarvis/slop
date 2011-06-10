@@ -218,6 +218,9 @@ class SlopTest < TestCase
       clean_options('bar [STUFF]')
     )
 
+    assert_equal([nil, 'foo', nil, false, {:as => Array}], clean_options(:foo, Array, false))
+    assert_equal([nil, 'foo', nil, false, {:as => Array}], clean_options(Array, :foo, false))
+
     assert_equal(['c', nil, nil, true, {}], clean_options(:c, true))
     assert_equal(['c', nil, nil, false, {}], clean_options(:c, false))
   end
@@ -435,6 +438,17 @@ class SlopTest < TestCase
 
     assert_equal '    -f, --foo BAR     ', opts.options[:foo].to_s
     assert_equal '        --bar [HELLO] ', opts.options[:bar].to_s
+  end
+
+  test 'inline classes' do
+    opts = Slop.new do
+      on :foo, Array, true
+      on Symbol, :bar, true
+    end
+    opts.parse %w/--foo one,two --bar hello/
+
+    assert_equal %w[one two], opts[:foo]
+    assert_equal :hello, opts[:bar]
   end
 
 end

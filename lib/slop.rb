@@ -464,6 +464,9 @@ class Slop
   def clean_options(args)
     options = []
     extras = {}
+    extras[:as] = args.find {|c| c.is_a? Class }
+    args.delete(extras[:as])
+    extras.delete(:as) unless extras[:as]
 
     short = args.first.to_s.sub(/\A--?/, '')
     if short.size == 1
