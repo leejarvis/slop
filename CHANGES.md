@@ -1,6 +1,10 @@
 TBA
 ---
 
+* Allow passing a class name to `on` to be used as an `:as` option. ie:
+  `on :people, 'Some people', Array`
+* Get smart with parsing options optparse style: `on '--name NAME'` and
+  `on 'password [OPTIONAL]'`
 * Feature: `:arguments` setting to enable argument passing for all options
 
 1.7.0 (2011-06-06)
