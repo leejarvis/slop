@@ -55,18 +55,9 @@ Will output something like
 
 You can also add a banner using the `banner` method
 
-    opts = Slop.parse
-    opts.banner = "Usage: foo.rb [options]"
-
-or
-
     opts = Slop.parse do
       banner "Usage: foo.rb [options]"
     end
-
-or
-
-    opts = Slop.new "Usage: foo.rb [options]"
 
 Helpful Help
 ------------
