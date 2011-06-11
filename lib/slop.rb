@@ -18,7 +18,7 @@ class Slop
   # @return [String] The current version string
   VERSION = '1.7.0'
 
-  # Parses the items from a CLI format into a friendly object.
+  # Parses the items from a CLI format into a friendly object
   #
   # @param [Array] items Items to parse into options.
   # @example Specifying three options to parse:
@@ -27,15 +27,15 @@ class Slop
   #    on :n, :name,    'Your name'
   #    on :a, :age,     'Your age'
   #  end
-  # @return [Slop] Returns an instance of Slop.
+  # @return [Slop] Returns an instance of Slop
   def self.parse(items=ARGV, options={}, &block)
     initialize_and_parse items, false, options, &block
   end
 
   # Identical to {Slop.parse}, but removes parsed options from the
-  # original Array.
+  # original Array
   #
-  # @return [Slop] Returns an instance of Slop.
+  # @return [Slop] Returns an instance of Slop
   def self.parse!(items=ARGV, options={}, &block)
     initialize_and_parse items, true, options, &block
   end
@@ -124,27 +124,27 @@ class Slop
     end
   end
 
-  # Set or return banner text.
+  # Set or return banner text
   #
-  # @param [String] text Displayed banner text.
+  # @param [String] text Displayed banner text
   # @example
   #   opts = Slop.parse do
   #     banner "Usage - ruby foo.rb [arguments]"
   #   end
-  # @return [String] The current banner.
+  # @return [String] The current banner
   def banner(text=nil)
     @banner = text if text
     @banner
   end
 
-  # Parse a list of options, leaving the original Array unchanged.
+  # Parse a list of options, leaving the original Array unchanged
   #
   # @param [Array] items A list of items to parse
   def parse(items=ARGV, &block)
     parse_items items, &block
   end
 
-  # Parse a list of options, removing parsed options from the original Array.
+  # Parse a list of options, removing parsed options from the original Array
   #
   # @param [Array] items A list of items to parse
   def parse!(items=ARGV, &block)
@@ -156,7 +156,7 @@ class Slop
     @options.each(&block)
   end
 
-  # @param [Symbol] key Option symbol.
+  # @param [Symbol] key Option symbol
   # @example
   #   opts[:name] #=> "Emily"
   #   opts.get(:name) #=> "Emily"
@@ -168,7 +168,7 @@ class Slop
   end
   alias :get :[]
 
-  # Specify an option with a short or long version, description and type.
+  # Specify an option with a short or long version, description and type
   #
   # @param [*] args Option configuration.
   # @option args [Symbol, String] :short_flag Short option name.
@@ -260,7 +260,7 @@ class Slop
   end
   alias :on_optionless :on_noopts
 
-  # Returns the parsed list into a option/value hash.
+  # Returns the parsed list into a option/value hash
   #
   # @example
   #   opts.to_hash #=> { 'name' => 'Emily' }
@@ -273,7 +273,8 @@ class Slop
   end
   alias :to_h :to_hash
 
-  # Allows you to check whether an option was specified in the parsed list.
+  # Allows you to check whether an option was specified in the parsed list
+  #
   # Merely sugar for `present?`
   #
   # @example
@@ -287,8 +288,10 @@ class Slop
     present? meth.to_s.chomp '?'
   end
 
-  # Check if an option is specified in the parsed list. Does the same as
-  # Slop#option? but a convenience method for unacceptable method names.
+  # Check if an option is specified in the parsed list
+  #
+  # Does the same as Slop#option? but a convenience method for unacceptable
+  # method names
   #
   # @param [Object] The object name to check
   # @since 1.5.0
@@ -297,7 +300,7 @@ class Slop
     !!get(option_name)
   end
 
-  # Returns the banner followed by available options listed on the next line.
+  # Returns the banner followed by available options listed on the next line
   #
   # @example
   #  opts = Slop.parse do
