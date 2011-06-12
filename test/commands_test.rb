@@ -69,4 +69,21 @@ class CommandsTest < TestCase
     assert incmd
     refute inslop
   end
+
+  test 'executing blocks' do
+    foo = bar = nil
+    slop = Slop.new
+    slop.command :foo do
+      on :v, :verbose
+      execute { |o| foo = o.verbose? }
+    end
+    slop.command :bar do
+      on :v, :verbose
+      execute { |o| bar = o.verbose? }
+    end
+    slop.parse %w[ foo --verbose ]
+
+    assert foo
+    refute bar
+  end
 end

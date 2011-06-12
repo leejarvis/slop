@@ -1,6 +1,9 @@
 TBA
 ---
 
+* Added `execute` method to Slop for commands. This block will be invoked
+  when a specific command is used. The Slop object will be yielded to the
+  block
 * Allow passing a class name to `on` to be used as an `:as` option. ie:
   `on :people, 'Some people', Array`
 * Get smart with parsing options optparse style: `on '--name NAME'` and

@@ -98,6 +98,7 @@ class Slop
 
     @options = Options.new
     @commands = {}
+    @execution_block = nil
 
     @longest_flag = 0
     @invalid_options = []
@@ -259,6 +260,30 @@ class Slop
     @on_noopts ||= (obj || block)
   end
   alias :on_optionless :on_noopts
+
+  # Add an execution block (for commands)
+  #
+  # @example
+  #   opts = Slop.new do
+  #     command :foo do
+  #       on :v, :verbose
+  #
+  #       execute { |o| p o.verbose? }
+  #     end
+  #   end
+  #   opts.parse %w[foo --verbose] #=> true
+  #
+  # @param [Object, #call] obj The object to be triggered when this command
+  #   is invoked
+  # @since 1.8.0
+  # @yields [Slop] an instance of Slop for this command
+  def execute(obj=nil, &block)
+    if obj || block_given?
+      @execution_block = obj || block
+    elsif @execution_block.respond_to?(:call)
+      @execution_block.call(self)
+    end
+  end
 
   # Returns the parsed list into a option/value hash
   #
@@ -454,6 +479,7 @@ class Slop
       items.shift
       opts = @commands[command]
       delete ? opts.parse!(items) : opts.parse(items)
+      opts.execute
     end
   end
 
