@@ -1,5 +1,5 @@
-TBA
----
+1.8.0 (2011-06-12)
+------------------
 
 * Added `execute` method to Slop for commands. This block will be invoked
   when a specific command is used. The Slop object will be yielded to the
