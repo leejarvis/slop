@@ -140,6 +140,31 @@ class SlopTest < TestCase
     assert_equal "foo bar", slop.banner
   end
 
+  test 'setting the summary' do
+    slop = Slop.new
+    slop.banner = "foo bar"
+    slop.summary = "does stuff"
+
+    assert_equal "foo bar\n\ndoes stuff", slop.to_s
+  end
+
+  test 'setting the description' do
+    slop = Slop.new
+    slop.banner     = "foo bar"
+    slop.summary = "does stuff"
+    slop.description  = "This does stuff."
+
+    assert_equal "foo bar\n\ndoes stuff\n\n    This does stuff.", slop.to_s
+  end
+
+  test 'setting the description without matching summary' do
+    slop = Slop.new
+    slop.banner     = "foo bar"
+    slop.description  = "This does stuff."
+
+    assert_equal "foo bar\n\n    This does stuff.", slop.to_s
+  end
+
   test 'storing long option lengths' do
     slop = Slop.new
     assert_equal 0, slop.longest_flag
@@ -451,4 +476,21 @@ class SlopTest < TestCase
     assert_equal :hello, opts[:bar]
   end
 
+  test 'wrap and indent' do
+    slop = Slop.new
+
+    assert_equal(
+      "Lorem ipsum dolor sit amet, consectetur\n" +
+      "adipisicing elit, sed do eiusmod tempor\n" +
+      "incididunt ut labore et dolore magna\n" +
+      "aliqua.",
+      slop.wrap_and_indent("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", 40, 0))
+
+    assert_equal(
+      "    Lorem ipsum dolor sit amet,\n" +
+      "    consectetur adipisicing elit, sed\n" +
+      "    do eiusmod tempor incididunt ut\n" +
+      "    labore et dolore magna aliqua.",
+      slop.wrap_and_indent("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", 36, 4))
+  end
 end

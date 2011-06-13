@@ -51,6 +51,16 @@ class Slop
   #   @param [String] string The text to set the banner to
   attr_writer :banner
 
+  # @overload summary=(string)
+  #   Set the summary
+  #   @param [String] string The text to set the summary to
+  attr_writer :summary
+
+  # @overload description=(string)
+  #   Set the description
+  #   @param [String] string The text to set the description to
+  attr_writer :description
+
   # @return [Integer] The length of the longest flag slop knows of
   attr_accessor :longest_flag
 
@@ -136,6 +146,32 @@ class Slop
   def banner(text=nil)
     @banner = text if text
     @banner
+  end
+
+  # Set or return the summary
+  #
+  # @param [String] text Displayed summary text
+  # @example
+  #   opts = Slop.parse do
+  #     summary "do stuff with more stuff"
+  #   end
+  # @return [String] The current summary
+  def summary(text=nil)
+    @summary = text if text
+    @summary
+  end
+
+  # Set or return the description
+  #
+  # @param [String] text Displayed description text
+  # @example
+  #   opts = Slop.parse do
+  #     description "This command does a lot of stuff with other stuff."
+  #   end
+  # @return [String] The current description
+  def description(text=nil)
+    @description = text if text
+    @description
   end
 
   # Parse a list of options, leaving the original Array unchanged
@@ -335,14 +371,46 @@ class Slop
   #  puts opts
   # @return [String] Help text.
   def to_s
-    banner = "#{@banner}\n" if @banner
-    (banner || '') + options.to_help
+    parts = []
+
+    parts << banner if banner
+    parts << summary if summary
+    parts << wrap_and_indent(description, 80, 4) if description
+    parts << "options:" if options.size > 0
+    parts << options.to_help if options.size > 0
+
+    parts.join("\n\n")
   end
   alias :help :to_s
 
   def inspect
     "#<Slop config_options=#{@sloptions.inspect}\n  " +
     options.map(&:inspect).join("\n  ") + "\n>"
+  end
+
+  def wrap_and_indent(string, width, indentation)
+    # Wrap and indent each paragraph
+    string.lines.map do |paragraph|
+      # Initialize
+      lines = []
+      line = ''
+
+      # Split into words
+      paragraph.split(/\s/).each do |word|
+        # Begin new line if it's too long
+        if (line + ' ' + word).length >= width
+          lines << line
+          line = ''
+        end
+
+        # Add word to line
+        line << (line == '' ? '' : ' ' ) + word
+      end
+      lines << line
+
+      # Join lines
+      lines.map { |l| ' '*indentation + l }.join("\n")
+    end.join("\n")
   end
 
   private
