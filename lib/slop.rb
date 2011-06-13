@@ -437,7 +437,7 @@ class Slop
       next if ignore_all
       autocreate(flag, index, items) if @autocreate
       option, argument = extract_option(item, flag)
-      next if @multiple_switches
+      next if @multiple_switches && !option
 
       if option
         option.count += 1
@@ -575,7 +575,7 @@ class Slop
   def clean_options(args)
     options = []
     extras = {}
-    extras[:as] = args.find {|c| c.is_a? Class }
+    extras[:as] =args.find {|c| c.is_a? Class }
     args.delete(extras[:as])
     extras.delete(:as) if extras[:as].nil?
 
