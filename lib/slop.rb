@@ -577,7 +577,7 @@ class Slop
     extras = {}
     extras[:as] = args.find {|c| c.is_a? Class }
     args.delete(extras[:as])
-    extras.delete(:as) unless extras[:as]
+    extras.delete(:as) if extras[:as].nil?
 
     short = args.first.to_s.sub(/\A--?/, '')
     if short.size == 1
