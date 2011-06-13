@@ -561,7 +561,7 @@ class Slop
       items.shift
       opts = @commands[command]
       delete ? opts.parse!(items) : opts.parse(items)
-      opts.execute(items.reject { |i| i[/\A--?/] })
+      opts.execute(items.reject { |i| i == '--' })
     end
   end
 
