@@ -493,13 +493,13 @@ class SlopTest < TestCase
       "adipisicing elit, sed do eiusmod tempor\n" +
       "incididunt ut labore et dolore magna\n" +
       "aliqua.",
-      slop.wrap_and_indent("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", 40, 0))
+      slop.send(:wrap_and_indent, "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", 40, 0))
 
     assert_equal(
       "    Lorem ipsum dolor sit amet,\n" +
       "    consectetur adipisicing elit, sed\n" +
       "    do eiusmod tempor incididunt ut\n" +
       "    labore et dolore magna aliqua.",
-      slop.wrap_and_indent("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", 36, 4))
+      slop.send(:wrap_and_indent, "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", 36, 4))
   end
 end

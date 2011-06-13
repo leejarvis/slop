@@ -394,31 +394,6 @@ class Slop
     options.map(&:inspect).join("\n  ") + "\n>"
   end
 
-  def wrap_and_indent(string, width, indentation)
-    # Wrap and indent each paragraph
-    string.lines.map do |paragraph|
-      # Initialize
-      lines = []
-      line = ''
-
-      # Split into words
-      paragraph.split(/\s/).each do |word|
-        # Begin new line if it's too long
-        if (line + ' ' + word).length >= width
-          lines << line
-          line = ''
-        end
-
-        # Add word to line
-        line << (line == '' ? '' : ' ' ) + word
-      end
-      lines << line
-
-      # Join lines
-      lines.map { |l| ' '*indentation + l }.join("\n")
-    end.join("\n")
-  end
-
   private
 
   class << self
@@ -529,6 +504,31 @@ class Slop
         raise InvalidOptionError, "Unknown option '-#{switch}'" if @strict
       end
     end
+  end
+
+  def wrap_and_indent(string, width, indentation)
+    # Wrap and indent each paragraph
+    string.lines.map do |paragraph|
+      # Initialize
+      lines = []
+      line = ''
+
+      # Split into words
+      paragraph.split(/\s/).each do |word|
+        # Begin new line if it's too long
+        if (line + ' ' + word).length >= width
+          lines << line
+          line = ''
+        end
+
+        # Add word to line
+        line << (line == '' ? '' : ' ' ) + word
+      end
+      lines << line
+
+      # Join lines
+      lines.map { |l| ' '*indentation + l }.join("\n")
+    end.join("\n")
   end
 
   def extract_option(item, flag)
