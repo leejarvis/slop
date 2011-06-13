@@ -75,11 +75,11 @@ class CommandsTest < TestCase
     slop = Slop.new
     slop.command :foo do
       on :v, :verbose
-      execute { |o| foo = o.verbose? }
+      execute { |o, a| foo = o.verbose? }
     end
     slop.command :bar do
       on :v, :verbose
-      execute { |o| bar = o.verbose? }
+      execute { |o, a| bar = o.verbose? }
     end
     slop.parse %w[ foo --verbose ]
 
