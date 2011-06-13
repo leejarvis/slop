@@ -1,6 +1,10 @@
 TBA
 ---
 
+* Ensure anything after `--` is parsed as an argument and not option even
+  if prefixed with `/--?/`
+* Performance improvements when making many calls to `Slop#option?` for
+  checking an options presence (Rob Gleeson)
 * Ensure `execute` passes command arguments to the block
 * Support for summary and description (Denis Defreyne)
 

@@ -347,7 +347,7 @@ class Slop
   def method_missing(meth, *args, &block)
     super unless meth.to_s[-1, 1] == '?'
     present = present? meth.to_s.chomp '?'
-    
+
     (class << self; self; end).instance_eval do
       define_method(meth) { present }
     end
@@ -448,10 +448,18 @@ class Slop
     end
 
     trash = []
+    ignore_all = false
 
     items.each_with_index do |item, index|
       item = item.to_s
       flag = item.sub(/\A--?/, '')
+
+      if item == '--'
+        trash << index
+        ignore_all = true
+      end
+
+      next if ignore_all
       autocreate(flag, index, items) if @autocreate
       option, argument = extract_option(item, flag)
       next if @multiple_switches
@@ -553,7 +561,7 @@ class Slop
       items.shift
       opts = @commands[command]
       delete ? opts.parse!(items) : opts.parse(items)
-      opts.execute(items)
+      opts.execute(items.reject { |i| i[/\A--?/] })
     end
   end
 

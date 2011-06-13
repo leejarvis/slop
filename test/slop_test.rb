@@ -465,6 +465,15 @@ class SlopTest < TestCase
     assert_equal '        --bar [HELLO] ', opts.options[:bar].to_s
   end
 
+  test 'not parsing options if after --' do
+    args = %w[ foo bar -- --foo bar ]
+    opts = Slop.parse!(args) do
+      on :foo, true
+    end
+
+    assert_equal %w[ foo bar --foo bar ], args
+  end
+
   test 'inline classes' do
     opts = Slop.new do
       on :foo, Array, true
