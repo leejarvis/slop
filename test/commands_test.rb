@@ -101,4 +101,17 @@ class CommandsTest < TestCase
     assert_equal %w[ bar baz ], args
     assert_kind_of Slop, opts
   end
+
+  test 'executing nested commands' do
+    args = nil
+    slop = Slop.new
+    slop.command :foo do
+      command :bar do
+        execute { |o, a| args = a }
+      end
+    end
+    slop.parse %w[ foo bar baz ]
+
+    assert_equal %w[ baz ], args
+  end
 end
