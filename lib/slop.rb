@@ -51,15 +51,15 @@ class Slop
   #   @param [String] string The text to set the banner to
   attr_writer :banner
 
-  # @overload short_desc=(string)
-  #   Set the short description
-  #   @param [String] string The text to set the short description to
-  attr_writer :short_desc
+  # @overload summary=(string)
+  #   Set the summary
+  #   @param [String] string The text to set the summary to
+  attr_writer :summary
 
-  # @overload long_desc=(string)
-  #   Set the long description
-  #   @param [String] string The text to set the long description to
-  attr_writer :long_desc
+  # @overload description=(string)
+  #   Set the description
+  #   @param [String] string The text to set the description to
+  attr_writer :description
 
   # @return [Integer] The length of the longest flag slop knows of
   attr_accessor :longest_flag
@@ -148,30 +148,30 @@ class Slop
     @banner
   end
 
-  # Set or return the short description
+  # Set or return the summary
   #
-  # @param [String] text Displayed short description text
+  # @param [String] text Displayed summary text
   # @example
   #   opts = Slop.parse do
-  #     short_desc "do stuff with more stuff"
+  #     summary "do stuff with more stuff"
   #   end
-  # @return [String] The current short description
-  def short_desc(text=nil)
-    @short_desc = text if text
-    @short_desc
+  # @return [String] The current summary
+  def summary(text=nil)
+    @summary = text if text
+    @summary
   end
 
-  # Set or return the long description
+  # Set or return the description
   #
-  # @param [String] text Displayed long description text
+  # @param [String] text Displayed description text
   # @example
   #   opts = Slop.parse do
-  #     long_desc "This command does a lot of stuff with other stuff."
+  #     description "This command does a lot of stuff with other stuff."
   #   end
-  # @return [String] The current long description
-  def long_desc(text=nil)
-    @long_desc = text if text
-    @long_desc
+  # @return [String] The current description
+  def description(text=nil)
+    @description = text if text
+    @description
   end
 
   # Parse a list of options, leaving the original Array unchanged
@@ -374,8 +374,8 @@ class Slop
     parts = []
 
     parts << banner if banner
-    parts << short_desc if short_desc
-    parts << wrap_and_indent(long_desc, 80, 4) if long_desc
+    parts << summary if summary
+    parts << wrap_and_indent(description, 80, 4) if description
     parts << "options:" if options.size > 0
     parts << options.to_help if options.size > 0
 
