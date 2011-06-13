@@ -51,6 +51,16 @@ class Slop
   #   @param [String] string The text to set the banner to
   attr_writer :banner
 
+  # @overload short_desc=(string)
+  #   Set the short description
+  #   @param [String] string The text to set the short description to
+  attr_writer :short_desc
+
+  # @overload long_desc=(string)
+  #   Set the long description
+  #   @param [String] string The text to set the long description to
+  attr_writer :long_desc
+
   # @return [Integer] The length of the longest flag slop knows of
   attr_accessor :longest_flag
 
@@ -136,6 +146,32 @@ class Slop
   def banner(text=nil)
     @banner = text if text
     @banner
+  end
+
+  # Set or return the short description
+  #
+  # @param [String] text Displayed short description text
+  # @example
+  #   opts = Slop.parse do
+  #     short_desc "do stuff with more stuff"
+  #   end
+  # @return [String] The current short description
+  def short_desc(text=nil)
+    @short_desc = text if text
+    @short_desc
+  end
+
+  # Set or return the long description
+  #
+  # @param [String] text Displayed long description text
+  # @example
+  #   opts = Slop.parse do
+  #     long_desc "This command does a lot of stuff with other stuff."
+  #   end
+  # @return [String] The current long description
+  def long_desc(text=nil)
+    @long_desc = text if text
+    @long_desc
   end
 
   # Parse a list of options, leaving the original Array unchanged
@@ -335,14 +371,46 @@ class Slop
   #  puts opts
   # @return [String] Help text.
   def to_s
-    banner = "#{@banner}\n" if @banner
-    (banner || '') + options.to_help
+    parts = []
+
+    parts << banner if banner
+    parts << short_desc if short_desc
+    parts << wrap_and_indent(long_desc, 80, 4) if long_desc
+    parts << "options:" if options.size > 0
+    parts << options.to_help if options.size > 0
+
+    parts.join("\n\n")
   end
   alias :help :to_s
 
   def inspect
     "#<Slop config_options=#{@sloptions.inspect}\n  " +
     options.map(&:inspect).join("\n  ") + "\n>"
+  end
+
+  def wrap_and_indent(string, width, indentation)
+    # Wrap and indent each paragraph
+    string.lines.map do |paragraph|
+      # Initialize
+      lines = []
+      line = ''
+
+      # Split into words
+      paragraph.split(/\s/).each do |word|
+        # Begin new line if it's too long
+        if (line + ' ' + word).length >= width
+          lines << line
+          line = ''
+        end
+
+        # Add word to line
+        line << (line == '' ? '' : ' ' ) + word
+      end
+      lines << line
+
+      # Join lines
+      lines.map { |l| ' '*indentation + l }.join("\n")
+    end.join("\n")
   end
 
   private
