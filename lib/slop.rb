@@ -437,7 +437,10 @@ class Slop
       next if ignore_all
       autocreate(flag, index, items) if @autocreate
       option, argument = extract_option(item, flag)
-      next if @multiple_switches && !option
+      if @multiple_switches && !option
+        trash << index if item[/\A-[^-]/]
+        next
+      end
 
       if option
         option.count += 1

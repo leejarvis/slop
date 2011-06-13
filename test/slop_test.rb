@@ -84,6 +84,16 @@ class SlopTest < TestCase
 
     assert_raises(Slop::InvalidOptionError, /d/)   { slop.parse %w/-abcd/ }
     assert_raises(Slop::MissingArgumentError, /z/) { slop.parse %w/-abcz/ }
+
+    slop = Slop.new(:multiple_switches)
+    slop.on :a
+    slop.on :f, true
+    args = %w[-abc -f foo bar]
+    slop.parse! args
+
+    assert_equal %w[ bar ], args
+    assert_equal 'foo', slop[:f]
+    assert slop[:a]
   end
 
   test 'passing a block' do
