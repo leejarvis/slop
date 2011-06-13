@@ -345,7 +345,8 @@ class Slop
   # @see Slop#present?
   # @return [Boolean] true if this option is present, false otherwise
   def method_missing(meth, *args, &block)
-    present? meth.to_s.chomp('?') || super
+    super unless meth.to_s[-1, 1] == '?'
+    present? meth.to_s.chomp '?'
   end
 
   # Check if an option is specified in the parsed list
