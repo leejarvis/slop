@@ -1,6 +1,7 @@
 TBA
 ---
 
+* Ensure `execute` passes command arguments to the block
 * Support for summary and description (Denis Defreyne)
 
 1.8.0 (2011-06-12)

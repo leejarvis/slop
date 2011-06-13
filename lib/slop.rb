@@ -309,15 +309,15 @@ class Slop
   #   end
   #   opts.parse %w[foo --verbose] #=> true
   #
-  # @param [Object, #call] obj The object to be triggered when this command
+  # @param [Array] args The list of arguments to send to this command
   #   is invoked
   # @since 1.8.0
   # @yields [Slop] an instance of Slop for this command
-  def execute(obj=nil, &block)
-    if obj || block_given?
-      @execution_block = obj || block
+  def execute(args=[], &block)
+    if block_given?
+      @execution_block = block
     elsif @execution_block.respond_to?(:call)
-      @execution_block.call(self)
+      @execution_block.call(self, args)
     end
   end
 
@@ -547,7 +547,7 @@ class Slop
       items.shift
       opts = @commands[command]
       delete ? opts.parse!(items) : opts.parse(items)
-      opts.execute
+      opts.execute(items)
     end
   end
 

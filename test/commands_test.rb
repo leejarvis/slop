@@ -86,4 +86,19 @@ class CommandsTest < TestCase
     assert foo
     refute bar
   end
+
+  test 'executing blocks and command arguments' do
+    opts = args = nil
+    slop = Slop.new
+    slop.command :foo do
+      execute do |o, a|
+        opts = o
+        args = a
+      end
+    end
+    slop.parse %w[ foo bar baz ]
+
+    assert_equal %w[ bar baz ], args
+    assert_kind_of Slop, opts
+  end
 end
