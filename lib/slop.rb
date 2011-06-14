@@ -585,7 +585,8 @@ class Slop
         cmds = @commands.keys.select { |c| c.to_s[0, str.length] == str }
 
         if cmds.size > 1
-          @io.puts "Command '#{str}' is ambiguous:\n  #{cmds.join(', ')}"
+          @io.puts "Command '#{str}' is ambiguous:"
+          @io.puts "  " + cmds.map(&:to_s).sort.join(', ')
         else
           command = cmds.shift
         end
