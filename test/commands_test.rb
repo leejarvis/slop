@@ -114,4 +114,15 @@ class CommandsTest < TestCase
 
     assert_equal %w[ baz ], args
   end
+
+  test 'aliases' do
+    slop = Slop.new
+    slop.command :foo, :alias => :bar
+    slop.command :baz, :aliases => [:lorem, :ipsum]
+
+    assert_equal [:bar], slop.commands[:foo].aliases
+    assert_equal [:lorem, :ipsum], slop.commands[:baz].aliases
+
+    assert_raises(ArgumentError) { slop.command :lorem }
+  end
 end

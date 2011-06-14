@@ -1,6 +1,7 @@
 TBA
 ---
 
+* Add command aliases
 * Fix: Ensure parsed elements are removed from original arguments when using
   `:multiple_switches`
 * Ensure anything after `--` is parsed as an argument and not option even

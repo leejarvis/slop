@@ -64,6 +64,9 @@ class Slop
   # @return [Integer] The length of the longest flag slop knows of
   attr_accessor :longest_flag
 
+  # @return [Array] A list of aliases this command uses
+  attr_reader :aliases
+
   # @option opts [Boolean] :help
   #   * Automatically add the `help` option
   #
@@ -101,6 +104,9 @@ class Slop
   # @option opts [Boolean] :arguments (false)
   #   * Set to true to enable all specified options to accept arguments
   #     by default
+  #
+  # @option opts [Array] :aliases ([])
+  #   * Primary uses by commands to implement command aliases
   def initialize(*opts, &block)
     sloptions = opts.last.is_a?(Hash) ? opts.pop : {}
     sloptions[:banner] = opts.shift if opts[0].respond_to? :to_str
@@ -113,6 +119,7 @@ class Slop
     @longest_flag = 0
     @invalid_options = []
 
+    @aliases = Array(sloptions[:aliases] || sloptions[:alias])
     @banner = sloptions[:banner]
     @strict = sloptions[:strict]
     @ignore_case = sloptions[:ignore_case]
@@ -261,6 +268,10 @@ class Slop
 
     slop = Slop.new @sloptions.merge options
     @commands[label] = slop
+
+    Array(options[:aliases] || options[:alias]).each do |a|
+      @commands[a] = @commands[label]
+    end
 
     if block_given?
       block.arity == 1 ? yield(slop) : slop.instance_eval(&block)
