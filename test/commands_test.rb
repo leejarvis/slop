@@ -146,6 +146,6 @@ class CommandsTest < TestCase
     slop.command :bar
     slop.command :baz
     slop.parse %w[ ba ]
-    assert_equal "Command 'ba' is ambiguous:\n  baz, bar\n", io.string
+    assert_equal "Command 'ba' is ambiguous:\n  bar, baz\n", io.string
   end
 end
