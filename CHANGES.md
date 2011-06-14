@@ -1,6 +1,8 @@
 TBA
 ---
 
+* Add command completion and support for an error message when ambiguous
+  commands are used
 * Add command aliases
 * Fix: Ensure parsed elements are removed from original arguments when using
   `:multiple_switches`

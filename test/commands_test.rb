@@ -125,4 +125,27 @@ class CommandsTest < TestCase
 
     assert_raises(ArgumentError) { slop.command :lorem }
   end
+
+  test 'command completion' do
+    foo = bar = bara = nil
+    slop = Slop.new
+    slop.command(:foo) { execute { foo = true } }
+    slop.parse %w[ fo ]
+    assert foo
+
+    slop.command(:bar) { execute { bar = true } }
+    slop.command(:bara) { execute { bara = true } }
+    slop.parse %w[ bar ]
+    assert bar
+    refute bara
+  end
+
+  test 'ambiguous command completion' do
+    io = StringIO.new
+    slop = Slop.new(:io => io)
+    slop.command :bar
+    slop.command :baz
+    slop.parse %w[ ba ]
+    assert_equal "Command 'ba' is ambiguous:\n  baz, bar\n", io.string
+  end
 end

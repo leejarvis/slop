@@ -107,6 +107,10 @@ class Slop
   #
   # @option opts [Array] :aliases ([])
   #   * Primary uses by commands to implement command aliases
+
+  # @option opts [Boolean] :completion (true)
+  #   * When true, commands will be auto completed. Ie `foobar` will be
+  #     executed simply when `foo` `fo` or `foob` are used
   def initialize(*opts, &block)
     sloptions = opts.last.is_a?(Hash) ? opts.pop : {}
     sloptions[:banner] = opts.shift if opts[0].respond_to? :to_str
@@ -125,8 +129,10 @@ class Slop
     @ignore_case = sloptions[:ignore_case]
     @multiple_switches = sloptions[:multiple_switches]
     @autocreate = sloptions[:autocreate]
+    @completion = sloptions.fetch(:completion, true)
     @arguments = sloptions[:arguments]
     @on_empty = sloptions[:on_empty]
+    @io = sloptions.fetch(:io, $stderr)
     @on_noopts = sloptions[:on_noopts] || sloptions[:on_optionless]
     @sloptions = sloptions
 
@@ -136,7 +142,7 @@ class Slop
 
     if sloptions[:help]
       on :h, :help, 'Print this help message', :tail => true do
-        (sloptions[:io] || $stderr).puts help
+        @io.puts help
         exit unless sloptions[:exit_on_help] == false
       end
     end
@@ -570,7 +576,22 @@ class Slop
   end
 
   def execute_command(items, delete)
-    command = @commands.keys.find { |cmd| cmd.to_s == items[0].to_s }
+    str = items[0]
+
+    if str
+      command = @commands.keys.find { |c| c.to_s == str.to_s }
+
+      if !command && @completion
+        cmds = @commands.keys.select { |c| c.to_s[0, str.length] == str }
+
+        if cmds.size > 1
+          @io.puts "Command '#{str}' is ambiguous:\n  #{cmds.join(', ')}"
+        else
+          command = cmds.shift
+        end
+      end
+    end
+
     if command
       items.shift
       opts = @commands[command]
