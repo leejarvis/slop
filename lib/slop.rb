@@ -468,7 +468,7 @@ class Slop
           argument ||= items.at(index + 1)
           trash << index + 1
 
-          if !option.accepts_optional_argument? && flag?(argument)
+          if !option.accepts_optional_argument? && argument =~ /\A--?[a-zA-Z][a-zA-Z0-9_-]*\z/
             raise MissingArgumentError, "'#{option.key}' expects an argument, none given"
           end
 
@@ -638,9 +638,5 @@ class Slop
     options.push args.first.respond_to?(:to_sym) ? args.shift : nil
     options.push @arguments ?  true : (args.shift ? true : false)
     options.push extras
-  end
-
-  def flag?(str)
-    str =~ /\A--?[a-zA-Z][a-zA-Z0-9_-]*\z/
   end
 end
