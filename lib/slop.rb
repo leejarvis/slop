@@ -405,6 +405,8 @@ class Slop
   end
   alias :help :to_s
 
+  # @return [String] This Slop object will options and configuration
+  #   settings revealed
   def inspect
     "#<Slop config_options=#{@sloptions.inspect}\n  " +
     options.map(&:inspect).join("\n  ") + "\n>"
@@ -427,6 +429,14 @@ class Slop
     end
   end
 
+  # traverse through the list of items sent to parse() or parse!() and
+  # attempt to do the following:
+  #
+  # * Find an option object
+  # * Assign an argument to this option
+  # * Validate an option and/or argument depending on configuration options
+  # * Remove non-parsed items if `delete` is true
+  # * Yield any non-options to the block (if one is given)
   def parse_items(items, delete=false, &block)
     if items.empty? && @on_empty.respond_to?(:call)
       @on_empty.call self
@@ -512,6 +522,11 @@ class Slop
     raise InvalidOptionError, message
   end
 
+  # if multiple_switches is enabled, this method filters through an items
+  # characters and attempts to find an Option object for each flag.
+  #
+  # Raises if a flag expects an argument or strict mode is enabled and a
+  # flag was not found
   def enable_multiple_switches(item)
     item[1..-1].each_char do |switch|
       if option = @options[switch]
@@ -525,14 +540,12 @@ class Slop
     end
   end
 
+  # wrap and indent a string, used to wrap and indent a description string
   def wrap_and_indent(string, width, indentation)
-    # Wrap and indent each paragraph
     string.lines.map do |paragraph|
-      # Initialize
       lines = []
       line = ''
 
-      # Split into words
       paragraph.split(/\s/).each do |word|
         # Begin new line if it's too long
         if (line + ' ' + word).length >= width
@@ -545,11 +558,13 @@ class Slop
       end
       lines << line
 
-      # Join lines
       lines.map { |l| ' '*indentation + l }.join("\n")
     end.join("\n")
   end
 
+  # attempt to extract an option from an argument, this method allows us
+  # to parse things like 'foo=bar' and '--no-value' for negative values
+  # returns an array of the Option object and an argument if one was found
   def extract_option(item, flag)
     if item[0, 1] == '-'
       option = @options[flag]
@@ -574,6 +589,10 @@ class Slop
     [option, argument]
   end
 
+  # attempt to execute a command if one exists, returns a positive (tru-ish)
+  # result if the command was found and executed. If completion is enabled
+  # and a flag is found to be ambiguous, this method prints an error message
+  # to the @io object informing the user
   def execute_command(items, delete)
     str = items[0]
 
@@ -600,6 +619,8 @@ class Slop
     end
   end
 
+  # If autocreation is enabled this method simply generates an option
+  # and add's it to the existing list of options
   def autocreate(flag, index, items)
     return if present? flag
     short, long = clean_options Array(flag)
@@ -607,6 +628,12 @@ class Slop
     @options << Option.new(self, short, long, nil, arg, {})
   end
 
+  # Clean up arguments sent to `on` and return a list of 5 elements:
+  # * short flag (or nil)
+  # * long flag (or nil)
+  # * description (or nil)
+  # * true/false if this option takes an argument or not
+  # * extra options (ie: :as, :optional, and :help)
   def clean_options(args)
     options = []
     extras = {}
