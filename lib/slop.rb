@@ -271,7 +271,7 @@ class Slop
       raise ArgumentError, "command `#{label}` already exists"
     end
 
-    slop = Slop.new @sloptions.merge options
+    slop = Slop.new @sloptions.merge(options)
     slop.aliases = Array(options.delete(:aliases) || options.delete(:alias))
     @commands[label] = slop
 
