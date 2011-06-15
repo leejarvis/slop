@@ -1,5 +1,5 @@
-TBA
----
+1.9.0 (2011-06-15)
+------------------
 
 * Add command completion and support for an error message when ambiguous
   commands are used
