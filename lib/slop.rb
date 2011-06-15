@@ -65,7 +65,7 @@ class Slop
   attr_accessor :longest_flag
 
   # @return [Array] A list of aliases this command uses
-  attr_reader :aliases
+  attr_accessor :aliases
 
   # @option opts [Boolean] :help
   #   * Automatically add the `help` option
@@ -123,7 +123,6 @@ class Slop
     @longest_flag = 0
     @invalid_options = []
 
-    @aliases = Array(sloptions[:aliases] || sloptions[:alias])
     @banner = sloptions[:banner]
     @strict = sloptions[:strict]
     @ignore_case = sloptions[:ignore_case]
@@ -273,11 +272,10 @@ class Slop
     end
 
     slop = Slop.new @sloptions.merge options
+    slop.aliases = Array(options.delete(:aliases) || options.delete(:alias))
     @commands[label] = slop
 
-    Array(options[:aliases] || options[:alias]).each do |a|
-      @commands[a] = @commands[label]
-    end
+    slop.aliases.each { |a| @commands[a] = @commands[label] }
 
     if block_given?
       block.arity == 1 ? yield(slop) : slop.instance_eval(&block)
