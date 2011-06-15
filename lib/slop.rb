@@ -265,6 +265,7 @@ class Slop
   #   # ARGV is `create -v`
   #   opts.commands[:create].verbose? #=> true
   # @since 1.5.0
+  # @raise [ArgumentError] When this command already exists
   # @return [Slop] a new instance of Slop namespaced to +label+
   def command(label, options={}, &block)
     if @commands[label]
