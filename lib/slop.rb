@@ -380,7 +380,7 @@ class Slop
   # @since 1.5.0
   # @return [Boolean] true if this option is present, false otherwise
   def present?(option_name)
-    !!get(option_name)
+    @options[option_name] && @options[option_name].count > 0
   end
 
   # Returns the banner followed by available options listed on the next line
@@ -469,7 +469,7 @@ class Slop
       end
 
       if option
-        option.count += 1
+        option.count += 1 unless item[/\A--no-/]
         trash << index
         next if option.forced
         option.argument_value = true
@@ -534,6 +534,7 @@ class Slop
           raise MissingArgumentError, "'-#{switch}' expects an argument, used in multiple_switch context"
         end
         option.argument_value = true
+        option.count += 1
       else
         raise InvalidOptionError, "Unknown option '-#{switch}'" if @strict
       end
@@ -625,7 +626,9 @@ class Slop
     return if present? flag
     short, long = clean_options Array(flag)
     arg = (items[index + 1] && items[index + 1] !~ /\A--?/)
-    @options << Option.new(self, short, long, nil, arg, {})
+    option = Option.new(self, short, long, nil, arg, {})
+    option.count = 1
+    @options << option
   end
 
   # Clean up arguments sent to `on` and return a list of 5 elements:

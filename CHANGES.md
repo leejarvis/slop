@@ -1,3 +1,9 @@
+1.9.1 (2011-06-16)
+------------------
+
+* Ensure optional items with no arguments still return true when searching
+  for presence
+
 1.9.0 (2011-06-15)
 ------------------
 

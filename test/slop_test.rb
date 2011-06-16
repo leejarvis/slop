@@ -291,11 +291,16 @@ class SlopTest < TestCase
   end
 
   test 'options are present' do
-    opts = Slop.new { on :f, 'foo-bar'; on :b, 'bar-baz' }
-    opts.parse %w/--foo-bar/
+    opts = Slop.new do
+      on :f, 'foo-bar'
+      on :b, 'bar-baz'
+      on :h, :optional => true
+    end
+    opts.parse %w/--foo-bar -h/
 
     assert opts.present?('foo-bar')
     refute opts.present?('bar-baz')
+    assert opts.present?(:h)
   end
 
   test 'raises if an option expects an argument and none is given' do
