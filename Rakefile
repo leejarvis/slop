@@ -4,7 +4,7 @@ task :test do
 end
 
 task :test_all do
-  sh "rvm 1.8.7,jruby,rbx,1.9.2 exec rake test"
+  sh "rvm rake test"
 end
 
 task :default => :test
