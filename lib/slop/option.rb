@@ -21,6 +21,9 @@ class Slop
     # @return [Object] true/false, or an optional help string to append
     attr_reader :help
 
+    # @return [Boolean] true if this option is required
+    attr_reader :required
+
     # @return [Boolean] true if this options argument value has been forced
     attr_accessor :forced
 
@@ -43,6 +46,7 @@ class Slop
     # @option options [Regexp] :match
     # @option options [String, #to_s] :unless
     # @option options [Boolean, String] :help (true)
+    # @option options [Boolean] :required (false)
     def initialize(slop, short, long, description, argument, options, &blk)
       @slop = slop
       @short_flag = short
@@ -56,6 +60,7 @@ class Slop
       @delimiter = options.fetch(:delimiter, ',')
       @limit = options.fetch(:limit, 0)
       @help = options.fetch(:help, true)
+      @required = options[:required]
       @argument_type = options[:as].to_s.downcase
 
       @forced = false

@@ -168,4 +168,13 @@ class OptionTest < TestCase
     assert_equal "1", opts[:bar]
     refute item
   end
+
+  test 'raises MissingOptionError when an option is :required' do
+    opts = Slop.new do
+      on :foo, :required => true
+    end
+
+    assert_raises(Slop::MissingOptionError, /foo is required/) { opts.parse %w[ --bar ] }
+    assert_raises(Slop::MissingOptionError, /foo is required/) { opts.parse %w[ foo ] }
+  end
 end

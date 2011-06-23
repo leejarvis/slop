@@ -7,6 +7,9 @@ class Slop
   # Raised when an option expects an argument and none is given
   class MissingArgumentError < RuntimeError; end
 
+  # Raised when an option is required but not given
+  class MissingOptionError < RuntimeError; end
+
   # Raised when an option specifies the `:match` attribute and this
   # options argument does not match this regexp
   class InvalidArgumentError < RuntimeError; end
@@ -504,6 +507,7 @@ class Slop
 
     items.reject!.with_index { |o, i| trash.include?(i) } if delete
     raise_if_invalid_options!
+    raise_if_missing_required_options!(items)
     items
   end
 
@@ -520,6 +524,14 @@ class Slop
     message = "Unknown option#{'s' if @invalid_options.size > 1}"
     message << ' -- ' << @invalid_options.map { |o| "'#{o}'" }.join(', ')
     raise InvalidOptionError, message
+  end
+
+  def raise_if_missing_required_options!(items)
+    @options.select(&:required).each do |o|
+      unless items.select {|i| i[/\A--?/] }.any? {|i| i.to_s.sub(/\A--?/, '') == o.key }
+        raise MissingOptionError, "Expected option `#{o.key}` is required"
+      end
+    end
   end
 
   # if multiple_switches is enabled, this method filters through an items

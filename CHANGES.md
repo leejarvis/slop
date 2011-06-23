@@ -1,3 +1,9 @@
+1.10.0 (TBA)
+------------
+
+* Added Slop::MissingOptionError and `:required` option to Slop::Option.
+  This exception is raised when a mandatory option is not used
+
 1.9.1 (2011-06-16)
 ------------------
 
