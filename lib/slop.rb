@@ -4,19 +4,23 @@ require 'slop/option'
 class Slop
   include Enumerable
 
+  # Slops standard Error class. All exception classes should
+  # inherit from this class
+  class Error < StandardError; end
+
   # Raised when an option expects an argument and none is given
-  class MissingArgumentError < RuntimeError; end
+  class MissingArgumentError < Error; end
 
   # Raised when an option is required but not given
-  class MissingOptionError < RuntimeError; end
+  class MissingOptionError < Error; end
 
   # Raised when an option specifies the `:match` attribute and this
   # options argument does not match this regexp
-  class InvalidArgumentError < RuntimeError; end
+  class InvalidArgumentError < Error; end
 
   # Raised when the `:strict` option is enabled and an unknown
   # or unspecified option is used
-  class InvalidOptionError < RuntimeError; end
+  class InvalidOptionError < Error; end
 
   # @return [String] The current version string
   VERSION = '1.9.1'

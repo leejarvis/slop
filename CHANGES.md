@@ -1,6 +1,8 @@
 1.10.0 (TBA)
 ------------
 
+* Added Slop::Error subclassing from StandardError which all exception
+  classes should inherit from
 * Added Slop::MissingOptionError and `:required` option to Slop::Option.
   This exception is raised when a mandatory option is not used
 
