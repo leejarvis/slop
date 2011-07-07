@@ -1,34 +1,10 @@
 class Slop
-  class Option
+  ATTRIBUTES = [
+    :short_flag, :long_flag, :description,
+    :tail, :match, :help, :required, :forced, :count
+  ]
 
-    # @return [String, #to_s] The short flag used for this option
-    attr_reader :short_flag
-
-    # @return [String, #to_s] The long flag used for this option
-    attr_reader :long_flag
-
-    # @return [String] This options description
-    attr_reader :description
-
-    # @return [Boolean] True if the option should be grouped at the
-    #   tail of the help list
-    attr_reader :tail
-
-    # @return [Regexp] If provided, an options argument **must** match this
-    #   regexp, otherwise Slop will raise an InvalidArgumentError
-    attr_reader :match
-
-    # @return [Object] true/false, or an optional help string to append
-    attr_reader :help
-
-    # @return [Boolean] true if this option is required
-    attr_reader :required
-
-    # @return [Boolean] true if this options argument value has been forced
-    attr_accessor :forced
-
-    # @return [Integer] The amount of times this option has been invoked
-    attr_accessor :count
+  class Option < Struct.new(*ATTRIBUTES)
 
     # @param [Slop] slop
     # @param [String, #to_s] short
@@ -49,26 +25,29 @@ class Slop
     # @option options [Boolean] :required (false)
     def initialize(slop, short, long, description, argument, options, &blk)
       @slop = slop
-      @short_flag = short
-      @long_flag = long
-      @description = description
+
+      self.short_flag = short
+      self.long_flag = long
+      self.description = description
+
       @argument = argument
       @options = options
 
-      @tail = options[:tail]
-      @match = options[:match]
-      @delimiter = options.fetch(:delimiter, ',')
-      @limit = options.fetch(:limit, 0)
-      @help = options.fetch(:help, true)
-      @required = options[:required]
-      @argument_type = options[:as].to_s.downcase
+      self.tail = @options[:tail]
+      self.match = @options[:match]
+      self.help = @options.fetch(:help, true)
+      self.required = @options[:required]
 
-      @forced = false
+      @delimiter = @options.fetch(:delimiter, ',')
+      @limit = @options.fetch(:limit, 0)
+      @argument_type = @options[:as].to_s.downcase
       @argument_value = nil
-      @count = 0
+
+      self.forced = false
+      self.count = 0
 
       @callback = blk if block_given?
-      @callback ||= options[:callback]
+      @callback ||= @options[:callback]
 
       build_longest_flag
     end
@@ -85,7 +64,7 @@ class Slop
 
     # @return [String] either the long or short flag for this option
     def key
-      @long_flag || @short_flag
+      long_flag || short_flag
     end
 
     # Set this options argument value.
@@ -98,6 +77,7 @@ class Slop
     def argument_value=(value)
       if @argument_type == 'array'
         @argument_value ||= []
+
         if value.respond_to?(:to_str)
           @argument_value.concat value.split(@delimiter, @limit)
         end
@@ -109,7 +89,7 @@ class Slop
     # @return [Object] the argument value after it's been cast
     #   according to the `:as` option
     def argument_value
-      return @argument_value if @forced
+      return @argument_value if forced
       value = @argument_value || @options[:default]
       return if value.nil?
 
@@ -131,7 +111,7 @@ class Slop
     # @param [Object] value
     def force_argument_value(value)
       @argument_value = value
-      @forced = true
+      self.forced = true
     end
 
     # Execute the block or callback object associated with this Option
@@ -156,15 +136,15 @@ class Slop
     # @return [String]
     def to_s
       out = "    "
-      out += @short_flag ? "-#{@short_flag}, " : ' ' * 4
+      out += short_flag ? "-#{short_flag}, " : ' ' * 4
 
-      if @long_flag
-        out += "--#{@long_flag}"
-        if @help.respond_to? :to_str
-          out += " #{@help}"
-          size = @long_flag.size + @help.size + 1
+      if long_flag
+        out += "--#{long_flag}"
+        if help.respond_to? :to_str
+          out += " #{help}"
+          size = long_flag.size + help.size + 1
         else
-          size = @long_flag.size
+          size = long_flag.size
         end
         diff = @slop.longest_flag - size
         out += " " * (diff + 6)
@@ -172,14 +152,14 @@ class Slop
         out += " " * (@slop.longest_flag + 8)
       end
 
-      "#{out}#{@description}"
+      "#{out}#{description}"
     end
 
     # @return [String]
     def inspect
-      "#<Slop::Option short_flag=#{@short_flag.inspect} " +
-      "long_flag=#{@long_flag.inspect} argument=#{@argument.inspect} " +
-      "description=#{@description.inspect}>"
+      "#<Slop::Option short_flag=#{short_flag.inspect} " +
+      "long_flag=#{long_flag.inspect} argument=#{@argument.inspect} " +
+      "description=#{description.inspect}>"
     end
 
     private
@@ -198,13 +178,11 @@ class Slop
     end
 
     def build_longest_flag
-      if @long_flag && @long_flag.size > @slop.longest_flag
-        if @help.respond_to? :to_str
-          @slop.longest_flag = @long_flag.size + @help.size
-        else
-          @slop.longest_flag = @long_flag.size
-        end
+      if long_flag && long_flag.size > @slop.longest_flag
+        @slop.longest_flag = long_flag.size
+        @slop.longest_flag += help.size if help.respond_to? :to_str
       end
     end
+
   end
 end
