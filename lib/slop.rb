@@ -347,13 +347,18 @@ class Slop
   # Returns the parsed list into a option/value hash
   #
   # @example
-  #   opts.to_hash #=> { 'name' => 'Emily' }
+  #   opts.to_hash #=> { :name => 'Emily' }
   #
-  #   # symbols!
-  #   opts.to_hash(true) #=> { :name => 'Emily' }
+  #   # strings!
+  #   opts.to_hash(false) #=> { 'name' => 'Emily' }
   # @return [Hash]
-  def to_hash(symbols=false)
-    @options.to_hash symbols
+  def to_hash(symbols=true)
+    @options.reduce({}) do |hsh, option|
+      key = option.key
+      key = key.to_sym if symbols
+      hsh[key] = option.argument_value
+      hsh
+    end
   end
   alias :to_h :to_hash
 
@@ -406,7 +411,7 @@ class Slop
     parts << summary if summary
     parts << wrap_and_indent(description, 80, 4) if description
     parts << "options:" if options.size > 0
-    parts << options.to_help if options.size > 0
+    parts << options.to_helpif options.size > 0
 
     parts.join("\n\n")
   end
