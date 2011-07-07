@@ -7,6 +7,8 @@
     you want strings use `opts.to_hash(false)`
   * Removed `Slop::Options#to_help` and merged its contents into `Slop#help`
   * Removed `lib/slop/options.rb` and merged `Slop::Options` into slop.rb
+  * Removed `lib/slop/option.rb` and merged `Slop::Option` into slop.rb
+  * These changes make Slop much easier to vendor in libraries
 * `Slop::Option` now inherits from `Struct.new`
 * Added Slop::Error subclassing from StandardError which all exception
   classes should inherit from
