@@ -97,10 +97,10 @@ Now throw some options at it:
 Here's what we'll get back
 
     {
-    	:server=>"ftp://foobar.com",
-    	:port=>1234,
-    	:username=>"FooBar",
-    	:password=>"hello there"
+    	:server => "ftp://foobar.com",
+    	:port => 1234,
+    	:username => "FooBar",
+    	:password => "hello there"
     }
 
 Events
