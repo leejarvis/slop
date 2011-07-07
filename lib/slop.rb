@@ -139,7 +139,7 @@ class Slop
   #
   # @option opts [Array] :aliases ([])
   #   * Primary uses by commands to implement command aliases
-
+  #
   # @option opts [Boolean] :completion (true)
   #   * When true, commands will be auto completed. Ie `foobar` will be
   #     executed simply when `foo` `fo` or `foob` are used
@@ -435,12 +435,14 @@ class Slop
     parts << banner if banner
     parts << summary if summary
     parts << wrap_and_indent(description, 80, 4) if description
-    parts << "options:" if options.size > 0
 
     if options.size > 0
+      parts << "options:"
+
       heads = @options.reject(&:tail)
       tails = @options.select(&:tail)
       all = (heads + tails).select(&:help)
+
       parts << all.map(&:to_s).join("\n")
     end
 
