@@ -634,6 +634,7 @@ class Slop
   #
   # @param [String] name The name of this class
   # @return [Class] The new class, or nil if there are no options
+  # @since 2.0.0
   def to_struct(name=nil)
     hash = to_hash
     Struct.new(name, *hash.keys).new(*hash.values) unless hash.empty?
