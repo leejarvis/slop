@@ -586,7 +586,7 @@ class Slop
   # @param [Array] args The list of arguments to send to this command
   #   is invoked
   # @since 1.8.0
-  # @yields [Slop] an instance of Slop for this command
+  # @yield [Slop] an instance of Slop for this command
   def execute(args=[], &block)
     if block_given?
       @execution_block = block
