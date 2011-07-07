@@ -517,4 +517,19 @@ class SlopTest < TestCase
       "    labore et dolore magna aliqua.",
       slop.send(:wrap_and_indent, "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", 36, 4))
   end
+
+  test 'to_struct' do
+    assert_nil Slop.new.to_struct
+
+    slop = Slop.new { on :a, true }
+    slop.parse %w[ -a foo -b ]
+    struct = slop.to_struct
+
+    assert_equal 'foo', struct.a
+    assert_kind_of Struct, struct
+    assert_raises(NoMethodError) { struct.b }
+
+    pstruct = slop.to_struct('Foo')
+    assert_kind_of Struct::Foo, pstruct
+  end
 end

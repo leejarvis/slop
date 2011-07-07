@@ -573,6 +573,32 @@ class Slop
   end
   alias :to_h :to_hash
 
+  # Return parsed items as a new Class
+  #
+  # @example
+  #   opts = Slop.new do
+  #     on :n, :name, 'Persons name', true
+  #     on :a, :age, 'Persons age', true, :as => :int
+  #     on :s, :sex, 'Persons sex m/f', true, :match => /^[mf]$/
+  #     on :A, :admin, 'Enable admin mode'
+  #   end
+  #
+  #   opts.parse %w[ --name Lee --age 22 -s m --admin ]
+  #
+  #   person = opts.to_struct("Person")
+  #   person.class  #=> Struct::Person
+  #   person.name   #=> 'Lee'
+  #   person.age    #=> 22
+  #   person.sex    #=> m
+  #   person.admin  #=> true
+  #
+  # @param [String] name The name of this class
+  # @return [Class] The new class, or nil if there are no options
+  def to_struct(name=nil)
+    hash = to_hash
+    Struct.new(name, *hash.keys).new(*hash.values) unless hash.empty?
+  end
+
   # Allows you to check whether an option was specified in the parsed list
   #
   # Merely sugar for `present?`

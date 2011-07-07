@@ -1,5 +1,10 @@
+HEAD
+----
+
+* Added `Slop#to_struct` for building new classes from options
+
 2.0.0 (2011-07-07)
------------
+------------------
 
 * Deprecations:
   * Removed `Slop::Options#to_hash` continue using `Slop#to_hash` directly.
