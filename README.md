@@ -39,7 +39,7 @@ wiki page.
 
 You can also return your options as a Hash
 
-    opts.to_hash #=> {'name' => 'Lee Jarvis', 'verbose' => true, 'age' => nil, 'sex' => 'male'}
+    opts.to_hash #=> {:name => 'Lee Jarvis', :verbose => true, :age => nil, :sex => 'male'}
 
 If you want some pretty output for the user to see your options, you can just
 send the Slop object to `puts` or use the `help` method.
