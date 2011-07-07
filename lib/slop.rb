@@ -344,7 +344,7 @@ class Slop
     @banner = sloptions[:banner]
     @strict = sloptions[:strict]
     @ignore_case = sloptions[:ignore_case]
-    @multiple_switches = sloptions[:multiple_switches]
+    @multiple_switches = sloptions.fetch(:multiple_switches, true)
     @autocreate = sloptions[:autocreate]
     @completion = sloptions.fetch(:completion, true)
     @arguments = sloptions[:arguments]
@@ -694,8 +694,9 @@ class Slop
       next if ignore_all
       autocreate(flag, index, items) if @autocreate
       option, argument = extract_option(item, flag)
-      if @multiple_switches && !option
-        trash << index if item[/\A-[^-]/]
+
+      if @multiple_switches && item[/\A-[^-]/] && !option
+        trash << index
         next
       end
 

@@ -5,6 +5,8 @@
   * Removed `Slop::Options#to_hash` continue using `Slop#to_hash` directly.
     This method also now returns symbols by default instead of strings. If
     you want strings use `opts.to_hash(false)`
+  * `:multiple_switches` is now enabled by default, to parse `fbar` as the
+    option `f` with value `bar` you must disable `:multiple_switches`
   * Removed `Slop::Options#to_help` and merged its contents into `Slop#help`
   * Removed `lib/slop/options.rb` and merged `Slop::Options` into slop.rb
   * Removed `lib/slop/option.rb` and merged `Slop::Option` into slop.rb

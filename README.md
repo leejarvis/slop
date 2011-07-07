@@ -83,7 +83,7 @@ Parsing
 
 Slop's pretty good at parsing, let's take a look at what it'll extract for you
 
-    Slop.parse do
+    Slop.parse(:multiple_switches => false) do
       on 's', 'server', true
       on 'p', 'port', true, :as => :integer
       on 'username', true, :matches => /[^a-zA-Z]+$/

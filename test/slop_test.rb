@@ -375,11 +375,11 @@ class SlopTest < TestCase
     assert_equal 'nelson', strict[:name]
   end
 
-  test 'short option flag with no space between flag and argument' do
-    slop = Slop.new
+  test 'short option flag with no space between flag and argument, with :multiple_switches => false' do
+    slop = Slop.new :multiple_switches => false
     slop.opt :p, :password, true
     slop.opt :s, :shortpass, true
-    slop.parse %w/-p foo -sbar/
+    slop.parse %w/-pfoo -sbar/
 
     assert_equal 'foo', slop[:password]
     assert_equal 'bar', slop[:shortpass]
