@@ -245,4 +245,4 @@ thing in Slop:
       on :a, :age, 'Your age', true, :as => :int
     end
 
-    opts.to_hash(true) #=> { :name => 'lee', :age => 105 }
+    opts.to_hash #=> { :name => 'lee', :age => 105 }
