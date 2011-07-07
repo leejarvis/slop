@@ -160,21 +160,28 @@ Short Switches
 --------------
 
 Want to enable multiple switches at once like rsync does? By default Slop will
-parse `-abcd` as the option `a` with the argument `bcd`, this can be disabled
-by passing the `:multiple_switches` option to a new Slop object.
+parse `-abc` as the options `a` `b` and `c` and set their values to true. If
+you would like to disable this, you can pass `multiple_switches => false` to
+a new Slop object. In which case Slop will then parse `-fbar` as the option
+`f` with the argument value `bar`.
 
-    opts = Slop.new(:strict, :multiple_switches) do
+    Slop.parse do
       on :a, 'First switch'
       on :b, 'Second switch'
       on :c, 'Third switch'
     end
 
-    opts.parse
-
     # Using `-ac`
     opts[:a] #=> true
     opts[:b] #=> false
     opts[:c] #=> true
+
+    Slop.parse(:multiple_switches => false) do
+      on :a, 'Some switch', true
+    end
+
+    # Using `ahello`
+    opts[:a] #=> 'hello'
 
 Lists
 -----
