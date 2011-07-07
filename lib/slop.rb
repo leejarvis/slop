@@ -329,6 +329,10 @@ class Slop
   # @option opts [Boolean] :completion (true)
   #   * When true, commands will be auto completed. Ie `foobar` will be
   #     executed simply when `foo` `fo` or `foob` are used
+  #
+  # @option options [Boolean] :all_accept_arguments (false)
+  #   * When true, every option added will take an argument, this saves
+  #     having to enable it for every option
   def initialize(*opts, &block)
     sloptions = opts.last.is_a?(Hash) ? opts.pop : {}
     sloptions[:banner] = opts.shift if opts[0].respond_to? :to_str
@@ -460,7 +464,10 @@ class Slop
     options = args.last.is_a?(Hash) ? args.pop : {}
 
     short, long, desc, arg, extras = clean_options args
+
     options.merge!(extras)
+    options[:argument] = true if @sloptions[:all_accept_arguments]
+
     option = Option.new self, short, long, desc, arg, options, &block
     @options << option
 

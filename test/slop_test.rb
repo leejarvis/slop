@@ -112,6 +112,18 @@ class SlopTest < TestCase
     assert_equal 'Print this help message', slop.options[:help].description
   end
 
+  test ':all_accept_arguments' do
+    opts = Slop.new(:all_accept_arguments) do
+      on :foo
+      on :bar, :optional => true
+    end
+    opts.parse %w[ --foo hello --bar ]
+
+    assert_equal 'hello', opts[:foo]
+    assert_nil opts[:bar]
+    assert_raises(Slop::MissingArgumentError) { opts.parse %w[ --foo --bar ] }
+  end
+
   test 'yielding non-options when a block is passed to "parse"' do
     opts = Slop.new do
       on :name, true
