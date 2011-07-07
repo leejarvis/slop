@@ -836,10 +836,13 @@ class Slop
   # flag was not found
   def enable_multiple_switches(item)
     item[1..-1].each_char do |switch|
-      if option = @options[switch]
+      option = @options[switch]
+
+      if option
         if option.expects_argument?
           raise MissingArgumentError, "'-#{switch}' expects an argument, used in multiple_switch context"
         end
+
         option.argument_value = true
         option.count += 1
       else
@@ -878,6 +881,7 @@ class Slop
       option = @options[flag]
       option ||= @options[flag.downcase] if @ignore_case
     end
+
     unless option
       case item
       when /\A-[^-]/
@@ -894,6 +898,7 @@ class Slop
         option.force_argument_value(false) if option
       end
     end
+
     [option, argument]
   end
 
@@ -961,6 +966,7 @@ class Slop
 
     long = args.first
     boolean = [true, false].include? long
+
     if !boolean && long.to_s =~ /\A(?:--?)?[a-z_-]+\s[A-Z\s\[\]]+\z/
       arg, help = args.shift.split(/ /, 2)
       options.push arg.sub(/\A--?/, '')
