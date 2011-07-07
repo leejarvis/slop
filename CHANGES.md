@@ -6,6 +6,7 @@
     This method also now returns symbols by default instead of strings. If
     you want strings use `opts.to_hash(false)`
   * Removed `Slop::Options#to_help` and merged its contents into `Slop#help`
+  * Removed `lib/slop/options.rb` and merged `Slop::Options` into slop.rb
 * Added Slop::Error subclassing from StandardError which all exception
   classes should inherit from
 * Added Slop::MissingOptionError and `:required` option to Slop::Option.
