@@ -25,13 +25,5 @@ class Slop
       end
     end
 
-    # @see Slop#help
-    # @return [String] All options in a pretty help string
-    def to_help
-      heads = reject(&:tail)
-      tails = select(&:tail)
-      all = (heads + tails).select(&:help)
-      all.map(&:to_s).join("\n")
-    end
   end
 end

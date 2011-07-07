@@ -411,7 +411,13 @@ class Slop
     parts << summary if summary
     parts << wrap_and_indent(description, 80, 4) if description
     parts << "options:" if options.size > 0
-    parts << options.to_helpif options.size > 0
+
+    if options.size > 0
+      heads = @options.reject(&:tail)
+      tails = @options.select(&:tail)
+      all = (heads + tails).select(&:help)
+      parts << all.map(&:to_s).join("\n")
+    end
 
     parts.join("\n\n")
   end
