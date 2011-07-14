@@ -466,7 +466,7 @@ class Slop
     option = @options[key]
     option ? option.argument_value : @commands[key]
   end
-  alias :get :[]
+  alias get []
 
   # Specify an option with a short or long version, description and type
   #
@@ -492,18 +492,18 @@ class Slop
   def option(*args, &block)
     options = args.last.is_a?(Hash) ? args.pop : {}
 
-    short, long, desc, arg, extras = clean_options args
+    short, long, desc, arg, extras = clean_options(args)
 
     options.merge!(extras)
     options[:argument] = true if @sloptions[:all_accept_arguments]
 
-    option = Option.new self, short, long, desc, arg, options, &block
+    option = Option.new(self, short, long, desc, arg, options, &block)
     @options << option
 
     option
   end
-  alias :opt :option
-  alias :on :option
+  alias opt option
+  alias on option
 
   # Namespace options depending on what command is executed
   #
@@ -551,7 +551,7 @@ class Slop
   def on_empty(obj=nil, &block)
     @on_empty ||= (obj || block)
   end
-  alias :on_empty= :on_empty
+  alias on_empty= on_empty
 
   # Trigger an event when the arguments contain no options
   #
@@ -565,7 +565,7 @@ class Slop
   def on_noopts(obj=nil, &block)
     @on_noopts ||= (obj || block)
   end
-  alias :on_optionless :on_noopts
+  alias on_optionless on_noopts
 
   # Add an execution block (for commands)
   #
@@ -607,7 +607,7 @@ class Slop
       hsh
     end
   end
-  alias :to_h :to_hash
+  alias to_h to_hash
 
   # Return parsed items as a new Class
   #
@@ -697,7 +697,7 @@ class Slop
 
     parts.join("\n\n")
   end
-  alias :help :to_s
+  alias help to_s
 
   # @return [String] This Slop object will options and configuration
   #   settings revealed
