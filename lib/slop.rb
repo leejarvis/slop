@@ -99,7 +99,10 @@ class Slop
       @callback = blk if block_given?
       @callback ||= @options[:callback]
 
-      build_longest_flag
+      if long_flag && long_flag.size > @slop.longest_flag
+        @slop.longest_flag = long_flag.size
+        @slop.longest_flag += help.size if help.respond_to? :to_str
+      end
     end
 
     # @return [Boolean] true if this option expects an argument
@@ -224,13 +227,6 @@ class Slop
         value.to_i
       else
         value
-      end
-    end
-
-    def build_longest_flag
-      if long_flag && long_flag.size > @slop.longest_flag
-        @slop.longest_flag = long_flag.size
-        @slop.longest_flag += help.size if help.respond_to? :to_str
       end
     end
 
