@@ -101,7 +101,7 @@ class Slop
 
       if long_flag && long_flag.size > @slop.longest_flag
         @slop.longest_flag = long_flag.size
-        @slop.longest_flag += help.size if help.respond_to? :to_str
+        @slop.longest_flag += help.size if help.respond_to?(:to_str)
       end
     end
 
@@ -364,7 +364,7 @@ class Slop
   #     having to enable it for every option
   def initialize(*opts, &block)
     sloptions = opts.last.is_a?(Hash) ? opts.pop : {}
-    sloptions[:banner] = opts.shift if opts[0].respond_to? :to_str
+    sloptions[:banner] = opts.shift if opts[0].respond_to?(:to_str)
     opts.each { |o| sloptions[o] = true }
 
     @options = Options.new
