@@ -312,6 +312,7 @@ class SlopTest < TestCase
 
     assert opts.present?('foo-bar')
     refute opts.present?('bar-baz')
+    refute opts.present?('foo-bar', 'bar-baz')
     assert opts.present?(:h)
   end
 

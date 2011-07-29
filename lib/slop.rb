@@ -662,11 +662,11 @@ class Slop
   # Does the same as Slop#option? but a convenience method for unacceptable
   # method names
   #
-  # @param [Object] The object name to check
+  # @param [Object] The object name(s) to check
   # @since 1.5.0
-  # @return [Boolean] true if this option is present, false otherwise
-  def present?(option_name)
-    @options[option_name] && @options[option_name].count > 0
+  # @return [Boolean] true if these options are present, false otherwise
+  def present?(*option_names)
+    option_names.all? { |opt| @options[opt] && @options[opt].count > 0 }
   end
 
   # Returns the banner followed by available options listed on the next line
