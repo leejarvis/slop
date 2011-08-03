@@ -750,10 +750,10 @@ class Slop
   # * Remove non-parsed items if `delete` is true
   # * Yield any non-options to the block (if one is given)
   def parse_items(items, delete=false, &block)
-    if items.empty? && @on_empty.respond_to?(:call)
+    if items.empty? and @on_empty.respond_to?(:call)
       @on_empty.call self
       return items
-    elsif !items.any? {|i| i.to_s[/\A--?/] } && @on_noopts.respond_to?(:call)
+    elsif not items.any? {|i| i.to_s[/\A--?/] } and @on_noopts.respond_to?(:call)
       @on_noopts.call self
       return items
     elsif execute_command(items, delete)
@@ -776,7 +776,7 @@ class Slop
       autocreate(flag, index, items) if @autocreate
       option, argument = extract_option(item, flag)
 
-      if @multiple_switches && item[/\A-[^-]/] && !option
+      if @multiple_switches and item[/\A-[^-]/] and not option
         trash << index
         next
       end
@@ -787,16 +787,16 @@ class Slop
         next if option.forced
         option.argument_value = true
 
-        if option.expects_argument? || option.accepts_optional_argument?
+        if option.expects_argument? or option.accepts_optional_argument?
           argument ||= items.at(index + 1)
           trash << index + 1
 
-          if !option.accepts_optional_argument? && argument =~ /\A--?[a-zA-Z][a-zA-Z0-9_-]*\z/
+          if not option.accepts_optional_argument? and argument =~ /\A--?[a-zA-Z][a-zA-Z0-9_-]*\z/
             raise MissingArgumentError, "'#{option.key}' expects an argument, none given"
           end
 
           if argument
-            if option.match && !argument.match(option.match)
+            if option.match and not argument.match(option.match)
               raise InvalidArgumentError, "'#{argument}' does not match #{option.match.inspect}"
             end
 
@@ -810,8 +810,8 @@ class Slop
           option.call unless option.omit_exec?(items)
         end
       else
-        @invalid_options << flag if item[/\A--?/] && @strict
-        block.call(item) if block_given? && !trash.include?(index)
+        @invalid_options << flag if item[/\A--?/] and @strict
+        block.call(item) if block_given? and not trash.include?(index)
       end
     end
 
@@ -830,7 +830,7 @@ class Slop
   end
 
   def raise_if_invalid_options!
-    return if !@strict || @invalid_options.empty?
+    return if not @strict or @invalid_options.empty?
     message = "Unknown option#{'s' if @invalid_options.size > 1}"
     message << ' -- ' << @invalid_options.map { |o| "'#{o}'" }.join(', ')
     raise InvalidOptionError, message
@@ -982,12 +982,12 @@ class Slop
     long = args.first
     boolean = [true, false].include? long
 
-    if !boolean && long.to_s =~ /\A(?:--?)?[a-z_-]+\s[A-Z\s\[\]]+\z/
+    if not boolean and long.to_s =~ /\A(?:--?)?[a-z_-]+\s[A-Z\s\[\]]+\z/
       arg, help = args.shift.split(/ /, 2)
       options.push arg.sub(/\A--?/, '')
       extras[:optional] = help[0, 1] == '[' && help[-1, 1] == ']'
       extras[:help] = help
-    elsif !boolean && long.to_s =~ /\A(?:--?)?[a-zA-Z][a-zA-Z0-9_-]+\z/
+    elsif not boolean and long.to_s =~ /\A(?:--?)?[a-zA-Z][a-zA-Z0-9_-]+\z/
       options.push args.shift.to_s.sub(/\A--?/, '')
     else
       options.push nil
