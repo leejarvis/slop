@@ -967,7 +967,7 @@ class Slop
   def clean_options(args)
     options = []
     extras = {}
-    extras[:as] =args.find {|c| c.is_a? Class }
+    extras[:as] = args.find { |c| c.is_a? Class }
     args.delete(extras[:as])
     extras.delete(:as) if extras[:as].nil?
 
