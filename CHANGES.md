@@ -1,6 +1,7 @@
 HEAD
 ----
 
+* Added `Slop#missing` for returning a list of missing options parsed
 * Allow `Slop#present?` to accept multiple arguments
 * Added `:all_accept_arguments` to Slop configuration options, this saves
   having to specify that every option takes an argument

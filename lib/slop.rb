@@ -636,6 +636,24 @@ class Slop
     Struct.new(name, *hash.keys).new(*hash.values) unless hash.empty?
   end
 
+  # Fetch a list of options which were missing from the parsed list
+  #
+  # @example
+  #   opts = Slop.new do
+  #     on :n, :name, 'Your name', true
+  #     on :p, :password, 'Your password', true
+  #     on :A, 'Use auth?'
+  #   end
+  #
+  #   opts.parse %w[ --name Lee ]
+  #   opts.missing #=> ['password', 'a']
+  #
+  # @return [Array] A list of options missing from the parsed string
+  # @since 2.1.0
+  def missing
+    @options.select { |opt| not present?(opt.key) }.map { |opt| opt.key }
+  end
+
   # Allows you to check whether an option was specified in the parsed list
   #
   # Merely sugar for `present?`

@@ -545,4 +545,11 @@ class SlopTest < TestCase
     pstruct = slop.to_struct('Foo')
     assert_kind_of Struct::Foo, pstruct
   end
+
+  test 'returning missing options' do
+    slop = Slop.new { on :a; on :b, :bar; on :c; }
+    slop.parse %w[ -a ]
+
+    assert_equal %w[ bar c ], slop.missing
+  end
 end
