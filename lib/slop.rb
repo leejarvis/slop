@@ -263,7 +263,7 @@ class Slop
   end
 
   # @return [String] The current version string
-  VERSION = '2.0.0'
+  VERSION = '2.1.0'
 
   # Parses the items from a CLI format into a friendly object
   #

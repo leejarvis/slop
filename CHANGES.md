@@ -1,5 +1,5 @@
-HEAD
-----
+2.1.0 (2011-08-03)
+------------------
 
 * Added `Slop#missing` for returning a list of missing options parsed
 * Allow `Slop#present?` to accept multiple arguments
