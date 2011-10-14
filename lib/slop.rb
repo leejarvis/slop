@@ -23,8 +23,7 @@ class Slop
   class InvalidOptionError < Error; end
 
   # Each option specified in `Slop#opt` creates an instance of this class
-  class Option < Struct.new(:short_flag, :long_flag, :description,
-    :tail, :match, :help, :required, :forced, :count)
+  class Option < Struct.new(:short_flag, :long_flag, :description, :tail, :match, :help, :required, :forced, :count)
 
     # @param [Slop] slop The Slop object this Option belongs to
     #
