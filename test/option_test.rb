@@ -75,6 +75,11 @@ class OptionTest < TestCase
     assert_equal -1, option_value(%w/-i -1.1/, :i, true, :as => Integer)
     assert_equal "-1.1", option_value(%w/-i -1.1/, :i, true, :as => Float).to_s
     assert_equal "foo", option_value(%w/--foo1 foo/, :foo1, true)
+
+    assert_equal 0, option_value(%w//, :v, :verbose, :as => :count)
+    assert_equal 1, option_value(%w/--verbose/, :v, :verbose, :as => :count)
+    assert_equal 2, option_value(%w/--verbose -v/, :v, :verbose, :as => :count)
+    assert_equal 3, option_value(%w/-vvv/, :v, :verbose, :as => :count)
   end
 
   test 'ranges' do
