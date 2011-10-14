@@ -866,20 +866,17 @@ class Slop
     end
   end
 
-  # wrap and indent a string, used to wrap and indent a description string
   def wrap_and_indent(string, width, indentation)
     string.lines.map do |paragraph|
       lines = []
       line = ''
 
       paragraph.split(/\s/).each do |word|
-        # Begin new line if it's too long
         if (line + ' ' + word).length >= width
           lines << line
           line = ''
         end
 
-        # Add word to line
         line << (line == '' ? '' : ' ' ) + word
       end
       lines << line
