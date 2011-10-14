@@ -881,7 +881,7 @@ class Slop
       end
       lines << line
 
-      lines.map { |l| ' '*indentation + l }.join("\n")
+      lines.map { |l| ' ' * indentation + l }.join("\n")
     end.join("\n")
   end
 
