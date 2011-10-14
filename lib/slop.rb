@@ -143,6 +143,9 @@ class Slop
     #   according to the `:as` option
     def argument_value
       return @argument_value if forced
+      # Check for count first to prefer 0 over nil
+      return count if @argument_type == 'count'
+
       value = @argument_value || @options[:default]
       return if value.nil?
 
