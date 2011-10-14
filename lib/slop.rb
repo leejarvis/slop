@@ -1,6 +1,9 @@
 class Slop
   include Enumerable
 
+  # @return [String] The current version string
+  VERSION = '2.1.0'
+
   # Slops standard Error class. All exception classes should
   # inherit from this class
   class Error < StandardError; end
@@ -262,9 +265,6 @@ class Slop
       end
     end
   end
-
-  # @return [String] The current version string
-  VERSION = '2.1.0'
 
   # Parses the items from a CLI format into a friendly object
   #
