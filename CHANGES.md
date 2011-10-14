@@ -3,8 +3,8 @@ HEAD
 
 * Allow `:as` to accept a `count` value (Conrad Irwin):
 
-  on :v, :verbose, :as => :count # -vv
-  opts[:verbose] #=> 2
+    on :v, :verbose, :as => :count # -vv
+    opts[:verbose] #=> 2
 
 2.1.0 (2011-08-03)
 ------------------
