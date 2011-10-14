@@ -522,7 +522,7 @@ class Slop
   # @raise [ArgumentError] When this command already exists
   # @return [Slop] a new instance of Slop namespaced to +label+
   def command(label, options={}, &block)
-    if @commands[label]
+    if @commands.key?(label)
       raise ArgumentError, "command `#{label}` already exists"
     end
 
