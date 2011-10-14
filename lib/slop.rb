@@ -924,7 +924,7 @@ class Slop
     if str
       command = @commands.keys.find { |c| c.to_s == str.to_s }
 
-      if !command && @completion
+      if @completion and not command
         cmds = @commands.keys.select { |c| c.to_s[0, str.length] == str }
 
         if cmds.size > 1
