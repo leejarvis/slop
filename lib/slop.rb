@@ -288,16 +288,22 @@ class Slop
   end
 
   # Build options from an optspec string
+  #
+  # @param [String] optspec The option spec string
+  # @param [Array]  options A list of options to forward to Slop.new
+  # @return [Slop]  A new instance of Slop
   def self.optspec(optspec, *options)
-    lines = optspec.split("\n")
-    banner = lines.take_while { |l| l !~ /\A--+\Z/ }
-    lines = (lines - banner)[1..-1]
-    opts = Slop.new(banner.join, *options)
+    if optspec[/^--+$/]
+      banner, optspec = optspec.split(/^--+$/, 2)
+    end
+
+    lines = optspec.split("\n").reject(&:empty?)
+    opts  = Slop.new(banner, *options)
 
     lines.each do |line|
       opt, description = line.split(' ', 2)
-      short, long = opt.split(',').map { |s| s.gsub(/\A--?/, '') }
-      argument = long && long =~ /\=$/
+      short, long = opt.split(',').map { |s| s.sub(/\A--?/, '') }
+      argument = long && long[/\=$/]
       long.sub!(/\=$/, '') if argument
       opts.on short, long, description, argument
     end
