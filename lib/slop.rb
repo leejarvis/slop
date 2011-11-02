@@ -287,6 +287,24 @@ class Slop
     initialize_and_parse items, true, options, &block
   end
 
+  # Build options from an optspec string
+  def self.optspec(optspec, *options)
+    lines = optspec.split("\n")
+    banner = lines.take_while { |l| l !~ /\A--+\Z/ }
+    lines = (lines - banner)[1..-1]
+    opts = Slop.new(banner.join, *options)
+
+    lines.each do |line|
+      opt, description = line.split(' ', 2)
+      short, long = opt.split(',').map { |s| s.gsub(/\A--?/, '') }
+      argument = long && long =~ /\=$/
+      long.sub!(/\=$/, '') if argument
+      opts.on short, long, description, argument
+    end
+
+    opts
+  end
+
   # @return [Options]
   attr_reader :options
 
