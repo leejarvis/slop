@@ -2,7 +2,7 @@ class Slop
   include Enumerable
 
   # @return [String] The current version string
-  VERSION = '2.1.0'
+  VERSION = '2.2.0'
 
   # Slops standard Error class. All exception classes should
   # inherit from this class

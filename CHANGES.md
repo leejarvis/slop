@@ -1,5 +1,8 @@
-HEAD
-----
+2.2.0 (2011-11-02)
+------------------
+
+* Support `bup.options` style optspec parsing
+    * http://apenwarr.ca/log/?m=201111
 
 * Allow `:as` to accept a `count` value (Conrad Irwin):
 
