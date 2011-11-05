@@ -1008,14 +1008,15 @@ class Slop
       options.push arg.sub(/\A--?/, '')
       extras[:optional] = help[0, 1] == '[' && help[-1, 1] == ']'
       extras[:help] = help
-    elsif not boolean and long.to_s =~ /\A(?:--?)?[a-zA-Z][a-zA-Z0-9_-]+\z/
-      options.push args.shift.to_s.sub(/\A--?/, '')
+    elsif not boolean and long.to_s =~ /\A(?:--?)?[a-zA-Z][a-zA-Z0-9_-]+\=?\z/
+      extras[:argument] = true if long[-1, 1] == '='
+      options.push args.shift.to_s.sub(/\A--?/, '').sub(/\=\z/, '')
     else
       options.push nil
     end
 
     options.push args.first.respond_to?(:to_sym) ? args.shift : nil
-    options.push @arguments ?  true : (args.shift ? true : false)
+    options.push (@arguments || extras[:argument]) ? true : (args.shift ? true : false)
     options.push extras
   end
 end

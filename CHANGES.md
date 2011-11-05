@@ -1,3 +1,8 @@
+HEAD
+----
+
+* Allow flags to have suffixed `=` char for options which accept an argument
+
 2.2.0 (2011-11-02)
 ------------------
 

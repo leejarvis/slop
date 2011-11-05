@@ -25,6 +25,11 @@ class OptionTest < TestCase
     refute option(:f, :foo).expects_argument?
   end
 
+  test 'expects an argument if long option is suffixed with =' do
+    assert option(:f, :foo=).expects_argument?
+    assert option('f', 'foo=').expects_argument?
+  end
+
   test 'accepts an optional argument if optional is true' do
     assert option(:f, :optional => true).accepts_optional_argument?
     assert option(:f, false, :optional => true).accepts_optional_argument?
