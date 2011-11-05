@@ -1,5 +1,5 @@
-HEAD
-----
+2.3.0
+-----
 
 * Allow flags to have suffixed `=` char for options which accept an argument
 
