@@ -26,7 +26,7 @@ opts = Slop.parse do
   on :n, :name=, 'Your name'               # This option requires an argument
   on :s, :sex, 'Your sex', true            # So does this one
   on :a, :age, 'Your age', optional: true  # This one accepts an optional argument
-  on '-D', '--debug', 'Enable debug'       # The prefix -'s are optional
+  on '-D', '--debug', 'Enable debug'       # The prefixed -'s are optional
 end
 
 # if ARGV is `-v --name 'lee jarvis' -s male`
