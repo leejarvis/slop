@@ -1,5 +1,5 @@
-2.3.0
------
+2.3.0 (2011-11-04)
+------------------
 
 * Allow flags to have suffixed `=` char for options which accept an argument
 
