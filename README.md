@@ -89,9 +89,9 @@ end
 Shortcut:
 
 ```ruby
-Slop.parse :help => true do
-      ...
-end
+Slop.new :help => true
+# or
+Slop.new :help
 ```
 
 Parsing
@@ -103,7 +103,7 @@ Slop's pretty good at parsing, let's take a look at what it'll extract for you
 Slop.parse(:multiple_switches => false) do
   on 's', 'server='
   on 'p', 'port=', :as => :integer
-  on 'username=', :matches => /[^a-zA-Z]+$/
+  on 'username=', :matches => /^[a-zA-Z]+$/
   on 'password='
 end
 ```
