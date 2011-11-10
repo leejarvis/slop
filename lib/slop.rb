@@ -152,12 +152,12 @@ class Slop
       return if value.nil?
 
       case @argument_type
-      when 'array'; @argument_value
-      when 'range'; value_to_range value
-      when 'float'; value.to_s.to_f
-      when 'string', 'str';  value.to_s
-      when 'symbol', 'sym';  value.to_s.to_sym
-      when 'integer', 'int'; value.to_s.to_i
+      when 'array'; @argument_value unless !expects_argument?
+      when 'range'; value_to_range value unless !expects_argument?
+      when 'float'; value.to_s.to_f unless !expects_argument?
+      when 'string', 'str';  value.to_s unless !expects_argument?
+      when 'symbol', 'sym';  value.to_s.to_sym unless !expects_argument?
+      when 'integer', 'int'; value.to_s.to_i unless !expects_argument?
       else
         value
       end

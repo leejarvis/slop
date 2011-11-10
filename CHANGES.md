@@ -1,3 +1,8 @@
+HEAD
+----
+
+* Return `nil` for any options using casting which don't expect arguments (#33)
+
 2.3.0 (2011-11-04)
 ------------------
 

@@ -87,6 +87,14 @@ class OptionTest < TestCase
     assert_equal 3, option_value(%w/-vvv/, :v, :verbose, :as => :count)
   end
 
+  test 'casting should return nil for optionless arguments' do
+    assert_equal nil, option_value(%w/-i/, :i, :as => :int)
+    assert_equal nil, option_value(%w/-i/, :i, :as => :str)
+    assert_equal nil, option_value(%w/-i/, :i, :as => :float)
+    assert_equal nil, option_value(%w/-i/, :i, :as => :array)
+    assert_equal nil, option_value(%w/-i/, :i, :as => :range)
+  end
+
   test 'ranges' do
     assert_equal (1..10), option_value(%w/-r 1..10/, :r, true, :as => Range)
     assert_equal (1..10), option_value(%w/-r 1-10/, :r, true, :as => Range)
