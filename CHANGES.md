@@ -1,7 +1,9 @@
-HEAD
-----
+2.3.1 (2011-11-11)
+------------------
 
 * Return `nil` for any options using casting which don't expect arguments (#33)
+* Fix parenthesis warning on 1.8.7 (@shevegen)
+* Ensure long argument is a string before attempting to use `#[]` method on it
 
 2.3.0 (2011-11-04)
 ------------------
