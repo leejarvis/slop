@@ -1016,7 +1016,7 @@ class Slop
     end
 
     options.push args.first.respond_to?(:to_sym) ? args.shift : nil
-    options.push (@arguments || extras[:argument]) ? true : (args.shift ? true : false)
+    options.push((@arguments || extras[:argument]) ? true : (args.shift ? true : false))
     options.push extras
   end
 end
