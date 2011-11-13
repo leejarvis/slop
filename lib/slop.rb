@@ -98,8 +98,7 @@ class Slop
       self.forced = false
       self.count = 0
 
-      @callback = blk if block_given?
-      @callback ||= @options[:callback]
+      @callback = block_given? ? blk : @options[:callback]
 
       if long_flag && long_flag.size > @slop.longest_flag
         @slop.longest_flag = long_flag.size
