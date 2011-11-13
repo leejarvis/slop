@@ -113,7 +113,7 @@ class Slop
 
     # @return [Boolean] true if this option accepts an optional argument
     def accepts_optional_argument?
-      @options[:optional]
+      @options[:optional] || @options[:optional_argument]
     end
 
     # @return [String] either the long or short flag for this option
