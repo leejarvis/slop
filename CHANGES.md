@@ -1,3 +1,8 @@
+HEAD
+----
+
+* Ensure the short option allows an appended `=` for accepting arguments
+
 2.3.1 (2011-11-11)
 ------------------
 

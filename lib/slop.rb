@@ -992,6 +992,12 @@ class Slop
     extras.delete(:as) if extras[:as].nil?
 
     short = args.first.to_s.sub(/\A--?/, '')
+
+    if short.size == 2 && short[-1, 1] == '='
+      extras[:argument] = true
+      short.chop!
+    end
+
     if short.size == 1
       options.push short
       args.shift
