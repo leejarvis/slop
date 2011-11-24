@@ -424,6 +424,12 @@ class SlopTest < TestCase
     assert_raises(Slop::MissingArgumentError) { slop.parse %w/-f --bar/ }
   end
 
+  test 'respond_to?' do
+    slop = Slop.new { on :f, :foo }
+    assert slop.respond_to?('foo?')
+    refute slop.respond_to?('foo')
+  end
+
   test 'custom IO object' do
     io = StringIO.new
     slop = Slop.new(:help => true, :io => io)

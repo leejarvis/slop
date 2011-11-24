@@ -698,6 +698,16 @@ class Slop
     present
   end
 
+  # Override this method so we can check if an option? method exists
+  def respond_to?(method)
+    method = method.to_s
+    if method[-1] == ?? and @options.any? { |o| o.key == method.chomp('?') }
+      true
+    else
+      super
+    end
+  end
+
   # Check if an option is specified in the parsed list
   #
   # Does the same as Slop#option? but a convenience method for unacceptable

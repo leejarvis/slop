@@ -2,6 +2,7 @@ HEAD
 ----
 
 * Ensure the short option allows an appended `=` for accepting arguments
+* Implement `respond_to?`
 
 2.3.1 (2011-11-11)
 ------------------
