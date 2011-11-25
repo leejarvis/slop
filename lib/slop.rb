@@ -303,7 +303,7 @@ class Slop
     lines.each do |line|
       opt, description = line.split(' ', 2)
       short, long = opt.split(',').map { |s| s.sub(/\A--?/, '') }
-      argument = long && long[/\=$/]
+      argument = long && long[-1] == ?$
       long.sub!(/\=$/, '') if argument
       opts.on short, long, description, argument
     end
