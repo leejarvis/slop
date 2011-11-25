@@ -688,8 +688,9 @@ class Slop
   # @see Slop#present?
   # @return [Boolean] true if this option is present, false otherwise
   def method_missing(meth, *args, &block)
-    if meth.to_s[-1] == ??
-      present?(meth.to_s.chop)
+    meth = meth.to_s
+    if meth[-1] == ??
+      present?(meth.chop)
     else
       super
     end
@@ -698,7 +699,7 @@ class Slop
   # Override this method so we can check if an option? method exists
   def respond_to?(method)
     method = method.to_s
-    if method[-1] == ?? and @options.any? { |o| o.key == method.chomp('?') }
+    if method[-1] == ?? and @options.any? { |o| o.key == method.chop }
       true
     else
       super
