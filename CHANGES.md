@@ -1,6 +1,7 @@
 HEAD
 ----
 
+* Avoid `define_method` for checking an options presence (and caching it) #37
 * Ensure the short option allows an appended `=` for accepting arguments
 * Implement `respond_to?`
 
