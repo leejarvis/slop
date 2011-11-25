@@ -995,12 +995,13 @@ class Slop
   def clean_options(args)
     options = []
     extras = {}
-    extras[:as] = args.find { |c| c.is_a? Class }
-    args.delete(extras[:as])
-    extras.delete(:as) if extras[:as].nil?
+
+    if klass = args.find { |a| a.is_a?(Class) }
+      extras[:as] = klass
+      args.delete klass
+    end
 
     short = args.first.to_s.sub(/\A--?/, '')
-
     if short.size == 2 && short[-1, 1] == '='
       extras[:argument] = true
       short.chop!
@@ -1014,18 +1015,21 @@ class Slop
     end
 
     long = args.first
-    boolean = [true, false].include? long
-
-    if not boolean and long.to_s =~ /\A(?:--?)?[a-z_-]+\s[A-Z\s\[\]]+\z/
-      arg, help = args.shift.split(/ /, 2)
-      options.push arg.sub(/\A--?/, '')
-      extras[:optional] = help[0, 1] == '[' && help[-1, 1] == ']'
-      extras[:help] = help
-    elsif not boolean and long.to_s =~ /\A(?:--?)?[a-zA-Z][a-zA-Z0-9_-]+\=?\z/
-      extras[:argument] = true if long.to_s[-1, 1] == '='
-      options.push args.shift.to_s.sub(/\A--?/, '').sub(/\=\z/, '')
-    else
+    if long.is_a?(TrueClass) || long.is_a?(FalseClass)
       options.push nil
+    else
+      case long.to_s
+      when /\A(?:--?)?[a-z_-]+\s[A-Z\s\[\]]+\z/
+        arg, help = args.shift.split(/ /, 2)
+        extras[:optional] = help[0, 1] == '[' && help[-1, 1] == ']'
+        extras[:help] = help
+        options.push arg.sub(/\A--?/, '')
+      when /\A(?:--?)?[a-zA-Z][a-zA-Z0-9_-]+\=?\z/
+        extras[:argument] = true if long.to_s[-1, 1] == '='
+        options.push args.shift.to_s.sub(/\A--?/, '').sub(/\=\z/, '')
+      else
+        options.push nil
+      end
     end
 
     options.push args.first.respond_to?(:to_sym) ? args.shift : nil
