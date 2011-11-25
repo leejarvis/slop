@@ -674,7 +674,7 @@ class Slop
   # @return [Array] A list of options missing from the parsed string
   # @since 2.1.0
   def missing
-    @options.select { |opt| not present?(opt.key) }.map { |opt| opt.key }
+    @options.select { |opt| not present?(opt.key) }.map(&:key)
   end
 
   # Allows you to check whether an option was specified in the parsed list
