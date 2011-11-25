@@ -430,6 +430,16 @@ class SlopTest < TestCase
     refute slop.respond_to?('foo')
   end
 
+  test 'reusable slop object (ie not using define_method for present?())' do
+    slop = Slop.new { on :f, :foo }
+
+    slop.parse %w()
+    assert_equal false, slop.foo?
+
+    slop.parse %w( --foo )
+    assert_equal true, slop.foo?
+  end
+
   test 'custom IO object' do
     io = StringIO.new
     slop = Slop.new(:help => true, :io => io)

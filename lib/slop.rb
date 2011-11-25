@@ -689,13 +689,7 @@ class Slop
   # @return [Boolean] true if this option is present, false otherwise
   def method_missing(meth, *args, &block)
     super unless meth.to_s[-1, 1] == '?'
-    present = present? meth.to_s.chomp('?')
-
-    (class << self; self; end).instance_eval do
-      define_method(meth) { present }
-    end
-
-    present
+    present? meth.to_s.chomp('?')
   end
 
   # Override this method so we can check if an option? method exists
