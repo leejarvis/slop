@@ -182,8 +182,9 @@ class Slop
     # @return [Boolean] true if this options `:unless` argument exists
     #   inside *items*
     def omit_exec?(items)
-      string = @options[:unless].to_s.sub(/\A--?/, '')
-      items.any? { |i| i.to_s.sub(/\A--?/, '') == string }
+      items.any? do |item|
+        item.to_s.sub(/\A--?/, '') == @options[:unless].to_s.sub(/\A--?/, '')
+      end
     end
 
     # This option in a nice pretty string, including a short flag, long
