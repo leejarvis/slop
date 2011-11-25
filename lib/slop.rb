@@ -515,7 +515,6 @@ class Slop
   # @return [Slop::Option]
   def option(*args, &block)
     options = args.last.is_a?(Hash) ? args.pop : {}
-
     short, long, desc, arg, extras = clean_options(args)
 
     options.merge!(extras)
