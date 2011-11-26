@@ -1,5 +1,5 @@
-HEAD
-----
+2.4.0 (2011-11-26)
+------------------
 
 * Avoid `define_method` for checking an options presence (and caching it) #37
 * Ensure the short option allows an appended `=` for accepting arguments
