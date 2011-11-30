@@ -1,6 +1,0 @@
---hide-void-return
--m markdown
---title "Slop - Option gathering made easy"
-lib/**/*.rb
---no-private
---readme README.md
