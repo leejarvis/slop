@@ -94,6 +94,9 @@ class OptionTest < TestCase
     assert_equal nil, option_value(%w/-i/, :i, :as => :float)
     assert_equal nil, option_value(%w/-i/, :i, :as => :array)
     assert_equal nil, option_value(%w/-i/, :i, :as => :range)
+
+    assert_equal 1, option_value(%w/-i 1/, :i, :optional => true, :as => :range)
+    assert_equal nil, option_value(%w/-i/, :i, :optional => true, :as => :range)
   end
 
   test 'ranges' do
