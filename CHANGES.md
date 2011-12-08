@@ -1,3 +1,8 @@
+2.4.1 (2011-12-08)
+------------------
+
+* Ensure optional arguments are returned correctly
+
 2.4.0 (2011-11-26)
 ------------------
 
