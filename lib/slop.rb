@@ -229,9 +229,7 @@ class Slop
     private
 
     def arg_value(value)
-      if accepts_optional_argument? || expects_argument?
-        value
-      end
+      value if accepts_optional_argument? || expects_argument?
     end
 
     def value_to_range(value)
