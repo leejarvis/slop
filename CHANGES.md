@@ -1,3 +1,8 @@
+2.4.2 (2011-12-18)
+------------------
+
+* Fix checking of required options (Dominik Honnef)
+
 2.4.1 (2011-12-08)
 ------------------
 
