@@ -879,7 +879,7 @@ class Slop
 
   def raise_if_missing_required_options!(items)
     @options.select(&:required).each do |o|
-      unless items.select {|i| i[/\A--?/] }.any? {|i| i.to_s.sub(/\A--?/, '') == o.key }
+      if o.argument_value.nil?
         raise MissingOptionError, "Expected option `#{o.key}` is required"
       end
     end
