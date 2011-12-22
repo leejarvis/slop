@@ -1,9 +1,77 @@
 class Slop
-  include Enumerable
+  VERSION = '3.0.0.rc1'
 
-  # @return [String] The current version string
-  VERSION = '2.4.2'
+  DEFAULT_OPTIONS = {
+    :strict => false,
+    :help => false,
+    :banner => nil,
+    :ignore_case => false
+    :autocreate => false
+    :arguments => false
+    :optional_arguments => false
+  }
 
+  class << self
+    def parse(items = ARGV, config = {}, &block)
+      init_and_parse(items, false, config, &block)
+    end
+
+    def parse!(items = ARGV, config = {}, &block)
+      init_and_parse(items, true, config, &block)
+    end
+
+    def optspec(string, config = {})
+      # Slop.new(config)
+    end
+
+    private
+
+    def init_and_parse(items, delete, config, &block)
+      config, items = items, ARGV if items.is_a?(Hash) && config.empty?
+      slop = Slop.new(config, &block)
+      delete ? slop.parse!(items) : slop.parse(items)
+      slop
+    end
+  end
+
+  attr_reader :config
+
+  def initialize(config = {}, &block)
+    @config = DEFAULT_OPTIONS.merge(config)
+
+    if config[:help]
+      on('-h', '--help', 'Display this help message.', :tail => true) do
+        $stderr.puts help
+      end
+    end
+  end
+
+  def parse(items = ARGV, &block)
+    # ...
+  end
+
+  def parse!(items = ARGV, &block)
+    # ...
+  end
+
+  def on(*objects, &block)
+    # ...
+  end
+  alias option on
+  alias opt on
+
+  def to_hash
+    # ...
+  end
+
+  def present?(*options)
+    # ...
+  end
+
+end
+
+
+class Slop
   # Slops standard Error class. All exception classes should
   # inherit from this class
   class Error < StandardError; end
