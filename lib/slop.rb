@@ -47,11 +47,11 @@ class Slop
   end
 
   def parse(items = ARGV, &block)
-    # ...
+    parse_items(items, false, &block)
   end
 
   def parse!(items = ARGV, &block)
-    # ...
+    parse_items(items, true, &block)
   end
 
   def on(*objects, &block)
@@ -66,6 +66,62 @@ class Slop
 
   def present?(*options)
     # ...
+  end
+
+  private
+
+  def parse_items(items, delete, &block)
+    if items.empty?
+      # trigger empty callbacks
+    end
+
+    trash = [] # array of indexes for items to be removed
+
+    items.each_with_index do |item, index|
+      if item == '--'
+        trash << index
+        break
+      end
+    end
+
+    items
+  end
+
+  # return:
+  # * short flag
+  # * long flag
+  # * description
+  # * any other config attributes
+  def build_option(objects)
+    items = []
+    config = {}
+
+    items.push extract_short_flag(objects, config)
+    items.push extract_long_flag(objects, config)
+
+    items
+  end
+
+  def extract_short_flag(objects, config)
+    flag = clean(objects.first)
+
+    if flag.size == 2 && flag[-1, 1] == '='
+      config[:argument] = true
+      flag.chop!
+    end
+
+    if flag.size == 1
+      objects.shift
+      flag
+    end
+  end
+
+  def extract_long_flag(objects, config)
+    flag = clean(objects.first)
+  end
+
+  def clean(object)
+    object.to_s.sub(/\A--?/, '')
   end
 
 end
