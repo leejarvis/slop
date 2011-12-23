@@ -60,7 +60,7 @@ class Slop
 
   def on(*objects, &block)
     short, long, description, conf = build_option(objects)
-    option = Option.new(self, short, long, description, conf)
+    option = Option.new(self, short, long, description, conf, &block)
     options << option
     option
   end
