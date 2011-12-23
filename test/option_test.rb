@@ -22,4 +22,13 @@ class OptionTest < TestCase
     assert_equal 'foo', option(:f, :foo).key
     assert_equal 'f', option(:f).key
   end
+
+  test "call" do
+    foo = nil
+    option(:f, :callback => proc { foo = "bar" }).call
+    assert_equal "bar", foo
+    option(:f) { foo = "baz" }.call
+    assert_equal "baz", foo
+    option(:f) { |o| assert_equal 1, o }.call(1)
+  end
 end
