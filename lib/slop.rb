@@ -72,7 +72,7 @@ class Slop
   end
 
   def present?(*option_keys)
-    option_keys.all do |key|
+    option_keys.all? do |key|
       option = fetch_option(key) && option.count > 0
     end
   end
