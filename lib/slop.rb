@@ -111,6 +111,12 @@ class Slop
       process_item(item, index, &block) unless @trash.include?(index)
     end
 
+    required_options = options.select { |opt| opt.required? && opt.count < 1 }
+    if required_options.any?
+      raise MissingOptionError,
+        "Missing required option(s): #{required_options.map(&:key).join(', ')}"
+    end
+
     items
   end
 
