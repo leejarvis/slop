@@ -66,8 +66,7 @@ class Slop
   end
 
   def on(*objects, &block)
-    short, long, description, conf = build_option(objects)
-    option = Option.new(self, short, long, description, conf, &block)
+    option = build_option(objects, &block)
     options << option
     option
   end
@@ -158,17 +157,17 @@ class Slop
     [option, argument]
   end
 
-  def build_option(objects)
-    items = []
+  def build_option(objects, &block)
     config = {}
     config[:argument] = true if @config[:arguments]
     config[:optional_argument] = true if @config[:optional_arguments]
 
-    items.push(extract_short_flag(objects, config)) # short flag
-    items.push(extract_long_flag(objects, config))  # long flag
-    items.push(objects[0].respond_to?(:to_str) ? objects.shift : nil) # description
-    config.merge!(objects.last) if objects.last.is_a?(Hash)
-    items.push(config) # config options
+    short  = extract_short_flag(objects, config)
+    long   = extract_long_flag(objects, config)
+    desc   = objects[0].respond_to?(:to_str) ? objects.shift : nil
+    config = config.merge!(objects.last) if objects.last.is_a?(Hash)
+
+    Option.new(self, short, long, desc, config, &block)
   end
 
   def extract_short_flag(objects, config)

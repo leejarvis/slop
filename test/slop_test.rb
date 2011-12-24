@@ -1,17 +1,20 @@
 require 'helper'
 
 class SlopTest < TestCase
+  def build_option(*args)
+    opt = Slop.new.send(:build_option, args)
+    config = opt.config.reject { |k, v| v == Slop::Option::DEFAULT_OPTIONS[k] }
+    [opt.short, opt.long, opt.description, config]
+  end
   test "build_option" do
-    build = proc { |*args| Slop.new.send(:build_option, args) }
-
-    assert_equal ['f', nil, nil, {}], build[:f]
-    assert_equal [nil, 'foo', nil, {}], build[:foo]
-    assert_equal ['f', nil, 'Some description', {}], build[:f, 'Some description']
-    assert_equal ['f', 'foo', nil, {}], build[:f, :foo]
+    assert_equal ['f', nil, nil, {}], build_option(:f)
+    assert_equal [nil, 'foo', nil, {}], build_option(:foo)
+    assert_equal ['f', nil, 'Some description', {}], build_option(:f, 'Some description')
+    assert_equal ['f', 'foo', nil, {}], build_option(:f, :foo)
 
     # with arguments
-    assert_equal ['f', nil, nil, {:argument=>true}], build['f=']
-    assert_equal [nil, 'foo', nil, {:argument=>true}], build['foo=']
+    assert_equal ['f', nil, nil, {:argument=>true}], build_option('f=')
+    assert_equal [nil, 'foo', nil, {:argument=>true}], build_option('foo=')
   end
 
   test "fetch_option" do
