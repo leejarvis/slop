@@ -14,7 +14,8 @@ class Slop
       :required => false
     }
 
-    attr_reader :short, :long, :description, :config, :count
+    attr_reader :short, :long, :description, :config
+    attr_accessor :count
 
     def initialize(slop, short, long, description, config = {}, &block)
       @short = short

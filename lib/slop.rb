@@ -98,11 +98,20 @@ class Slop
       if item == '--'
         trash << index
         break
+      elsif trash.include?(index)
+        next
       end
 
       option, argument = extract_option(item) if item[0, 1] == '-'
       if option
         option.count += 1 unless item[0, 5] == '--no-'
+
+        if option.expects_argument?
+          argument ||= items.at(index + 1)
+          trash << index + 1
+        elsif option.accepts_optional_argument?
+
+        end
       else
         block.call(item) if block && !trash.include?(index)
       end
