@@ -42,6 +42,10 @@ class Slop
       @callback.call(*objects) if @callback.respond_to?(:call)
     end
 
+    def tail?
+      @config[:tail]
+    end
+
     def value
       # ...
     end

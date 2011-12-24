@@ -74,6 +74,12 @@ class Slop
   alias option on
   alias opt on
 
+  def [](key)
+    option = fetch_option(key)
+    option.value if option
+  end
+  alias get []
+
   def to_hash
     Hash[options.map { |opt| [opt.key.to_sym, opt.value] }]
   end
@@ -94,17 +100,13 @@ class Slop
 
   def parse_items(items, delete, &block)
     items = Array(items)
-
     if items.empty? && @callbacks[:empty].any?
       @callbacks[:empty].each { |cb| cb.call(self) }
       return items
     end
 
     items.each_with_index do |item, index|
-      if item == '--'
-        @trash << index
-        break
-      end
+      @trash << index && break if item == '--'
 
       process_item(item, index, &block) unless @trash.include?(index)
     end
