@@ -45,6 +45,10 @@ class Slop
       @callback.call(*objects) if @callback.respond_to?(:call)
     end
 
+    def value=(value)
+      # ...
+    end
+
     def value
       # ...
     end
