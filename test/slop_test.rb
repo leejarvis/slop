@@ -45,6 +45,7 @@ class SlopTest < TestCase
     assert_equal 'bar', extract['-f=bar'][1]
     assert_nil extract['--foo'][0]
     assert_kind_of Slop::Option, extract['--opt'][0]
+    assert_equal false, extract['--no-opt'][1]
   end
 
   test "non-options yielded to parse()" do

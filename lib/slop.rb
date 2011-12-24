@@ -107,7 +107,6 @@ class Slop
 
     items.each_with_index do |item, index|
       @trash << index && break if item == '--'
-
       process_item(item, index, &block) unless @trash.include?(index)
     end
 
@@ -145,8 +144,7 @@ class Slop
       when /\A--?([^=]+)=(.+)\z/
         option, argument = fetch_option($1), $2
       when /\A--no-(.+)\z/
-        option = fetch_option($1)
-        # force option value to return false
+        option, argument = fetch_option($1), false
       end
     end
 
