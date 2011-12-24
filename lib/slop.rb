@@ -98,11 +98,9 @@ class Slop
       if item == '--'
         @trash << index
         break
-      elsif @trash.include?(index)
-        next
       end
 
-      process_item(item, index, &block)
+      process_item(item, index, &block) unless @trash.include?(index)
     end
 
     items
