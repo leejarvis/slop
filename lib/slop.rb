@@ -101,9 +101,9 @@ class Slop
 
       option, argument = extract_option(item) if item[0, 1] == '-'
       if option
-
+        option.count += 1 unless item[0, 5] == '--no-'
       else
-
+        block.call(item) if block && !trash.include?(index)
       end
     end
 

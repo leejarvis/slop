@@ -34,4 +34,23 @@ class SlopTest < TestCase
   #   assert opt1.expects_argument?
   #   refute opt2.expects_argument?
   # end
+
+  test "extract_option" do
+    slop = Slop.new
+    extract = proc { |flag| slop.send(:extract_option, flag) }
+    slop.on :opt=
+
+    assert_kind_of Array, extract['--foo']
+    assert_equal 'bar', extract['--foo=bar'][1]
+    assert_equal 'bar', extract['-f=bar'][1]
+    assert_nil extract['--foo'][0]
+    assert_kind_of Slop::Option, extract['--opt'][0]
+  end
+
+  test "non-options yielded to parse()" do
+    foo = nil
+    slop = Slop.new
+    slop.parse ['foo'] do |x| foo = x end
+    assert_equal 'foo', foo
+  end
 end
