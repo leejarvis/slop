@@ -86,12 +86,13 @@ class Slop
   private
 
   def parse_items(items, delete, &block)
+    items = Array(items)
+    trash = [] # array of indexes for items to be removed
+
     if items.empty? && @callbacks[:empty].any?
       @callbacks[:empty].each { |cb| cb.call(self) }
       return items
     end
-
-    trash = [] # array of indexes for items to be removed
 
     items.each_with_index do |item, index|
       if item == '--'
