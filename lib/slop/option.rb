@@ -24,6 +24,9 @@ class Slop
       @config = DEFAULT_OPTIONS.merge(config)
       @count = 0
       @callback = block_given? ? block : config[:callback]
+      @config.each_key do |key|
+        self.class.send(:define_method, "#{key}?") { !!@config[key] }
+      end
     end
 
     def expects_argument?
@@ -40,10 +43,6 @@ class Slop
 
     def call(*objects)
       @callback.call(*objects) if @callback.respond_to?(:call)
-    end
-
-    def tail?
-      @config[:tail]
     end
 
     def value
