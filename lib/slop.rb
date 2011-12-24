@@ -107,7 +107,7 @@ class Slop
 
     items.each_with_index do |item, index|
       @trash << index && break if item == '--'
-      process_item(item, index, &block) unless @trash.include?(index)
+      process_item(items, index, &block) unless @trash.include?(index)
     end
 
     required_options = options.select { |opt| opt.required? && opt.count < 1 }
@@ -119,14 +119,21 @@ class Slop
     items
   end
 
-  def process_item(item, index, &block)
+  def process_item(items, index, &block)
+    item = items[index]
     option, argument = extract_option(item) if item[0, 1] == '-'
+
     if option
       option.count += 1 unless item[0, 5] == '--no-'
 
       if option.expects_argument?
         argument ||= items.at(index + 1)
         @trash << index + 1
+        option.value = argument
+
+        if option.match? && !argument.match(option.config[:match])
+          raise InvalidArgumentError, "#{argument} is an invalid argument"
+        end
       elsif option.accepts_optional_argument?
 
       end

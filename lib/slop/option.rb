@@ -60,6 +60,7 @@ class Slop
 
       case type
       when 'string', 'str'
+        value.to_s
       when 'symbol', 'sym'
       when 'integer', 'int'
       when 'float'
