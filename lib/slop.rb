@@ -99,10 +99,32 @@ class Slop
         break
       end
 
-      option = fetch_option(item)
+      option, argument = extract_option(item) if item[0, 1] == '-'
+      if option
+
+      else
+
+      end
     end
 
     items
+  end
+
+  def extract_option(flag)
+    option = fetch_option(flag)
+    option ||= fetch_option(flag.downcase) if config[:ignore_case]
+
+    unless option
+      case flag
+      when /\A--?([^=]+)=(.+)\z/
+        option, argument = fetch_option($1), $2
+      when /\A--no-(.+)\z/
+        option = fetch_option($1)
+        # force option value to return false
+      end
+    end
+
+    [option, argument]
   end
 
   def build_option(objects)
