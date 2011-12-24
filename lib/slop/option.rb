@@ -11,7 +11,8 @@ class Slop
       :limit => 0,
       :match => nil,
       :optional => true,
-      :required => false
+      :required => false,
+      :as => String
     }
 
     attr_reader :short, :long, :description, :config
@@ -24,6 +25,7 @@ class Slop
       @config = DEFAULT_OPTIONS.merge(config)
       @count = 0
       @callback = block_given? ? block : config[:callback]
+
       @config.each_key do |key|
         self.class.send(:define_method, "#{key}?") { !!@config[key] }
       end
