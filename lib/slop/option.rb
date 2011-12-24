@@ -55,6 +55,9 @@ class Slop
     def value
       type = config[:as].to_s.downcase
 
+      value = @argument_value || config[:default]
+      return if value.nil?
+
       case type
       when 'string', 'str'
       when 'symbol', 'sym'
@@ -63,8 +66,14 @@ class Slop
       when 'array'
       when 'range'
       else
-
+        value
       end
+    end
+
+    def inspect
+      "#<Slop::Option [-#{short} | --#{long}" +
+      "#{'=' if expects_argument?}#{'=?' if accepts_optional_argument?}]" +
+      " (#{description}) #{config.inspect}"
     end
 
   end
