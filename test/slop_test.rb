@@ -26,14 +26,14 @@ class SlopTest < TestCase
     assert_nil slop.fetch_option(:baz)
   end
 
-  # test "default all options to take arguments" do
-  #   slop = Slop.new(:arguments => true)
-  #   opt1 = slop.on :foo
-  #   opt2 = slop.on :bar, :argument => false
-  #
-  #   assert opt1.expects_argument?
-  #   refute opt2.expects_argument?
-  # end
+  test "default all options to take arguments" do
+    slop = Slop.new(:arguments => true)
+    opt1 = slop.on :foo
+    opt2 = slop.on :bar, :argument => false
+
+    assert opt1.expects_argument?
+    refute opt2.expects_argument?
+  end
 
   test "extract_option" do
     slop = Slop.new

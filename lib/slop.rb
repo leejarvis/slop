@@ -150,6 +150,8 @@ class Slop
   def build_option(objects)
     items = []
     config = {}
+    config[:argument] = true if @config[:arguments]
+    config[:optional_argument] = true if @config[:optional_arguments]
 
     items.push(extract_short_flag(objects, config)) # short flag
     items.push(extract_long_flag(objects, config))  # long flag
