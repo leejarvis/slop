@@ -3,6 +3,12 @@ require 'slop/option'
 class Slop
   VERSION = '3.0.0.rc1'
 
+  class Error < StandardError; end
+  class MissingArgumentError < Error; end
+  class MissingOptionError < Error; end
+  class InvalidArgumentError < Error; end
+  class InvalidOptionError < Error; end
+
   DEFAULT_OPTIONS = {
     :strict => false,
     :help => false,
