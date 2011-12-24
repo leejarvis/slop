@@ -41,6 +41,7 @@ class Slop
   def initialize(config = {}, &block)
     @config = DEFAULT_OPTIONS.merge(config)
     @options = []
+    @trash = []
     @callbacks = Hash.new([])
 
     if config[:help]
@@ -87,7 +88,6 @@ class Slop
 
   def parse_items(items, delete, &block)
     items = Array(items)
-    trash = [] # array of indexes for items to be removed
 
     if items.empty? && @callbacks[:empty].any?
       @callbacks[:empty].each { |cb| cb.call(self) }
@@ -96,28 +96,32 @@ class Slop
 
     items.each_with_index do |item, index|
       if item == '--'
-        trash << index
+        @trash << index
         break
-      elsif trash.include?(index)
+      elsif @trash.include?(index)
         next
       end
 
-      option, argument = extract_option(item) if item[0, 1] == '-'
-      if option
-        option.count += 1 unless item[0, 5] == '--no-'
-
-        if option.expects_argument?
-          argument ||= items.at(index + 1)
-          trash << index + 1
-        elsif option.accepts_optional_argument?
-
-        end
-      else
-        block.call(item) if block && !trash.include?(index)
-      end
+      process_item(item, index, &block)
     end
 
     items
+  end
+
+  def process_item(item, index, &block)
+    option, argument = extract_option(item) if item[0, 1] == '-'
+    if option
+      option.count += 1 unless item[0, 5] == '--no-'
+
+      if option.expects_argument?
+        argument ||= items.at(index + 1)
+        @trash << index + 1
+      elsif option.accepts_optional_argument?
+
+      end
+    else
+      block.call(item) if block && !@trash.include?(index)
+    end
   end
 
   def extract_option(flag)
