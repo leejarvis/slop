@@ -76,7 +76,7 @@ class Slop
   end
 
   def fetch_option(key)
-    options.find { |option| [option.long, option.short].include?(key.to_s) }
+    options.find { |option| [option.long, option.short].include?(clean(key)) }
   end
 
   def add_callback(label, &block)
@@ -98,6 +98,8 @@ class Slop
         trash << index
         break
       end
+
+      option = fetch_option(item)
     end
 
     items

@@ -14,13 +14,14 @@ class Slop
       :required => false
     }
 
-    attr_reader :short, :long, :description, :config
+    attr_reader :short, :long, :description, :config, :count
 
     def initialize(slop, short, long, description, config = {}, &block)
       @short = short
       @long = long
       @description = description
       @config = DEFAULT_OPTIONS.merge(config)
+      @count = 0
       @callback = block_given? ? block : config[:callback]
     end
 

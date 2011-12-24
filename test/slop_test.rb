@@ -22,6 +22,7 @@ class SlopTest < TestCase
     assert_equal opt1, slop.fetch_option(:foo)
     assert_equal opt1, slop.fetch_option(:f)
     assert_equal opt2, slop.fetch_option(:bar)
+    assert_equal opt2, slop.fetch_option('--bar')
     assert_nil slop.fetch_option(:baz)
   end
 
