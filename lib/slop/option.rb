@@ -25,6 +25,7 @@ class Slop
       @config = DEFAULT_OPTIONS.merge(config)
       @count = 0
       @callback = block_given? ? block : config[:callback]
+      @argument_value = nil
 
       @config.each_key do |key|
         self.class.send(:define_method, "#{key}?") { !!@config[key] }
@@ -48,11 +49,22 @@ class Slop
     end
 
     def value=(value)
-      # ...
+      @argument_value = value
     end
 
     def value
-      # ...
+      type = config[:as].to_s.downcase
+
+      case type
+      when 'string', 'str'
+      when 'symbol', 'sym'
+      when 'integer', 'int'
+      when 'float'
+      when 'array'
+      when 'range'
+      else
+
+      end
     end
 
   end
