@@ -59,13 +59,12 @@ class Slop
       return if value.nil?
 
       case type
-      when 'string', 'str'
-        value.to_s
-      when 'symbol', 'sym'
-      when 'integer', 'int'
-      when 'float'
-      when 'array'
-      when 'range'
+      when 'string', 'str' ; value.to_s
+      when 'symbol', 'sym' ; value.to_s.to_sym
+      when 'integer', 'int'; value.to_s.to_i
+      when 'float'; value.to_s.to_f
+      when 'array';
+      when 'range'; value_to_range(value)
       else
         value
       end
@@ -75,6 +74,19 @@ class Slop
       "#<Slop::Option [-#{short} | --#{long}" +
       "#{'=' if expects_argument?}#{'=?' if accepts_optional_argument?}]" +
       " (#{description}) #{config.inspect}"
+    end
+
+    private
+
+    def value_to_range(value)
+      case value.to_s
+      when /\A(-?\d+?)(\.\.\.?|-|,)(-?\d+)\z/
+        Range.new($1.to_i, $3.to_i, $2 == '...')
+      when /\A-?\d+\z/
+        value.to_i
+      else
+        value
+      end
     end
 
   end
