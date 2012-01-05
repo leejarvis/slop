@@ -70,6 +70,10 @@ class Slop
       end
     end
 
+    def autocreated?
+      # ...
+    end
+
     def inspect
       "#<Slop::Option [-#{short} | --#{long}" +
       "#{'=' if expects_argument?}#{'=?' if accepts_optional_argument?}]" +

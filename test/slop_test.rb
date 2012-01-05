@@ -6,6 +6,7 @@ class SlopTest < TestCase
     config = opt.config.reject { |k, v| v == Slop::Option::DEFAULT_OPTIONS[k] }
     [opt.short, opt.long, opt.description, config]
   end
+
   test "build_option" do
     assert_equal ['f', nil, nil, {}], build_option(:f)
     assert_equal [nil, 'foo', nil, {}], build_option(:foo)
