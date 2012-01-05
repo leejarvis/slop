@@ -1,7 +1,7 @@
 Slop
 ====
 
-Slop is a simple option parser with an easy to remember syntax and friendly API.
+Slop is a simple, lightweight option parser with an easy to remember syntax and friendly API.
 
 Installation
 ------------
