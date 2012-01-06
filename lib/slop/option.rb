@@ -16,6 +16,13 @@ class Slop
       :autocreated => false
     }
 
+    DEFAULT_TYPES = {
+      :string  => proc { |v| v.to_s },
+      :symbol  => proc { |v| v.to_sym },
+      :integer => proc { |v| v.to_s.to_i },
+      :float   => proc { |v| v.to_f }
+    }
+
     attr_reader :short, :long, :description, :config, :types
     attr_accessor :count
 
@@ -28,14 +35,10 @@ class Slop
       @callback = block_given? ? block : config[:callback]
       @argument_value = nil
 
-      @types = {
-        :string  => proc { |v| v.to_s },
-        :symbol  => proc { |v| v.to_sym },
-        :integer => proc { |v| v.to_s.to_i },
-        :float   => proc { |v| v.to_f },
-        :array   => proc { |v| v.split(@config[:delimiter], @config[:limit]) },
-        :range   => proc { |v| value_to_range(v) }
-      }
+      @types = DEFAULT_TYPES.merge(
+        :array => proc { |v| v.split(@config[:delimiter], @config[:limit]) },
+        :range => proc { |v| value_to_range(v) }
+      )
 
       @config.each_key do |key|
         self.class.send(:define_method, "#{key}?") { !!@config[key] }
