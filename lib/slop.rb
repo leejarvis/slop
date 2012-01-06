@@ -131,18 +131,12 @@ class Slop
           raise MissingArgumentError, "#{option.key} expects an argument"
         end
 
-        @trash << index + 1
-        option.value = argument
-        check_argument_match!(option, argument)
-        option.call(option.value)
+        execute_option(option, argument, index)
       elsif option.accepts_optional_argument?
         argument ||= items.at(index + 1)
 
         if argument && argument !~ /\A--?/
-          @trash << index + 1
-          option.value = argument
-          check_argument_match!(option, argument)
-          option.call(option.value)
+          execute_option(option, argument, index)
         else
           option.call(nil)
         end
@@ -152,10 +146,15 @@ class Slop
     end
   end
 
-  def check_argument_match!(option, argument)
+  def execute_option(option, argument, index)
+    @trash << index + 1
+    option.value = argument
+
     if option.match? && !argument.match(option.config[:match])
       raise InvalidArgumentError, "#{argument} is an invalid argument"
     end
+
+    option.call(option.value)
   end
 
   def extract_option(flag)
