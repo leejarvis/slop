@@ -57,14 +57,26 @@ class Slop
     end
   end
 
+  # Returns an Array of original items.
   def parse(items = ARGV, &block)
     parse_items(items, false, &block)
   end
 
+  # Returns an Array of original items with options removed.
   def parse!(items = ARGV, &block)
     parse_items(items, true, &block)
   end
 
+  # Add an Option.
+  #
+  # objects - An Array with an optional Hash as the last element.
+  #
+  # Examples:
+  #
+  #   on '-u', '--username=', 'Your username'
+  #   on :v, :verbose, 'Enable verbose mode'
+  #
+  # Returns the created instance of Slop::Option.
   def on(*objects, &block)
     option = build_option(objects, &block)
     options << option
@@ -73,6 +85,11 @@ class Slop
   alias option on
   alias opt on
 
+  # Fetch an options argument value.
+  #
+  # key - The Symbol or String option short or long flag.
+  #
+  # Returns the Object value for this option, or nil.
   def [](key)
     option = fetch_option(key)
     option.value if option
