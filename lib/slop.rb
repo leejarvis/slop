@@ -126,6 +126,11 @@ class Slop
 
       if option.expects_argument?
         argument ||= items.at(index + 1)
+
+        if !argument || argument =~ /\A--?/
+          raise MissingArgumentError, "#{option.key} expects an argument"
+        end
+
         @trash << index + 1
         option.value = argument
 
