@@ -1,3 +1,9 @@
+HEAD
+----
+
+* Allow the `:as` option to accept an object responding to :call for
+  custom type conversions (#45)
+
 2.4.2 (2011-12-18)
 ------------------
 

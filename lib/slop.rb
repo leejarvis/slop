@@ -92,7 +92,8 @@ class Slop
 
       @delimiter = @options.fetch(:delimiter, ',')
       @limit = @options.fetch(:limit, 0)
-      @argument_type = @options[:as].to_s.downcase
+
+      @argument_type = @options[:as]
       @argument_value = nil
 
       self.forced = false
@@ -129,7 +130,7 @@ class Slop
     #
     # @param [Object] value The value to set this options argument to
     def argument_value=(value)
-      if @argument_type == 'array'
+      if @argument_type.to_s.downcase == 'array'
         @argument_value ||= []
 
         if value.respond_to?(:to_str)
@@ -144,27 +145,32 @@ class Slop
     #   according to the `:as` option
     def argument_value
       return @argument_value if forced
+      type = @argument_type.to_s.downcase
       # Check for count first to prefer 0 over nil
-      return count if @argument_type == 'count'
+      return count if type == 'count'
 
       value = @argument_value || @options[:default]
       return if value.nil?
 
-      case @argument_type
-      when 'array'
-        arg_value(@argument_value)
-      when 'range'
-        arg_value(value_to_range(value))
-      when 'float'
-        arg_value(value.to_s.to_f)
-      when 'string', 'str'
-        arg_value(value.to_s)
-      when 'symbol', 'sym'
-        arg_value(value.to_s.to_sym)
-      when 'integer', 'int'
-        arg_value(value.to_s.to_i)
+      if @argument_type.respond_to?(:call)
+        @argument_type.call(value)
       else
-        value
+        case type
+        when 'array'
+          arg_value(@argument_value)
+        when 'range'
+          arg_value(value_to_range(value))
+        when 'float'
+          arg_value(value.to_s.to_f)
+        when 'string', 'str'
+          arg_value(value.to_s)
+        when 'symbol', 'sym'
+          arg_value(value.to_s.to_sym)
+        when 'integer', 'int'
+          arg_value(value.to_s.to_i)
+        else
+          value
+        end
       end
     end
 

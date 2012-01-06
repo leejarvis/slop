@@ -86,6 +86,9 @@ class OptionTest < TestCase
     assert_equal 1, option_value(%w/--verbose/, :v, :verbose, :as => :count)
     assert_equal 2, option_value(%w/--verbose -v/, :v, :verbose, :as => :count)
     assert_equal 3, option_value(%w/-vvv/, :v, :verbose, :as => :count)
+
+    assert_equal 1, option_value(%w/-i 1/, :i, true, :as => proc { |x| x.to_i })
+    assert_equal "oof", option_value(%w/-i foo/, :i, true, :as => proc { |x| x.reverse })
   end
 
   test 'casting should return nil for optionless arguments' do
