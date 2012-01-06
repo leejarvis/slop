@@ -133,17 +133,28 @@ class Slop
 
         @trash << index + 1
         option.value = argument
-
-        if option.match? && !argument.match(option.config[:match])
-          raise InvalidArgumentError, "#{argument} is an invalid argument"
-        end
-
+        check_argument_match!(option, argument)
         option.call(option.value)
       elsif option.accepts_optional_argument?
+        argument ||= items.at(index + 1)
 
+        if argument && argument !~ /\A--?/
+          @trash << index + 1
+          option.value = argument
+          check_argument_match!(option, argument)
+          option.call(option.value)
+        else
+          option.call(nil)
+        end
       end
     else
       block.call(item) if block && !@trash.include?(index)
+    end
+  end
+
+  def check_argument_match!(option, argument)
+    if option.match? && !argument.match(option.config[:match])
+      raise InvalidArgumentError, "#{argument} is an invalid argument"
     end
   end
 
