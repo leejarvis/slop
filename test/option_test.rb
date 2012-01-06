@@ -68,10 +68,20 @@ class OptionTest < TestCase
     assert_equal (1..-10), option_value(%w/-r 1..-10/, :r=, :as => Range)
   end
 
-  test 'array type cast' do
+  test "array type cast" do
     assert_equal %w/lee john bill/, option_value(%w/-p lee,john,bill/, :p=, :as => Array)
     assert_equal %w/lee john bill/, option_value(%w/-p lee:john:bill/, :p=, :as => Array, :delimiter => ':')
     assert_equal %w/lee john,bill/, option_value(%w/-p lee,john,bill/, :p=, :as => Array, :limit => 2)
     assert_equal %w/lee john:bill/, option_value(%w/-p lee:john:bill/, :p=, :as => Array, :limit => 2, :delimiter => ':')
   end
+
+  test "adding custom types" do
+    opts = Slop.new
+    opt = opts.on :f=, :as => :reverse
+    opt.types['reverse'] = proc { |v| v.reverse }
+    opts.parse %w'-f bar'
+    assert_equal 'rab', opt.value
+  end
+
+  # end type casting tests
 end
