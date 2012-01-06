@@ -16,7 +16,7 @@ class Slop
       :autocreated => false
     }
 
-    attr_reader :short, :long, :description, :config
+    attr_reader :short, :long, :description, :config, :types
     attr_accessor :count
 
     def initialize(slop, short, long, description, config = {}, &block)
@@ -27,6 +27,15 @@ class Slop
       @count = 0
       @callback = block_given? ? block : config[:callback]
       @argument_value = nil
+
+      @types = {
+        'string'  => proc { |v| v.to_s },
+        'symbol'  => proc { |v| v.to_sym },
+        'integer' => proc { |v| v.to_s.to_i },
+        'float'   => proc { |v| v.to_f },
+        'array'   => proc { |v| v.split(@config[:delimiter], @config[:limit]) },
+        'range'   => proc { |v| value_to_range(v) }
+      }
 
       @config.each_key do |key|
         self.class.send(:define_method, "#{key}?") { !!@config[key] }
@@ -61,13 +70,9 @@ class Slop
       if type.respond_to?(:call)
         type.call(value)
       else
-        case type.to_s.downcase
-        when 'string', 'str' ; value.to_s
-        when 'symbol', 'sym' ; value.to_s.to_sym
-        when 'integer', 'int'; value.to_s.to_i
-        when 'float'; value.to_s.to_f
-        when 'array'; value.to_s.split(config[:delimiter], config[:limit])
-        when 'range'; value_to_range(value)
+        type = type.to_s.downcase
+        if types.key?(type)
+          types[type].call(value)
         else
           value
         end
