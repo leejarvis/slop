@@ -127,7 +127,7 @@ class Slop
       if option.expects_argument?
         argument ||= items.at(index + 1)
 
-        if !argument || argument =~ /\A--?/
+        if !argument || argument =~ /\A--?[a-zA-Z][a-zA-Z0-9_-]*\z/
           raise MissingArgumentError, "#{option.key} expects an argument"
         end
 
