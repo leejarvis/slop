@@ -132,6 +132,8 @@ class Slop
         if option.match? && !argument.match(option.config[:match])
           raise InvalidArgumentError, "#{argument} is an invalid argument"
         end
+
+        option.call(option.value)
       elsif option.accepts_optional_argument?
 
       end
