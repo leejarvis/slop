@@ -12,7 +12,8 @@ class Slop
       :match => nil,
       :optional => true,
       :required => false,
-      :as => String
+      :as => String,
+      :autocreated => false
     }
 
     attr_reader :short, :long, :description, :config
@@ -71,10 +72,6 @@ class Slop
           value
         end
       end
-    end
-
-    def autocreated?
-      # ...
     end
 
     def inspect
