@@ -98,7 +98,6 @@ class Slop
   private
 
   def parse_items(items, delete, &block)
-    items = Array(items)
     if items.empty? && @callbacks[:empty].any?
       @callbacks[:empty].each { |cb| cb.call(self) }
       return items

@@ -62,6 +62,6 @@ class SlopTest < TestCase
   test "parse" do
     slop = Slop.new
 
-    assert_equal ['foo'], slop.parse('foo')
+    assert_equal ['foo'], slop.parse(%w'foo')
   end
 end
