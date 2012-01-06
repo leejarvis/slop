@@ -96,18 +96,28 @@ class Slop
   end
   alias get []
 
+  # Returns a new Hash with option flags as keys and option values as values.
   def to_hash
     Hash[options.map { |opt| [opt.key.to_sym, opt.value] }]
   end
 
+  # Returns true if all of the keys are present in the parsed arguments.
   def present?(*option_keys)
     option_keys.all? { |key| option = fetch_option(key) && option.count > 0 }
   end
 
+  # key - The Symbol or String option key.
+  #
+  # Returns an Option or nil if none were found.
   def fetch_option(key)
     options.find { |option| [option.long, option.short].include?(clean(key)) }
   end
 
+  # Add a callback.
+  #
+  # label - The Symbol identifier to attach this callback.
+  #
+  # Returns nothing.
   def add_callback(label, &block)
     @callbacks[label] << block
   end

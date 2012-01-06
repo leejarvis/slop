@@ -45,26 +45,40 @@ class Slop
       end
     end
 
+    # Returns true if this option expects an argument.
     def expects_argument?
       config[:argument] && config[:argument] != :optional
     end
 
+    # Returns true if this option accepts an optional argument.
     def accepts_optional_argument?
       config[:optional_argument] || config[:argument] == :optional
     end
 
+    # Returns the String flag of this option. Preferring the long flag.
     def key
       @long || @short
     end
 
+    # Call this options callback if one exists, and it responds to call().
+    #
+    # Returns nothing.
     def call(*objects)
       @callback.call(*objects) if @callback.respond_to?(:call)
     end
 
+    # Set the argument value for this option.
+    #
+    # value - The Object to set the argument value.
+    #
+    # Returns nothing.
     def value=(value)
       @argument_value = value
     end
 
+    # Fetch the argument value for this option.
+    #
+    # Returns the Object once any type conversions have taken place.
     def value
       value = @argument_value || config[:default]
       return if value.nil?
@@ -82,6 +96,7 @@ class Slop
       end
     end
 
+    # Returns the String inspection text.
     def inspect
       "#<Slop::Option [-#{short} | --#{long}" +
       "#{'=' if expects_argument?}#{'=?' if accepts_optional_argument?}]" +
