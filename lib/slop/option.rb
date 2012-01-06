@@ -66,7 +66,7 @@ class Slop
         when 'symbol', 'sym' ; value.to_s.to_sym
         when 'integer', 'int'; value.to_s.to_i
         when 'float'; value.to_s.to_f
-        when 'array';
+        when 'array'; value.to_s.split(config[:delimiter], config[:limit])
         when 'range'; value_to_range(value)
         else
           value

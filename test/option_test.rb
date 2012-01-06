@@ -68,24 +68,24 @@ class OptionTest < TestCase
     assert_equal (1..-10), option_value(%w/-r 1..-10/, :r=, :as => Range)
   end
 
-  # test 'splits argument_value with :as => array' do
-  #   assert_equal %w/lee john bill/, option_value(
-  #     %w/--people lee,john,bill/, :people=, :as => Array
-  #   )
-  #
-  #   assert_equal %w/lee john bill/, option_value(
-  #     %w/--people lee:john:bill/,
-  #     :people=, :as => Array, :delimiter => ':'
-  #   )
-  #
-  #   assert_equal ['lee', 'john,bill'], option_value(
-  #     %w/--people lee,john,bill/,
-  #     :people=, :as => Array, :limit => 2
-  #   )
-  #
-  #   assert_equal ['lee', 'john:bill'], option_value(
-  #     %w/--people lee:john:bill/,
-  #     :people=, :as => Array, :limit => 2, :delimiter => ':'
-  #   )
-  # end
+  test 'splits argument_value with :as => array' do
+    assert_equal %w/lee john bill/, option_value(
+      %w/--people lee,john,bill/, :people=, :as => Array
+    )
+
+    assert_equal %w/lee john bill/, option_value(
+      %w/--people lee:john:bill/,
+      :people=, :as => Array, :delimiter => ':'
+    )
+
+    assert_equal ['lee', 'john,bill'], option_value(
+      %w/--people lee,john,bill/,
+      :people=, :as => Array, :limit => 2
+    )
+
+    assert_equal ['lee', 'john:bill'], option_value(
+      %w/--people lee:john:bill/,
+      :people=, :as => Array, :limit => 2, :delimiter => ':'
+    )
+  end
 end
