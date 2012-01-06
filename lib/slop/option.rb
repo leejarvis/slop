@@ -29,12 +29,12 @@ class Slop
       @argument_value = nil
 
       @types = {
-        'string'  => proc { |v| v.to_s },
-        'symbol'  => proc { |v| v.to_sym },
-        'integer' => proc { |v| v.to_s.to_i },
-        'float'   => proc { |v| v.to_f },
-        'array'   => proc { |v| v.split(@config[:delimiter], @config[:limit]) },
-        'range'   => proc { |v| value_to_range(v) }
+        :string  => proc { |v| v.to_s },
+        :symbol  => proc { |v| v.to_sym },
+        :integer => proc { |v| v.to_s.to_i },
+        :float   => proc { |v| v.to_f },
+        :array   => proc { |v| v.split(@config[:delimiter], @config[:limit]) },
+        :range   => proc { |v| value_to_range(v) }
       }
 
       @config.each_key do |key|
@@ -70,7 +70,7 @@ class Slop
       if type.respond_to?(:call)
         type.call(value)
       else
-        type = type.to_s.downcase
+        type = type.to_s.downcase.to_sym
         if types.key?(type)
           types[type].call(value)
         else

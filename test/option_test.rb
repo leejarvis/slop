@@ -78,7 +78,7 @@ class OptionTest < TestCase
   test "adding custom types" do
     opts = Slop.new
     opt = opts.on :f=, :as => :reverse
-    opt.types['reverse'] = proc { |v| v.reverse }
+    opt.types[:reverse] = proc { |v| v.reverse }
     opts.parse %w'-f bar'
     assert_equal 'rab', opt.value
   end
