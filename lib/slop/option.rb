@@ -53,20 +53,23 @@ class Slop
     end
 
     def value
-      type = config[:as].to_s.downcase
-
       value = @argument_value || config[:default]
       return if value.nil?
 
-      case type
-      when 'string', 'str' ; value.to_s
-      when 'symbol', 'sym' ; value.to_s.to_sym
-      when 'integer', 'int'; value.to_s.to_i
-      when 'float'; value.to_s.to_f
-      when 'array';
-      when 'range'; value_to_range(value)
+      type = config[:as]
+      if type.respond_to?(:call)
+        type.call(value)
       else
-        value
+        case type.to_s.downcase
+        when 'string', 'str' ; value.to_s
+        when 'symbol', 'sym' ; value.to_s.to_sym
+        when 'integer', 'int'; value.to_s.to_i
+        when 'float'; value.to_s.to_f
+        when 'array';
+        when 'range'; value_to_range(value)
+        else
+          value
+        end
       end
     end
 
