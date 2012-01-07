@@ -20,10 +20,27 @@ class Slop
   }
 
   class << self
+
+    # items  - The Array of items to extract options from (default: ARGV).
+    # config - The Hash of configuration options to send to Slop.new().
+    # block  - An optional block used to add options.
+    #
+    # Examples:
+    #
+    #   Slop.parse(ARGV, :help => true) do
+    #     on '-n', '--name', 'Your username', :argument => true
+    #   end
+    #
+    # Returns a new instance of Slop.
     def parse(items = ARGV, config = {}, &block)
       init_and_parse(items, false, config, &block)
     end
 
+    # items  - The Array of items to extract options from (default: ARGV).
+    # config - The Hash of configuration options to send to Slop.new().
+    # block  - An optional block used to add options.
+    #
+    # Returns a new instance of Slop.
     def parse!(items = ARGV, config = {}, &block)
       init_and_parse(items, true, config, &block)
     end
@@ -57,11 +74,23 @@ class Slop
     end
   end
 
+  # Parse a list of items, executing and gathering options along the way.
+  #
+  # items - The Array of items to extract options from (default: ARGV).
+  # block - An optional block which when used will yield non options.
+  #
   # Returns an Array of original items.
   def parse(items = ARGV, &block)
     parse_items(items, false, &block)
   end
 
+  # Parse a list of items, executing and gathering options along the way.
+  # unlike parse() this method will remove any options and option arguments
+  # from the original Array.
+  #
+  # items - The Array of items to extract options from (default: ARGV).
+  # block - An optional block which when used will yield non options.
+  #
   # Returns an Array of original items with options removed.
   def parse!(items = ARGV, &block)
     parse_items(items, true, &block)
