@@ -176,6 +176,12 @@ class SlopTest < TestCase
     assert opts.present?(:b)
   end
 
+  test "multiple_switches disabled" do
+    opts = Slop.new(:multiple_switches => false) { on :f= }
+    opts.parse %w[ -fabc123 ]
+    assert_equal 'abc123', opts[:f]
+  end
+
   test "setting/getting the banner" do
     opts = Slop.new :banner => 'foo'
     assert_equal 'foo', opts.banner
