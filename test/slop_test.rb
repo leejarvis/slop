@@ -1,10 +1,19 @@
 require 'helper'
 
 class SlopTest < TestCase
+
   def build_option(*args)
     opt = Slop.new.send(:build_option, args)
     config = opt.config.reject { |k, v| v == Slop::Option::DEFAULT_OPTIONS[k] }
     [opt.short, opt.long, opt.description, config]
+  end
+
+  def temp_argv(items)
+    old_argv = ARGV.clone
+    ARGV.replace items
+    yield
+  ensure
+    ARGV.replace old_argv
   end
 
   test "build_option" do
@@ -59,9 +68,31 @@ class SlopTest < TestCase
     assert_equal 'foo', foo
   end
 
+  test "::parse returns a Slop object" do
+    assert_kind_of Slop, Slop.parse([])
+  end
+
   test "parse" do
     slop = Slop.new
 
     assert_equal ['foo'], slop.parse(%w'foo')
+    assert_equal ['foo'], slop.parse!(%w'foo')
   end
+
+  test "parse!" do
+    slop = Slop.new
+  end
+
+  test "new() accepts a hash of configuration options" do
+    slop = Slop.new(:foo => :bar)
+    assert_equal :bar, slop.config[:foo]
+  end
+
+  test 'defaulting to ARGV' do
+    temp_argv(%w/--name lee/) do
+      opts = Slop.parse { on :name= }
+      assert_equal 'lee', opts[:name]
+    end
+  end
+
 end

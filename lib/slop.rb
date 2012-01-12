@@ -67,6 +67,10 @@ class Slop
     @trash = []
     @callbacks = Hash.new([])
 
+    if block_given?
+      block.arity == 1 ? yield(self) : instance_eval(&block)
+    end
+
     if config[:help]
       on('-h', '--help', 'Display this help message.', :tail => true) do
         $stderr.puts help
