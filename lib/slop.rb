@@ -312,10 +312,7 @@ class Slop
       @triggered_options << option
 
       if config[:multiple_switches] && argument
-        execute_option(option, argument, index)
-        argument.split('').each do |key|
-          execute_option(fetch_option(key), argument, index, key)
-        end
+        execute_multiple_switches(option, argument, index)
       elsif option.expects_argument?
         argument ||= items.at(index + 1)
 
@@ -363,6 +360,13 @@ class Slop
     end
 
     option.call(option.value)
+  end
+
+  def execute_multiple_switches(option, argument, index)
+    execute_option(option, argument, index)
+    argument.split('').each do |key|
+      execute_option(fetch_option(key), argument, index, key)
+    end
   end
 
   # Extract an option from a flag.
