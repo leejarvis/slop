@@ -148,6 +148,19 @@ class Slop
     keys.all? { |key| opt = fetch_option(key); opt && opt.count > 0 }
   end
 
+  # Fetch a list of options which were missing from the parsed list.
+  #
+  # Examples:
+  #
+  #   opts = Slop.new do
+  #     on :n, :name=
+  #     on :p, :password=
+  #   end
+  #
+  #   opts.parse %w[ --name Lee ]
+  #   opts.missing #=> ['password']
+  #
+  # Returns an Array of Strings representing missing options.
   def missing
     options.select { |opt| !present?(opt.key) }.map(&:key)
   end
