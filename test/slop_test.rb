@@ -169,6 +169,13 @@ class SlopTest < TestCase
     assert_raises(Slop::InvalidOptionError) { opts.parse %w'-fabc' }
   end
 
+  test "multiple_switches is enabled by default" do
+    opts = Slop.new { on :f; on :b }
+    opts.parse %w[ -fb ]
+    assert opts.present?(:f)
+    assert opts.present?(:b)
+  end
+
   test "setting/getting the banner" do
     opts = Slop.new :banner => 'foo'
     assert_equal 'foo', opts.banner
