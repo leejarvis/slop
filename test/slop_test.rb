@@ -74,7 +74,6 @@ class SlopTest < TestCase
 
   test "parse" do
     slop = Slop.new
-
     assert_equal ['foo'], slop.parse(%w'foo')
     assert_equal ['foo'], slop.parse!(%w'foo')
   end
@@ -88,11 +87,32 @@ class SlopTest < TestCase
     assert_equal :bar, slop.config[:foo]
   end
 
-  test 'defaulting to ARGV' do
+  test "defaulting to ARGV" do
     temp_argv(%w/--name lee/) do
       opts = Slop.parse { on :name= }
       assert_equal 'lee', opts[:name]
     end
+  end
+
+  test "automatically adding the help option" do
+    slop = Slop.new :help => true
+    refute_empty slop.options
+    assert_equal 'Display this help message.', slop.options.first.description
+  end
+
+  test ":arguments and :optional_arguments config options" do
+    slop = Slop.new(:arguments => true) { on :foo }
+    assert slop.fetch_option(:foo).expects_argument?
+
+    slop = Slop.new(:optional_arguments => true) { on :foo }
+    assert slop.fetch_option(:foo).accepts_optional_argument?
+  end
+
+  test "yielding non-options when a block is passed to parse()" do
+    items = []
+    opts = Slop.new { on :name= }
+    opts.parse(%w/--name lee a b c/) { |v| items << v }
+    assert_equal ['a', 'b', 'c'], items
   end
 
 end
