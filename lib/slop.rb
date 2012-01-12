@@ -98,8 +98,16 @@ class Slop
     end
   end
 
-  attr_reader :config, :options
+  # The Hash of configuration options for this Slop instance.
+  attr_reader :config
 
+  # The Array of Slop::Option objects tied to this Slop instance.
+  attr_reader :options
+
+  # Create a new instance of Slop and optionally build options via a block.
+  #
+  # config - A Hash of configuration options.
+  # block  - An optional block used to specify options.
   def initialize(config = {}, &block)
     @config = DEFAULT_OPTIONS.merge(config)
     @options = []
@@ -251,6 +259,14 @@ class Slop
 
   private
 
+  # Parse a list of items and process their values.
+  #
+  # items  - The Array of items to process.
+  # delete - True to remove any triggered options and arguments from the
+  #          original list of items.
+  # block  - An optional block which when passed will yields non-options.
+  #
+  # Returns the original Array of items.
   def parse_items(items, delete, &block)
     if items.empty? && @callbacks[:empty]
       @callbacks[:empty].each { |cb| cb.call(self) }
@@ -273,6 +289,14 @@ class Slop
     items
   end
 
+  # Process a list item, figure out if it's an option, execute any
+  # callbacks, assign any option arguments, and do some sanity checks.
+  #
+  # items - The Array of items to process.
+  # index - The current Integer index of the item we want to process.
+  # block - An optional block which when passed will yield non options.
+  #
+  # Returns nothing.
   def process_item(items, index, &block)
     item = items[index]
     option, argument = extract_option(item) if item[0, 1] == '-'
@@ -304,6 +328,13 @@ class Slop
     end
   end
 
+  # Execute an option, firing off callbacks and assigning arguments.
+  #
+  # option   - The Slop::Option object found by #process_item.
+  # argument - The argument Object to assign to this option.
+  # index    - The current Integer index of the object we're processing.
+  #
+  # Returns nothing.
   def execute_option(option, argument, index)
     @trash << index + 1
     option.value = argument
@@ -315,6 +346,11 @@ class Slop
     option.call(option.value)
   end
 
+  # Extract an option from a flag.
+  #
+  # flag - The flag key used to extract an option.
+  #
+  # Returns an Array of [option, argument].
   def extract_option(flag)
     option = fetch_option(flag)
     option ||= fetch_option(flag.downcase) if config[:ignore_case]
@@ -331,6 +367,12 @@ class Slop
     [option, argument]
   end
 
+  # Autocreate an option on the fly. See the :autocreate Slop config option.
+  #
+  # items - The Array of items we're parsing.
+  # index - The current Integer index for the item we're processing.
+  #
+  # Returns nothing.
   def autocreate(items, index)
     flag = items[index]
     unless present?(flag)
@@ -341,6 +383,11 @@ class Slop
     end
   end
 
+  # Build an option from a list of objects.
+  #
+  # objects - An Array of objects used to build this option.
+  #
+  # Returns a new instance of Slop::Option.
   def build_option(objects, &block)
     config = {}
     config[:argument] = true if @config[:arguments]
@@ -354,6 +401,10 @@ class Slop
     Option.new(self, short, long, desc, config, &block)
   end
 
+  # Extract the short flag from an item.
+  #
+  # objects - The Array of objects passed from #build_option.
+  # config  - The Hash of configuration options built in #build_option.
   def extract_short_flag(objects, config)
     flag = clean(objects.first)
 
@@ -368,6 +419,10 @@ class Slop
     end
   end
 
+  # Extract the long flag from an item.
+  #
+  # objects - The Array of objects passed from #build_option.
+  # config  - The Hash of configuration options built in #build_option.
   def extract_long_flag(objects, config)
     flag = objects.first.to_s
     if flag =~ /\A(?:--?)?[a-zA-Z][a-zA-Z0-9_-]+\=?\??\z/
@@ -378,6 +433,11 @@ class Slop
     end
   end
 
+  # Remove any leading -- characters from a string.
+  #
+  # object - The Object we want to cast to a String and clean.
+  #
+  # Returns the newly cleaned String with leading -- characters removed.
   def clean(object)
     object.to_s.sub(/\A--?/, '')
   end
