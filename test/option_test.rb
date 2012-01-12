@@ -83,5 +83,12 @@ class OptionTest < TestCase
     assert_equal 'rab', opt.value
   end
 
+  test "using a default value as fallback" do
+    opts = Slop.new
+    opt = opts.on :f, :argument => :optional, :default => 'foo'
+    opts.parse %w'-f'
+    assert_equal 'foo', opts[:f]
+  end
+
   # end type casting tests
 end
