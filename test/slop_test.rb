@@ -174,4 +174,12 @@ class SlopTest < TestCase
     assert_equal 'foo', opts.banner
   end
 
+  test "get/[] fetching an options argument value" do
+    opts = Slop.new { on :foo=; on :bar; on :baz }
+    opts.parse %w' --foo hello --bar '
+    assert_equal 'hello', opts[:foo]
+    assert_nil opts[:bar]
+    assert_nil opts[:baz]
+  end
+
 end
