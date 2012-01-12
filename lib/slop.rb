@@ -379,6 +379,7 @@ class Slop
       option = build_option(Array(flag))
       argument = items[index + 1]
       option.config[:argument] = (argument && argument !~ /\A--?/)
+      option.config[:autocreated] = true
       @options << option
     end
   end
