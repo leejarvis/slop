@@ -95,9 +95,8 @@ class Slop
       if type.respond_to?(:call)
         type.call(value)
       else
-        type = type.to_s.downcase.to_sym
-        if types.key?(type)
-          types[type].call(value)
+        if callable = types[type.to_s.downcase.to_sym]
+          callable.call(value)
         else
           value
         end
