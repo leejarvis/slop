@@ -65,6 +65,7 @@ class Slop
     @config = DEFAULT_OPTIONS.merge(config)
     @options = []
     @trash = []
+    @triggered_options = []
     @callbacks = {}
 
     if block_given?
@@ -162,7 +163,7 @@ class Slop
   #
   # Returns an Array of Strings representing missing options.
   def missing
-    options.select { |opt| !present?(opt.key) }.map(&:key)
+    (options - @triggered_options).map(&:key)
   end
 
   # Fetch a Slop::Option object.
@@ -221,6 +222,7 @@ class Slop
     if option
       option.count += 1 unless item[0, 5] == '--no-'
       @trash << index
+      @triggered_options << option
 
       if option.expects_argument?
         argument ||= items.at(index + 1)
