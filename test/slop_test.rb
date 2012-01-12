@@ -132,4 +132,10 @@ class SlopTest < TestCase
     assert_equal({ :foo => 'hello', :bar => nil }, opts.to_hash)
   end
 
+  test "missing() returning all missing option keys" do
+    opts = Slop.new { on :foo; on :bar }
+    opts.parse %w'--foo'
+    assert_equal ['bar'], opts.missing
+  end
+
 end

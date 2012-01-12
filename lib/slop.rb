@@ -144,8 +144,12 @@ class Slop
   #   opts.present?(:bar) #=> false
   #
   # Returns true if all of the keys are present in the parsed arguments.
-  def present?(*option_keys)
-    option_keys.all? { |key| option = fetch_option(key) && option.count > 0 }
+  def present?(*keys)
+    keys.all? { |key| opt = fetch_option(key); opt && opt.count > 0 }
+  end
+
+  def missing
+    options.select { |opt| !present?(opt.key) }.map(&:key)
   end
 
   # Fetch a Slop::Option object.
