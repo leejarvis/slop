@@ -45,11 +45,32 @@ class Slop
       init_and_parse(items, true, config, &block)
     end
 
+    # Build a Slop object from a option specification.
+    #
+    # This allows you to design your options via a simple String rather
+    # than programatically. Do note though that with this method, you're
+    # unable to pass any advanced options to the on() method when creating
+    # options.
+    #
+    # string - The optspec String
+    # config - A Hash of configuration options to pass to Slop.new
+    #
+    # Examples:
+    #
+    #   opts = Slop.optspec(<<-SPEC)
+    #   ruby foo.rb [options]
+    #   ---
+    #   n,name=     Your name
+    #   a,age=      Your age
+    #   A,auth      Sign in with auth
+    #   p,passcode= Your secret pass code
+    #   SPEC
+    #
+    #   opts.fetch_option(:name).description #=> "Your name"
+    #
+    # Returns a new instance of Slop.
     def optspec(string, config = {})
-      if string[/^--+$/]
-        config[:banner], optspec = string.split(/^--+$/, 2)
-      end
-
+      config[:banner], optspec = string.split(/^--+$/, 2) if string[/^--+$/]
       lines = string.split("\n").reject(&:empty?)
       opts  = Slop.new(config)
 
