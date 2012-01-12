@@ -163,6 +163,11 @@ class SlopTest < TestCase
     assert_raises(Slop::MissingOptionError) { opts.parse %w'' }
   end
 
+  test "raising InvalidOptionError when strict mode is enabled and an unknown option appears" do
+    opts = Slop.new :strict => true
+    assert_raises(Slop::InvalidOptionError) { opts.parse %w'--foo' }
+  end
+
   test "setting/getting the banner" do
     opts = Slop.new :banner => 'foo'
     assert_equal 'foo', opts.banner

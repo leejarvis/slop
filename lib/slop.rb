@@ -16,7 +16,8 @@ class Slop
     :ignore_case => false,
     :autocreate => false,
     :arguments => false,
-    :optional_arguments => false
+    :optional_arguments => false,
+    :multiple_switches => true
   }
 
   class << self
@@ -113,6 +114,7 @@ class Slop
     @options = []
     @trash = []
     @triggered_options = []
+    @unknown_options = []
     @callbacks = {}
 
     if block_given?
@@ -273,11 +275,11 @@ class Slop
       return items
     end
 
-    items.each_with_index do |item, index|
+    items.each_with_index { |item, index|
       @trash << index && break if item == '--'
       autocreate(items, index) if config[:autocreate]
       process_item(items, index, &block) unless @trash.include?(index)
-    end
+    }.reject!.with_index { |item, index| delete && @trash.include?(index) }
 
     required_options = options.select { |opt| opt.required? && opt.count < 1 }
     if required_options.any?
@@ -285,7 +287,10 @@ class Slop
         "Missing required option(s): #{required_options.map(&:key).join(', ')}"
     end
 
-    items.reject!.with_index { |item, index| @trash.include?(index) } if delete
+    if @unknown_options.any?
+      raise InvalidOptionError, "Unknown options -- #{@unknown_options.join(', ')}"
+    end
+
     items
   end
 
@@ -306,7 +311,12 @@ class Slop
       @trash << index
       @triggered_options << option
 
-      if option.expects_argument?
+      if config[:multiple_switches] && argument
+        execute_option(option, argument, index)
+        argument.split('').each do |key|
+          execute_option(fetch_option(key), argument, index)
+        end
+      elsif option.expects_argument?
         argument ||= items.at(index + 1)
 
         if !argument || argument =~ /\A--?[a-zA-Z][a-zA-Z0-9_-]*\z/
@@ -324,6 +334,7 @@ class Slop
         end
       end
     else
+      @unknown_options << item if config[:strict] && item =~ /\A--?/
       block.call(item) if block && !@trash.include?(index)
     end
   end
@@ -336,6 +347,7 @@ class Slop
   #
   # Returns nothing.
   def execute_option(option, argument, index)
+    return unless option
     @trash << index + 1
     option.value = argument
 
@@ -357,7 +369,7 @@ class Slop
 
     unless option
       case flag
-      when /\A--?([^=]+)=(.+)\z/
+      when /\A--?([^=]+)=(.+)\z/, /\A-([a-zA-Z])(.+)\z/
         option, argument = fetch_option($1), $2
       when /\A--no-(.+)\z/
         option, argument = fetch_option($1), false
