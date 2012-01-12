@@ -213,11 +213,8 @@ class SlopTest < TestCase
     --
     v,verbose  enable verbose mode
     q,quiet   enable quiet mode
-    debug      enable debug mode
-    H          enable hax mode (srsly)
     n,name=    set your name
     p,pass=?   set your password
-    -a,--age= set your age
     SPEC
     opts = Slop.optspec(optspec.gsub(/^\s+/, ''))
     opts.parse %w[ --verbose --name Lee ]
