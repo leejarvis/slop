@@ -25,6 +25,7 @@ class SlopTest < TestCase
     # with arguments
     assert_equal ['f', nil, nil, {:argument=>true}], build_option('f=')
     assert_equal [nil, 'foo', nil, {:argument=>true}], build_option('foo=')
+    assert_equal [nil, 'foo', nil, {:optional_argument=>true}], build_option('foo=?')
   end
 
   test "fetch_option" do
@@ -203,6 +204,27 @@ class SlopTest < TestCase
     opts = Slop.new(:ignore_case => true) { on :foo= }
     opts.parse %w' --FOO bar '
     assert_equal 'bar', opts[:foo]
+  end
+
+  test "parsing an optspec and building options" do
+    optspec = <<-SPEC
+    ruby foo.rb [options]
+    --
+    v,verbose  enable verbose mode
+    q,quiet   enable quiet mode
+    debug      enable debug mode
+    H          enable hax mode (srsly)
+    n,name=    set your name
+    p,pass=?   set your password
+    -a,--age= set your age
+    SPEC
+    opts = Slop.optspec(optspec.gsub(/^\s+/, ''))
+    opts.parse %w[ --verbose --name Lee ]
+
+    assert_equal 'Lee', opts[:name]
+    assert opts.present?(:verbose)
+    assert_equal 'enable quiet mode', opts.fetch_option(:quiet).description
+    assert opts.fetch_option(:pass).accepts_optional_argument?
   end
 
 end

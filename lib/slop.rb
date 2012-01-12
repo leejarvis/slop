@@ -46,7 +46,25 @@ class Slop
     end
 
     def optspec(string, config = {})
-      # Slop.new(config)
+      if string[/^--+$/]
+        config[:banner], optspec = string.split(/^--+$/, 2)
+      end
+
+      lines = string.split("\n").reject(&:empty?)
+      opts  = Slop.new(config)
+
+      lines.each do |line|
+        opt, description = line.split(' ', 2)
+        short, long = opt.split(',').map { |s| s.sub(/\A--?/, '') }
+        opt = opts.on(short, long, description)
+
+        if long && long[-1] == ?$
+          long.sub!(/\=$/, '')
+          opt.config[:argument] = true
+        end
+      end
+
+      opts
     end
 
     private
@@ -331,10 +349,11 @@ class Slop
 
   def extract_long_flag(objects, config)
     flag = objects.first.to_s
-    if flag =~ /\A(?:--?)?[a-zA-Z][a-zA-Z0-9_-]+\=?\z/
+    if flag =~ /\A(?:--?)?[a-zA-Z][a-zA-Z0-9_-]+\=?\??\z/
       config[:argument] = true if flag[-1, 1] == '='
+      config[:optional_argument] = true if flag[-2, 2] == '=?'
       objects.shift
-      clean(flag).sub(/\=\z/, '')
+      clean(flag).sub(/\=\??\z/, '')
     end
   end
 
