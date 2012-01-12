@@ -190,12 +190,6 @@ class SlopTest < TestCase
     refute opts.present?(:bar)
   end
 
-  test "option=value" do
-    opts = Slop.new { on :foo= }
-    opts.parse %w' --foo=bar '
-    assert_equal 'bar', opts[:foo]
-  end
-
   test "ignoring case" do
     opts = Slop.new { on :foo }
     opts.parse %w' --FOO bar '
