@@ -288,7 +288,7 @@ class Slop
     end
 
     if @unknown_options.any?
-      raise InvalidOptionError, "Unknown options -- #{@unknown_options.join(', ')}"
+      raise InvalidOptionError, "Unknown options #{@unknown_options.join(', ')}"
     end
 
     items
@@ -314,7 +314,7 @@ class Slop
       if config[:multiple_switches] && argument
         execute_option(option, argument, index)
         argument.split('').each do |key|
-          execute_option(fetch_option(key), argument, index)
+          execute_option(fetch_option(key), argument, index, key)
         end
       elsif option.expects_argument?
         argument ||= items.at(index + 1)
@@ -344,10 +344,17 @@ class Slop
   # option   - The Slop::Option object found by #process_item.
   # argument - The argument Object to assign to this option.
   # index    - The current Integer index of the object we're processing.
+  # item     - The optional String item we're processing.
   #
   # Returns nothing.
-  def execute_option(option, argument, index)
-    return unless option
+  def execute_option(option, argument, index, item = nil)
+    if !option
+      if config[:multiple_switches] && config[:strict]
+        raise InvalidOptionError, "Unknown option -#{item}"
+      end
+      return
+    end
+
     @trash << index + 1
     option.value = argument
 
