@@ -195,4 +195,14 @@ class SlopTest < TestCase
     assert_equal 'bar', opts[:foo]
   end
 
+  test "ignoring case" do
+    opts = Slop.new { on :foo }
+    opts.parse %w' --FOO bar '
+    assert_nil opts[:foo]
+
+    opts = Slop.new(:ignore_case => true) { on :foo= }
+    opts.parse %w' --FOO bar '
+    assert_equal 'bar', opts[:foo]
+  end
+
 end
