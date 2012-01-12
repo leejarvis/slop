@@ -217,6 +217,35 @@ class Slop
     keys.all? { |key| opt = fetch_option(key); opt && opt.count > 0 }
   end
 
+  # Convenience method for present?(:option).
+  #
+  # Examples:
+  #
+  #   opts.parse %( --verbose )
+  #   opts.verbose? #=> true
+  #   opts.other?   #=> false
+  #
+  # Returns true if this option is present. If this method does not end
+  # with a ? character it will instead call super().
+  def method_missing(method, *args, &block)
+    method = method.to_s
+    if method[-1] == ??
+      present?(method.chop)
+    else
+      super
+    end
+  end
+
+  # Override this method so we can check if an option? method exists
+  def respond_to?(method)
+    method = method.to_s
+    if method[-1] == ?? && options.any? { |o| o.key == method.chop }
+      true
+    else
+      super
+    end
+  end
+
   # Fetch a list of options which were missing from the parsed list.
   #
   # Examples:
