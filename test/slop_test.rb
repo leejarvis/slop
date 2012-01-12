@@ -182,4 +182,11 @@ class SlopTest < TestCase
     assert_nil opts[:baz]
   end
 
+  test "checking for an options presence" do
+    opts = Slop.new { on :foo; on :bar }
+    opts.parse %w' --foo '
+    assert opts.present?(:foo)
+    refute opts.present?(:bar)
+  end
+
 end
