@@ -126,4 +126,10 @@ class SlopTest < TestCase
     assert_equal "bar", foo
   end
 
+  test "to_hash()" do
+    opts = Slop.new { on :foo=; on :bar }
+    opts.parse(%w'--foo hello --bar')
+    assert_equal({ :foo => 'hello', :bar => nil }, opts.to_hash)
+  end
+
 end

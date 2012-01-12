@@ -133,6 +133,7 @@ class Slop
   def to_hash
     Hash[options.map { |opt| [opt.key.to_sym, opt.value] }]
   end
+  alias to_h to_hash
 
   # Check for an options presence.
   #
