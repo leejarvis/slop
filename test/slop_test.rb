@@ -146,4 +146,19 @@ class SlopTest < TestCase
     refute opts.fetch_option(:baz).expects_argument?
   end
 
+  test "raising an InvalidArgumentError when the argument doesn't match" do
+    opts = Slop.new { on :foo=, :match => /^[a-z]+$/ }
+    assert_raises(Slop::InvalidArgumentError) { opts.parse %w' --foo b4r '}
+  end
+
+  test "raising a MissingArgumentError when the option expects an argument" do
+    opts = Slop.new { on :foo= }
+    assert_raises(Slop::MissingArgumentError) { opts.parse %w' --foo '}
+  end
+
+  test "raising a MissingOptionError when a required option is missing" do
+    opts = Slop.new { on :foo, :required => true }
+    assert_raises(Slop::MissingOptionError) { opts.parse %w'' }
+  end
+
 end
