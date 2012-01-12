@@ -79,7 +79,10 @@ class SlopTest < TestCase
   end
 
   test "parse!" do
-    slop = Slop.new
+    slop = Slop.new { on :foo= }
+    assert_equal [], slop.parse!(%w'--foo bar')
+    slop = Slop.new {  on :baz }
+    assert_equal ['etc'], slop.parse!(%w'--baz etc')
   end
 
   test "new() accepts a hash of configuration options" do

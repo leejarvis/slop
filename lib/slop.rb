@@ -191,6 +191,7 @@ class Slop
         "Missing required option(s): #{required_options.map(&:key).join(', ')}"
     end
 
+    items.reject!.with_index { |item, index| @trash.include?(index) } if delete
     items
   end
 
@@ -200,6 +201,7 @@ class Slop
 
     if option
       option.count += 1 unless item[0, 5] == '--no-'
+      @trash << index
 
       if option.expects_argument?
         argument ||= items.at(index + 1)
