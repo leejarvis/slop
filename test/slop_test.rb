@@ -161,4 +161,17 @@ class SlopTest < TestCase
     assert_raises(Slop::MissingOptionError) { opts.parse %w'' }
   end
 
+  test "setting/getting the banner" do
+    opts = Slop.new :banner => 'foo'
+    assert_equal 'foo', opts.banner
+
+    opts = Slop.new
+    opts.banner 'foo'
+    assert_equal 'foo', opts.banner
+
+    opts = Slop.new
+    opts.banner = 'foo'
+    assert_equal 'foo', opts.banner
+  end
+
 end

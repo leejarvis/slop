@@ -79,6 +79,25 @@ class Slop
     end
   end
 
+  # Set the banner.
+  #
+  # banner - The String to set the banner.
+  #
+  # Returns nothing.
+  def banner=(banner)
+    config[:banner] = banner
+  end
+
+  # Get or set the banner.
+  #
+  # banner - The String to set the banner.
+  #
+  # Returns the banner String.
+  def banner(banner = nil)
+    config[:banner] = banner if banner
+    config[:banner]
+  end
+
   # Parse a list of items, executing and gathering options along the way.
   #
   # items - The Array of items to extract options from (default: ARGV).
