@@ -1,6 +1,7 @@
 class Slop
   class Option
 
+    # The default Hash of configuration options this class uses.
     DEFAULT_OPTIONS = {
       :argument => false,
       :optional_argument => false,
@@ -19,6 +20,16 @@ class Slop
     attr_reader :short, :long, :description, :config, :types
     attr_accessor :count
 
+    # Incapsulate internal option information, mainly used to store
+    # option specific configuration data, most of the meat of this
+    # class is found in the #value method.
+    #
+    # slop        - The instance of Slop tied to this Option.
+    # short       - The String or Symbol short flag.
+    # long        - The String or Symbol long flag.
+    # description - The String description text.
+    # config      - A Hash of configuration options.
+    # block       - An optional block used as a callback.
     def initialize(slop, short, long, description, config = {}, &block)
       @short = short
       @long = long
@@ -33,8 +44,8 @@ class Slop
         :symbol  => proc { |v| v.to_sym },
         :integer => proc { |v| v.to_s.to_i },
         :float   => proc { |v| v.to_f },
-        :array => proc { |v| v.split(@config[:delimiter], @config[:limit]) },
-        :range => proc { |v| value_to_range(v) }
+        :array   => proc { |v| v.split(@config[:delimiter], @config[:limit]) },
+        :range   => proc { |v| value_to_range(v) }
       }
 
       @config.each_key do |key|
@@ -102,6 +113,14 @@ class Slop
 
     private
 
+    # Convert an object to a Range if possible. If this method is passed
+    # what does *not* look like a Range, but looks like an Integer of some
+    # sort, it will call #to_i on the Object and return the Integer
+    # representation.
+    #
+    # value - The Object we want to convert to a range.
+    #
+    # Returns the Range value if one could be found, else the original object.
     def value_to_range(value)
       case value.to_s
       when /\A(-?\d+?)(\.\.\.?|-|,)(-?\d+)\z/
