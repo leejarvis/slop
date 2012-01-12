@@ -130,12 +130,29 @@ class Slop
     Hash[options.map { |opt| [opt.key.to_sym, opt.value] }]
   end
 
+  # Check for an options presence.
+  #
+  # Examples:
+  #
+  #   opts.parse %w( --foo )
+  #   opts.present?(:foo) #=> true
+  #   opts.present?(:bar) #=> false
+  #
   # Returns true if all of the keys are present in the parsed arguments.
   def present?(*option_keys)
     option_keys.all? { |key| option = fetch_option(key) && option.count > 0 }
   end
 
+  # Fetch a Slop::Option object.
+  #
   # key - The Symbol or String option key.
+  #
+  # Examples:
+  #
+  #   opts.on(:foo, 'Something fooey', :argument => :optional)
+  #   opt = opts.fetch_option(:foo)
+  #   opt.class #=> Slop::Option
+  #   opt.accepts_optional_argument? #=> true
   #
   # Returns an Option or nil if none were found.
   def fetch_option(key)
