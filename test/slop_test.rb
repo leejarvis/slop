@@ -118,4 +118,12 @@ class SlopTest < TestCase
     assert_equal ['a', 'b', 'c'], items
   end
 
+  test "on empty callback" do
+    opts = Slop.new
+    foo = nil
+    opts.add_callback(:empty) { foo = "bar" }
+    opts.parse []
+    assert_equal "bar", foo
+  end
+
 end

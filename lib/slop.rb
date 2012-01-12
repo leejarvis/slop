@@ -65,7 +65,7 @@ class Slop
     @config = DEFAULT_OPTIONS.merge(config)
     @options = []
     @trash = []
-    @callbacks = Hash.new([])
+    @callbacks = {}
 
     if block_given?
       block.arity == 1 ? yield(self) : instance_eval(&block)
@@ -169,13 +169,13 @@ class Slop
   #
   # Returns nothing.
   def add_callback(label, &block)
-    @callbacks[label] << block
+    (@callbacks[label] ||= []) << block
   end
 
   private
 
   def parse_items(items, delete, &block)
-    if items.empty? && @callbacks[:empty].any?
+    if items.empty? && @callbacks[:empty]
       @callbacks[:empty].each { |cb| cb.call(self) }
       return items
     end
