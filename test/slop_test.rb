@@ -138,4 +138,12 @@ class SlopTest < TestCase
     assert_equal ['bar'], opts.missing
   end
 
+  test "autocreating options" do
+    opts = Slop.new :autocreate => true
+    opts.parse %w[ --foo bar --baz ]
+    assert opts.fetch_option(:foo).expects_argument?
+    assert_equal 'bar', opts.fetch_option(:foo).value
+    refute opts.fetch_option(:baz).expects_argument?
+  end
+
 end

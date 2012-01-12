@@ -200,6 +200,7 @@ class Slop
 
     items.each_with_index do |item, index|
       @trash << index && break if item == '--'
+      autocreate(items, index) if config[:autocreate]
       process_item(items, index, &block) unless @trash.include?(index)
     end
 
@@ -268,6 +269,16 @@ class Slop
     end
 
     [option, argument]
+  end
+
+  def autocreate(items, index)
+    flag = items[index]
+    unless present?(flag)
+      option = build_option(Array(flag))
+      argument = items[index + 1]
+      option.config[:argument] = (argument && argument !~ /\A--?/)
+      @options << option
+    end
   end
 
   def build_option(objects, &block)
