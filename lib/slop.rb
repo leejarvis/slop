@@ -17,7 +17,8 @@ class Slop
     :autocreate => false,
     :arguments => false,
     :optional_arguments => false,
-    :multiple_switches => true
+    :multiple_switches => true,
+    :longest_flag => 0
   }
 
   class << self
@@ -228,9 +229,9 @@ class Slop
   # Returns true if this option is present. If this method does not end
   # with a ? character it will instead call super().
   def method_missing(method, *args, &block)
-    method = method.to_s
-    if method[-1] == ??
-      present?(method.chop)
+    meth = method.to_s
+    if meth[-1] == ??
+      present?(meth.chop)
     else
       super
     end
@@ -287,6 +288,14 @@ class Slop
   def add_callback(label, &block)
     (@callbacks[label] ||= []) << block
   end
+
+  def to_s
+    heads  = options.reject(&:tail?)
+    tails  = (options - heads)
+    optstr = (heads + tails).select(&:help).map(&:to_s).join("\n")
+    config[:banner] ? config[:banner] + "\n" + optstr : optstr
+  end
+  alias help to_s
 
   private
 
@@ -411,10 +420,8 @@ class Slop
 
     unless option
       case flag
-      when /\A--?([^=]+)=(.+)\z/, /\A-([a-zA-Z])(.+)\z/
-        option, argument = fetch_option($1), $2
-      when /\A--no-(.+)\z/
-        option, argument = fetch_option($1), false
+      when /\A--?([^=]+)=(.+)\z/, /\A-([a-zA-Z])(.+)\z/, /\A--no-(.+)\z/
+        option, argument = fetch_option($1), ($2 || false)
       end
     end
 

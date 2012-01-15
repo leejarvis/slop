@@ -19,6 +19,7 @@ class Slop
 
     attr_reader :short, :long, :description, :config, :types
     attr_accessor :count
+    attr_writer :value
 
     # Incapsulate internal option information, mainly used to store
     # option specific configuration data, most of the meat of this
@@ -31,13 +32,14 @@ class Slop
     # config      - A Hash of configuration options.
     # block       - An optional block used as a callback.
     def initialize(slop, short, long, description, config = {}, &block)
+      @slop = slop
       @short = short
       @long = long
       @description = description
       @config = DEFAULT_OPTIONS.merge(config)
       @count = 0
       @callback = block_given? ? block : config[:callback]
-      @argument_value = nil
+      @value = nil
 
       @types = {
         :string  => proc { |v| v.to_s },
@@ -47,6 +49,10 @@ class Slop
         :array   => proc { |v| v.split(@config[:delimiter], @config[:limit]) },
         :range   => proc { |v| value_to_range(v) }
       }
+
+      if long && long.size > @slop.config[:longest_flag]
+        @slop.config[:longest_flag] = long.size
+      end
 
       @config.each_key do |key|
         self.class.send(:define_method, "#{key}?") { !!@config[key] }
@@ -65,7 +71,7 @@ class Slop
 
     # Returns the String flag of this option. Preferring the long flag.
     def key
-      @long || @short
+      long || short
     end
 
     # Call this options callback if one exists, and it responds to call().
@@ -75,20 +81,11 @@ class Slop
       @callback.call(*objects) if @callback.respond_to?(:call)
     end
 
-    # Set the argument value for this option.
-    #
-    # value - The Object to set the argument value.
-    #
-    # Returns nothing.
-    def value=(value)
-      @argument_value = value
-    end
-
     # Fetch the argument value for this option.
     #
     # Returns the Object once any type conversions have taken place.
     def value
-      value = @argument_value || config[:default]
+      value = @value || config[:default]
       return if value.nil?
 
       type = config[:as]
@@ -102,6 +99,24 @@ class Slop
         end
       end
     end
+
+    # Returns the help String for this option.
+    def to_s
+      out = "    "
+      out += short ? "-#{short}, " : ' ' * 4
+
+      if long
+        out += "--#{long}"
+        size = long.size
+        diff = @slop.config[:longest_flag] - size
+        out += " " * (diff + 6)
+      else
+        out += " " * (@slop.config[:longest_flag] + 8)
+      end
+
+      "#{out}#{description}"
+    end
+    alias help to_s
 
     # Returns the String inspection text.
     def inspect
@@ -121,11 +136,8 @@ class Slop
     #
     # Returns the Range value if one could be found, else the original object.
     def value_to_range(value)
-      case value.to_s
-      when /\A(-?\d+?)(\.\.\.?|-|,)(-?\d+)\z/
-        Range.new($1.to_i, $3.to_i, $2 == '...')
-      when /\A-?\d+\z/
-        value.to_i
+      if value.to_s =~ /\A(?:\-?\d+|(-?\d+?)(\.\.\.?|-|,)(-?\d+))\z/
+        $1 ? Range.new($1.to_i, $3.to_i, $2 == '...') : value.to_i
       else
         value
       end

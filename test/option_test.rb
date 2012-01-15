@@ -91,4 +91,15 @@ class OptionTest < TestCase
     opts.parse %w'-f'
     assert_equal 'foo', opts[:f]
   end
+
+  test "printing options" do
+     slop = Slop.new
+     slop.opt :n, :name=, 'Your name'
+     slop.opt :age=, 'Your age'
+     slop.opt :V, 'Display the version'
+
+     assert_equal "    -n, --name      Your name", slop.fetch_option(:name).to_s
+     assert_equal "        --age       Your age", slop.fetch_option(:age).to_s
+     assert_equal "    -V,             Display the version", slop.fetch_option(:V).help
+   end
 end
