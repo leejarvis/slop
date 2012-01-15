@@ -289,6 +289,9 @@ class Slop
     (@callbacks[label] ||= []) << block
   end
 
+  # Print a handy Slop help string.
+  #
+  # Returns the banner followed by available option help strings.
   def to_s
     heads  = options.reject(&:tail?)
     tails  = (options - heads)
