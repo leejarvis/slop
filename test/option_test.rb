@@ -93,13 +93,19 @@ class OptionTest < TestCase
   end
 
   test "printing options" do
-     slop = Slop.new
-     slop.opt :n, :name=, 'Your name'
-     slop.opt :age=, 'Your age'
-     slop.opt :V, 'Display the version'
+    slop = Slop.new
+    slop.opt :n, :name=, 'Your name'
+    slop.opt :age=, 'Your age'
+    slop.opt :V, 'Display the version'
 
-     assert_equal "    -n, --name      Your name", slop.fetch_option(:name).to_s
-     assert_equal "        --age       Your age", slop.fetch_option(:age).to_s
-     assert_equal "    -V,             Display the version", slop.fetch_option(:V).help
-   end
+    assert_equal "    -n, --name      Your name", slop.fetch_option(:name).to_s
+    assert_equal "        --age       Your age", slop.fetch_option(:age).to_s
+    assert_equal "    -V,             Display the version", slop.fetch_option(:V).help
+  end
+
+  test "overwriting the help text" do
+    slop = Slop.new
+    slop.on :foo, :help => '    -f, --foo  SOMETHING FOOEY'
+    assert_equal '    -f, --foo  SOMETHING FOOEY', slop.fetch_option(:foo).help
+  end
 end

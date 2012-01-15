@@ -102,19 +102,23 @@ class Slop
 
     # Returns the help String for this option.
     def to_s
-      out = "    "
-      out += short ? "-#{short}, " : ' ' * 4
-
-      if long
-        out += "--#{long}"
-        size = long.size
-        diff = @slop.config[:longest_flag] - size
-        out += " " * (diff + 6)
+      if config[:help] && config[:help].respond_to?(:to_str)
+        config[:help]
       else
-        out += " " * (@slop.config[:longest_flag] + 8)
-      end
+        out = "    "
+        out += short ? "-#{short}, " : ' ' * 4
 
-      "#{out}#{description}"
+        if long
+          out += "--#{long}"
+          size = long.size
+          diff = @slop.config[:longest_flag] - size
+          out += " " * (diff + 6)
+        else
+          out += " " * (@slop.config[:longest_flag] + 8)
+        end
+
+        "#{out}#{description}"
+      end
     end
     alias help to_s
 
