@@ -4,6 +4,13 @@ class Slop
     attr_reader :config, :commands
     attr_writer :banner
 
+    # Create a new instance of Slop::Commands and optionally build
+    # Slop instances via a block. Any configuration options used in
+    # this method will be the default configuration options sent to
+    # each Slop object created.
+    #
+    # config - An optional configuration Hash.
+    # block  - Optional block used to define commands.
     def initialize(config = {}, &block)
       @config = config
       @commands = {}
