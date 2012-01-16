@@ -218,7 +218,7 @@ class Slop
   #
   # Returns true if all of the keys are present in the parsed arguments.
   def present?(*keys)
-    keys.all? { |key| opt = fetch_option(key); opt && opt.count > 0 }
+    keys.all? { |key| (opt = fetch_option(key)) && opt.count > 0 }
   end
 
   # Convenience method for present?(:option).
