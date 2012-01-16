@@ -119,6 +119,7 @@ class Slop
     @triggered_options = []
     @unknown_options = []
     @callbacks = {}
+    @separators = {}
 
     if block_given?
       block.arity == 1 ? yield(self) : instance_eval(&block)
@@ -291,16 +292,30 @@ class Slop
     (@callbacks[label] ||= []) << block
   end
 
+  # Add string separators between options.
+  #
+  # text - The String text to print.
+  def separator(text)
+    @separators[options.size] = text
+  end
+
   # Print a handy Slop help string.
   #
   # Returns the banner followed by available option help strings.
   def to_s
     heads  = options.reject(&:tail?)
     tails  = (options - heads)
-    optstr = (heads + tails).select(&:help).map(&:to_s).join("\n")
+    opts = (heads + tails).select(&:help).map(&:to_s)
+    optstr = opts.map.with_index { |o, i|
+      (str = @separators[i + 1]) ? [o, str].join("\n") : o
+    }.join("\n")
     config[:banner] ? config[:banner] + "\n" + optstr : optstr
   end
   alias help to_s
+
+  def inspect
+    self.inspect
+  end
 
   private
 

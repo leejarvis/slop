@@ -244,4 +244,13 @@ class SlopTest < TestCase
     assert_equal %w(-1), items
   end
 
+  test "separators" do
+    opts = Slop.new do
+      on :foo
+      separator "hello"
+      on :bar
+    end
+    assert_equal "        --foo      \nhello\n        --bar      ", opts.help
+  end
+
 end
