@@ -426,6 +426,14 @@ class Slop
     option.call(option.value)
   end
 
+  # Execute a `-abc` type option where a, b and c are all options. This
+  # method is only executed if the multiple_switches argument is true.
+  #
+  # option   - The first Option object.
+  # argument - The argument to this option. (Split into multiple Options).
+  # index    - The index of the current item being processed.
+  #
+  # Returns nothing.
   def execute_multiple_switches(option, argument, index)
     execute_option(option, argument, index)
     argument.split('').each do |key|
