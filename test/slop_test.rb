@@ -16,6 +16,13 @@ class SlopTest < TestCase
     ARGV.replace old_argv
   end
 
+  def temp_stderr
+    $stderr = StringIO.new
+    yield $stderr.string
+  ensure
+    $stderr = STDERR
+  end
+
   test "build_option" do
     assert_equal ['f', nil, nil, {}], build_option(:f)
     assert_equal [nil, 'foo', nil, {}], build_option(:foo)
@@ -254,12 +261,11 @@ class SlopTest < TestCase
   end
 
   test "printing help with :help => true" do
-    str = StringIO.new
-    $stderr = str
-    opts = Slop.new(:help => true)
-    opts.parse %w( --help )
-    assert_equal "    -h, --help      Display this help message.\n", str.string
-    $sterr = STDERR
+    temp_stderr do |string|
+      opts = Slop.new(:help => true)
+      opts.parse %w( --help )
+      assert_equal "    -h, --help      Display this help message.\n", string
+    end
   end
 
 end
