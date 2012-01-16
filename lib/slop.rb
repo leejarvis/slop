@@ -808,7 +808,6 @@ class Slop
     end
 
     trash = []
-    ignore_all = false
 
     items.each_with_index do |item, index|
       item = item.to_s
@@ -816,10 +815,9 @@ class Slop
 
       if item == '--'
         trash << index
-        ignore_all = true
+        break
       end
 
-      next if ignore_all
       autocreate(flag, index, items) if @autocreate
       option, argument = extract_option(item, flag)
 
