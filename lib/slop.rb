@@ -387,6 +387,8 @@ class Slop
         else
           option.call(nil)
         end
+      else
+        option.call(nil)
       end
     else
       @unknown_options << item if config[:strict] && item =~ /\A--?/

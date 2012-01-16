@@ -253,4 +253,13 @@ class SlopTest < TestCase
     assert_equal "        --foo      \nhello\n        --bar      ", opts.help
   end
 
+  test "printing help with :help => true" do
+    str = StringIO.new
+    $stderr = str
+    opts = Slop.new(:help => true)
+    opts.parse %w( --help )
+    assert_equal "    -h, --help      Display this help message.\n", str.string
+    $sterr = STDERR
+  end
+
 end
