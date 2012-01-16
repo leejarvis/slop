@@ -4,13 +4,25 @@ require 'slop/commands'
 class Slop
   VERSION = '3.0.0.rc1'
 
+  # The main Error class, all Exception classes inherit from this class.
   class Error < StandardError; end
+
+  # Raised when an option argument is expected but none are given.
   class MissingArgumentError < Error; end
+
+  # Raised when an option is expected/required but not present.
   class MissingOptionError < Error; end
+
+  # Raised when an argument does not match its intended match constraint.
   class InvalidArgumentError < Error; end
+
+  # Raised when an invalid option is found and the strict flag is enabled.
   class InvalidOptionError < Error; end
+
+  # Raised when an invalid command is found and the strict flag is enabled.
   class InvalidCommandError < Error; end
 
+  # Returns a default Hash of configuration options this Slop instance uses.
   DEFAULT_OPTIONS = {
     :strict => false,
     :help => false,
@@ -94,6 +106,14 @@ class Slop
 
     private
 
+    # Convenience method used by ::parse and ::parse!.
+    #
+    # items  - The Array of items to parse.
+    # delete - When true, executes #parse! over #parse.
+    # config - The Hash of configuration options to pass to Slop.new.
+    # block  - The optional block to pass to Slop.new
+    #
+    # Returns a newly created instance of Slop.
     def init_and_parse(items, delete, config, &block)
       config, items = items, ARGV if items.is_a?(Hash) && config.empty?
       slop = Slop.new(config, &block)
@@ -240,7 +260,9 @@ class Slop
     end
   end
 
-  # Override this method so we can check if an option? method exists
+  # Override this method so we can check if an option? method exists.
+  #
+  # Returns true if this option key exists in our list of options.
   def respond_to?(method)
     method = method.to_s
     if method[-1] == ?? && options.any? { |o| o.key == method.chop }
