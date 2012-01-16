@@ -45,6 +45,18 @@ class CommandsTest < TestCase
     assert cmds[:global].verbose?
   end
 
+  test "global options are always executed" do
+    @commands.global { on 'foo=' }
+    @commands.parse %w( new --force --foo bar )
+    assert_equal 'bar', @commands[:global][:foo]
+  end
+
+  test "default options are only executed when there's nothing else" do
+    @commands.default { on 'foo=' }
+    @commands.parse %w( new --force --foo bar )
+    assert_nil @commands[:default][:foo]
+  end
+
   test "adding default options" do
     cmds = Slop::Commands.new { default { on '--verbose' } }
     cmds.parse %w( --verbose )
