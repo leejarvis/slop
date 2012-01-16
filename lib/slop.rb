@@ -1,4 +1,5 @@
 require 'slop/option'
+require 'slop/commands'
 
 class Slop
   VERSION = '3.0.0.rc1'
