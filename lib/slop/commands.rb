@@ -39,8 +39,7 @@ class Slop
     #
     # Returns the newly created Slop instance mapped to command.
     def on(command, config = {}, &block)
-      config = @config.merge(config)
-      commands[command] = Slop.new(config, &block)
+      commands[command] = Slop.new(@config.merge(config), &block)
     end
 
     # Add a Slop instance used when no other commands exist.
@@ -50,8 +49,7 @@ class Slop
     #
     # Returns the newly created Slop instance mapped to default.
     def default(config = {}, &block)
-      config = @config.merge(config)
-      commands['default'] = Slop.new(config, &block)
+      commands['default'] = Slop.new(@config.merge(config), &block)
     end
 
     # Add a global Slop instance.
@@ -61,8 +59,7 @@ class Slop
     #
     # Returns the newly created Slop instance mapped to global.
     def global(config = {}, &block)
-      config = @config.merge(config)
-      commands['global'] = Slop.new(config, &block)
+      commands['global'] = Slop.new(@config.merge(config), &block)
     end
 
     # Fetch the instance of Slop tied to a command.
