@@ -134,6 +134,14 @@ class SlopTest < TestCase
     assert_equal "bar", foo
   end
 
+  test "on no_options callback" do
+    opts = Slop.new
+    foo = nil
+    opts.add_callback(:no_options) { foo = "bar" }
+    opts.parse %w( --foo --bar etc hello )
+    assert_equal "bar", foo
+  end
+
   test "to_hash()" do
     opts = Slop.new { on :foo=; on :bar }
     opts.parse(%w'--foo hello --bar')

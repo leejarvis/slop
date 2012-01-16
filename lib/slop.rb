@@ -349,6 +349,10 @@ class Slop
       raise InvalidOptionError, "Unknown options #{@unknown_options.join(', ')}"
     end
 
+    if @triggered_options.empty? && @callbacks[:no_options]
+      @callbacks[:no_options].each { |cb| cb.call(self) }
+    end
+
     items
   end
 
