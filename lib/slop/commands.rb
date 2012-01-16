@@ -20,6 +20,7 @@ class Slop
     def [](key)
       commands[key.to_s]
     end
+    alias get []
 
     def to_s
       commands.map { |key, opts|
