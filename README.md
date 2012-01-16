@@ -40,23 +40,49 @@ Slop supports several methods of writing options:
 # These options all do the same thing
 on '-n', '--name', 'Your name', :argument => true
 on 'n', :name=, 'Your name'
-on :n, 'name=', 'Your name'
+on :n, '--name=', 'Your name'
 
 # As do these
-on 'p', 'password', 'Your password', :argument => :optional
+on 'p', '--password', 'Your password', :argument => :optional
 on :p, :password, 'Your password', :optional_argument => true
-on 'p', 'password=?', 'Your password'
+on '-p', 'password=?', 'Your password'
 ```
 
 For more information about creating options, see the
 [Creating Options](https://github.com/injekt/slop/wiki/Creating-Options)
 wiki page.
 
-You can also return your options as a Hash
+You can also return your options as a Hash:
 
 ```ruby
 opts.to_hash #=> { :name => 'lee', :verbose => nil, :password => nil }
 ```
+
+Printing Help
+-------------
+
+Slop attempts to build a good looking help string to print to your users. You
+can see this by calling `opts.help` or simply `puts opts`.
+
+Configuration Options
+---------------------
+
+All of these options can be sent to `Slop.new` or `Slop.parse` in Hash form.
+
+* `strict` - Enable strict mode. When processing unknown options, Slop will
+  raise an `InvalidOptionError`. **default:** *false*.
+* `help` - Automatically add the `--help` option. **default:** *false*.
+* `banner` - Set this options banner text. **default:** *nil*.
+* `ignore_case` - When enabled, `-A` will look for the `-a` option if `-A`
+  does not exist. **default:** *false*.
+* `autocreate` - Autocreate options on the fly. **default:** *false*.
+* `arguments` - Force all options to expect arguments. **default:** *false*.
+* `optional_arguments` - Force all options to accept optional arguments.
+  **default:** *false*.
+* `multiple_switches` - When disabled, Slop will parse `-abc` as the option `a`
+   with the argument `bc` rather than 3 separate options. **default:** *true*.
+* `longest_flag` - The longest string flag, used to aid configuring help
+   text. **default:** *0*.
 
 Features
 --------
