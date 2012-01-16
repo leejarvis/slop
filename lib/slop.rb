@@ -823,7 +823,7 @@ class Slop
       autocreate(flag, index, items) if @autocreate
       option, argument = extract_option(item, flag)
 
-      if @multiple_switches and item[/\A-[^-]/] and not option
+      if @multiple_switches and item[/\A-[^-][A-Za-z]/] and not option
         trash << index
         next
       end

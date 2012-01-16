@@ -587,4 +587,10 @@ class SlopTest < TestCase
     assert opts.verbose?
     assert_equal 'enable quiet mode', opts.options[:quiet].description
   end
+
+  test "negative integers should not be processed as options and removed" do
+    items = %w(-1)
+    Slop.parse!(items)
+    assert_equal %w(-1), items
+  end
 end
