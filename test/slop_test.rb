@@ -238,4 +238,10 @@ class SlopTest < TestCase
     assert opts.fetch_option(:pass).accepts_optional_argument?
   end
 
+  test "ensure negative integers are not processed as options" do
+    items = %w(-1)
+    Slop.parse!(items)
+    assert_equal %w(-1), items
+  end
+
 end
