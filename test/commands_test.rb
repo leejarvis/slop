@@ -51,4 +51,28 @@ class CommandsTest < TestCase
     assert cmds[:default].verbose?
   end
 
+  test "on/global and default all return newly created slop instances" do
+    assert_kind_of Slop, @commands.on('foo')
+    assert_kind_of Slop, @commands.default
+    assert_kind_of Slop, @commands.global
+  end
+
+  test "parse does nothing when there's nothing to parse" do
+    assert @commands.parse []
+  end
+
+  test "parse returns the original array of items" do
+    items = %w( foo bar baz )
+    assert_equal items, @commands.parse(items)
+
+    items = %w( new --force )
+    assert_equal items, @commands.parse(items)
+  end
+
+  test "parse! removes options/arguments" do
+    items = %w( new --outdir foo )
+    @commands.parse!(items)
+    assert_equal [], items
+  end
+
 end
