@@ -335,8 +335,9 @@ class Slop
   end
   alias help to_s
 
+  # Returns the String inspection text.
   def inspect
-    self.inspect
+    "#<Slop #{config.inspect} #{options.map(&:inspect)}>"
   end
 
   private

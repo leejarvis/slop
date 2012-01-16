@@ -1,5 +1,6 @@
 class Slop
   class Commands
+    include Enumerable
 
     attr_reader :config, :commands
     attr_writer :banner
@@ -81,6 +82,11 @@ class Slop
       parse_items(items)
     end
 
+    # Enumerable interface.
+    def each(&block)
+      @commands.each(&block)
+    end
+
     # Parse a list of items, removing any options or option arguments found.
     #
     # items - The Array of items to parse.
@@ -106,6 +112,11 @@ class Slop
       banner + helps.map { |key, opts| "  #{key}\n#{opts}" }.join("\n\n")
     end
     alias help to_s
+
+    # Returns the inspection String.
+    def inspect
+      "#<Slop::Commands #{config.inspect} #{commands.values.map(&:inspect)}>"
+    end
 
     private
 
