@@ -3,6 +3,7 @@ HEAD
 
 * Allow the `:as` option to accept an object responding to :call for
   custom type conversions (#45)
+* Ensure negative integers are not parsed as possible options (#46)
 
 2.4.2 (2011-12-18)
 ------------------
