@@ -9,6 +9,7 @@ class Slop
   class MissingOptionError < Error; end
   class InvalidArgumentError < Error; end
   class InvalidOptionError < Error; end
+  class InvalidCommandError < Error; end
 
   DEFAULT_OPTIONS = {
     :strict => false,
