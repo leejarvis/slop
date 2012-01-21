@@ -27,6 +27,10 @@ class SlopTest < TestCase
     assert_includes Slop.included_modules, Enumerable
   end
 
+  test "enumerates Slop::Option objects in #each" do
+    Slop.new { on :f; on :b; }.each { |o| assert_kind_of Slop::Option, o }
+  end
+
   test "build_option" do
     assert_equal ['f', nil, nil, {}], build_option(:f)
     assert_equal [nil, 'foo', nil, {}], build_option(:foo)
