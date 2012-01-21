@@ -50,10 +50,6 @@ on :p, :password, 'Your password', :optional_argument => true
 on '-p', 'password=?', 'Your password'
 ```
 
-For more information about creating options, see the
-[Creating Options](https://github.com/injekt/slop/wiki/Creating-Options)
-wiki page.
-
 You can also return your options as a Hash:
 
 ```ruby
@@ -93,7 +89,6 @@ Check out the following wiki pages for more features:
 
 * [Ranges](https://github.com/injekt/slop/wiki/Ranges)
 * [Auto Create](https://github.com/injekt/slop/wiki/Auto-Create)
-* [Commands](https://github.com/injekt/slop/wiki/Commands)
 
 Woah woah, why you hating on OptionParser?
 ------------------------------------------
