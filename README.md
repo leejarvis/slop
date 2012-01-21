@@ -41,7 +41,7 @@ opts[:age]    #=> nil
 ```
 
 For more information about creating options, see the
-[Creating Options](https://github.com/injekt/slop/wiki/Creating-Options-(v2))
+[Creating Options](https://github.com/injekt/slop/wiki/Creating-Options---v2)
 wiki page.
 
 You can also return your options as a Hash
@@ -231,7 +231,7 @@ opts[:people] #=> ['lee', 'john', 'bill']
 ```
 
 Slop supports a few styles of list parsing. Check out
-[this wiki page](https://github.com/injekt/slop/wiki/Lists) for more info.
+[this wiki page](https://github.com/injekt/slop/wiki/Lists---v2) for more info.
 
 Strict Mode
 -----------
@@ -251,7 +251,7 @@ Check out the following wiki pages for more features:
 
 * [Ranges](https://github.com/injekt/slop/wiki/Ranges)
 * [Auto Create](https://github.com/injekt/slop/wiki/Auto-Create)
-* [Commands](https://github.com/injekt/slop/wiki/Commands)
+* [Commands](https://github.com/injekt/slop/wiki/Commands---v2)
 
 Woah woah, why you hating on OptionParser?
 ------------------------------------------
