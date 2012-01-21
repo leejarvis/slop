@@ -3,6 +3,9 @@ Slop
 
 Slop is a simple, lightweight option parser with an easy to remember syntax and friendly API.
 
+Note that this is the `v2` branch. If you are looking for version 3 of Slop
+please check out the [master branch](https://github.com/injekt/slop).
+
 Installation
 ------------
 
