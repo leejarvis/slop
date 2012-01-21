@@ -2,6 +2,8 @@ require 'slop/option'
 require 'slop/commands'
 
 class Slop
+  include Enumerable
+
   VERSION = '3.0.0.rc1'
 
   # The main Error class, all Exception classes inherit from this class.
@@ -227,6 +229,11 @@ class Slop
     Hash[options.map { |opt| [opt.key.to_sym, opt.value] }]
   end
   alias to_h to_hash
+
+  # Enumerable interface. Yields each Slop::Option.
+  def each(&block)
+    options.each(&block)
+  end
 
   # Check for an options presence.
   #

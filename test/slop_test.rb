@@ -23,6 +23,10 @@ class SlopTest < TestCase
     $stderr = STDERR
   end
 
+  test "includes Enumerable" do
+    assert_includes Slop.included_modules, Enumerable
+  end
+
   test "build_option" do
     assert_equal ['f', nil, nil, {}], build_option(:f)
     assert_equal [nil, 'foo', nil, {}], build_option(:foo)
