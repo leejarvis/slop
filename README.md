@@ -41,7 +41,7 @@ opts[:age]    #=> nil
 ```
 
 For more information about creating options, see the
-[Creating Options](https://github.com/injekt/slop/wiki/Creating-Options)
+[Creating Options](https://github.com/injekt/slop/wiki/Creating-Options-(v2))
 wiki page.
 
 You can also return your options as a Hash
