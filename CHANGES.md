@@ -1,3 +1,34 @@
+3.0.0
+-----
+
+* value_to_range returns an x..x range if the value looks like an integer.
+* Lots of code refactoring
+* Use TomDoc documentation
+* Added `Slop::Commands` and removed existing command system
+* Configuration options altered:
+	* `:optional` has been renamed to `:optional_argument`
+	* Added `:required` for mandatory options
+	* `:argument` now accepts an `:optional` symbol as well as boolean value
+* Removed Slop instance methods:
+	* description=, description
+	* summary=, summary
+	* command
+	* on_empty
+	* on_noopts
+	* execute
+	* to_struct
+* Added Slop instance methods:
+	* separator
+	* fetch_option
+	* add_callback
+
+2.4.3 (2012-01-16)
+------------------
+
+* Allow the `:as` option to accept an object responding to :call for
+  custom type conversions (#45)
+* Ensure negative integers are not parsed as possible options (#46)
+
 2.4.2 (2011-12-18)
 ------------------
 
