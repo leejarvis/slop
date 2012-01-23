@@ -98,7 +98,6 @@ class OptionTest < TestCase
     assert_equal nil, option_value(%w/-i/, :i, :as => :array)
     assert_equal nil, option_value(%w/-i/, :i, :as => :range)
 
-    assert_equal 1, option_value(%w/-i 1/, :i, :optional => true, :as => :range)
     assert_equal nil, option_value(%w/-i/, :i, :optional => true, :as => :range)
   end
 
@@ -114,7 +113,8 @@ class OptionTest < TestCase
     # return value.to_i if the value is /\A\d+\z/
     # maybe this should raise if Slop#strict?
     assert_equal "1abc10", option_value(%w/-r 1abc10/, :r, true, :as => Range)
-    assert_equal 1, option_value(%w/-r 1/, :r, true, :as => Range)
+    assert_equal (1..1), option_value(%w/-r 1/, :r, true, :as => Range)
+    assert_equal (2..2), option_value(%w/-r 2/, :r, true, :as => Range)
   end
 
   test 'printing options' do

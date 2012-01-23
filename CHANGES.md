@@ -1,6 +1,12 @@
 HEAD
 ----
 
+* Ensure `:as => Range` returns a type of Range even if the value looks
+  like an Integer (#48)
+
+2.4.3 (2012-01-16)
+------------------
+
 * Allow the `:as` option to accept an object responding to :call for
   custom type conversions (#45)
 * Ensure negative integers are not parsed as possible options (#46)

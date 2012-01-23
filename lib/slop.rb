@@ -243,7 +243,7 @@ class Slop
       when /\A(-?\d+?)(\.\.\.?|-|,)(-?\d+)\z/
         Range.new($1.to_i, $3.to_i, $2 == '...')
       when /\A-?\d+\z/
-        value.to_i
+        Range.new(value.to_i, value.to_i)
       else
         value
       end
