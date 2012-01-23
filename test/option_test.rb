@@ -66,6 +66,10 @@ class OptionTest < TestCase
     assert_equal (1...10), option_value(%w/-r 1...10/, :r=, :as => Range)
     assert_equal (-1..10), option_value(%w/-r -1..10/, :r=, :as => Range)
     assert_equal (1..-10), option_value(%w/-r 1..-10/, :r=, :as => Range)
+    assert_equal (1..1), option_value(%w/-r 1/, :r=, :as => Range)
+
+    opts = Slop.new(:strict => true) { on :r=, :as => Range }
+    assert_raises(Slop::InvalidArgumentError) { opts.parse %w/-r abc/ }
   end
 
   test "array type cast" do

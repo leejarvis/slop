@@ -129,19 +129,23 @@ class Slop
 
     private
 
-    # Convert an object to a Range if possible. If this method is passed
-    # what does *not* look like a Range, but looks like an Integer of some
-    # sort, it will call #to_i on the Object and return the Integer
-    # representation.
+    # Convert an object to a Range if possible.
     #
     # value - The Object we want to convert to a range.
     #
     # Returns the Range value if one could be found, else the original object.
     def value_to_range(value)
-      if value.to_s =~ /\A(?:\-?\d+|(-?\d+?)(\.\.\.?|-|,)(-?\d+))\z/
-        $1 ? Range.new($1.to_i, $3.to_i, $2 == '...') : value.to_i
+      case value.to_s
+      when /\A(\-?\d+)\z/
+        Range.new($1.to_i, $1.to_i)
+      when /\A(-?\d+?)(\.\.\.?|-|,)(-?\d+)\z/
+        Range.new($1.to_i, $3.to_i, $2 == '...')
       else
-        value
+        if @slop.config[:strict]
+          raise InvalidArgumentError, "#{value} could not be coerced into Range"
+        else
+          value
+        end
       end
     end
 
