@@ -1,5 +1,5 @@
-3.0.0
------
+3.0.0 (2012-01-24)
+------------------
 
 * value_to_range returns an x..x range if the value looks like an integer.
 * Lots of code refactoring
