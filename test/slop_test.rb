@@ -243,6 +243,16 @@ class SlopTest < TestCase
     assert_equal 'bar', opts[:foo]
   end
 
+  test "supporting dash" do
+    opts = Slop.new {on :foo_bar=}
+    opts.parse %w' --foo-bar baz '
+    assert_nil opts[:foo_bar]
+
+    opts = Slop.new(:support_dash => true) { on :foo_bar= }
+    opts.parse %w' --foo-bar baz '
+    assert_equal 'baz', opts[:foo_bar]
+  end
+
   test "parsing an optspec and building options" do
     optspec = <<-SPEC
     ruby foo.rb [options]

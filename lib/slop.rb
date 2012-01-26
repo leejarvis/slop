@@ -30,6 +30,7 @@ class Slop
     :help => false,
     :banner => nil,
     :ignore_case => false,
+    :support_dash => false,
     :autocreate => false,
     :arguments => false,
     :optional_arguments => false,
@@ -481,6 +482,7 @@ class Slop
   def extract_option(flag)
     option = fetch_option(flag)
     option ||= fetch_option(flag.downcase) if config[:ignore_case]
+    option ||= fetch_option(flag.gsub /([^-])-/, '\1_') if config[:support_dash]
 
     unless option
       case flag
