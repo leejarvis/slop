@@ -137,7 +137,7 @@ class Slop
     def value_to_integer(value)
       if @slop.config[:strict]
         begin
-          Integer(value.to_s)
+          Integer(value.to_s, 10)
         rescue ArgumentError
           raise InvalidArgumentError,
                 "#{value} could not be coerced into Integer"
