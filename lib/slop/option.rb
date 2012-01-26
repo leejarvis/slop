@@ -131,7 +131,7 @@ class Slop
 
     # Convert an object to an Integer if possible.
     #
-    # value - The Object we want to convert to a range.
+    # value - The Object we want to convert to an integer.
     #
     # Returns the Integer value if possible to convert, else a zero.
     def value_to_integer(value)
@@ -149,7 +149,7 @@ class Slop
 
     # Convert an object to a Float if possible.
     #
-    # value - The Object we want to convert to a range.
+    # value - The Object we want to convert to a float.
     #
     # Returns the Float value if possible to convert, else a zero.
     def value_to_float(value)
