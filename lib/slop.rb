@@ -403,9 +403,7 @@ class Slop
       @trash << index
       @triggered_options << option
 
-      if config[:multiple_switches] && argument
-        execute_multiple_switches(option, argument, index)
-      elsif option.expects_argument?
+      if option.expects_argument?
         argument ||= items.at(index + 1)
 
         if !argument || argument =~ /\A--?[a-zA-Z][a-zA-Z0-9_-]*\z/
@@ -421,6 +419,8 @@ class Slop
         else
           option.call(nil)
         end
+      elsif config[:multiple_switches] && argument
+        execute_multiple_switches(option, argument, index)
       else
         option.call(nil)
       end

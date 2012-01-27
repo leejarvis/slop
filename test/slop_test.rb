@@ -43,6 +43,12 @@ class SlopTest < TestCase
     assert_equal [nil, 'foo', nil, {:optional_argument=>true}], build_option('foo=?')
   end
 
+  test "parsing option=value" do
+    slop = Slop.new { on :foo= }
+    slop.parse %w' --foo=bar '
+    assert_equal 'bar', slop[:foo]
+  end
+
   test "fetch_option" do
     slop = Slop.new
     opt1 = slop.on :f, :foo

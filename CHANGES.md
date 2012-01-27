@@ -1,5 +1,10 @@
-HEAD
-----
+3.0.2 (2012-01-27)
+------------------
+
+* Ensure `--option=value` is being evaluated before multiple switches (#52)
+
+3.0.1 (2012-01-27)
+------------------
 
 * Ensure tests run green on 1.8.7
 * Ensure `:argument => :optional` works with `:option=` format.
