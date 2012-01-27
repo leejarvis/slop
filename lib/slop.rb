@@ -519,10 +519,13 @@ class Slop
     config[:argument] = true if @config[:arguments]
     config[:optional_argument] = true if @config[:optional_arguments]
 
-    short  = extract_short_flag(objects, config)
-    long   = extract_long_flag(objects, config)
-    desc   = objects[0].respond_to?(:to_str) ? objects.shift : nil
-    config = config.merge!(objects.last) if objects.last.is_a?(Hash)
+    if objects.last.is_a?(Hash)
+      config = config.merge!(objects.last)
+      objects.pop
+    end
+    short = extract_short_flag(objects, config)
+    long  = extract_long_flag(objects, config)
+    desc  = objects[0].respond_to?(:to_str) ? objects.shift : nil
 
     Option.new(self, short, long, desc, config, &block)
   end
@@ -535,7 +538,7 @@ class Slop
     flag = clean(objects.first)
 
     if flag.size == 2 && flag[-1, 1] == '='
-      config[:argument] = true
+      config[:argument] ||= true
       flag.chop!
     end
 
@@ -552,7 +555,7 @@ class Slop
   def extract_long_flag(objects, config)
     flag = objects.first.to_s
     if flag =~ /\A(?:--?)?[a-zA-Z][a-zA-Z0-9_-]+\=?\??\z/
-      config[:argument] = true if flag[-1, 1] == '='
+      config[:argument] ||= true if flag[-1, 1] == '='
       config[:optional_argument] = true if flag[-2, 2] == '=?'
       objects.shift
       clean(flag).sub(/\=\??\z/, '')

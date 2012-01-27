@@ -52,7 +52,10 @@ class OptionTest < TestCase
   end
 
   test "integer type cast" do
-    assert_equal 1, option_value(%w'-f 1', :f=, :as => Integer)
+    opts = Slop.new
+    opts.on :f=, :as => Integer
+    opts.parse %w'-f 1'
+    assert_equal 1, opts[:f]
   end
 
   test "symbol type cast" do

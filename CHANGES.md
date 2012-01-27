@@ -1,3 +1,10 @@
+HEAD
+----
+
+* Ensure tests run green on 1.8.7
+* Ensure `:argument => :optional` works with `:option=` format.
+* Ruby 1.8.7 compat fix (dont chain Enumerable methods!) (Eric Anderson)
+
 3.0.0 (2012-01-24)
 ------------------
 
