@@ -56,6 +56,14 @@ class OptionTest < TestCase
     opts.on :f=, :as => Integer
     opts.parse %w'-f 1'
     assert_equal 1, opts[:f]
+    
+    opts = Slop.new(:strict => true) { on :r=, :as => Integer }
+    assert_raises(Slop::InvalidArgumentError) { opts.parse %w/-r abc/ }
+  end
+
+  test "float type cast" do
+    opts = Slop.new(:strict => true) { on :r=, :as => Float }
+    assert_raises(Slop::InvalidArgumentError) { opts.parse %w/-r abc/ }
   end
 
   test "symbol type cast" do

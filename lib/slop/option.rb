@@ -44,8 +44,8 @@ class Slop
       @types = {
         :string  => proc { |v| v.to_s },
         :symbol  => proc { |v| v.to_sym },
-        :integer => proc { |v| v.to_s.to_i },
-        :float   => proc { |v| v.to_f },
+        :integer => proc { |v| value_to_integer(v) },
+        :float   => proc { |v| value_to_float(v) },
         :array   => proc { |v| v.split(@config[:delimiter], @config[:limit]) },
         :range   => proc { |v| value_to_range(v) }
       }
@@ -128,6 +128,41 @@ class Slop
     end
 
     private
+
+    # Convert an object to an Integer if possible.
+    #
+    # value - The Object we want to convert to an integer.
+    #
+    # Returns the Integer value if possible to convert, else a zero.
+    def value_to_integer(value)
+      if @slop.config[:strict]
+        begin
+          Integer(value.to_s, 10)
+        rescue ArgumentError
+          raise InvalidArgumentError,
+                "#{value} could not be coerced into Integer"
+        end
+      else
+        value.to_s.to_i
+      end
+    end
+
+    # Convert an object to a Float if possible.
+    #
+    # value - The Object we want to convert to a float.
+    #
+    # Returns the Float value if possible to convert, else a zero.
+    def value_to_float(value)
+      if @slop.config[:strict]
+        begin
+          Float(value.to_s)
+        rescue ArgumentError
+          raise InvalidArgumentError, "#{value} could not be coerced into Float"
+        end
+      else
+        value.to_s.to_f
+      end
+    end
 
     # Convert an object to a Range if possible.
     #
