@@ -12,6 +12,27 @@ class Slop
     #
     # config - An optional configuration Hash.
     # block  - Optional block used to define commands.
+    #
+    # Examples:
+    #
+    #   commands = Slop::Commands.new do
+    #     on :new do
+    #       on '-o', '--outdir=', 'The output directory'
+    #       on '-v', '--verbose', 'Enable verbose mode'
+    #     end
+    #
+    #     on :generate do
+    #       on '--assets', 'Generate assets', :default => true
+    #     end
+    #
+    #     global do
+    #       on '-D', '--debug', 'Enable debug mode', :default => false
+    #     end
+    #   end
+    #
+    #   commands[:new].class #=> Slop
+    #   commands.parse
+    #
     def initialize(config = {}, &block)
       @config = config
       @commands = {}
