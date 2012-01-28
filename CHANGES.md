@@ -1,6 +1,7 @@
 HEAD
 ----
 
+* Added `Slop#strict?` method.
 * Added strict checks for Integer/Float type casting. (Amon Sha)
 
 3.0.2 (2012-01-27)
