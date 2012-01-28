@@ -154,6 +154,13 @@ class Slop
     end
   end
 
+  # Is strict mode enabled?
+  #
+  # Returns true if strict mode is enabled, false otherwise.
+  def strict?
+    config[:strict]
+  end
+
   # Set the banner.
   #
   # banner - The String to set the banner.
@@ -425,7 +432,7 @@ class Slop
         option.call(nil)
       end
     else
-      @unknown_options << item if config[:strict] && item =~ /\A--?/
+      @unknown_options << item if strict? && item =~ /\A--?/
       block.call(item) if block && !@trash.include?(index)
     end
   end
@@ -440,7 +447,7 @@ class Slop
   # Returns nothing.
   def execute_option(option, argument, index, item = nil)
     if !option
-      if config[:multiple_switches] && config[:strict]
+      if config[:multiple_switches] && strict?
         raise InvalidOptionError, "Unknown option -#{item}"
       end
       return

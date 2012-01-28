@@ -135,7 +135,7 @@ class Slop
     #
     # Returns the Integer value if possible to convert, else a zero.
     def value_to_integer(value)
-      if @slop.config[:strict]
+      if @slop.strict?
         begin
           Integer(value.to_s, 10)
         rescue ArgumentError
@@ -153,7 +153,7 @@ class Slop
     #
     # Returns the Float value if possible to convert, else a zero.
     def value_to_float(value)
-      if @slop.config[:strict]
+      if @slop.strict?
         begin
           Float(value.to_s)
         rescue ArgumentError
@@ -176,7 +176,7 @@ class Slop
       when /\A(-?\d+?)(\.\.\.?|-|,)(-?\d+)\z/
         Range.new($1.to_i, $3.to_i, $2 == '...')
       else
-        if @slop.config[:strict]
+        if @slop.strict?
           raise InvalidArgumentError, "#{value} could not be coerced into Range"
         else
           value
