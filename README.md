@@ -73,8 +73,6 @@ All of these options can be sent to `Slop.new` or `Slop.parse` in Hash form.
 * `banner` - Set this options banner text. **default:** *nil*.
 * `ignore_case` - When enabled, `-A` will look for the `-a` option if `-A`
   does not exist. **default:** *false*.
-* `support_dash` - Will treat --no-database as if you typed in --no_database.
-  **default:** *false*
 * `autocreate` - Autocreate options on the fly. **default:** *false*.
 * `arguments` - Force all options to expect arguments. **default:** *false*.
 * `optional_arguments` - Force all options to accept optional arguments.

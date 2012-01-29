@@ -1,6 +1,8 @@
 HEAD
 ----
 
+* Allow options to be fetched via underscores instead of dashes
+  (as a fallback) (Eric Anderson, #51)
 * Added `Slop#strict?` method.
 * Added strict checks for Integer/Float type casting. (Amon Sha)
 
