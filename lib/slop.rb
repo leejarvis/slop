@@ -4,7 +4,7 @@ require 'slop/commands'
 class Slop
   include Enumerable
 
-  VERSION = '3.0.2'
+  VERSION = '3.0.3'
 
   # The main Error class, all Exception classes inherit from this class.
   class Error < StandardError; end
