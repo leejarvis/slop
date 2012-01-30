@@ -1,12 +1,16 @@
 HEAD
 ----
 
-* Ensure options passed after option terminator do not raise an exception
-  (#54, Amon Sha)
 * Allow options to be fetched via underscores instead of dashes
   (as a fallback) (Eric Anderson, #51)
 * Added `Slop#strict?` method.
 * Added strict checks for Integer/Float type casting. (Amon Sha)
+
+3.0.3 (2012-01-30)
+------------------
+
+* Ensure options passed after option terminator do not raise an exception
+  (#54, Amon Sha)
 
 3.0.2 (2012-01-27)
 ------------------
