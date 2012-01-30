@@ -177,6 +177,13 @@ class SlopTest < TestCase
     refute opts.fetch_option(:baz).expects_argument?
   end
 
+  test "option terminator" do
+    opts = Slop.new { on :foo= }
+    items = %w' foo -- --foo bar '
+    opts.parse! items
+    assert_equal %w' foo --foo bar ', items
+  end
+
   test "raising an InvalidArgumentError when the argument doesn't match" do
     opts = Slop.new { on :foo=, :match => /^[a-z]+$/ }
     assert_raises(Slop::InvalidArgumentError) { opts.parse %w' --foo b4r '}

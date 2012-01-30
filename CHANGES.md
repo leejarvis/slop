@@ -1,3 +1,9 @@
+3.0.3 (2012-01-30)
+------------------
+
+* Ensure options passed after option terminator do not raise an exception
+  (#54, Amon Sha)
+
 3.0.2 (2012-01-27)
 ------------------
 
