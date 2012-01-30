@@ -1,6 +1,8 @@
 HEAD
 ----
 
+* Ensure options passed after option terminator do not raise an exception
+  (#54, Amon Sha)
 * Allow options to be fetched via underscores instead of dashes
   (as a fallback) (Eric Anderson, #51)
 * Added `Slop#strict?` method.
