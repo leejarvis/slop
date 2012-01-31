@@ -1,3 +1,8 @@
+3.0.4 (2012-01-31)
+------------------
+
+* Ensure `option=argument` syntax does not consume following arguments (#55).
+
 3.0.3 (2012-01-30)
 ------------------
 
