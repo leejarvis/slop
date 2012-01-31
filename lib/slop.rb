@@ -418,12 +418,12 @@ class Slop
           raise MissingArgumentError, "#{option.key} expects an argument"
         end
 
-        execute_option(option, argument, index)
+        execute_option(option, argument, index, item)
       elsif option.accepts_optional_argument?
         argument ||= items.at(index + 1)
 
         if argument && argument !~ /\A--?/
-          execute_option(option, argument, index)
+          execute_option(option, argument, index, item)
         else
           option.call(nil)
         end
@@ -454,7 +454,7 @@ class Slop
       return
     end
 
-    @trash << index + 1
+    @trash << index + 1 unless item && item.end_with?("=#{argument}")
     option.value = argument
 
     if option.match? && !argument.match(option.config[:match])

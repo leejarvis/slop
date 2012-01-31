@@ -304,4 +304,11 @@ class SlopTest < TestCase
     end
   end
 
+  test "option=value syntax does NOT consume following argument" do
+    opts = Slop.new { on :foo=; on 'bar=?' }
+    args = %w' --foo=bar baz --bar=zing hello '
+    opts.parse!(args)
+    assert_equal %w' baz hello ', args
+  end
+
 end
