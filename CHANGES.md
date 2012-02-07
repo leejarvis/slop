@@ -1,5 +1,5 @@
-HEAD
-----
+2.4.4 (2012-02-07)
+------------------
 
 * Ensure options taking arguments to not parsing an argument which
   is an option (#56)
