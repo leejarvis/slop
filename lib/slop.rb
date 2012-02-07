@@ -840,7 +840,7 @@ class Slop
             raise MissingArgumentError, "'#{option.key}' expects an argument, none given"
           end
 
-          if argument
+          if argument && argument !~ /^--?[a-zA-Z_-]+/
             if option.match and not argument.match(option.match)
               raise InvalidArgumentError, "'#{argument}' does not match #{option.match.inspect}"
             end

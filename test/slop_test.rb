@@ -593,4 +593,10 @@ class SlopTest < TestCase
     Slop.parse!(items)
     assert_equal %w(-1), items
   end
+
+  test "options taking arguments should ignore argument that look like options (wut?)" do
+    opts = Slop.new { on :v; on :foo, :optional => true, :default => 5, :as => Integer }
+    opts.parse %w[ -c -v ]
+    assert_equal 5, opts[:foo]
+  end
 end

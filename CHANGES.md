@@ -1,6 +1,8 @@
 HEAD
 ----
 
+* Ensure options taking arguments to not parsing an argument which
+  is an option (#56)
 * Ensure `:as => Range` returns a type of Range even if the value looks
   like an Integer (#48)
 
