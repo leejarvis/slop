@@ -375,7 +375,7 @@ class Slop
       autocreate(items, index) if config[:autocreate]
       process_item(items, index, &block) unless @trash.include?(index)
     }
-    items.reject!.with_index { |item, index| delete && @trash.include?(index) }
+    items.reject!.with_index { |item, index| @trash.include?(index) } if delete
 
     required_options = options.select { |opt| opt.required? && opt.count < 1 }
     if required_options.any?
