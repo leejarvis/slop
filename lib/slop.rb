@@ -514,7 +514,7 @@ class Slop
       argument = items[index + 1]
       option.config[:argument] = (argument && argument !~ /\A--?/)
       option.config[:autocreated] = true
-      @options << option
+      options << option
     end
   end
 
