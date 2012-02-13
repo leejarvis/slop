@@ -89,7 +89,7 @@ class Slop
     # Returns a new instance of Slop.
     def optspec(string, config = {})
       config[:banner], optspec = string.split(/^--+$/, 2) if string[/^--+$/]
-      lines = string.split("\n").reject(&:empty?)
+      lines = optspec.split("\n").reject(&:empty?)
       opts  = Slop.new(config)
 
       lines.each do |line|
@@ -489,7 +489,7 @@ class Slop
   def extract_option(flag)
     option = fetch_option(flag)
     option ||= fetch_option(flag.downcase) if config[:ignore_case]
-    option ||= fetch_option(flag.gsub /([^-])-/, '\1_')
+    option ||= fetch_option(flag.gsub(/([^-])-/, '\1_'))
 
     unless option
       case flag
