@@ -139,8 +139,7 @@ class Slop
         begin
           Integer(value.to_s, 10)
         rescue ArgumentError
-          raise InvalidArgumentError,
-                "#{value} could not be coerced into Integer"
+          raise InvalidArgumentError, "#{value} could not be coerced into Integer"
         end
       else
         value.to_s.to_i
