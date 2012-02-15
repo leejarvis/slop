@@ -39,7 +39,6 @@ class Slop
       @config = DEFAULT_OPTIONS.merge(config)
       @count = 0
       @callback = block_given? ? block : config[:callback]
-      @value = nil
 
       @types = {
         :string  => proc { |v| v.to_s },
