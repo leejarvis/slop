@@ -29,7 +29,7 @@ opts = Slop.parse do
   banner "ruby foo.rb [options]\n"
   on :name=, 'Your name'
   on :p, :password, 'Your password', :argument => :optional
-  on :v :verbose, 'Enable verbose mode'
+  on :v, :verbose, 'Enable verbose mode'
 end
 
 # if ARGV is `--name Lee -v`
