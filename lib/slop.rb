@@ -97,7 +97,7 @@ class Slop
         short, long = opt.split(',').map { |s| s.sub(/\A--?/, '') }
         opt = opts.on(short, long, description)
 
-        if long && long[-1] == ?$
+        if long && long.end_with?('=')
           long.sub!(/\=$/, '')
           opt.config[:argument] = true
         end
@@ -267,7 +267,7 @@ class Slop
   # with a ? character it will instead call super().
   def method_missing(method, *args, &block)
     meth = method.to_s
-    if meth[-1] == ??
+    if meth.end_with?('?')
       present?(meth.chop)
     else
       super
@@ -279,7 +279,7 @@ class Slop
   # Returns true if this option key exists in our list of options.
   def respond_to?(method)
     method = method.to_s
-    if method[-1] == ?? && options.any? { |o| o.key == method.chop }
+    if method.end_with?('?') && options.any? { |o| o.key == method.chop }
       true
     else
       super
@@ -404,10 +404,10 @@ class Slop
   # Returns nothing.
   def process_item(items, index, &block)
     item = items[index]
-    option, argument = extract_option(item) if item[0, 1] == '-'
+    option, argument = extract_option(item) if item.start_with?('-')
 
     if option
-      option.count += 1 unless item[0, 5] == '--no-'
+      option.count += 1 unless item.start_with?('--no-')
       @trash << index
       @triggered_options << option
 
@@ -546,7 +546,7 @@ class Slop
   def extract_short_flag(objects, config)
     flag = clean(objects.first)
 
-    if flag.size == 2 && flag[-1, 1] == '='
+    if flag.size == 2 && flag.end_with?('=')
       config[:argument] ||= true
       flag.chop!
     end
@@ -564,8 +564,8 @@ class Slop
   def extract_long_flag(objects, config)
     flag = objects.first.to_s
     if flag =~ /\A(?:--?)?[a-zA-Z][a-zA-Z0-9_-]+\=?\??\z/
-      config[:argument] ||= true if flag[-1, 1] == '='
-      config[:optional_argument] = true if flag[-2, 2] == '=?'
+      config[:argument] ||= true if flag.end_with?('=')
+      config[:optional_argument] = true if flag.end_with?('=?')
       objects.shift
       clean(flag).sub(/\=\??\z/, '')
     end
