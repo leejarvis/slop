@@ -370,11 +370,11 @@ class Slop
       return items
     end
 
-    items.each_with_index { |item, index|
+    items.each_with_index do |item, index|
       @trash << index && break if item == '--'
       autocreate(items, index) if config[:autocreate]
       process_item(items, index, &block) unless @trash.include?(index)
-    }
+    end
     items.reject!.with_index { |item, index| @trash.include?(index) } if delete
 
     missing_options = options.select { |opt| opt.required? && opt.count < 1 }
