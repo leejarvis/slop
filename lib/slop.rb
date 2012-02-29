@@ -233,7 +233,14 @@ class Slop
 
   # Returns a new Hash with option flags as keys and option values as values.
   def to_hash
-    Hash[options.map { |opt| [opt.key.to_sym, opt.value] }]
+    Hash[options.map { |opt|
+      key = opt.key.to_sym
+      value = opt.value
+      if value.nil? and @triggered_options.include?(opt)
+        value = opt.count > 0
+      end
+      [key, value]
+    }]
   end
   alias to_h to_hash
 
