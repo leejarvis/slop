@@ -55,7 +55,7 @@ on '-p', 'password=?', 'Your password'
 You can also return your options as a Hash:
 
 ```ruby
-opts.to_hash #=> { :name => 'lee', :verbose => nil, :password => nil }
+opts.to_hash #=> { :name => 'lee', :verbose => true, :password => nil }
 ```
 
 Printing Help
