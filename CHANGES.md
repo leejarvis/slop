@@ -1,10 +1,11 @@
-HEAD
-----
+3.1.0
+-----
 
 * Allow options to be fetched via underscores instead of dashes
   (as a fallback) (Eric Anderson, #51)
 * Added `Slop#strict?` method.
 * Added strict checks for Integer/Float type casting. (Amon Sha)
+* Ensure separators are not replacing existing separators (#61)
 
 3.0.4 (2012-01-31)
 ------------------
