@@ -1,5 +1,5 @@
-3.1.0
------
+3.1.0 (2012-04-23)
+------------------
 
 * Allow options to be fetched via underscores instead of dashes
   (as a fallback) (Eric Anderson, #51)
