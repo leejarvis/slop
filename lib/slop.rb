@@ -332,7 +332,11 @@ class Slop
   #
   # text - The String text to print.
   def separator(text)
-    @separators[options.size] = text
+    if @separators[options.size]
+      @separators[options.size] << "\n#{text}"
+    else
+      @separators[options.size] = text
+    end
   end
 
   # Print a handy Slop help string.
