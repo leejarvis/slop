@@ -1,3 +1,8 @@
+3.1.1 (2012-04-24)
+------------------
+
+* Ensure separators before any options are still being processed (#62)
+
 3.1.0 (2012-04-23)
 ------------------
 
