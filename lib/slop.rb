@@ -349,7 +349,14 @@ class Slop
     optstr = opts.each_with_index.map { |o, i|
       (str = @separators[i + 1]) ? [o, str].join("\n") : o
     }.join("\n")
-    config[:banner] ? config[:banner] + "\n" + optstr : optstr
+
+    if config[:banner]
+      config[:banner] << "\n"
+      config[:banner] << "#{@separators[0]}\n" if @separators[0]
+      config[:banner] + optstr
+    else
+      optstr
+    end
   end
   alias help to_s
 

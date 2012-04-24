@@ -295,6 +295,12 @@ class SlopTest < TestCase
       on :bar
     end
     assert_equal "        --foo      \nhello\nworld\n        --bar      ", opts.help
+
+    opts = Slop.new do
+      banner "foo"
+      separator "bar"
+    end
+    assert_equal "foo\nbar\n", opts.help
   end
 
   test "printing help with :help => true" do
