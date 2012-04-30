@@ -84,8 +84,11 @@ class Slop
     #
     # Returns the Object once any type conversions have taken place.
     def value
-      value = @value || config[:default]
-      return if value.nil?
+      value = instance_variable_defined?(:@value) ? @value : config[:default]
+      case value
+      when true, false, nil
+        return value
+      end
 
       type = config[:as]
       if type.respond_to?(:call)
