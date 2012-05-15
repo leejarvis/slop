@@ -441,6 +441,7 @@ class Slop
       elsif config[:multiple_switches] && argument
         execute_multiple_switches(option, argument, index)
       else
+        option.value = option.count > 0
         option.call(nil)
       end
     else
