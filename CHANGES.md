@@ -1,3 +1,8 @@
+3.2.0 (2012-05-15)
+------------------
+
+* Ensure boolean options appear correctly in `to_hash` output. (#59)
+
 3.1.1 (2012-04-24)
 ------------------
 
