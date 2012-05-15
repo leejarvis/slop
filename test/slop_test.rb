@@ -263,6 +263,13 @@ class SlopTest < TestCase
     assert opts.foo_bar?
   end
 
+  test "supporting underscore" do
+    opts = Slop.new { on :foo_bar= }
+    opts.parse %w' --foo_bar baz '
+    assert_equal 'baz', opts[:foo_bar]
+    assert opts.foo_bar?
+  end
+
   test "parsing an optspec and building options" do
     optspec = <<-SPEC
     ruby foo.rb [options]
