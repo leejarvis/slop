@@ -414,7 +414,7 @@ class Slop
   #
   # Returns nothing.
   def process_item(items, index, &block)
-    item = items[index]
+    return unless item = items[index]
     option, argument = extract_option(item) if item.start_with?('-')
 
     if option
