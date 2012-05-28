@@ -46,7 +46,8 @@ class Slop
         :integer => proc { |v| value_to_integer(v) },
         :float   => proc { |v| value_to_float(v) },
         :array   => proc { |v| v.split(@config[:delimiter], @config[:limit]) },
-        :range   => proc { |v| value_to_range(v) }
+        :range   => proc { |v| value_to_range(v) },
+        :count   => proc { |v| @count }
       }
 
       if long && long.size > @slop.config[:longest_flag]
@@ -85,7 +86,10 @@ class Slop
     # Returns the Object once any type conversions have taken place.
     def value
       value = @value.nil? ? config[:default] : @value
-      return value if [true, false, nil].include?(value)
+
+      if [true, false, nil].include?(value) && config[:as].to_s != 'count'
+        return value
+      end
 
       type = config[:as]
       if type.respond_to?(:call)

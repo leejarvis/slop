@@ -56,7 +56,7 @@ class OptionTest < TestCase
     opts.on :f=, :as => Integer
     opts.parse %w'-f 1'
     assert_equal 1, opts[:f]
-    
+
     opts = Slop.new(:strict => true) { on :r=, :as => Integer }
     assert_raises(Slop::InvalidArgumentError) { opts.parse %w/-r abc/ }
   end
@@ -96,6 +96,11 @@ class OptionTest < TestCase
     opt.types[:reverse] = proc { |v| v.reverse }
     opts.parse %w'-f bar'
     assert_equal 'rab', opt.value
+  end
+
+  test "count type" do
+    assert_equal 3, option_value(%w/-c -c -c/, :c, :as => :count)
+    assert_equal 0, option_value(%w/-a -b -z/, :c, :as => :count)
   end
 
   # end type casting tests
