@@ -433,7 +433,7 @@ class Slop
       elsif option.accepts_optional_argument?
         argument ||= items.at(index + 1)
 
-        if argument && argument !~ /\A--?/
+        if argument && argument =~ /\A([^-\-?]|-\d)+/
           execute_option(option, argument, index, item)
         else
           option.call(nil)
