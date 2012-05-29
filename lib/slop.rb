@@ -488,7 +488,7 @@ class Slop
     execute_option(option, argument, index)
     argument.split('').each do |key|
       opt = fetch_option(key)
-      opt.count = 1
+      opt.count += 1
       execute_option(opt, argument, index, key)
     end
   end

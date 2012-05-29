@@ -102,6 +102,7 @@ class OptionTest < TestCase
   test "count type" do
     assert_equal 3, option_value(%w/-c -c -c/, :c, :as => :count)
     assert_equal 0, option_value(%w/-a -b -z/, :c, :as => :count)
+    assert_equal 3, option_value(%w/-vvv/, :v, :as => :count)
   end
 
   # end type casting tests
