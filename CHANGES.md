@@ -1,3 +1,10 @@
+3.3.0 (2012-05-30)
+------------------
+
+* Fix `:as => :count` when using multiple switches.
+* Ensure range typecast allows negative range values.
+* Ignore nil objects send to #parse instead of choking.
+
 3.2.0 (2012-05-15)
 ------------------
 
