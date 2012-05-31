@@ -466,8 +466,12 @@ class Slop
       return
     end
 
-    @trash << index + 1 unless item && item.end_with?("=#{argument}")
-    option.value = argument
+    if argument
+      @trash << index + 1 unless item && item.end_with?("=#{argument}")
+      option.value = argument
+    else
+      option.value = option.count > 0
+    end
 
     if option.match? && !argument.match(option.config[:match])
       raise InvalidArgumentError, "#{argument} is an invalid argument"
@@ -485,11 +489,11 @@ class Slop
   #
   # Returns nothing.
   def execute_multiple_switches(option, argument, index)
-    execute_option(option, argument, index)
+    execute_option(option, nil, index)
     argument.split('').each do |key|
       opt = fetch_option(key)
       opt.count += 1
-      execute_option(opt, argument, index, key)
+      execute_option(opt, nil, index, key)
     end
   end
 
