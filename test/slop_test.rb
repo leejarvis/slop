@@ -218,6 +218,12 @@ class SlopTest < TestCase
     assert_equal 'abc123', opts[:f]
   end
 
+  test "muiltiple_switches should not trash arguments" do
+    opts = Slop.new{ on :f; on :b }
+    args = opts.parse!(%w'-fb foo')
+    assert_equal %w'foo', args
+  end
+
   test "setting/getting the banner" do
     opts = Slop.new :banner => 'foo'
     assert_equal 'foo', opts.banner
