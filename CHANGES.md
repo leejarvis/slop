@@ -1,3 +1,8 @@
+3.3.1 (2012-05-31)
+------------------
+
+* Stop multiple switches from trashing arguments (Conrad Irwin, #66)
+
 3.3.0 (2012-05-30)
 ------------------
 
