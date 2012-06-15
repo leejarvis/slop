@@ -11,6 +11,7 @@ class Slop
       :delimiter => ',',
       :limit => 0,
       :match => nil,
+      :max_count => nil,
       :optional => true,
       :required => false,
       :as => String,
@@ -18,7 +19,7 @@ class Slop
     }
 
     attr_reader :short, :long, :description, :config, :types
-    attr_accessor :count
+    attr_reader :count
     attr_writer :value
 
     # Incapsulate internal option information, mainly used to store
@@ -72,6 +73,17 @@ class Slop
     # Returns the String flag of this option. Preferring the long flag.
     def key
       long || short
+    end
+
+    # Ensure that count stays below the threshold when strict
+    def count=(new_count)
+      if @slop.strict?
+        max_count=config[:max_count]
+        if max_count.is_a?(::Integer) && new_count > max_count
+          raise TooManyRepeatedOptionsError, "#{key} is only allowed #{max_count} time(s)"
+        end
+      end
+      @count = new_count 
     end
 
     # Call this options callback if one exists, and it responds to call().

@@ -15,6 +15,9 @@ class Slop
   # Raised when an option is expected/required but not present.
   class MissingOptionError < Error; end
 
+  # Raised when an option is repeated more times than allowed.
+  class TooManyRepeatedOptionsError < Error; end
+
   # Raised when an argument does not match its intended match constraint.
   class InvalidArgumentError < Error; end
 
