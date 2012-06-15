@@ -184,6 +184,23 @@ class SlopTest < TestCase
     assert_equal %w' foo --foo bar ', items
   end
 
+  test "repeated options are allowed up to max_count with strict" do
+    opts = Slop.new(:strict => true) { on :v, :max_count => 2 }
+    opts.parse %w' -vv' 
+    assert_equal opts.fetch_option(:v).count, 2
+  end
+
+  test "repeated options are allowed beyond max_count without strict" do
+    opts = Slop.new(:strict => false) { on :v, :max_count => 2 }
+    opts.parse %w' -vvv' 
+    assert_equal opts.fetch_option(:v).count, 3
+  end
+
+  test "raising an TooManyRepeatedOptionsError when too many arguments are passed" do
+    opts = Slop.new(:strict => true) { on :v, :max_count => 2 }
+    assert_raises(Slop::TooManyRepeatedOptionsError) { opts.parse %w' -vvv' }
+  end
+
   test "raising an InvalidArgumentError when the argument doesn't match" do
     opts = Slop.new { on :foo=, :match => /^[a-z]+$/ }
     assert_raises(Slop::InvalidArgumentError) { opts.parse %w' --foo b4r '}
