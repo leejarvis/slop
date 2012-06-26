@@ -1,3 +1,8 @@
+3.3.2 (2012-06-26)
+------------------
+
+* Ensure multiple options are not executed unless they exist (#70)
+
 3.3.1 (2012-05-31)
 ------------------
 
