@@ -491,7 +491,7 @@ class Slop
   def execute_multiple_switches(option, argument, index)
     execute_option(option, nil, index)
     argument.split('').each do |key|
-      opt = fetch_option(key)
+      next unless opt = fetch_option(key)
       opt.count += 1
       execute_option(opt, nil, index, key)
     end
