@@ -86,6 +86,7 @@ class OptionTest < TestCase
 
   test "array type cast" do
     assert_equal %w/lee john bill/, option_value(%w/-p lee,john,bill/, :p=, :as => Array)
+    assert_equal %w/lee john bill jeff jill/, option_value(%w/-p lee,john,bill -p jeff,jill/, :p=, :as => Array)
     assert_equal %w/lee john bill/, option_value(%w/-p lee:john:bill/, :p=, :as => Array, :delimiter => ':')
     assert_equal %w/lee john,bill/, option_value(%w/-p lee,john,bill/, :p=, :as => Array, :limit => 2)
     assert_equal %w/lee john:bill/, option_value(%w/-p lee:john:bill/, :p=, :as => Array, :limit => 2, :delimiter => ':')

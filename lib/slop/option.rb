@@ -19,7 +19,6 @@ class Slop
 
     attr_reader :short, :long, :description, :config, :types
     attr_accessor :count
-    attr_writer :value
 
     # Incapsulate internal option information, mainly used to store
     # option specific configuration data, most of the meat of this
@@ -45,7 +44,6 @@ class Slop
         :symbol  => proc { |v| v.to_sym },
         :integer => proc { |v| value_to_integer(v) },
         :float   => proc { |v| value_to_float(v) },
-        :array   => proc { |v| v.split(@config[:delimiter], @config[:limit]) },
         :range   => proc { |v| value_to_range(v) },
         :count   => proc { |v| @count }
       }
@@ -79,6 +77,23 @@ class Slop
     # Returns nothing.
     def call(*objects)
       @callback.call(*objects) if @callback.respond_to?(:call)
+    end
+
+    # Set the new argument value for this option.
+    #
+    # We use this setter method to handle concatenating lists. That is,
+    # when an array type is specified and used more than once, values from
+    # both options will be grouped together and flattened into a single array.
+    def value=(new_value)
+      if config[:as].to_s.downcase == 'array'
+        @value ||= []
+
+        if new_value.respond_to?(:split)
+          @value.concat new_value.split(config[:delimiter], config[:limit])
+        end
+      else
+        @value = new_value
+      end
     end
 
     # Fetch the argument value for this option.
