@@ -1,3 +1,5 @@
+$VERBOSE = true
+
 unless Object.const_defined? 'Slop'
   $:.unshift File.expand_path('../../lib', __FILE__)
   require 'slop'

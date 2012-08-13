@@ -38,6 +38,7 @@ class Slop
       @config = DEFAULT_OPTIONS.merge(config)
       @count = 0
       @callback = block_given? ? block : config[:callback]
+      @value = nil
 
       @types = {
         :string  => proc { |v| v.to_s },
@@ -53,7 +54,10 @@ class Slop
       end
 
       @config.each_key do |key|
-        self.class.send(:define_method, "#{key}?") { !!@config[key] }
+        predicate = :"#{key}?"
+        unless self.class.method_defined? predicate
+          self.class.send(:define_method, predicate) { !!@config[key] }
+        end
       end
     end
 
