@@ -71,14 +71,14 @@ class OptionTest < TestCase
   end
 
   test "range type cast" do
-    assert_equal (1..10), option_value(%w/-r 1..10/, :r=, :as => Range)
-    assert_equal (1..10), option_value(%w/-r 1-10/, :r=, :as => Range)
-    assert_equal (1..10), option_value(%w/-r 1,10/, :r=, :as => Range)
-    assert_equal (1...10), option_value(%w/-r 1...10/, :r=, :as => Range)
-    assert_equal (-1..10), option_value(%w/-r -1..10/, :r=, :as => Range)
-    assert_equal (1..-10), option_value(%w/-r 1..-10/, :r=, :as => Range)
-    assert_equal (1..1), option_value(%w/-r 1/, :r=, :as => Range)
-    assert_equal (-1..10), option_value(%w/-r -1..10/, :r, :as => Range, :optional_argument => true)
+    assert_equal((1..10), option_value(%w/-r 1..10/, :r=, :as => Range))
+    assert_equal((1..10), option_value(%w/-r 1-10/, :r=, :as => Range))
+    assert_equal((1..10), option_value(%w/-r 1,10/, :r=, :as => Range))
+    assert_equal((1...10), option_value(%w/-r 1...10/, :r=, :as => Range))
+    assert_equal((-1..10), option_value(%w/-r -1..10/, :r=, :as => Range))
+    assert_equal((1..-10), option_value(%w/-r 1..-10/, :r=, :as => Range))
+    assert_equal((1..1), option_value(%w/-r 1/, :r=, :as => Range))
+    assert_equal((-1..10), option_value(%w/-r -1..10/, :r, :as => Range, :optional_argument => true))
 
     opts = Slop.new(:strict => true) { on :r=, :as => Range }
     assert_raises(Slop::InvalidArgumentError) { opts.parse %w/-r abc/ }
@@ -110,7 +110,7 @@ class OptionTest < TestCase
 
   test "using a default value as fallback" do
     opts = Slop.new
-    opt = opts.on :f, :argument => :optional, :default => 'foo'
+    opts.on :f, :argument => :optional, :default => 'foo'
     opts.parse %w'-f'
     assert_equal 'foo', opts[:f]
   end
