@@ -1,3 +1,9 @@
+HEAD
+----
+
+* Ensure options are not swallowed when using short options with argument
+  included (#74)
+
 3.3.2 (2012-06-26)
 ------------------
 
