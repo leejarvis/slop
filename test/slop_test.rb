@@ -47,6 +47,11 @@ class SlopTest < TestCase
     slop = Slop.new { on :foo= }
     slop.parse %w' --foo=bar '
     assert_equal 'bar', slop[:foo]
+
+    slop = Slop.new(:multiple_switches => false) { on :f=; on :b= }
+    slop.parse %w' -fabc -bdef '
+    assert_equal 'abc', slop[:f]
+    assert_equal 'def', slop[:b]
   end
 
   test "fetch_option" do

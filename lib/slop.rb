@@ -467,7 +467,9 @@ class Slop
     end
 
     if argument
-      @trash << index + 1 unless item && item.end_with?("=#{argument}")
+      unless item && item.end_with?("=#{argument}")
+        @trash << index + 1 unless option.argument_in_value
+      end
       option.value = argument
     else
       option.value = option.count > 0
@@ -511,6 +513,7 @@ class Slop
       case flag
       when /\A--?([^=]+)=(.+)\z/, /\A-([a-zA-Z])(.+)\z/, /\A--no-(.+)\z/
         option, argument = fetch_option($1), ($2 || false)
+        option.argument_in_value = true if option
       end
     end
 

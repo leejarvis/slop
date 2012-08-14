@@ -18,7 +18,7 @@ class Slop
     }
 
     attr_reader :short, :long, :description, :config, :types
-    attr_accessor :count
+    attr_accessor :count, :argument_in_value
 
     # Incapsulate internal option information, mainly used to store
     # option specific configuration data, most of the meat of this
