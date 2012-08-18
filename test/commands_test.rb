@@ -83,14 +83,20 @@ class CommandsTest < TestCase
     items = %w( foo bar baz )
     assert_equal items, @commands.parse(items)
 
-    items = %w( new --force )
+    items = %w( new file --force )
     assert_equal items, @commands.parse(items)
   end
 
   test "parse! removes options/arguments" do
-    items = %w( new --outdir foo )
+    items = %w( new file --outdir foo )
     @commands.parse!(items)
     assert_equal [], items
+  end
+
+  test "command arguments" do
+    items = %w( new file1 file2 --outdir foo )
+    @commands.parse(items)
+    assert_equal %w( file1 file2 ), @commands.arguments
   end
 
 end

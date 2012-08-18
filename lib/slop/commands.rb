@@ -2,7 +2,7 @@ class Slop
   class Commands
     include Enumerable
 
-    attr_reader :config, :commands
+    attr_reader :config, :commands, :arguments
     attr_writer :banner
 
     # Create a new instance of Slop::Commands and optionally build
@@ -164,6 +164,7 @@ class Slop
     def parse_items(items, bang = false)
       if opts = commands[items[0].to_s]
         @triggered_command = items.shift
+        execute_arguments(items, bang)
         bang ? opts.parse!(items) : opts.parse(items)
         execute_global_opts(items, bang)
       else
@@ -179,6 +180,13 @@ class Slop
       items
     end
 
+    # Returns nothing.
+    def execute_arguments(items, bang)
+      @arguments = items.take_while { |arg| !arg.start_with?('-') }
+      items.shift(@arguments.size) if bang
+    end
+
+    # Returns nothing.
     def execute_global_opts(items, bang)
       if global_opts = commands['global']
         bang ? global_opts.parse!(items) : global_opts.parse(items)
