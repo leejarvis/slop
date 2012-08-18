@@ -2,7 +2,7 @@ class Slop
   class Commands
     include Enumerable
 
-    attr_reader :config, :commands
+    attr_reader :config, :commands, :arguments
     attr_writer :banner
 
     # Create a new instance of Slop::Commands and optionally build
@@ -37,6 +37,7 @@ class Slop
       @config = config
       @commands = {}
       @banner = nil
+      @triggered_command = nil
 
       if block_given?
         block.arity == 1 ? yield(self) : instance_eval(&block)
@@ -94,6 +95,19 @@ class Slop
     end
     alias get []
 
+    # Check for a command presence.
+    #
+    # Examples:
+    #
+    #   cmds.parse %w( foo )
+    #   cmds.present?(:foo) #=> true
+    #   cmds.present?(:bar) #=> false
+    #
+    # Returns true if the given key is present in the parsed arguments.
+    def present?(key)
+      key.to_s == @triggered_command
+    end
+
     # Parse a list of items.
     #
     # items - The Array of items to parse.
@@ -149,7 +163,8 @@ class Slop
     # Returns the Array of items (with options removed if bang == true).
     def parse_items(items, bang = false)
       if opts = commands[items[0].to_s]
-        items.shift
+        @triggered_command = items.shift
+        execute_arguments(items, bang)
         bang ? opts.parse!(items) : opts.parse(items)
         execute_global_opts(items, bang)
       else
@@ -165,6 +180,13 @@ class Slop
       items
     end
 
+    # Returns nothing.
+    def execute_arguments(items, bang)
+      @arguments = items.take_while { |arg| !arg.start_with?('-') }
+      items.shift(@arguments.size) if bang
+    end
+
+    # Returns nothing.
     def execute_global_opts(items, bang)
       if global_opts = commands['global']
         bang ? global_opts.parse!(items) : global_opts.parse(items)
