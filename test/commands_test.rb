@@ -27,6 +27,12 @@ class CommandsTest < TestCase
     assert_equal 'Force creation', @commands[:new].fetch_option(:force).description
   end
 
+  test "checking for a command presence" do
+    @commands.parse %w( new --force )
+    assert @commands.present?(:new)
+    refute @commands.present?(:version)
+  end
+
   test "to_hash" do
     assert_equal({
       :new => { :force => nil, :outdir => nil },

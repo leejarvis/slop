@@ -37,6 +37,7 @@ class Slop
       @config = config
       @commands = {}
       @banner = nil
+      @triggered_command = nil
 
       if block_given?
         block.arity == 1 ? yield(self) : instance_eval(&block)
@@ -94,6 +95,19 @@ class Slop
     end
     alias get []
 
+    # Check for a command presence.
+    #
+    # Examples:
+    #
+    #   cmds.parse %w( foo )
+    #   cmds.present?(:foo) #=> true
+    #   cmds.present?(:bar) #=> false
+    #
+    # Returns true if the given key is present in the parsed arguments.
+    def present?(key)
+      key.to_s == @triggered_command
+    end
+
     # Parse a list of items.
     #
     # items - The Array of items to parse.
@@ -149,7 +163,7 @@ class Slop
     # Returns the Array of items (with options removed if bang == true).
     def parse_items(items, bang = false)
       if opts = commands[items[0].to_s]
-        items.shift
+        @triggered_command = items.shift
         bang ? opts.parse!(items) : opts.parse(items)
         execute_global_opts(items, bang)
       else
