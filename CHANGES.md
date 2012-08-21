@@ -1,6 +1,7 @@
 HEAD
 ----
 
+* Ensure autocreate arguments are not created as options (#77)
 * Ensure options are not swallowed when using short options with argument
   included (#74)
 
