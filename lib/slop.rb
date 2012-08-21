@@ -528,7 +528,7 @@ class Slop
   # Returns nothing.
   def autocreate(items, index)
     flag = items[index]
-    unless present?(flag)
+    if !present?(flag) && !@trash.include?(index)
       option = build_option(Array(flag))
       argument = items[index + 1]
       option.config[:argument] = (argument && argument !~ /\A--?/)

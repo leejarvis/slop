@@ -180,6 +180,7 @@ class SlopTest < TestCase
     assert opts.fetch_option(:foo).autocreated?
     assert_equal 'bar', opts.fetch_option(:foo).value
     refute opts.fetch_option(:baz).expects_argument?
+    assert_equal nil, opts.fetch_option(:bar)
   end
 
   test "option terminator" do
