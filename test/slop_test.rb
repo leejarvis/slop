@@ -181,6 +181,13 @@ class SlopTest < TestCase
     assert_equal 'bar', opts.fetch_option(:foo).value
     refute opts.fetch_option(:baz).expects_argument?
     assert_equal nil, opts.fetch_option(:bar)
+
+    opts = Slop.new :autocreate => true do
+      on :f, :foo=
+    end
+    opts.parse %w[ --foo bar --baz stuff ]
+    assert_equal 'bar', opts[:foo]
+    assert_equal 'stuff', opts[:baz]
   end
 
   test "option terminator" do
