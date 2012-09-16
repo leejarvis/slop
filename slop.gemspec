@@ -9,6 +9,8 @@ Gem::Specification.new do |s|
   s.files       = `git ls-files`.split("\n")
   s.test_files  = `git ls-files -- test/*`.split("\n")
 
+  s.required_ruby_version = '>= 1.8.7'
+
   s.add_development_dependency 'rake'
   s.add_development_dependency 'minitest'
 end
