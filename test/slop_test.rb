@@ -337,6 +337,14 @@ class SlopTest < TestCase
     end
   end
 
+  test "fallback to substituting - for _ when using <option>?" do
+    opts = Slop.new do
+      on 'foo-bar'
+    end
+    opts.parse %w( --foo-bar )
+    assert opts.foo_bar?
+  end
+
   test "option=value syntax does NOT consume following argument" do
     opts = Slop.new { on :foo=; on 'bar=?' }
     args = %w' --foo=bar baz --bar=zing hello '
