@@ -352,4 +352,30 @@ class SlopTest < TestCase
     assert_equal %w' baz hello ', args
   end
 
+  test "return value of constructors, with block scope" do
+    peep = nil
+    ret = Slop.new { peep = self }
+    assert_same ret, peep
+
+    peep = nil
+    ret = Slop.new { |a| peep = self }
+    assert_same ret, peep
+
+    assert_raises ArgumentError do
+      Slop.new { |a, b| }
+    end
+
+    peep = nil
+    ret = Slop.parse([]) { peep = self }
+    assert_same ret, peep
+
+    peep = nil
+    ret = Slop.parse([]) { |a| peep = self }
+    assert_same ret, peep
+
+    assert_raises ArgumentError do
+      Slop.parse([]) { |a, b| }
+    end
+  end
+
 end
