@@ -122,6 +122,7 @@ class Slop
       delete ? slop.parse!(items) : slop.parse(items)
       slop
     end
+
   end
 
   # The Hash of configuration options for this Slop instance.
