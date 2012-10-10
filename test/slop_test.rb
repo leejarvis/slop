@@ -378,4 +378,14 @@ class SlopTest < TestCase
     end
   end
 
+  test "to_s do not break self" do
+    slop = Slop.new do
+      banner "foo"
+    end
+    
+    assert_equal "foo", slop.banner
+    slop.to_s
+    assert_equal "foo", slop.banner
+  end
+
 end
