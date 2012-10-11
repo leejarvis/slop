@@ -51,7 +51,7 @@ class Slop
     #
     # Returns a new instance of Slop.
     def parse(items = ARGV, config = {}, &block)
-      init_and_parse(items, false, config, &block)
+      parse! items.dup, config, &block
     end
 
     # items  - The Array of items to extract options from (default: ARGV).
@@ -60,7 +60,10 @@ class Slop
     #
     # Returns a new instance of Slop.
     def parse!(items = ARGV, config = {}, &block)
-      init_and_parse(items, true, config, &block)
+      config, items = items, ARGV if items.is_a?(Hash) && config.empty?
+      slop = Slop.new config, &block
+      slop.parse! items
+      slop
     end
 
     # Build a Slop object from a option specification.
@@ -106,22 +109,6 @@ class Slop
       opts
     end
 
-    private
-
-    # Convenience method used by ::parse and ::parse!.
-    #
-    # items  - The Array of items to parse.
-    # delete - When true, executes #parse! over #parse.
-    # config - The Hash of configuration options to pass to Slop.new.
-    # block  - The optional block to pass to Slop.new
-    #
-    # Returns a newly created instance of Slop.
-    def init_and_parse(items, delete, config, &block)
-      config, items = items, ARGV if items.is_a?(Hash) && config.empty?
-      slop = Slop.new(config, &block)
-      delete ? slop.parse!(items) : slop.parse(items)
-      slop
-    end
   end
 
   # The Hash of configuration options for this Slop instance.
@@ -195,7 +182,8 @@ class Slop
   #
   # Returns an Array of original items.
   def parse(items = ARGV, &block)
-    parse_items(items, false, &block)
+    parse! items.dup, &block
+    items
   end
 
   # Parse a list of items, executing and gathering options along the way.
@@ -207,7 +195,33 @@ class Slop
   #
   # Returns an Array of original items with options removed.
   def parse!(items = ARGV, &block)
-    parse_items(items, true, &block)
+    if items.empty? && @callbacks[:empty]
+      @callbacks[:empty].each { |cb| cb.call(self) }
+      return items
+    end
+
+    items.each_with_index do |item, index|
+      @trash << index && break if item == '--'
+      autocreate(items, index) if config[:autocreate]
+      process_item(items, index, &block) unless @trash.include?(index)
+    end
+    items.reject!.with_index { |item, index| @trash.include?(index) }
+
+    missing_options = options.select { |opt| opt.required? && opt.count < 1 }
+    if missing_options.any?
+      raise MissingOptionError,
+      "Missing required option(s): #{missing_options.map(&:key).join(', ')}"
+    end
+
+    if @unknown_options.any?
+      raise InvalidOptionError, "Unknown options #{@unknown_options.join(', ')}"
+    end
+
+    if @triggered_options.empty? && @callbacks[:no_options]
+      @callbacks[:no_options].each { |cb| cb.call(self) }
+    end
+
+    items
   end
 
   # Add an Option.
@@ -374,44 +388,6 @@ class Slop
   end
 
   private
-
-  # Parse a list of items and process their values.
-  #
-  # items  - The Array of items to process.
-  # delete - True to remove any triggered options and arguments from the
-  #          original list of items.
-  # block  - An optional block which when passed will yields non-options.
-  #
-  # Returns the original Array of items.
-  def parse_items(items, delete, &block)
-    if items.empty? && @callbacks[:empty]
-      @callbacks[:empty].each { |cb| cb.call(self) }
-      return items
-    end
-
-    items.each_with_index do |item, index|
-      @trash << index && break if item == '--'
-      autocreate(items, index) if config[:autocreate]
-      process_item(items, index, &block) unless @trash.include?(index)
-    end
-    items.reject!.with_index { |item, index| @trash.include?(index) } if delete
-
-    missing_options = options.select { |opt| opt.required? && opt.count < 1 }
-    if missing_options.any?
-      raise MissingOptionError,
-      "Missing required option(s): #{missing_options.map(&:key).join(', ')}"
-    end
-
-    if @unknown_options.any?
-      raise InvalidOptionError, "Unknown options #{@unknown_options.join(', ')}"
-    end
-
-    if @triggered_options.empty? && @callbacks[:no_options]
-      @callbacks[:no_options].each { |cb| cb.call(self) }
-    end
-
-    items
-  end
 
   # Process a list item, figure out if it's an option, execute any
   # callbacks, assign any option arguments, and do some sanity checks.
