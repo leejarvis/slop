@@ -182,7 +182,8 @@ class Slop
   #
   # Returns an Array of original items.
   def parse(items = ARGV, &block)
-    parse_items(items, false, &block)
+    parse! items.dup, &block
+    items
   end
 
   # Parse a list of items, executing and gathering options along the way.
@@ -194,7 +195,33 @@ class Slop
   #
   # Returns an Array of original items with options removed.
   def parse!(items = ARGV, &block)
-    parse_items(items, true, &block)
+    if items.empty? && @callbacks[:empty]
+      @callbacks[:empty].each { |cb| cb.call(self) }
+      return items
+    end
+
+    items.each_with_index do |item, index|
+      @trash << index && break if item == '--'
+      autocreate(items, index) if config[:autocreate]
+      process_item(items, index, &block) unless @trash.include?(index)
+    end
+    items.reject!.with_index { |item, index| @trash.include?(index) }
+
+    missing_options = options.select { |opt| opt.required? && opt.count < 1 }
+    if missing_options.any?
+      raise MissingOptionError,
+      "Missing required option(s): #{missing_options.map(&:key).join(', ')}"
+    end
+
+    if @unknown_options.any?
+      raise InvalidOptionError, "Unknown options #{@unknown_options.join(', ')}"
+    end
+
+    if @triggered_options.empty? && @callbacks[:no_options]
+      @callbacks[:no_options].each { |cb| cb.call(self) }
+    end
+
+    items
   end
 
   # Add an Option.
@@ -362,44 +389,6 @@ class Slop
   end
 
   private
-
-  # Parse a list of items and process their values.
-  #
-  # items  - The Array of items to process.
-  # delete - True to remove any triggered options and arguments from the
-  #          original list of items.
-  # block  - An optional block which when passed will yields non-options.
-  #
-  # Returns the original Array of items.
-  def parse_items(items, delete, &block)
-    if items.empty? && @callbacks[:empty]
-      @callbacks[:empty].each { |cb| cb.call(self) }
-      return items
-    end
-
-    items.each_with_index do |item, index|
-      @trash << index && break if item == '--'
-      autocreate(items, index) if config[:autocreate]
-      process_item(items, index, &block) unless @trash.include?(index)
-    end
-    items.reject!.with_index { |item, index| @trash.include?(index) } if delete
-
-    missing_options = options.select { |opt| opt.required? && opt.count < 1 }
-    if missing_options.any?
-      raise MissingOptionError,
-      "Missing required option(s): #{missing_options.map(&:key).join(', ')}"
-    end
-
-    if @unknown_options.any?
-      raise InvalidOptionError, "Unknown options #{@unknown_options.join(', ')}"
-    end
-
-    if @triggered_options.empty? && @callbacks[:no_options]
-      @callbacks[:no_options].each { |cb| cb.call(self) }
-    end
-
-    items
-  end
 
   # Process a list item, figure out if it's an option, execute any
   # callbacks, assign any option arguments, and do some sanity checks.
