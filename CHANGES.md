@@ -2,6 +2,7 @@ HEAD
 ----
 
 * Ensure 'no-foo' options are not inverted when parsing '--no-foo' (#86)
+* Code refactoring and simplification (Kenichi Kamiya, #84, #85)
 
 3.3.3 (2012-08-29)
 ------------------
