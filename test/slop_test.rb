@@ -382,10 +382,20 @@ class SlopTest < TestCase
     slop = Slop.new do
       banner "foo"
     end
-    
+
     assert_equal "foo", slop.banner
     slop.to_s
     assert_equal "foo", slop.banner
+  end
+
+  test "options with prefixed --no should not default to inverted behaviour unless intended" do
+    opts = Slop.new { on :bar }
+    opts.parse %w'--no-bar'
+    assert_equal false, opts[:bar]
+
+    opts = Slop.new { on 'no-bar' }
+    opts.parse %w'--no-bar'
+    assert_equal true, opts['no-bar']
   end
 
 end

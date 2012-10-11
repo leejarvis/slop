@@ -403,6 +403,7 @@ class Slop
 
     if option
       option.count += 1 unless item.start_with?('--no-')
+      option.count += 1 if option.key[0, 3] == "no-"
       @trash << index
       @triggered_options << option
 

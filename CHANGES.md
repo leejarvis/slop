@@ -1,3 +1,8 @@
+HEAD
+----
+
+* Ensure 'no-foo' options are not inverted when parsing '--no-foo' (#86)
+
 3.3.3 (2012-08-29)
 ------------------
 
