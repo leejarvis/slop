@@ -359,10 +359,9 @@ class Slop
       (str = @separators[i + 1]) ? [o, str].join("\n") : o
     }.join("\n")
 
-    if config[:banner]
-      config[:banner] << "\n"
-      config[:banner] << "#{@separators[0]}\n" if @separators[0]
-      config[:banner] + optstr
+    banner = config[:banner]
+    if banner
+      "#{banner}\n#{@separators[0] ? "#{@separators[0]}\n" : ''}#{optstr}"
     else
       optstr
     end
