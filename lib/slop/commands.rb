@@ -116,18 +116,19 @@ class Slop
       key.to_s == @triggered_command
     end
 
+    # Enumerable interface.
+    def each(&block)
+      @commands.each(&block)
+    end
+
     # Parse a list of items.
     #
     # items - The Array of items to parse.
     #
     # Returns the original Array of items.
     def parse(items = ARGV)
-      parse_items(items)
-    end
-
-    # Enumerable interface.
-    def each(&block)
-      @commands.each(&block)
+      parse! items.dup
+      items
     end
 
     # Parse a list of items, removing any options or option arguments found.
@@ -136,7 +137,22 @@ class Slop
     #
     # Returns the original Array of items with options removed.
     def parse!(items = ARGV)
-      parse_items(items, true)
+      if opts = commands[items[0].to_s]
+        @triggered_command = items.shift
+        execute_arguments! items
+        opts.parse! items
+        execute_global_opts! items
+      else
+        if opts = commands['default']
+          opts.parse! items
+        else
+          if config[:strict] && items[0]
+            raise InvalidCommandError, "Unknown command `#{items[0]}`"
+          end
+        end
+        execute_global_opts! items
+      end
+      items
     end
 
     # Returns a nested Hash with Slop options and values. See Slop#to_hash.
@@ -163,41 +179,16 @@ class Slop
 
     private
 
-    # Parse a list of items.
-    #
-    # items - The Array of items to parse.
-    # bang  - When true, #parse! will be called instead of #parse.
-    #
-    # Returns the Array of items (with options removed if bang == true).
-    def parse_items(items, bang = false)
-      if opts = commands[items[0].to_s]
-        @triggered_command = items.shift
-        execute_arguments(items, bang)
-        bang ? opts.parse!(items) : opts.parse(items)
-        execute_global_opts(items, bang)
-      else
-        if opts = commands['default']
-          bang ? opts.parse!(items) : opts.parse(items)
-        else
-          if config[:strict] && items[0]
-            raise InvalidCommandError, "Unknown command `#{items[0]}`"
-          end
-        end
-        execute_global_opts(items, bang)
-      end
-      items
-    end
-
     # Returns nothing.
-    def execute_arguments(items, bang)
+    def execute_arguments!(items)
       @arguments = items.take_while { |arg| !arg.start_with?('-') }
-      items.shift(@arguments.size) if bang
+      items.shift @arguments.size
     end
 
     # Returns nothing.
-    def execute_global_opts(items, bang)
+    def execute_global_opts!(items)
       if global_opts = commands['global']
-        bang ? global_opts.parse!(items) : global_opts.parse(items)
+        global_opts.parse! items
       end
     end
 
