@@ -17,6 +17,14 @@ class OptionTest < TestCase
     option_with_argument(*args, &block).value
   end
 
+  test "auto define foo? for hash key" do
+    assert_raises NoMethodError do
+      option(:some_option).foo?
+    end
+    assert option(:some_option, :foo => :value).foo?
+    assert_same false, option(:some_option, :foo => nil).foo?
+  end
+
   test "expects_argument?" do
     assert option(:f=).expects_argument?
     assert option(:foo=).expects_argument?
