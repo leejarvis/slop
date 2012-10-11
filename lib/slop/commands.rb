@@ -116,6 +116,11 @@ class Slop
       key.to_s == @triggered_command
     end
 
+    # Enumerable interface.
+    def each(&block)
+      @commands.each(&block)
+    end
+
     # Parse a list of items.
     #
     # items - The Array of items to parse.
@@ -124,11 +129,6 @@ class Slop
     def parse(items = ARGV)
       parse! items.dup
       items
-    end
-
-    # Enumerable interface.
-    def each(&block)
-      @commands.each(&block)
     end
 
     # Parse a list of items, removing any options or option arguments found.
