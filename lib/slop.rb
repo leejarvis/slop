@@ -51,7 +51,7 @@ class Slop
     #
     # Returns a new instance of Slop.
     def parse(items = ARGV, config = {}, &block)
-      init_and_parse(items, false, config, &block)
+      parse! items.dup, config, &block
     end
 
     # items  - The Array of items to extract options from (default: ARGV).
@@ -60,7 +60,10 @@ class Slop
     #
     # Returns a new instance of Slop.
     def parse!(items = ARGV, config = {}, &block)
-      init_and_parse(items, true, config, &block)
+      config, items = items, ARGV if items.is_a?(Hash) && config.empty?
+      slop = Slop.new config, &block
+      slop.parse! items
+      slop
     end
 
     # Build a Slop object from a option specification.
@@ -104,23 +107,6 @@ class Slop
       end
 
       opts
-    end
-
-    private
-
-    # Convenience method used by ::parse and ::parse!.
-    #
-    # items  - The Array of items to parse.
-    # delete - When true, executes #parse! over #parse.
-    # config - The Hash of configuration options to pass to Slop.new.
-    # block  - The optional block to pass to Slop.new
-    #
-    # Returns a newly created instance of Slop.
-    def init_and_parse(items, delete, config, &block)
-      config, items = items, ARGV if items.is_a?(Hash) && config.empty?
-      slop = Slop.new(config, &block)
-      delete ? slop.parse!(items) : slop.parse(items)
-      slop
     end
 
   end
