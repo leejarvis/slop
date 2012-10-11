@@ -23,6 +23,9 @@ class OptionTest < TestCase
     end
     assert option(:some_option, :foo => :value).foo?
     assert_same false, option(:some_option, :foo => nil).foo?
+    assert_raises NoMethodError do
+      option(:some_option).foo?
+    end
   end
 
   test "expects_argument?" do
