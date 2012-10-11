@@ -17,6 +17,50 @@ class Slop
       :autocreated => false
     }
 
+    class << self
+
+      # config - A Hash of configuration options.
+      # block - An optional block used as a callback.
+      def new_class(config = {}, &block)
+        Class.new(self) {
+          const_set :CALLBACK, block_given? ? block : nil
+
+          config = DEFAULT_OPTIONS.merge(config).freeze
+          const_set :CONFIG, config
+
+          config.each_key do |key|
+            predicate = :"#{key}?"
+            if method_defined? predicate
+              warn "skip to define ##{predicate}, that already defined"
+            else
+              define_method(predicate) { !!@config[key] }
+            end
+          end
+        }
+      end
+
+      private :new_class
+
+      alias_method :new_instance, :new
+
+      protected :new_instance
+
+      # Incapsulate internal option information, mainly used to store
+      # option specific configuration data, most of the meat of this
+      # class is found in the #value method.
+      #
+      # slop        - The instance of Slop tied to this Option.
+      # short       - The String or Symbol short flag.
+      # long        - The String or Symbol long flag.
+      # description - The String description text.
+      # config - A Hash of configuration options.
+      # block - An optional block used as a callback.
+      def new(slop, short, long, description, config = {}, &block)
+        new_class(config, &block).new_instance(slop, short, long, description)
+      end
+
+    end
+
     attr_reader :short, :long, :description, :config, :types
     attr_accessor :count, :argument_in_value
 
@@ -28,16 +72,13 @@ class Slop
     # short       - The String or Symbol short flag.
     # long        - The String or Symbol long flag.
     # description - The String description text.
-    # config      - A Hash of configuration options.
-    # block       - An optional block used as a callback.
-    def initialize(slop, short, long, description, config = {}, &block)
+    def initialize(slop, short, long, description)
       @slop = slop
       @short = short
       @long = long
       @description = description
-      @config = DEFAULT_OPTIONS.merge(config)
+      @config = self.class::CONFIG.dup
       @count = 0
-      @callback = block_given? ? block : config[:callback]
       @value = nil
 
       @types = {
@@ -51,13 +92,6 @@ class Slop
 
       if long && long.size > @slop.config[:longest_flag]
         @slop.config[:longest_flag] = long.size
-      end
-
-      @config.each_key do |key|
-        predicate = :"#{key}?"
-        unless self.class.method_defined? predicate
-          self.class.send(:define_method, predicate) { !!@config[key] }
-        end
       end
     end
 
@@ -80,7 +114,7 @@ class Slop
     #
     # Returns nothing.
     def call(*objects)
-      @callback.call(*objects) if @callback.respond_to?(:call)
+      _callback.call(*objects) if _callback.respond_to?(:call)
     end
 
     # Set the new argument value for this option.
@@ -150,6 +184,10 @@ class Slop
     end
 
     private
+
+    def _callback
+      self.class::CALLBACK ? self.class::CALLBACK : @config[:callback]
+    end
 
     # Convert an object to an Integer if possible.
     #
