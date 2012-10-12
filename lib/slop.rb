@@ -525,7 +525,7 @@ class Slop
     config[:optional_argument] = true if @config[:optional_arguments]
 
     if objects.last.is_a?(Hash)
-      config = config.merge!(objects.last)
+      config.merge!(objects.last)
       objects.pop
     end
     short = extract_short_flag(objects, config)
