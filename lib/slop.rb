@@ -374,7 +374,7 @@ class Slop
   def method_missing(method, *args, &block)
     meth = method.to_s
     if meth.end_with?('?')
-      meth = meth.chop
+      meth.chop!
       present?(meth) || present?(meth.gsub('_', '-'))
     else
       super
