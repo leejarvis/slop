@@ -329,6 +329,17 @@ class SlopTest < TestCase
     assert_equal "foo\nbar\n", opts.help
   end
 
+  test "to_s(), help() with tail option" do
+    opts = Slop.new do
+      on :foo
+      on :bar, :tail => true
+      on :baz
+    end
+
+    assert_equal "        --foo      \n        --baz      \n        --bar      ", opts.to_s
+    assert_equal "        --foo      \n        --baz      \n        --bar      ", opts.help
+  end
+
   test "printing help with :help => true" do
     temp_stderr do |string|
       opts = Slop.new(:help => true)
