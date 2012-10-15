@@ -131,15 +131,7 @@ class Slop
     @separators = {}
 
     if block_given?
-       case block.arity.abs
-       when 0
-         instance_exec(&block)
-       when 1
-         instance_exec(self, &block)
-       else
-         raise ArgumentError,
-           "wrong number of block arguments (#{block.arity} for #{0..1})"
-       end
+      block.arity == 1 ? yield(self) : instance_eval(&block)
     end
 
     if config[:help]

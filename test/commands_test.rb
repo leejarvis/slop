@@ -99,18 +99,4 @@ class CommandsTest < TestCase
     assert_equal %w( file1 file2 ), @commands.arguments
   end
 
-  test "new with block scope" do
-    peep = nil
-    ret = Slop::Commands.new { peep = self }
-    assert_same ret, peep
-
-    peep = nil
-    ret = Slop::Commands.new { |a| peep = self }
-    assert_same ret, peep
-
-    assert_raises ArgumentError do
-      Slop::Commands.new { |a, b| }
-    end
-  end
-
 end
