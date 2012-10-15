@@ -352,6 +352,47 @@ class SlopTest < TestCase
     assert_equal %w' baz hello ', args
   end
 
+  test "context and return value of constructor block" do
+    peep = nil
+    ret = Slop.new { peep = self }
+    assert_same ret, peep
+    assert !equal?(peep)
+
+    peep = nil
+    ret = Slop.new { |a| peep = self }
+    assert !peep.equal?(ret)
+    assert_same peep, self
+
+    peep = nil
+    ret = Slop.new { |a, b| peep = self }
+    assert_same ret, peep
+    assert !equal?(peep)
+
+    peep = nil
+    ret = Slop.new { |a, *rest| peep = self }
+    assert_same ret, peep
+    assert !equal?(peep)
+
+    peep = nil
+    ret = Slop.parse([]) { peep = self }
+    assert_same ret, peep
+    assert !equal?(peep)
+
+    peep = nil
+    ret = Slop.parse([]) { |a| peep = self }
+    assert !peep.equal?(ret)
+    assert_same peep, self
+
+    peep = nil
+    ret = Slop.parse([]) { |a, b| peep = self }
+    assert_same ret, peep
+    assert !equal?(peep)
+
+    peep = nil
+    ret = Slop.parse([]) { |a, *rest| peep = self }
+    assert_same ret, peep
+    assert !equal?(peep)
+  end
 
   test "to_s do not break self" do
     slop = Slop.new do
