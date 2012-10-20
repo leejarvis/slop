@@ -274,6 +274,10 @@ class SlopTest < TestCase
     assert_equal 'hello', opts[:foo]
     assert_equal true, opts[:bar]
     assert_nil opts[:baz]
+
+    assert_equal 'hello', opts.get(:foo)
+    assert_equal true, opts.get(:bar)
+    assert_nil opts.get(:baz)
   end
 
   test "checking for an options presence" do
