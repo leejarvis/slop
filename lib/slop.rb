@@ -269,26 +269,6 @@ class Slop
     keys.all? { |key| (opt = fetch_option(key)) && opt.count > 0 }
   end
 
-  # Convenience method for present?(:option).
-  #
-  # Examples:
-  #
-  #   opts.parse %( --verbose )
-  #   opts.verbose? #=> true
-  #   opts.other?   #=> false
-  #
-  # Returns true if this option is present. If this method does not end
-  # with a ? character it will instead call super().
-  def method_missing(method, *args, &block)
-    meth = method.to_s
-    if meth.end_with?('?')
-      meth = meth.chop
-      present?(meth) || present?(meth.gsub('_', '-'))
-    else
-      super
-    end
-  end
-
   # Override this method so we can check if an option? method exists.
   #
   # Returns true if this option key exists in our list of options.
@@ -380,6 +360,26 @@ class Slop
   end
 
   private
+
+  # Convenience method for present?(:option).
+  #
+  # Examples:
+  #
+  #   opts.parse %( --verbose )
+  #   opts.verbose? #=> true
+  #   opts.other?   #=> false
+  #
+  # Returns true if this option is present. If this method does not end
+  # with a ? character it will instead call super().
+  def method_missing(method, *args, &block)
+    meth = method.to_s
+    if meth.end_with?('?')
+      meth = meth.chop
+      present?(meth) || present?(meth.gsub('_', '-'))
+    else
+      super
+    end
+  end
 
   # Process a list item, figure out if it's an option, execute any
   # callbacks, assign any option arguments, and do some sanity checks.
