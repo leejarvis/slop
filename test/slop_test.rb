@@ -414,4 +414,8 @@ class SlopTest < TestCase
     assert_equal true, opts['no-bar']
   end
 
+  test "method missing() is a private method" do
+    assert Slop.new.private_methods.map(&:to_sym).include?(:method_missing)
+  end
+
 end
