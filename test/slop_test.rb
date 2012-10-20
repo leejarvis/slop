@@ -362,6 +362,35 @@ class SlopTest < TestCase
     assert_equal "        --foo      \n        --baz      \n        --bar      ", opts.help
   end
 
+  test "inspect() with tail option" do
+    opts = Slop.new do
+      on :foo
+      on :bar, :tail => true
+      on :baz
+    end
+
+    assert(opts.inspect =~ /\A#<Slop {:.+} .+>\z/)
+
+    if RUBY_VERSION >= '1.9'
+      assert_equal '#<Slop {:strict=>false, :help=>false, :banner=>nil, 
+:ignore_case=>false, :autocreate=>false, :arguments=>false,
+ :optional_arguments=>false, :multiple_switches=>true, :longest_flag=>3}
+ ["#<Slop::Option [- | --foo] () {:argument=>false,
+ :optional_argument=>false, :tail=>false, :default=>nil, :callback=>nil,
+ :delimiter=>\",\", :limit=>0, :match=>nil, :optional=>true,
+ :required=>false, :as=>String, :autocreated=>false}",
+ "#<Slop::Option [- | --bar] () {:argument=>false,
+ :optional_argument=>false, :tail=>true,
+ :default=>nil, :callback=>nil, :delimiter=>\",\", :limit=>0, :match=>nil,
+ :optional=>true, :required=>false, :as=>String, :autocreated=>false}",
+ "#<Slop::Option [- | --baz] () {:argument=>false,
+ :optional_argument=>false, :tail=>false, :default=>nil, :callback=>nil,
+ :delimiter=>\",\", :limit=>0, :match=>nil, :optional=>true,
+ :required=>false, :as=>String, :autocreated=>false}"]>'\
+      .delete("\n"), opts.inspect
+    end
+  end
+
   test "printing help with :help => true" do
     temp_stderr do |string|
       opts = Slop.new(:help => true)
