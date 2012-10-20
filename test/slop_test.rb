@@ -218,6 +218,23 @@ class SlopTest < TestCase
     assert_raises(Slop::InvalidOptionError) { opts.parse %w'-fabc' }
   end
 
+  test "not raising errors when strict mode is enabled and an known option appears" do
+    opts = Slop.new(:strict => true) {on :bar}
+    assert_same true, opts.strict?
+    opts.parse %w'--bar'
+    assert_same true, opts.present?(:bar)
+  end
+
+  test "not raising errors when strict mode is disabled and an unknown option appears" do
+    opts = Slop.new {on :bar}
+    assert_same false, opts.strict?
+    opts.parse %w'--foo' 
+    assert_same false, opts.present?(:foo)
+    opts.parse %w'-fabc'
+    opts.parse %w'--bar'
+    assert_same true, opts.present?(:bar)
+  end
+
   test "multiple_switches is enabled by default" do
     opts = Slop.new { on :f; on :b }
     opts.parse %w[ -fb ]
