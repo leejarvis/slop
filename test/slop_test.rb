@@ -161,10 +161,11 @@ class SlopTest < TestCase
     assert_equal "bar", foo
   end
 
-  test "to_hash()" do
+  test "to_hash()/to_h()" do
     opts = Slop.new { on :foo=; on :bar; on :baz; on :zip }
     opts.parse(%w'--foo hello --no-bar --baz')
     assert_equal({ :foo => 'hello', :bar => false, :baz => true, :zip => nil }, opts.to_hash)
+    assert_equal({ :foo => 'hello', :bar => false, :baz => true, :zip => nil }, opts.to_h)
   end
 
   test "missing() returning all missing option keys" do
