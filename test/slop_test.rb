@@ -161,10 +161,11 @@ class SlopTest < TestCase
     assert_equal "bar", foo
   end
 
-  test "to_hash()" do
+  test "to_hash()/to_h()" do
     opts = Slop.new { on :foo=; on :bar; on :baz; on :zip }
     opts.parse(%w'--foo hello --no-bar --baz')
     assert_equal({ :foo => 'hello', :bar => false, :baz => true, :zip => nil }, opts.to_hash)
+    assert_equal({ :foo => 'hello', :bar => false, :baz => true, :zip => nil }, opts.to_h)
   end
 
   test "missing() returning all missing option keys" do
@@ -218,6 +219,23 @@ class SlopTest < TestCase
     assert_raises(Slop::InvalidOptionError) { opts.parse %w'-fabc' }
   end
 
+  test "not raising errors when strict mode is enabled and an known option appears" do
+    opts = Slop.new(:strict => true) {on :bar}
+    assert_same true, opts.strict?
+    opts.parse %w'--bar'
+    assert_same true, opts.present?(:bar)
+  end
+
+  test "not raising errors when strict mode is disabled and an unknown option appears" do
+    opts = Slop.new {on :bar}
+    assert_same false, opts.strict?
+    opts.parse %w'--foo' 
+    assert_same false, opts.present?(:foo)
+    opts.parse %w'-fabc'
+    opts.parse %w'--bar'
+    assert_same true, opts.present?(:bar)
+  end
+
   test "multiple_switches is enabled by default" do
     opts = Slop.new { on :f; on :b }
     opts.parse %w[ -fb ]
@@ -256,6 +274,10 @@ class SlopTest < TestCase
     assert_equal 'hello', opts[:foo]
     assert_equal true, opts[:bar]
     assert_nil opts[:baz]
+
+    assert_equal 'hello', opts.get(:foo)
+    assert_equal true, opts.get(:bar)
+    assert_nil opts.get(:baz)
   end
 
   test "checking for an options presence" do
@@ -327,6 +349,46 @@ class SlopTest < TestCase
       separator "bar"
     end
     assert_equal "foo\nbar\n", opts.help
+  end
+
+  test "to_s(), help() with tail option" do
+    opts = Slop.new do
+      on :foo
+      on :bar, :tail => true
+      on :baz
+    end
+
+    assert_equal "        --foo      \n        --baz      \n        --bar      ", opts.to_s
+    assert_equal "        --foo      \n        --baz      \n        --bar      ", opts.help
+  end
+
+  test "inspect() with tail option" do
+    opts = Slop.new do
+      on :foo
+      on :bar, :tail => true
+      on :baz
+    end
+
+    assert(opts.inspect =~ /\A#<Slop {:.+} .+>\z/)
+
+    if RUBY_VERSION >= '1.9'
+      assert_equal '#<Slop {:strict=>false, :help=>false, :banner=>nil, 
+:ignore_case=>false, :autocreate=>false, :arguments=>false,
+ :optional_arguments=>false, :multiple_switches=>true, :longest_flag=>3}
+ ["#<Slop::Option [- | --foo] () {:argument=>false,
+ :optional_argument=>false, :tail=>false, :default=>nil, :callback=>nil,
+ :delimiter=>\",\", :limit=>0, :match=>nil, :optional=>true,
+ :required=>false, :as=>String, :autocreated=>false}",
+ "#<Slop::Option [- | --bar] () {:argument=>false,
+ :optional_argument=>false, :tail=>true,
+ :default=>nil, :callback=>nil, :delimiter=>\",\", :limit=>0, :match=>nil,
+ :optional=>true, :required=>false, :as=>String, :autocreated=>false}",
+ "#<Slop::Option [- | --baz] () {:argument=>false,
+ :optional_argument=>false, :tail=>false, :default=>nil, :callback=>nil,
+ :delimiter=>\",\", :limit=>0, :match=>nil, :optional=>true,
+ :required=>false, :as=>String, :autocreated=>false}"]>'\
+      .delete("\n"), opts.inspect
+    end
   end
 
   test "printing help with :help => true" do
