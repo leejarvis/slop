@@ -56,7 +56,7 @@ class Slop
       @config.each_key do |key|
         predicate = :"#{key}?"
         unless self.class.method_defined? predicate
-          self.class.send(:define_method, predicate) { !!@config[key] }
+          self.class.__send__(:define_method, predicate) { !!@config[key] }
         end
       end
     end
@@ -126,16 +126,15 @@ class Slop
     def to_s
       return config[:help] if config[:help].respond_to?(:to_str)
 
-      out = "    "
-      out += short ? "-#{short}, " : ' ' * 4
+      out = "    #{short ? "-#{short}, " : ' ' * 4}"
 
       if long
-        out += "--#{long}"
+        out << "--#{long}"
         size = long.size
         diff = @slop.config[:longest_flag] - size
-        out += " " * (diff + 6)
+        out << (' ' * (diff + 6))
       else
-        out += " " * (@slop.config[:longest_flag] + 8)
+        out << (' ' * (@slop.config[:longest_flag] + 8))
       end
 
       "#{out}#{description}"
