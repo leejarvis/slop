@@ -374,7 +374,7 @@ class Slop
   def method_missing(method, *args, &block)
     meth = method.to_s
     if meth.end_with?('?')
-      meth = meth.chop
+      meth.chop!
       present?(meth) || present?(meth.gsub('_', '-'))
     else
       super
@@ -525,7 +525,7 @@ class Slop
     config[:optional_argument] = true if @config[:optional_arguments]
 
     if objects.last.is_a?(Hash)
-      config = config.merge!(objects.last)
+      config.merge!(objects.last)
       objects.pop
     end
     short = extract_short_flag(objects, config)
