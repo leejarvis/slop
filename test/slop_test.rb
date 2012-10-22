@@ -414,4 +414,22 @@ class SlopTest < TestCase
     assert_equal true, opts['no-bar']
   end
 
+  test "respond_to?() arity checker is similar of other objects" do
+    slop = Slop.new
+    obj = Object.new
+
+    assert_same obj.respond_to?(:__id__), slop.respond_to?(:__id__)
+    assert_same obj.respond_to?(:__id__, false), slop.respond_to?(:__id__, false)
+    assert_same obj.respond_to?(:__id__, true), slop.respond_to?(:__id__, true)
+
+    exeption = begin
+                  obj.respond_to? :__id__, false, :INVALID_ARGUMENT
+                rescue Exception
+                  $!
+                end
+    assert_raises exeption.class do
+      slop.respond_to? :__id__, false, :INVALID_ARGUMENT
+    end
+  end
+
 end
