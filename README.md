@@ -3,8 +3,6 @@ Slop
 
 Slop is a simple option parser with an easy to remember syntax and friendly API.
 
-This README is targeted at Slop v3.
-
 [![Build Status](https://secure.travis-ci.org/injekt/slop.png)](http://travis-ci.org/injekt/slop)
 
 Installation
