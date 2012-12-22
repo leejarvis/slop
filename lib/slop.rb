@@ -199,7 +199,7 @@ class Slop
     end
     items.reject!.with_index { |item, index| @trash.include?(index) }
 
-    missing_options = options.select { |opt| opt.required? && opt.count < 1 }
+    missing_options = options.select { |opt| opt.long != 'help' && opt.required? && opt.count < 1 }
     if missing_options.any?
       raise MissingOptionError,
       "Missing required option(s): #{missing_options.map(&:key).join(', ')}"
