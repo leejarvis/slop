@@ -13,6 +13,16 @@ class CommandsTest < TestCase
         add_callback(:empty) { 'version 1' }
       end
     end
+
+    @empty_commands = Slop::Commands.new do
+      default do
+      end
+
+      global do
+      end
+
+      on 'verbose'
+    end
   end
 
   test "it nests instances of Slop" do
@@ -73,6 +83,10 @@ class CommandsTest < TestCase
     assert_kind_of Slop, @commands.on('foo')
     assert_kind_of Slop, @commands.default
     assert_kind_of Slop, @commands.global
+  end
+
+  test "empty default/global blocks don't add their titles in the help output" do
+    assert_empty @empty_commands.to_s
   end
 
   test "parse does nothing when there's nothing to parse" do
