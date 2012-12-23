@@ -157,8 +157,12 @@ class Slop
       defaults = commands.delete('default')
       globals = commands.delete('global')
       helps = commands.reject { |_, v| v.options.none? }
-      helps.merge!('Global options' => globals.to_s) if globals
-      helps.merge!('Other options' => defaults.to_s) if defaults
+      if globals && globals.options.any?
+        helps.merge!('Global options' => globals.to_s)
+      end
+      if defaults && defaults.options.any?
+        helps.merge!('Other options' => defaults.to_s)
+      end
       banner = @banner ? "#{@banner}\n" : ""
       banner + helps.map { |key, opts| "  #{key}\n#{opts}" }.join("\n\n")
     end
