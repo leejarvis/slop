@@ -82,13 +82,59 @@ All of these options can be sent to `Slop.new` or `Slop.parse` in Hash form.
 * `longest_flag` - The longest string flag, used to aid configuring help
    text. **default:** *0*.
 
-Features
---------
+Lists
+-----
 
-Check out the following wiki pages for more features:
+```ruby
+opts = Slop.parse do
+  on :l=, as: Array
+end
+# ruby run.rb -l one,two
+opts[:l] #=> ["one", "two"]
+# ruby run.rb -l one,two -l three
+opts[:l] #=> ["one", "two", "three"]
+```
 
-* [Ranges](https://github.com/injekt/slop/wiki/Ranges)
-* [Auto Create](https://github.com/injekt/slop/wiki/Auto-Create)
+You can also specify a delimiter and limit.
+
+```ruby
+opts = Slop.parse do
+  on :l=, as: Array, delimiter: ':', limit: 2
+end
+# ruby run.rb -l one:two:three
+opts[:l] #=> ["one", "two:three"]
+```
+
+Ranges
+------
+
+```ruby
+opts = Slop.parse do
+  on :r=, as: Range
+end
+# ruby run.rb -r 1..10
+opts[:r] #=> 1..10
+# ruby run.rb -r 1...10
+opts[:r] #=> 1...10
+# ruby run.rb -r 1-10
+opts[:r] #=> 1..10
+# ruby run.rb -r 1,10
+opts[:r] #=> 1..10
+```
+
+Autocreate
+----------
+
+Slop has an 'autocreate' feature. This feature is intended to create
+options on the fly, without having to specify them yourself. In some case,
+uses this code could be all you need in your application:
+
+```ruby
+# ruby run.rb --foo bar --baz --name lee
+opts = Slop.parse(autocreate: true)
+opts.to_hash #=> {:foo=>"bar", :baz=>true, :name=>"lee"}
+opts.fetch_option(:name).expects_argument? #=> true
+```
 
 Woah woah, why you hating on OptionParser?
 ------------------------------------------
