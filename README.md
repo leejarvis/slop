@@ -61,22 +61,22 @@ Lists
 
 ```ruby
 opts = Slop.parse do
-  on :l=, as: Array
+  on :list=, as: Array
 end
-# ruby run.rb -l one,two
-opts[:l] #=> ["one", "two"]
-# ruby run.rb -l one,two -l three
-opts[:l] #=> ["one", "two", "three"]
+# ruby run.rb --list one,two
+opts[:list] #=> ["one", "two"]
+# ruby run.rb --list one,two --list three
+opts[:list] #=> ["one", "two", "three"]
 ```
 
 You can also specify a delimiter and limit.
 
 ```ruby
 opts = Slop.parse do
-  on :l=, as: Array, delimiter: ':', limit: 2
+  on :list=, as: Array, delimiter: ':', limit: 2
 end
-# ruby run.rb -l one:two:three
-opts[:l] #=> ["one", "two:three"]
+# ruby run.rb --list one:two:three
+opts[:list] #=> ["one", "two:three"]
 ```
 
 Ranges
@@ -84,16 +84,16 @@ Ranges
 
 ```ruby
 opts = Slop.parse do
-  on :r=, as: Range
+  on :range=, as: Range
 end
-# ruby run.rb -r 1..10
-opts[:r] #=> 1..10
-# ruby run.rb -r 1...10
-opts[:r] #=> 1...10
-# ruby run.rb -r 1-10
-opts[:r] #=> 1..10
-# ruby run.rb -r 1,10
-opts[:r] #=> 1..10
+# ruby run.rb --range 1..10
+opts[:range] #=> 1..10
+# ruby run.rb --range 1...10
+opts[:range] #=> 1...10
+# ruby run.rb --range 1-10
+opts[:range] #=> 1..10
+# ruby run.rb --range 1,10
+opts[:range] #=> 1..10
 ```
 
 Autocreate
