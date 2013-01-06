@@ -8,15 +8,7 @@ Slop is a simple option parser with an easy to remember syntax and friendly API.
 Installation
 ------------
 
-### Rubygems
-
     gem install slop
-
-### GitHub
-
-    git clone git://github.com/injekt/slop.git
-    gem build slop.gemspec
-    gem install slop-<version>.gem
 
 Usage
 -----
