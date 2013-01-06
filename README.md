@@ -9,7 +9,7 @@ Usage
 -----
 
     opts = Slop.parse do
-      banner "Usage: foo.rb [options]"
+      banner 'Usage: foo.rb [options]'
 
       on 'name=', 'Your name'
       on 'p', 'password', 'An optional password', argument: :optional
@@ -27,9 +27,6 @@ Installation
 
     gem install slop
 
-You can also return your options as a Hash:
-
-    opts.to_hash #=> { :name => 'lee', :verbose => true, :password => nil }
 
 Printing Help
 -------------
