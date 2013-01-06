@@ -435,13 +435,10 @@ class SlopTest < TestCase
     orun = proc { |r| assert_instance_of Slop, r }
     arun = proc { |r| assert_equal ['foo', 'bar'], r }
 
-    opts = Slop.parse(%w'foo --foo bar -v bar') do
+    Slop.parse(%w'foo --foo bar -v bar') do
       on :v
       on :foo=
-      run do |opts, argv|
-        orun[opts]
-        arun[argv]
-      end
+      run { |o, a| orun[o]; arun[a] }
     end
   end
 
