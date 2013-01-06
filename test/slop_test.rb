@@ -431,4 +431,18 @@ class SlopTest < TestCase
     end
   end
 
+  test "adding a runner" do
+    orun = proc { |r| assert_instance_of Slop, r }
+    arun = proc { |r| assert_equal ['foo', 'bar'], r }
+
+    opts = Slop.parse(%w'foo --foo bar -v bar') do
+      on :v
+      on :foo=
+      run do |opts, argv|
+        orun[opts]
+        arun[argv]
+      end
+    end
+  end
+
 end

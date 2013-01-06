@@ -129,6 +129,7 @@ class Slop
     @unknown_options = []
     @callbacks = {}
     @separators = {}
+    @runner = nil
 
     if block_given?
       block.arity == 1 ? yield(self) : instance_eval(&block)
@@ -213,6 +214,8 @@ class Slop
       @callbacks[:no_options].each { |cb| cb.call(self) }
     end
 
+    @runner.call(self, items) if @runner.respond_to?(:call)
+
     items
   end
 
@@ -254,6 +257,29 @@ class Slop
   # Enumerable interface. Yields each Slop::Option.
   def each(&block)
     options.each(&block)
+  end
+
+  # Specify code to be executed when these options are parsed.
+  #
+  # callable - An object responding to a call method.
+  #
+  # yields - The instance of Slop parsing these options
+  #          An Array of unparsed arguments
+  #
+  # Example:
+  #
+  #   Slop.parse do
+  #     on :v, :verbose
+  #
+  #     run do |opts, args|
+  #       puts "Arguments: #{args.inspect}" if opts.verbose?
+  #     end
+  #   end
+  def run(callable = nil, &block)
+    @runner = callable || block
+    unless @runner.respond_to?(:call)
+      raise ArgumentError, "You must specify a callable object or a block to #run"
+    end
   end
 
   # Check for an options presence.
