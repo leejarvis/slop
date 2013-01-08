@@ -13,16 +13,16 @@ end
 require 'rdoc/task'
 
 # requires sdoc and horo gems
-RDoc::Task.new do |rdoc|
-  rdoc.title = 'Slop API Documentation'
-  rdoc.rdoc_dir = 'doc'
+# RDoc::Task.new do |rdoc|
+#   rdoc.title = 'Slop API Documentation'
+#   rdoc.rdoc_dir = 'doc'
 
-  rdoc.options << '-f' << 'sdoc'
-  rdoc.options << '-T' << 'rails'
-  rdoc.options << '-e' << 'UTF-8'
-  rdoc.options << '-g'
+#   rdoc.options << '-f' << 'sdoc'
+#   rdoc.options << '-T' << 'rails'
+#   rdoc.options << '-e' << 'UTF-8'
+#   rdoc.options << '-g'
 
-  rdoc.rdoc_files.include('lib/**/*.rb')
-end
+#   rdoc.rdoc_files.include('lib/**/*.rb')
+# end
 
 task :default => :test
