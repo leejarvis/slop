@@ -370,6 +370,22 @@ class Slop
     options.find { |option| [option.long, option.short].include?(clean(key)) }
   end
 
+  # Fetch a Slop object associated with this command.
+  #
+  # command - The String or Symbol name of the command.
+  #
+  # Examples:
+  #
+  #   opts.command :foo do
+  #     on :v, :verbose, 'Enable verbose mode'
+  #   end
+  #
+  #   # ruby run.rb foo -v
+  #   opts.fetch_command(:foo).verbose? #=> true
+  def fetch_command(command)
+    @commands[command.to_s]
+  end
+
   # Add a callback.
   #
   # label - The Symbol identifier to attach this callback.
