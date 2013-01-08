@@ -314,7 +314,7 @@ class SlopTest < TestCase
   end
 
   test "separators" do
-    opts = Slop.new(banner: false) do
+    opts = Slop.new(:banner => false) do
       on :foo
       separator "hello"
       separator "world"
