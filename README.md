@@ -122,7 +122,7 @@ opts = Slop.parse do
   end
 
   command 'add' do
-    on :v, :verbose, 'Enable verbose more'
+    on :v, :verbose, 'Enable verbose mode'
     on :name, 'Your name'
 
     run do |opts, args|
@@ -133,7 +133,7 @@ end
 
 # ruby run.rb -v
 #=> Version 1.0
-# ruby add -v foo --name Lee
+# ruby run.rb add -v foo --name Lee
 #=> You ran 'add' with options {:verbose=>true,:name=>"Lee"} and args ["foo"]
 opts.to_hash(true) # Pass true to tell Slop to merge sub-command option values.
 # => { :v => nil, :add => { :v => true, :name => "Lee" } }
