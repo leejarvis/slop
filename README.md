@@ -110,6 +110,32 @@ opts.to_hash #=> {:foo=>"bar", :baz=>true, :name=>"lee"}
 opts.fetch_option(:name).expects_argument? #=> true
 ```
 
+Commands
+--------
+
+Slop supports git style sub-commands, like so:
+
+```ruby
+opts = Slop.parse do
+  on '-v', 'Print the version' do
+    puts "Version 1.0"
+  end
+
+  command 'add' do
+    on :v, :verbose, 'Enable verbose more'
+
+    run do |opts, args|
+      puts "You ran 'add' with options #{opts.to_hash} and args: #{args.inspect}"
+    end
+  end
+end
+
+# ruby run.rb -v
+#=> Version 1.0
+# ruby add -v foo
+#=> You ran 'add' with options {:verbose=>true} and args ["foo"]
+```
+
 Woah woah, why you hating on OptionParser?
 ------------------------------------------
 
