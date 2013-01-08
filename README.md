@@ -123,6 +123,7 @@ opts = Slop.parse do
 
   command 'add' do
     on :v, :verbose, 'Enable verbose more'
+    on :name, 'Your name'
 
     run do |opts, args|
       puts "You ran 'add' with options #{opts.to_hash} and args: #{args.inspect}"
@@ -132,8 +133,10 @@ end
 
 # ruby run.rb -v
 #=> Version 1.0
-# ruby add -v foo
-#=> You ran 'add' with options {:verbose=>true} and args ["foo"]
+# ruby add -v foo --name Lee
+#=> You ran 'add' with options {:verbose=>true,:name=>"Lee"} and args ["foo"]
+opts.to_hash(true) # Pass true to tell Slop to merge sub-command option values.
+# => { :v => nil, :add => { :v => true, :name => "Lee" } }
 ```
 
 Woah woah, why you hating on OptionParser?
