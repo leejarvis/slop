@@ -279,8 +279,14 @@ class Slop
   alias get []
 
   # Returns a new Hash with option flags as keys and option values as values.
-  def to_hash
-    Hash[options.map { |opt| [opt.key.to_sym, opt.value] }]
+  #
+  # include_commands - If true, merge options from all sub-commands.
+  def to_hash(include_commands = false)
+    hash = Hash[options.map { |opt| [opt.key.to_sym, opt.value] }]
+    if include_commands
+      @commands.each { |cmd, opts| hash.merge!(cmd.to_sym => opts.to_hash) }
+    end
+    hash
   end
   alias to_h to_hash
 
