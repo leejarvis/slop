@@ -124,6 +124,7 @@ class Slop
   def initialize(config = {}, &block)
     @config = DEFAULT_OPTIONS.merge(config)
     @options = []
+    @commands = {}
     @trash = []
     @triggered_options = []
     @unknown_options = []
@@ -152,8 +153,6 @@ class Slop
   # Set the banner.
   #
   # banner - The String to set the banner.
-  #
-  # Returns nothing.
   def banner=(banner)
     config[:banner] = banner
   end
@@ -166,6 +165,33 @@ class Slop
   def banner(banner = nil)
     config[:banner] = banner if banner
     config[:banner]
+  end
+
+  # Set the description (used for commands).
+  #
+  # desc - The String to set the description.
+  def description=(desc)
+    config[:description] = desc
+  end
+
+  # Get or set the description (used for commands).
+  #
+  # desc - The String to set the description.
+  #
+  # Returns the description String.
+  def description(desc = nil)
+    config[:description] = desc if desc
+    config[:description]
+  end
+
+  # Add a new command.
+  #
+  # command - The Symbol or String used to identify this command.
+  # options - A Hash of configuration options (see Slop::new)
+  #
+  # Returns a new instance of Slop mapped to this command.
+  def command(command, options = {}, &block)
+    @commands[command.to_s] = Slop.new(options, &block)
   end
 
   # Parse a list of items, executing and gathering options along the way.
@@ -191,6 +217,10 @@ class Slop
     if items.empty? && @callbacks[:empty]
       @callbacks[:empty].each { |cb| cb.call(self) }
       return items
+    end
+
+    if cmd = @commands[items[0]]
+      return cmd.parse! items[1..-1]
     end
 
     items.each_with_index do |item, index|
@@ -370,6 +400,13 @@ class Slop
     optstr = opts.each_with_index.map { |o, i|
       (str = @separators[i + 1]) ? [o, str].join("\n") : o
     }.join("\n")
+
+    if @commands.any?
+      optstr << "\n" if !optstr.empty?
+      optstr << "\nAvailable commands:\n\n"
+      optstr << commands_to_help
+      optstr << "\n\nSee `<command> --help` for more information on a specific command."
+    end
 
     banner = config[:banner]
     if banner
@@ -600,6 +637,14 @@ class Slop
   # Returns the newly cleaned String with leading -- characters removed.
   def clean(object)
     object.to_s.sub(/\A--?/, '')
+  end
+
+  def commands_to_help
+    padding = 0
+    @commands.each { |c, _| padding = c.size if c.size > padding }
+    @commands.map do |cmd, opts|
+      "  #{cmd}#{' ' * (padding - cmd.size)}   #{opts.description}"
+    end.join("\n")
   end
 
 end
