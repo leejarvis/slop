@@ -334,13 +334,8 @@ class Slop
   # Override this method so we can check if an option? method exists.
   #
   # Returns true if this option key exists in our list of options.
-  def respond_to?(method, include_private = false)
-    method = method.to_s
-    if method.end_with?('?') && options.any? { |o| o.key == method.chop }
-      true
-    else
-      super
-    end
+  def respond_to_missing?(method_name, include_private = false)
+    options.any? { |o| o.key == method_name.to_s.chop } || super
   end
 
   # Fetch a list of options which were missing from the parsed list.
