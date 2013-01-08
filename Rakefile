@@ -10,7 +10,7 @@ Rake::TestTask.new do |t|
   t.test_files = Dir['test/*_test.rb']
 end
 
-require 'rdoc/task'
+# require 'rdoc/task'
 
 # requires sdoc and horo gems
 # RDoc::Task.new do |rdoc|
