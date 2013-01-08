@@ -431,7 +431,7 @@ class Slop
     end
 
     banner = config[:banner]
-    banner = "Usage: #{File.basename($0, '.*')} [options]" if banner.nil?
+    banner = "Usage: #{File.basename($0, '.*')}#{' [command]' if @commands.any?} [options]" if banner.nil?
     if banner
       "#{banner}\n#{@separators[0] ? "#{@separators[0]}\n" : ''}#{optstr}"
     else
