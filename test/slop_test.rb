@@ -314,7 +314,7 @@ class SlopTest < TestCase
   end
 
   test "separators" do
-    opts = Slop.new do
+    opts = Slop.new(banner: false) do
       on :foo
       separator "hello"
       separator "world"
@@ -331,9 +331,15 @@ class SlopTest < TestCase
 
   test "printing help with :help => true" do
     temp_stderr do |string|
-      opts = Slop.new(:help => true)
+      opts = Slop.new(:help => true, :banner => false)
       opts.parse %w( --help )
       assert_equal "    -h, --help      Display this help message.\n", string
+    end
+
+    temp_stderr do |string|
+      opts = Slop.new(:help => true)
+      opts.parse %w( --help )
+      assert_equal "Usage: rake_test_loader [options]\n    -h, --help      Display this help message.\n", string
     end
   end
 
