@@ -1,6 +1,8 @@
-HEAD
-----
+3.4.0 (2013-01-12)
+------------------
 
+* Implement new command system (#95)
+* Deprecate Slop::Commands
 * Ensure 'no-foo' options are not inverted when parsing '--no-foo' (#86)
 * Code refactoring and simplification (Kenichi Kamiya, #84, #85)
 
