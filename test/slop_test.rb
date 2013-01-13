@@ -448,4 +448,13 @@ class SlopTest < TestCase
     end
   end
 
+  test "duplicate options should not exist, new options should replace old ones" do
+    i = nil
+    Slop.parse(%w'-v') do
+      on(:v) { i = 'first' }
+      on(:v) { i = 'second' }
+    end
+    assert_equal 'second', i
+  end
+
 end
