@@ -117,6 +117,9 @@ class Slop
   # The Array of Slop::Option objects tied to this Slop instance.
   attr_reader :options
 
+  # Returns the String command for this instance, nil if it's not a command.
+  attr_reader :command
+
   # Create a new instance of Slop and optionally build options via a block.
   #
   # config - A Hash of configuration options.
@@ -131,6 +134,7 @@ class Slop
     @callbacks = {}
     @separators = {}
     @runner = nil
+    @command = config.delete(:command)
 
     if block_given?
       block.arity == 1 ? yield(self) : instance_eval(&block)
@@ -191,7 +195,7 @@ class Slop
   #
   # Returns a new instance of Slop mapped to this command.
   def command(command, options = {}, &block)
-    @commands[command.to_s] = Slop.new(options, &block)
+    @commands[command.to_s] = Slop.new(options.merge(:command => command.to_s), &block)
   end
 
   # Parse a list of items, executing and gathering options along the way.
@@ -426,7 +430,12 @@ class Slop
     end
 
     banner = config[:banner]
-    banner = "Usage: #{File.basename($0, '.*')}#{' [command]' if @commands.any?} [options]" if banner.nil?
+    if banner.nil?
+      banner = "Usage: #{File.basename($0, '.*')}"
+      banner << " #{@command}" if @command
+      banner << " [command]" if @commands.any?
+      banner << " [options]"
+    end
     if banner
       "#{banner}\n#{@separators[0] ? "#{@separators[0]}\n" : ''}#{optstr}"
     else
