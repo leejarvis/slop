@@ -122,6 +122,14 @@ class Slop
       end
     end
 
+    def eql?(other)
+      short == other.short || long == other.long
+    end
+
+    def hash
+      [short, long].hash
+    end
+
     # Returns the help String for this option.
     def to_s
       return config[:help] if config[:help].respond_to?(:to_str)

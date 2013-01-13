@@ -263,7 +263,7 @@ class Slop
   # Returns the created instance of Slop::Option.
   def on(*objects, &block)
     option = build_option(objects, &block)
-    if original = fetch_option(option.key)
+    if original = options.find { |o| o.eql?(option) }
       options.delete(original)
     end
     options << option
