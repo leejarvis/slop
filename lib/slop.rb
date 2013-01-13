@@ -195,6 +195,7 @@ class Slop
   #
   # Returns a new instance of Slop mapped to this command.
   def command(command, options = {}, &block)
+    options = @config.merge(options)
     @commands[command.to_s] = Slop.new(options.merge(:command => command.to_s), &block)
   end
 
