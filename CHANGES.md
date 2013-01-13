@@ -1,6 +1,7 @@
-HEAD
-----
+3.4.1 (2013-01-13)
+------------------
 
+* Ensure options replace any existing duplicates
 * Command config options now inherit config options from top level Slop.
 * Command help output now adds command in usage string.
 
