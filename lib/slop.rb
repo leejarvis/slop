@@ -117,9 +117,6 @@ class Slop
   # The Array of Slop::Option objects tied to this Slop instance.
   attr_reader :options
 
-  # Returns the String command for this instance, nil if it's not a command.
-  attr_reader :command
-
   # Create a new instance of Slop and optionally build options via a block.
   #
   # config - A Hash of configuration options.
