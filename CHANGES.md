@@ -1,3 +1,8 @@
+HEAD
+----
+
+* Command help output now adds command in usage string.
+
 3.4.0 (2013-01-12)
 ------------------
 
