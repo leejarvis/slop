@@ -91,6 +91,7 @@ class Slop
     #
     # Returns a new instance of Slop.
     def optspec(string, config = {})
+      warn "[DEPRECATED] `Slop.optspec` is deprecated and will be removed in version 4"
       config[:banner], optspec = string.split(/^--+$/, 2) if string[/^--+$/]
       lines = optspec.split("\n").reject(&:empty?)
       opts  = Slop.new(config)
