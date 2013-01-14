@@ -1,3 +1,10 @@
+HEAD
+----
+
+* Deprecated `Slop.optspec`.
+* Ensure help output prints to stdout, not stderr.
+
+
 3.4.1 (2013-01-13)
 ------------------
 
