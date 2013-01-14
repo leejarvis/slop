@@ -226,7 +226,8 @@ class Slop
     end
 
     if cmd = @commands[items[0]]
-      return cmd.parse! items[1..-1]
+      items.shift
+      return cmd.parse! items
     end
 
     items.each_with_index do |item, index|
