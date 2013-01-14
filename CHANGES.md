@@ -1,5 +1,5 @@
-HEAD
-----
+3.4.2 (2013-01-14)
+------------------
 
 * Expose the Hash commands as public API.
 * Deprecated `Slop.optspec`.
