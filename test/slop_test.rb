@@ -289,23 +289,23 @@ class SlopTest < TestCase
     assert opts.foo_bar?
   end
 
-  test "parsing an optspec and building options" do
-    optspec = <<-SPEC
-    ruby foo.rb [options]
-    --
-    v,verbose  enable verbose mode
-    q,quiet   enable quiet mode
-    n,name=    set your name
-    p,pass=?   set your password
-    SPEC
-    opts = Slop.optspec(optspec.gsub(/^\s+/, ''))
-    opts.parse %w[ --verbose --name Lee ]
+  # test "parsing an optspec and building options" do
+  #   optspec = <<-SPEC
+  #   ruby foo.rb [options]
+  #   --
+  #   v,verbose  enable verbose mode
+  #   q,quiet   enable quiet mode
+  #   n,name=    set your name
+  #   p,pass=?   set your password
+  #   SPEC
+  #   opts = Slop.optspec(optspec.gsub(/^\s+/, ''))
+  #   opts.parse %w[ --verbose --name Lee ]
 
-    assert_equal 'Lee', opts[:name]
-    assert opts.present?(:verbose)
-    assert_equal 'enable quiet mode', opts.fetch_option(:quiet).description
-    assert opts.fetch_option(:pass).accepts_optional_argument?
-  end
+  #   assert_equal 'Lee', opts[:name]
+  #   assert opts.present?(:verbose)
+  #   assert_equal 'enable quiet mode', opts.fetch_option(:quiet).description
+  #   assert opts.fetch_option(:pass).accepts_optional_argument?
+  # end
 
   test "ensure negative integers are not processed as options" do
     items = %w(-1)
