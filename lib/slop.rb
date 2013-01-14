@@ -139,7 +139,7 @@ class Slop
 
     if config[:help]
       on('-h', '--help', 'Display this help message.', :tail => true) do
-        $stderr.puts help
+        puts help
       end
     end
   end
