@@ -118,6 +118,9 @@ class Slop
   # The Array of Slop::Option objects tied to this Slop instance.
   attr_reader :options
 
+  # The Hash of sub-commands for this Slop instance.
+  attr_reader :commands
+
   # Create a new instance of Slop and optionally build options via a block.
   #
   # config - A Hash of configuration options.
