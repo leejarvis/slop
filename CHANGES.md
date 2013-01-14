@@ -1,3 +1,8 @@
+3.4.3 (2013-01-14)
+------------------
+
+* Ensure `parse!` removes commands and their options.
+
 3.4.2 (2013-01-14)
 ------------------
 
