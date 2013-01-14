@@ -16,11 +16,11 @@ class SlopTest < TestCase
     ARGV.replace old_argv
   end
 
-  def temp_stderr
-    $stderr = StringIO.new
-    yield $stderr.string
+  def temp_stdout
+    $stdout = StringIO.new
+    yield $stdout.string
   ensure
-    $stderr = STDERR
+    $stdout = STDOUT
   end
 
   test "includes Enumerable" do
@@ -330,13 +330,13 @@ class SlopTest < TestCase
   end
 
   test "printing help with :help => true" do
-    temp_stderr do |string|
+    temp_stdout do |string|
       opts = Slop.new(:help => true, :banner => false)
       opts.parse %w( --help )
       assert_equal "    -h, --help      Display this help message.\n", string
     end
 
-    temp_stderr do |string|
+    temp_stdout do |string|
       opts = Slop.new(:help => true)
       opts.parse %w( --help )
       assert_equal "Usage: rake_test_loader [options]\n    -h, --help      Display this help message.\n", string
