@@ -457,4 +457,13 @@ class SlopTest < TestCase
     assert_equal 'second', i
   end
 
+  test "method unknown_args returns an array of unknown arguments" do
+    opts = Slop.parse(%w(-o test.rb -u --env prod --tag 2 --tag 3)) do
+      on :o, :argument => :optional
+      on :env, :argument => true
+    end
+
+    assert_equal opts.unknown_args, %w(-u --tag 2 --tag 3)
+  end
+
 end

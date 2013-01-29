@@ -121,6 +121,9 @@ class Slop
   # The Hash of sub-commands for this Slop instance.
   attr_reader :commands
 
+  # The array of unknown arguments in format similar to ARGV
+  attr_reader :unknown_args
+
   # Create a new instance of Slop and optionally build options via a block.
   #
   # config - A Hash of configuration options.
@@ -132,6 +135,7 @@ class Slop
     @trash = []
     @triggered_options = []
     @unknown_options = []
+    @unknown_args = []
     @callbacks = {}
     @separators = {}
     @runner = nil
@@ -515,6 +519,7 @@ class Slop
       end
     else
       @unknown_options << item if strict? && item =~ /\A--?/
+      @unknown_args << item
       block.call(item) if block && !@trash.include?(index)
     end
   end
