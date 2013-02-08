@@ -8,6 +8,7 @@ Gem::Specification.new do |s|
   s.homepage    = 'http://github.com/injekt/slop'
   s.files       = `git ls-files`.split("\n")
   s.test_files  = `git ls-files -- test/*`.split("\n")
+  s.license     = "MIT"
 
   s.required_ruby_version = '>= 1.8.7'
 
