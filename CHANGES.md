@@ -1,3 +1,9 @@
+HEAD
+----
+
+* Disable the run callback when the help option is used and `-h`
+  or `--help` is passed. #106
+
 3.4.3 (2013-01-14)
 ------------------
 

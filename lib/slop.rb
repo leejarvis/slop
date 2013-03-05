@@ -251,7 +251,9 @@ class Slop
       @callbacks[:no_options].each { |cb| cb.call(self) }
     end
 
-    @runner.call(self, items) if @runner.respond_to?(:call)
+    if @runner.respond_to?(:call)
+      @runner.call(self, items) unless config[:help] and present?(:help)
+    end
 
     items
   end

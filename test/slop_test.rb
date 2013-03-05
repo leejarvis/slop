@@ -448,6 +448,21 @@ class SlopTest < TestCase
     end
   end
 
+  test "ensure a runner does not execute when a help option is present" do
+    items = []
+    Slop.parse(%w'--help foo bar') do
+      run { |o, a| items.concat a }
+    end
+    assert_equal %w'--help foo bar', items
+    items.clear
+    temp_stdout do
+      Slop.parse(%w'--help foo bar', help: true) do
+        run { |o, a| items.concat a }
+      end
+      assert_empty items
+    end
+  end
+
   test "duplicate options should not exist, new options should replace old ones" do
     i = nil
     Slop.parse(%w'-v') do
