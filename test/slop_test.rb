@@ -456,7 +456,7 @@ class SlopTest < TestCase
     assert_equal %w'--help foo bar', items
     items.clear
     temp_stdout do
-      Slop.parse(%w'--help foo bar', help: true) do
+      Slop.parse(%w'--help foo bar', :help => true) do
         run { |o, a| items.concat a }
       end
       assert_empty items
