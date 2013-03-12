@@ -1,8 +1,9 @@
-HEAD
-----
+3.4.4 (2013-03-12)
+------------------
 
 * Disable the run callback when the help option is used and `-h`
   or `--help` is passed. #106
+* Ensure default `--help` option exits by default (#107, Autumn Perrault).
 
 3.4.3 (2013-01-14)
 ------------------
