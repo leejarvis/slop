@@ -144,6 +144,7 @@ class Slop
     if config[:help]
       on('-h', '--help', 'Display this help message.', :tail => true) do
         puts help
+        exit
       end
     end
   end

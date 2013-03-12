@@ -130,6 +130,13 @@ class SlopTest < TestCase
     assert_equal 'Display this help message.', slop.options.first.description
   end
 
+  test "default help exits" do
+    slop = Slop.new :help => true
+    assert_raises SystemExit do
+      slop.parse %w/--help/
+    end
+  end
+
   test ":arguments and :optional_arguments config options" do
     slop = Slop.new(:arguments => true) { on :foo }
     assert slop.fetch_option(:foo).expects_argument?
