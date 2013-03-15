@@ -175,7 +175,7 @@ require 'slop'
 
 opts = Slop.parse do
   on :n, :name=, 'Your name'
-  on :a, :age=, 'Your age', :as => :int
+  on :a, :age=, 'Your age', as: Integer
 end
 
 opts.to_hash #=> { :name => 'lee', :age => 105 }
