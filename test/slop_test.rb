@@ -131,9 +131,11 @@ class SlopTest < TestCase
   end
 
   test "default help exits" do
-    slop = Slop.new :help => true
-    assert_raises SystemExit do
-      slop.parse %w/--help/
+    temp_stdout do
+      slop = Slop.new :help => true
+      assert_raises SystemExit do
+        slop.parse %w/--help/
+      end
     end
   end
 
