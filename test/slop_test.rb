@@ -36,6 +36,7 @@ class SlopTest < TestCase
     assert_equal [nil, 'foo', nil, {}], build_option(:foo)
     assert_equal ['f', nil, 'Some description', {}], build_option(:f, 'Some description')
     assert_equal ['f', 'foo', nil, {}], build_option(:f, :foo)
+    assert_equal [nil, '1.8', 'Use v. 1.8', {}], build_option('--1.8', 'Use v. 1.8')
 
     # with arguments
     assert_equal ['f', nil, nil, {:argument=>true}], build_option('f=')
