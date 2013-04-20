@@ -36,6 +36,7 @@ class SlopTest < TestCase
     assert_equal [nil, 'foo', nil, {}], build_option(:foo)
     assert_equal ['f', nil, 'Some description', {}], build_option(:f, 'Some description')
     assert_equal ['f', 'foo', nil, {}], build_option(:f, :foo)
+    assert_equal [nil, '1.8', 'Use v. 1.8', {}], build_option('--1.8', 'Use v. 1.8')
 
     # with arguments
     assert_equal ['f', nil, nil, {:argument=>true}], build_option('f=')
@@ -341,13 +342,17 @@ class SlopTest < TestCase
   test "printing help with :help => true" do
     temp_stdout do |string|
       opts = Slop.new(:help => true, :banner => false)
-      opts.parse %w( --help )
+      assert_raises SystemExit do
+        opts.parse %w( --help )
+      end
       assert_equal "    -h, --help      Display this help message.\n", string
     end
 
     temp_stdout do |string|
       opts = Slop.new(:help => true)
-      opts.parse %w( --help )
+      assert_raises SystemExit do
+        opts.parse %w( --help )
+      end
       assert_equal "Usage: rake_test_loader [options]\n    -h, --help      Display this help message.\n", string
     end
   end
@@ -465,8 +470,10 @@ class SlopTest < TestCase
     assert_equal %w'--help foo bar', items
     items.clear
     temp_stdout do
-      Slop.parse(%w'--help foo bar', :help => true) do
-        run { |o, a| items.concat a }
+      assert_raises SystemExit do
+        Slop.parse(%w'--help foo bar', :help => true) do
+          run { |o, a| items.concat a }
+        end
       end
       assert_empty items
     end
