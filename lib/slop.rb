@@ -654,7 +654,7 @@ class Slop
   # config  - The Hash of configuration options built in #build_option.
   def extract_long_flag(objects, config)
     flag = objects.first.to_s
-    if flag =~ /\A(?:--?)?[a-zA-Z][a-zA-Z0-9_-]+\=?\??\z/
+    if flag =~ /\A(?:--?)?[a-zA-Z0-9][a-zA-Z0-9_.-]+\=?\??\z/
       config[:argument] ||= true if flag.end_with?('=')
       config[:optional_argument] = true if flag.end_with?('=?')
       objects.shift
