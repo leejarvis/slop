@@ -1,3 +1,8 @@
+HEAD
+----
+
+* Allow specifying long options starting with numbers (#110, Peter Zotov)
+
 3.4.4 (2013-03-12)
 ------------------
 
