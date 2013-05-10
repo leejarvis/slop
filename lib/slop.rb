@@ -61,7 +61,7 @@ class Slop
     # Returns a new instance of Slop.
     def parse!(items = ARGV, config = {}, &block)
       config, items = items, ARGV if items.is_a?(Hash) && config.empty?
-      slop = Slop.new config, &block
+      slop = new config, &block
       slop.parse! items
       slop
     end
