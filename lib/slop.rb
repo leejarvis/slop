@@ -511,7 +511,7 @@ class Slop
           option.call(nil)
         end
       elsif config[:multiple_switches] && argument
-        execute_multiple_switches(option, argument, index)
+        execute_multiple_switches(option, argument, items, index)
       else
         option.value = option.count > 0
         option.call(nil)
@@ -562,12 +562,18 @@ class Slop
   # index    - The index of the current item being processed.
   #
   # Returns nothing.
-  def execute_multiple_switches(option, argument, index)
+  def execute_multiple_switches(option, argument, items, index)
     execute_option(option, nil, index)
-    argument.split('').each do |key|
+    flags = argument.split('')
+    flags.each do |key|
       next unless opt = fetch_option(key)
       opt.count += 1
-      execute_option(opt, nil, index, key)
+      if (opt.expects_argument? || opt.accepts_optional_argument?) &&
+          (flags[-1] == opt.key) && (val = items[index+1])
+        execute_option(opt, val, index, key)
+      else
+        execute_option(opt, nil, index, key)
+      end
     end
   end
 

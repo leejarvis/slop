@@ -247,6 +247,12 @@ class SlopTest < TestCase
     assert_equal %w'foo', args
   end
 
+  test "multiple options should still accept trailing arguments" do
+    opts = Slop.new { on :a; on :b= }
+    opts.parse %w'-ab foo'
+    assert_equal 'foo', opts[:b]
+  end
+
   test "setting/getting the banner" do
     opts = Slop.new :banner => 'foo'
     assert_equal 'foo', opts.banner
