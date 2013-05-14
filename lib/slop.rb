@@ -559,6 +559,7 @@ class Slop
   #
   # option   - The first Option object.
   # argument - The argument to this option. (Split into multiple Options).
+  # items    - The Array of items currently being parsed.
   # index    - The index of the current item being processed.
   #
   # Returns nothing.
