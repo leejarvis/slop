@@ -1,7 +1,9 @@
-HEAD
-----
+3.4.5 (2013-05-14)
+------------------
 
 * Allow specifying long options starting with numbers (#110, Peter Zotov)
+* Ensure short-options still consume trailing arguments, ie `-abc foo`
+  should assign `foo` to the option `c` if it expects an argument (#114).
 
 3.4.4 (2013-03-12)
 ------------------
