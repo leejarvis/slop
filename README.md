@@ -44,7 +44,7 @@ All of these options can be sent to `Slop.new` or `Slop.parse` in Hash form.
 * `strict` - Enable strict mode. When processing unknown options, Slop will
   raise an `InvalidOptionError`. **default:** *false*.
 * `help` - Automatically add the `--help` option. **default:** *false*.
-* `banner` - Set this options banner text. **default:** *nil*.
+* `banner` - Set the help banner text. **default:** *nil*.
 * `ignore_case` - When enabled, `-A` will look for the `-a` option if `-A`
   does not exist. **default:** *false*.
 * `autocreate` - Autocreate options on the fly. **default:** *false*.
@@ -101,7 +101,7 @@ Autocreate
 
 Slop has an 'autocreate' feature. This feature is intended to create
 options on the fly, without having to specify them yourself. In some case,
-uses this code could be all you need in your application:
+using this code could be all you need in your application:
 
 ```ruby
 # ruby run.rb --foo bar --baz --name lee
