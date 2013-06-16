@@ -7,7 +7,7 @@ class Slop
   VERSION = '3.4.6'
 
   # Returns a default Hash of configuration options this Slop instance uses.
-  DEFAULT_OPTIONS = {
+  DEFAULT_CONFIG = {
     strict:             true,
     help:               true,
     banner:             nil,
@@ -63,7 +63,7 @@ class Slop
   # config - A Hash of configuration options.
   # block  - An optional block used to specify options.
   def initialize(config = {}, &block)
-    @config = DEFAULT_OPTIONS.merge(config)
+    @config = DEFAULT_CONFIG.merge(config)
     @options = []
     @commands = {}
     @trash = []
