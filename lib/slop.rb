@@ -2,9 +2,7 @@ require 'slop/option'
 require 'slop/errors'
 
 class Slop
-  include Enumerable
-
-  VERSION = '3.4.6'
+  VERSION = '3.4.5'
 
   # Returns a default Hash of configuration options this Slop instance uses.
   DEFAULT_CONFIG = {
@@ -239,11 +237,6 @@ class Slop
     hash
   end
   alias to_h to_hash
-
-  # Enumerable interface. Yields each Slop::Option.
-  def each(&block)
-    options.each(&block)
-  end
 
   # Specify code to be executed when these options are parsed.
   #
