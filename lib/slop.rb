@@ -65,51 +65,6 @@ class Slop
       slop.parse! items
       slop
     end
-
-    # Build a Slop object from a option specification.
-    #
-    # This allows you to design your options via a simple String rather
-    # than programatically. Do note though that with this method, you're
-    # unable to pass any advanced options to the on() method when creating
-    # options.
-    #
-    # string - The optspec String
-    # config - A Hash of configuration options to pass to Slop.new
-    #
-    # Examples:
-    #
-    #   opts = Slop.optspec(<<-SPEC)
-    #   ruby foo.rb [options]
-    #   ---
-    #   n,name=     Your name
-    #   a,age=      Your age
-    #   A,auth      Sign in with auth
-    #   p,passcode= Your secret pass code
-    #   SPEC
-    #
-    #   opts.fetch_option(:name).description #=> "Your name"
-    #
-    # Returns a new instance of Slop.
-    def optspec(string, config = {})
-      warn "[DEPRECATED] `Slop.optspec` is deprecated and will be removed in version 4"
-      config[:banner], optspec = string.split(/^--+$/, 2) if string[/^--+$/]
-      lines = optspec.split("\n").reject(&:empty?)
-      opts  = Slop.new(config)
-
-      lines.each do |line|
-        opt, description = line.split(' ', 2)
-        short, long = opt.split(',').map { |s| s.sub(/\A--?/, '') }
-        opt = opts.on(short, long, description)
-
-        if long && long.end_with?('=')
-          long.sub!(/\=$/, '')
-          opt.config[:argument] = true
-        end
-      end
-
-      opts
-    end
-
   end
 
   # The Hash of configuration options for this Slop instance.
