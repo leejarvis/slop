@@ -177,12 +177,11 @@ class Slop
 
     missing_options = options.select { |opt| opt.required? && opt.count < 1 }
     if missing_options.any?
-      raise MissingOptionError,
-      "Missing required option(s): #{missing_options.map(&:key).join(', ')}"
+      raise MissingOptionError.new(self, "Missing required option(s): #{missing_options.map(&:key).join(', ')}")
     end
 
     if @unknown_options.any?
-      raise InvalidOptionError, "Unknown options #{@unknown_options.join(', ')}"
+      raise InvalidOptionError.new(self, "Unknown options #{@unknown_options.join(', ')}")
     end
 
     if @triggered_options.empty? && @callbacks[:no_options]
@@ -435,7 +434,7 @@ class Slop
         argument ||= items.at(index + 1)
 
         if !argument || argument =~ /\A--?[a-zA-Z][a-zA-Z0-9_-]*\z/
-          raise MissingArgumentError, "#{option.key} expects an argument"
+          raise MissingArgumentError.new(self, "#{option.key} expects an argument")
         end
 
         execute_option(option, argument, index, item)
@@ -470,7 +469,7 @@ class Slop
   def execute_option(option, argument, index, item = nil)
     if !option
       if config[:multiple_switches] && strict?
-        raise InvalidOptionError, "Unknown option -#{item}"
+        raise InvalidOptionError.new(self, "Unknown option -#{item}")
       end
       return
     end
@@ -485,7 +484,7 @@ class Slop
     end
 
     if option.match? && !argument.match(option.config[:match])
-      raise InvalidArgumentError, "#{argument} is an invalid argument"
+      raise InvalidArgumentError.new(self, "#{argument} is an invalid argument")
     end
 
     option.call(option.value)

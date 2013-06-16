@@ -1,6 +1,16 @@
 class Slop
   # The main Error class, all Exception classes inherit from this class.
   class Error < StandardError
+    attr_reader :slop
+
+    def initialize(slop, message = nil)
+      super message
+      @slop = slop
+    end
+
+    def help
+      @slop.help
+    end
   end
 
   # Raised when an option argument is expected but none are given.

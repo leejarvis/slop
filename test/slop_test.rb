@@ -487,4 +487,14 @@ class SlopTest < TestCase
     assert_equal 'second', i
   end
 
+  test 'Slop::Error sets @slop and has a help method' do
+    s = Slop.new
+    begin
+      s.parse %w'--abc'
+    rescue Slop::Error => e
+      assert_equal s, e.slop
+      assert_equal s.help, e.help
+    end
+  end
+
 end
