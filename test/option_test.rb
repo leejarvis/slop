@@ -7,7 +7,7 @@ class OptionTest < TestCase
 
   def option_with_argument(*args, &block)
     options = args.shift
-    slop = Slop.new
+    slop = Slop.new(strict: false, help: false)
     option = slop.opt(*args)
     slop.parse(options)
     slop.options.find {|opt| opt.key == option.key }
@@ -57,12 +57,12 @@ class OptionTest < TestCase
     opts.parse %w'-f 1'
     assert_equal 1, opts[:f]
 
-    opts = Slop.new(:strict => true) { on :r=, :as => Integer }
+    opts = Slop.new { on :r=, :as => Integer }
     assert_raises(Slop::InvalidArgumentError) { opts.parse %w/-r abc/ }
   end
 
   test "float type cast" do
-    opts = Slop.new(:strict => true) { on :r=, :as => Float }
+    opts = Slop.new { on :r=, :as => Float }
     assert_raises(Slop::InvalidArgumentError) { opts.parse %w/-r abc/ }
   end
 
@@ -80,7 +80,7 @@ class OptionTest < TestCase
     assert_equal((1..1), option_value(%w/-r 1/, :r=, :as => Range))
     assert_equal((-1..10), option_value(%w/-r -1..10/, :r, :as => Range, :optional_argument => true))
 
-    opts = Slop.new(:strict => true) { on :r=, :as => Range }
+    opts = Slop.new { on :r=, :as => Range }
     assert_raises(Slop::InvalidArgumentError) { opts.parse %w/-r abc/ }
   end
 

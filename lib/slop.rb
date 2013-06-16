@@ -8,15 +8,15 @@ class Slop
 
   # Returns a default Hash of configuration options this Slop instance uses.
   DEFAULT_OPTIONS = {
-    :strict => false,
-    :help => false,
-    :banner => nil,
-    :ignore_case => false,
-    :autocreate => false,
-    :arguments => false,
-    :optional_arguments => false,
-    :multiple_switches => true,
-    :longest_flag => 0
+    strict:             true,
+    help:               true,
+    banner:             nil,
+    autocreate:         false,
+    arguments:          false,
+    optional_arguments: false,
+    ignore_case:        false,
+    multiple_switches:  true,
+    longest_flag:       0
   }
 
   class << self

@@ -164,7 +164,7 @@ class SlopTest < TestCase
   end
 
   test "on no_options callback" do
-    opts = Slop.new
+    opts = Slop.new(strict: false)
     foo = nil
     opts.add_callback(:no_options) { foo = "bar" }
     opts.parse %w( --foo --bar etc hello )
@@ -293,7 +293,7 @@ class SlopTest < TestCase
   end
 
   test "ignoring case" do
-    opts = Slop.new { on :foo }
+    opts = Slop.new(strict: false) { on :foo }
     opts.parse %w' --FOO bar '
     assert_nil opts[:foo]
 
@@ -318,7 +318,7 @@ class SlopTest < TestCase
 
   test "ensure negative integers are not processed as options" do
     items = %w(-1)
-    Slop.parse!(items)
+    Slop.parse!(items, strict: false)
     assert_equal %w(-1), items
   end
 
@@ -463,7 +463,7 @@ class SlopTest < TestCase
 
   test "ensure a runner does not execute when a help option is present" do
     items = []
-    Slop.parse(%w'--help foo bar') do
+    Slop.parse(%w'--help foo bar', strict: false) do
       run { |o, a| items.concat a }
     end
     assert_equal %w'--help foo bar', items
