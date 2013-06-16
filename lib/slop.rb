@@ -627,12 +627,12 @@ class Slop
     config[:optional_argument] = true if @config[:optional_arguments]
 
     if objects.last.is_a?(Hash)
-      config.merge!(objects.last)
-      objects.pop
+      config.merge!(objects.pop)
     end
+
     short = extract_short_flag(objects, config)
     long  = extract_long_flag(objects, config)
-    desc  = objects[0].respond_to?(:to_str) ? objects.shift : nil
+    desc  = objects.shift if objects[0].respond_to?(:to_str)
 
     Option.new(self, short, long, desc, config, &block)
   end
