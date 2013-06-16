@@ -1,5 +1,4 @@
 require 'slop/option'
-require 'slop/commands'
 
 class Slop
   include Enumerable
