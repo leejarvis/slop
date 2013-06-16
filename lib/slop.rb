@@ -637,21 +637,12 @@ class Slop
     Option.new(self, short, long, desc, config, &block)
   end
 
-  # Extract the short flag from an item.
-  #
-  # objects - The Array of objects passed from #build_option.
-  # config  - The Hash of configuration options built in #build_option.
   def extract_short_flag(objects, config)
-    flag = clean(objects.first)
-
-    if flag.size == 2 && flag.end_with?('=')
-      config[:argument] ||= true
-      flag.chop!
-    end
-
-    if flag.size == 1
+    flag = objects[0].to_s
+    if flag =~ /\A-?\w=?\z/
+      config[:argument] ||= flag.end_with?('=')
       objects.shift
-      flag
+      flag.delete('-=')
     end
   end
 
