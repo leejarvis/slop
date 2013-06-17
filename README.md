@@ -4,7 +4,7 @@ Slop
 Slop is a simple option parser with an easy to remember syntax and friendly API.
 API Documentation is available [here](http://injekt.github.com/rdoc/slop/).
 
-[![Build Status](https://secure.travis-ci.org/injekt/slop.png)](http://travis-ci.org/injekt/slop)
+[![Build Status](https://travis-ci.org/injekt/slop.png?branch=master)](http://travis-ci.org/injekt/slop)
 
 Usage
 -----
