@@ -232,6 +232,11 @@ class SlopTest < TestCase
     opts = Slop.new :strict => true
     opts.on :L
     assert_raises(Slop::InvalidOptionError) { opts.parse %w'-Ly' }
+
+    # but not with no strict mode!
+    opts = Slop.new
+    opts.on :L
+    assert opts.parse %w'-Ly'
   end
 
   test "multiple_switches is enabled by default" do

@@ -576,7 +576,7 @@ class Slop
           execute_option(opt, nil, index, key)
         end
       else
-        raise InvalidOptionError, "Unknown option -#{key}"
+        raise InvalidOptionError, "Unknown option -#{key}" if strict?
       end
     end
   end
