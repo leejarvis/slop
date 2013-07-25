@@ -567,13 +567,16 @@ class Slop
     execute_option(option, nil, index)
     flags = argument.split('')
     flags.each do |key|
-      next unless opt = fetch_option(key)
-      opt.count += 1
-      if (opt.expects_argument? || opt.accepts_optional_argument?) &&
-          (flags[-1] == opt.key) && (val = items[index+1])
-        execute_option(opt, val, index, key)
+      if opt = fetch_option(key)
+        opt.count += 1
+        if (opt.expects_argument? || opt.accepts_optional_argument?) &&
+            (flags[-1] == opt.key) && (val = items[index+1])
+          execute_option(opt, val, index, key)
+        else
+          execute_option(opt, nil, index, key)
+        end
       else
-        execute_option(opt, nil, index, key)
+        raise InvalidOptionError, "Unknown option -#{key}"
       end
     end
   end

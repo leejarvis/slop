@@ -228,6 +228,12 @@ class SlopTest < TestCase
     assert_raises(Slop::InvalidOptionError) { opts.parse %w'-fabc' }
   end
 
+  test "raising InvalidOptionError for multiple short options" do
+    opts = Slop.new :strict => true
+    opts.on :L
+    assert_raises(Slop::InvalidOptionError) { opts.parse %w'-Ly' }
+  end
+
   test "multiple_switches is enabled by default" do
     opts = Slop.new { on :f; on :b }
     opts.parse %w[ -fb ]
