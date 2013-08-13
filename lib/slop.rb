@@ -209,8 +209,8 @@ class Slop
     options << option
     option
   end
-  alias option on
-  alias opt on
+  alias_method :option, :on
+  alias_method :opt, :on
 
   # Fetch an options argument value.
   #
@@ -221,7 +221,7 @@ class Slop
     option = fetch_option(key)
     option.value if option
   end
-  alias get []
+  alias_method :get, :[]
 
   # Returns a new Hash with option flags as keys and option values as values.
   #
@@ -233,7 +233,7 @@ class Slop
     end
     hash
   end
-  alias to_h to_hash
+  alias_method :to_h, :to_hash
 
   # Specify code to be executed when these options are parsed.
   #
@@ -378,7 +378,7 @@ class Slop
       optstr
     end
   end
-  alias help to_s
+  alias_method :help, :to_s
 
   private
 
