@@ -203,7 +203,7 @@ class Slop
   def on(*objects, &block)
     option = build_option(objects, &block)
     original = options.find do |o|
-      o.long and o.long == option.long or o.short and o.short == option.short
+      (o.long && o.long == option.long) || (o.short && o.short == option.short)
     end
     options.delete(original) if original
     options << option
