@@ -17,34 +17,31 @@ class Slop
     longest_flag:       0
   }
 
-  class << self
+  # items  - The Array of items to extract options from (default: ARGV).
+  # config - The Hash of configuration options to send to Slop.new().
+  # block  - An optional block used to add options.
+  #
+  # Examples:
+  #
+  #   Slop.parse(ARGV, :help => true) do
+  #     on '-n', '--name', 'Your username', :argument => true
+  #   end
+  #
+  # Returns a new instance of Slop.
+  def self.parse(items = ARGV, config = {}, &block)
+    parse!(items.dup, config, &block)
+  end
 
-    # items  - The Array of items to extract options from (default: ARGV).
-    # config - The Hash of configuration options to send to Slop.new().
-    # block  - An optional block used to add options.
-    #
-    # Examples:
-    #
-    #   Slop.parse(ARGV, :help => true) do
-    #     on '-n', '--name', 'Your username', :argument => true
-    #   end
-    #
-    # Returns a new instance of Slop.
-    def parse(items = ARGV, config = {}, &block)
-      parse! items.dup, config, &block
-    end
-
-    # items  - The Array of items to extract options from (default: ARGV).
-    # config - The Hash of configuration options to send to Slop.new().
-    # block  - An optional block used to add options.
-    #
-    # Returns a new instance of Slop.
-    def parse!(items = ARGV, config = {}, &block)
-      config, items = items, ARGV if items.is_a?(Hash) && config.empty?
-      slop = new config, &block
-      slop.parse! items
-      slop
-    end
+  # items  - The Array of items to extract options from (default: ARGV).
+  # config - The Hash of configuration options to send to Slop.new().
+  # block  - An optional block used to add options.
+  #
+  # Returns a new instance of Slop.
+  def self.parse!(items = ARGV, config = {}, &block)
+    config, items = items, ARGV if items.is_a?(Hash) && config.empty?
+    slop = new(config, &block)
+    slop.parse!(items)
+    slop
   end
 
   # The Hash of configuration options for this Slop instance.
