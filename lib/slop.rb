@@ -601,9 +601,9 @@ class Slop
   def commands_to_help
     padding = 0
     @commands.each { |c, _| padding = c.size if c.size > padding }
-    @commands.map do |cmd, opts|
+    @commands.map { |cmd, opts|
       "  #{cmd}#{' ' * (padding - cmd.size)}   #{opts.description}"
-    end.join("\n")
+    }.join("\n")
   end
 
 end
