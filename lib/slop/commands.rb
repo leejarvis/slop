@@ -40,7 +40,7 @@ class Slop
       @triggered_command = nil
 
       warn "[DEPRECATED] Slop::Commands is deprecated and will be removed in "\
-        "Slop version 4. Check out http://injekt.github.com/slop/#commands for "\
+        "Slop version 4. Check out http://leejarvis.github.io/slop/#commands for "\
         "a new implementation of commands."
 
       if block_given?
