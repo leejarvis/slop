@@ -68,12 +68,12 @@ can see this by calling `opts.help` or simply `puts opts`.
 Configuration Options
 ---------------------
 
-Key                 | Description                                                 | Default
---------------------|----------------------------------------------------------------------
-`strict`            | Raise `InvalidOptionError` for unknown options              | true
-`help`              | Automatically add the `--help` option                       | true
-`ignore_case`       | `-A` will be processed the same as `-a`                     | false
-`multiple_switches` | When disabled, parses `-abc` as `-a` with the argument `bc` | true
+| Key                 | Description                                                 | Default
+|---------------------|-------------------------------------------------------------|--------
+| `strict`            | Raise `InvalidOptionError` for unknown options              | true
+| `help`              | Automatically add the `--help` option                       | true
+| `ignore_case`       | `-A` will be processed the same as `-a`                     | false
+| `multiple_switches` | When disabled, parses `-abc` as `-a` with the argument `bc` | true
 
 Lists
 -----
