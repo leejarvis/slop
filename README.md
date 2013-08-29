@@ -25,6 +25,35 @@ opts[:name]    #=> 'lee'
 opts.to_hash   #=> {:name=>"Lee", :password=>nil, :verbose=>true}
 ```
 
+Advanced Usage
+--------------
+
+```ruby
+Slop.parse do
+  on :v, :verbose, 'Enable verbose mode'
+
+  cmd :add, ignore_case: true do
+    on :f, :force, 'Force add'
+    on :d, :dir=,  'Output directory'
+
+    process do |cmd, opts|
+      puts "Adding #{opts.first} to #{cmd[:dir]} ..."
+    end
+  end
+
+  cmd :rm do
+    on :f, :force, 'Force rm'
+
+    process do |cmd, opts|
+      unless cmd.force?
+        abort "--force must be present"
+      end
+    end
+  end
+
+end
+```
+
 Installation
 ------------
 
