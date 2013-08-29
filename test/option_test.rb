@@ -1,134 +1,122 @@
 require 'helper'
 
 class OptionTest < TestCase
+
   def option(*args, &block)
-    Slop.new.on(*args, &block)
+    Slop::Option.build(Slop.new, args, &block)
   end
 
-  def option_with_argument(*args, &block)
-    options = args.shift
-    slop = Slop.new(strict: false, help: false)
-    option = slop.opt(*args)
-    slop.parse(options)
-    slop.options.find {|opt| opt.key == option.key }
+  def option_to_a(*args, &block)
+    option = option(*args, &block)
+    [option.short, option.long, option.description]
   end
 
-  def option_value(*args, &block)
-    option_with_argument(*args, &block).value
+  def option_as(as, value, config = {})
+    config.merge!(as: as)
+    option = Slop::Option.build(Slop.new, ["foo=", config])
+    option.value = value
+    option.value
   end
 
-  test "expects_argument?" do
-    assert option(:f=).expects_argument?
-    assert option(:foo=).expects_argument?
-    assert option(:foo, :argument => true).expects_argument?
+  test "::option" do
+    assert_equal ['u', nil, nil], option_to_a('u')
+    assert_equal ['u', nil, nil], option_to_a('u=')
+
+    assert_equal [nil, 'user', nil], option_to_a('user')
+    assert_equal [nil, 'user', nil], option_to_a('user=')
+
+    assert_equal ['u', 'user', nil], option_to_a('u=', 'user')
+    assert_equal ['u', 'user', nil], option_to_a('u', 'user=')
+
+    assert_equal ['u', 'user', 'Foo'], option_to_a('u', 'user=', 'Foo')
+    assert_equal [nil, 'user', 'Foo'], option_to_a('user', 'Foo')
+    assert_equal ['u', nil, 'Foo Bar'], option_to_a('u', 'Foo Bar')
+
+    assert_equal ['u', nil, 'Foo Bar'], option_to_a('u', 'Foo Bar', lorem: 'ipsum')
   end
 
-  test "accepts_optional_argument?" do
-    refute option(:f=).accepts_optional_argument?
-    assert option(:f=, :argument => :optional).accepts_optional_argument?
-    assert option(:f, :optional_argument => true).accepts_optional_argument?
+  test "argument?" do
+    assert option("user=").argument?
+    refute option("user").argument?
   end
 
-  test "key" do
-    assert_equal 'foo', option(:foo).key
-    assert_equal 'foo', option(:f, :foo).key
-    assert_equal 'f', option(:f).key
+  test "optional_argument?" do
+    assert option("user", optional_argument: true).optional_argument?
+    refute option("user").optional_argument?
+  end
+
+  test "runner" do
+    assert_equal "foo", option("user", runner: "foo").runner
+    assert_kind_of Proc, option("user") { }.runner
+    refute option("user").runner
   end
 
   test "call" do
-    foo = nil
-    option(:f, :callback => proc { foo = "bar" }).call
-    assert_equal "bar", foo
-    option(:f) { foo = "baz" }.call
-    assert_equal "baz", foo
-    option(:f) { |o| assert_equal 1, o }.call(1)
+    called = true
+    option = option("user") { called = true }
+    option.value = 'foo'
+    assert_equal 'foo', option.call
+    assert called
   end
 
-  # type casting
-
-  test "proc/custom type cast" do
-    assert_equal 1, option_value(%w'-f 1', :f=, :as => proc {|x| x.to_i })
-    assert_equal "oof", option_value(%w'-f foo', :f=, :as => proc {|x| x.reverse })
+  test "execute" do
+    option = option("user")
+    assert_equal 0, option.count
+    option.execute
+    assert_equal 1, option.count
   end
 
-  test "integer type cast" do
-    opts = Slop.new
-    opts.on :f=, :as => Integer
-    opts.parse %w'-f 1'
-    assert_equal 1, opts[:f]
-
-    opts = Slop.new { on :r=, :as => Integer }
-    assert_raises(Slop::InvalidArgumentError) { opts.parse %w/-r abc/ }
+  test "key" do
+    assert_equal "foo", option("f", "foo").key
+    assert_equal "foo", option("foo").key
+    assert_equal "f", option("f").key
   end
 
-  test "float type cast" do
-    opts = Slop.new { on :r=, :as => Float }
-    assert_raises(Slop::InvalidArgumentError) { opts.parse %w/-r abc/ }
+  test "help" do
+    skip "not implemented"
   end
 
-  test "symbol type cast" do
-    assert_equal :foo, option_value(%w'-f foo', :f=, :as => Symbol)
+  test "default" do
+    assert_equal nil, option("f").call
+    assert_equal "foo", option("f", default: "foo").call
   end
 
-  test "range type cast" do
-    assert_equal((1..10), option_value(%w/-r 1..10/, :r=, :as => Range))
-    assert_equal((1..10), option_value(%w/-r 1-10/, :r=, :as => Range))
-    assert_equal((1..10), option_value(%w/-r 1,10/, :r=, :as => Range))
-    assert_equal((1...10), option_value(%w/-r 1...10/, :r=, :as => Range))
-    assert_equal((-1..10), option_value(%w/-r -1..10/, :r=, :as => Range))
-    assert_equal((1..-10), option_value(%w/-r 1..-10/, :r=, :as => Range))
-    assert_equal((1..1), option_value(%w/-r 1/, :r=, :as => Range))
-    assert_equal((-1..10), option_value(%w/-r -1..10/, :r, :as => Range, :optional_argument => true))
-
-    opts = Slop.new { on :r=, :as => Range }
-    assert_raises(Slop::InvalidArgumentError) { opts.parse %w/-r abc/ }
+  test "as(String)" do
+    assert_equal "foo", option_as(String, "foo")
   end
 
-  test "array type cast" do
-    assert_equal %w/lee john bill/, option_value(%w/-p lee,john,bill/, :p=, :as => Array)
-    assert_equal %w/lee john bill jeff jill/, option_value(%w/-p lee,john,bill -p jeff,jill/, :p=, :as => Array)
-    assert_equal %w/lee john bill/, option_value(%w/-p lee:john:bill/, :p=, :as => Array, :delimiter => ':')
-    assert_equal %w/lee john,bill/, option_value(%w/-p lee,john,bill/, :p=, :as => Array, :limit => 2)
-    assert_equal %w/lee john:bill/, option_value(%w/-p lee:john:bill/, :p=, :as => Array, :limit => 2, :delimiter => ':')
+  test "as(Symbol)" do
+    assert_equal :foo, option_as(Symbol, "foo")
   end
 
-  test "adding custom types" do
-    opts = Slop.new
-    opt = opts.on :f=, :as => :reverse
-    opt.types[:reverse] = proc { |v| v.reverse }
-    opts.parse %w'-f bar'
-    assert_equal 'rab', opt.value
+  test "as(Array)" do
+    assert_equal ["foo", "bar"], option_as(Array, "foo,bar")
+    assert_equal ["foo", "bar"], option_as(Array, "foo:bar", delimiter: ":")
+    assert_equal ["foo", "bar:baz"], option_as(Array, "foo:bar:baz", delimiter: ":", limit: 2)
   end
 
-  test "count type" do
-    assert_equal 3, option_value(%w/-c -c -c/, :c, :as => :count)
-    assert_equal 0, option_value(%w/-a -b -z/, :c, :as => :count)
-    assert_equal 3, option_value(%w/-vvv/, :v, :as => :count)
+  test "as(Integer)" do
+    assert_equal 1, option_as(Integer, "1")
   end
 
-  # end type casting tests
-
-  test "using a default value as fallback" do
-    opts = Slop.new
-    opts.on :f, :argument => :optional, :default => 'foo'
-    opts.parse %w'-f'
-    assert_equal 'foo', opts[:f]
+  test "as(Float)" do
+    assert_equal 1.4, option_as(Float, "1.4")
   end
 
-  test "printing options" do
-    slop = Slop.new
-    slop.opt :n, :name=, 'Your name'
-    slop.opt :age=, 'Your age'
-    slop.opt :V, 'Display the version'
-
-    assert_equal "    -n, --name      Your name", slop.fetch_option(:name).to_s
-    assert_equal "        --age       Your age", slop.fetch_option(:age).to_s
-    assert_equal "    -V,             Display the version", slop.fetch_option(:V).help
+  test "as(Range)" do
+    assert_equal((1..10),   option_as(Range, "1..10"))
+    assert_equal((1..10),   option_as(Range, "1-10"))
+    assert_equal((1..10),   option_as(Range, "1,10"))
+    assert_equal((1...10),  option_as(Range, "1...10"))
+    assert_equal((-1..10),  option_as(Range, "-1..10"))
+    assert_equal((1..-10),  option_as(Range, "1..-10"))
+    assert_equal((1..1),    option_as(Range, "1"))
+    assert_equal((-1..10),  option_as(Range, "-1..10", optional_argument: true))
   end
 
-  test "overwriting the help text" do
-    slop = Slop.new
-    slop.on :foo, :help => '    -f, --foo  SOMETHING FOOEY'
-    assert_equal '    -f, --foo  SOMETHING FOOEY', slop.fetch_option(:foo).help
+  test "as(Custom)" do
+    reverse = proc { |v| v.reverse }
+    assert_equal "oof", option_as(reverse, "foo")
   end
+
 end
