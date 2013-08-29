@@ -32,6 +32,18 @@ class CommandTest < TestCase
     assert_kind_of Slop::Command, @command.commands[:add]
   end
 
+  test "parse with runner" do
+    run = nil
+    options :foo, :bar
+    @command.process do |command, args|
+      run = 1
+      assert command.is_a?(Slop::Command)
+      assert_equal ['foo', 'bar'], args
+    end
+    parse %w[foo bar]
+    assert_equal 1, run
+  end
+
   test "[]" do
     option "user="
     parse %w(--user Lee)

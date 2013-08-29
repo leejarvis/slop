@@ -10,6 +10,7 @@ class Slop
       @config   = Slop.config.merge(config)
       @options  = Options.new(self)
       @commands = Commands.new(self)
+      @runner   = nil
 
       if block_given?
         block.arity == 1 ? yield(self) : instance_eval(&block)
@@ -42,11 +43,16 @@ class Slop
 
     def parse!(items, config = {}, &block)
       Processor.process(self, items)
+      @runner.call(self, items) if @runner.respond_to?(:call)
       self
     end
 
     def parse(items, config = {}, &block)
       parse!(items.dup, config, &block)
+    end
+
+    def process(runner = nil, &block)
+      @runner = runner || block
     end
 
     # Returns true if this is the global/top level (Usually an instance of Slop).
