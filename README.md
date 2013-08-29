@@ -2,9 +2,9 @@ Slop
 ====
 
 Slop is a simple option parser with an easy to remember syntax and friendly API.
-API Documentation is available [here](http://injekt.github.com/rdoc/slop/).
+API Documentation is available [here](http://leejarvis.github.com/rdoc/slop/).
 
-[![Build Status](https://travis-ci.org/injekt/slop.png?branch=master)](http://travis-ci.org/injekt/slop)
+[![Build Status](https://travis-ci.org/leejarvis/slop.png?branch=master)](http://travis-ci.org/leejarvis/slop)
 
 Usage
 -----
@@ -14,7 +14,7 @@ opts = Slop.parse do
   banner 'Usage: foo.rb [options]'
 
   on 'name=', 'Your name'
-  on 'p', 'password', 'An optional password', argument: :optional
+  on 'p', 'password', 'An optional password', optional_argument: true
   on 'v', 'verbose', 'Enable verbose mode'
 end
 
