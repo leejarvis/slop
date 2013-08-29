@@ -3,8 +3,8 @@ class Slop
     class << self
 
       def build(command, args, &block)
-        short       = extract_short(args)
-        long        = extract_long(args)
+        short       = extract_flag(args, /\A\-?([a-z])(=)?\z/)
+        long        = extract_flag(args, /\A\-?-?([a-zA-Z][a-zA-Z_-]+)(=)?\z/)
         description = extract_description(args)
         config      = extract_config(args)
 
@@ -16,16 +16,8 @@ class Slop
 
       private
 
-      def extract_short(args)
-        if args[0] =~ /\A\-?([a-z])(=)?\z/
-          args.shift
-          @argument = $2 == '='
-          $1
-        end
-      end
-
-      def extract_long(args)
-        if args[0] =~ /\A\-?-?([a-zA-Z][a-zA-Z_-]+)(=)?\z/
+      def extract_flag(args, regex)
+        if args[0] =~ regex
           args.shift
           @argument = $2 == '='
           $1
