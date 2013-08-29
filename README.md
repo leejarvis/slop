@@ -68,22 +68,12 @@ can see this by calling `opts.help` or simply `puts opts`.
 Configuration Options
 ---------------------
 
-All of these options can be sent to `Slop.new` or `Slop.parse` in Hash form.
-
-* `strict` - Enable strict mode. When processing unknown options, Slop will
-  raise an `InvalidOptionError`. **default:** *false*.
-* `help` - Automatically add the `--help` option. **default:** *false*.
-* `banner` - Set the help banner text. **default:** *nil*.
-* `ignore_case` - When enabled, `-A` will look for the `-a` option if `-A`
-  does not exist. **default:** *false*.
-* `autocreate` - Autocreate options on the fly. **default:** *false*.
-* `arguments` - Force all options to expect arguments. **default:** *false*.
-* `optional_arguments` - Force all options to accept optional arguments.
-  **default:** *false*.
-* `multiple_switches` - When disabled, Slop will parse `-abc` as the option `a`
-   with the argument `bc` rather than 3 separate options. **default:** *true*.
-* `longest_flag` - The longest string flag, used to aid configuring help
-   text. **default:** *0*.
+Key                 | Description                                                 | Default
+--------------------|----------------------------------------------------------------------
+`strict`            | Raise `InvalidOptionError` for unknown options              | true
+`help`              | Automatically add the `--help` option                       | true
+`ignore_case`       | `-A` will be processed the same as `-a`                     | false
+`multiple_switches` | When disabled, parses `-abc` as `-a` with the argument `bc` | true
 
 Lists
 -----
