@@ -42,7 +42,7 @@ class Slop
 
   def method_missing(meth, *args, &block)
     if command.respond_to?(meth)
-      command.send(meth, *args, &block)
+      command.public_send(meth, *args, &block)
     else
       super
     end
