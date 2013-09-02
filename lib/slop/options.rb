@@ -1,5 +1,6 @@
 class Slop
   class Options
+    include Enumerable
 
     attr_reader :command, :collection
 
@@ -19,7 +20,7 @@ class Slop
     # Returns a Slop::Option.
     def find(flag)
       flag = command.clean_flag(flag)
-      collection.each do |option|
+      each do |option|
         return option if option.long == flag || option.short == flag
       end
       raise OptionNotFound.new(command, "No such option -- `#{flag}'")
@@ -32,6 +33,10 @@ class Slop
       nil
     end
 
+    def each(&block)
+      collection.each(&block)
+    end
+
     # Returns true if an option with this flag exists, false otherwise.
     def exists?(flag)
       find(command.clean_flag(flag))
@@ -41,7 +46,7 @@ class Slop
     end
 
     def to_hash
-      collection.each_with_object({}) { |o, h| h[o.key.to_sym] = o.value }
+      each_with_object({}) { |o, h| h[o.key.to_sym] = o.value }
     end
 
   end
