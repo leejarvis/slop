@@ -23,9 +23,7 @@ class Slop
     end
 
     def to_hash
-      hash = {}
-      each { |name, command| hash[name.to_sym] = command.to_hash }
-      hash
+      each_with_object({}) { |(name, cmd), h| h[name.to_sym] = cmd.to_hash }
     end
 
   end
