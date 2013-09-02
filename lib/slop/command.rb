@@ -65,11 +65,7 @@ class Slop
     end
 
     def to_hash
-      hash = options.to_hash
-      if commands.any?
-        hash.merge!(commands.to_hash)
-      end
-      hash
+      options.to_hash.merge(commands.to_hash)
     end
 
     def short_flag_prefix
