@@ -2,9 +2,6 @@ Slop
 ====
 
 Slop is a simple option parser with an easy to remember syntax and friendly API.
-API Documentation is available [here](http://injekt.github.com/rdoc/slop/).
-
-[![Build Status](https://travis-ci.org/injekt/slop.png?branch=master)](http://travis-ci.org/injekt/slop)
 
 Usage
 -----
@@ -160,11 +157,16 @@ opt = OptionParser.new do |opt|
     things[:age] = age.to_i
   end
 
+  things[:favorite] = 'slop'
+  opt.on('-f', '--favorite PARSER', 'Your favorite option parser') do |parser|
+    things[:favorite] = parser
+  end
+
   # you get the point
 end
 
 opt.parse
-things #=> { :name => 'lee', :age => 105 }
+things #=> { :name => 'lee', :age => 105, :favorite => 'slop' }
 ```
 
 Which is all great and stuff, but it can lead to some repetition. The same
@@ -176,7 +178,8 @@ require 'slop'
 opts = Slop.parse do
   on :n, :name=, 'Your name'
   on :a, :age=, 'Your age', as: Integer
+  on :f, :favorite=, 'Your favorite option parser', :default => 'slop'
 end
 
-opts.to_hash #=> { :name => 'lee', :age => 105 }
+opts.to_hash #=> { :name => 'lee', :age => 105, :favorite => 'slop' }
 ```
