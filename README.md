@@ -123,7 +123,7 @@ opts = Slop.parse do
 
   command 'add' do
     on :v, :verbose, 'Enable verbose mode'
-    on :name, 'Your name'
+    on :name=, 'Your name'
 
     run do |opts, args|
       puts "You ran 'add' with options #{opts.to_hash} and args: #{args.inspect}"
