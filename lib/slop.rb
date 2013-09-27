@@ -121,6 +121,9 @@ class Slop
   # The Hash of sub-commands for this Slop instance.
   attr_reader :commands
 
+  # The Array of items not parsed by this Slop instance
+  attr_reader :remaining_items
+
   # Create a new instance of Slop and optionally build options via a block.
   #
   # config - A Hash of configuration options.
@@ -256,7 +259,7 @@ class Slop
       @runner.call(self, items) unless config[:help] and present?(:help)
     end
 
-    items
+    @remaining_items = items.dup
   end
 
   # Add an Option.
