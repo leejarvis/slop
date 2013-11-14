@@ -1,3 +1,9 @@
+3.4.7 (2013-11-14)
+------------------
+
+* Ensure trash is cleared on every parse so you can parse multiple
+  times with the same instance (#130)
+
 3.4.5 (2013-05-14)
 ------------------
 
