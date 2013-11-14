@@ -505,4 +505,14 @@ class SlopTest < TestCase
     assert_equal 'second', i
   end
 
+  test "taking out the trash" do
+    args = []
+    opts = Slop.new { on :f, :foo }
+    opts.run { |_, a| args = a }
+    opts.parse! %w(--foo bar)
+    assert_equal %w(bar), args
+    opts.parse! %w(foo)
+    assert_equal %w(foo), args
+  end
+
 end

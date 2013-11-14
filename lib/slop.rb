@@ -226,6 +226,10 @@ class Slop
       return items
     end
 
+    # reset the trash so it doesn't carry over if you parse multiple
+    # times with the same instance
+    @trash.clear
+
     if cmd = @commands[items[0]]
       items.shift
       return cmd.parse! items
