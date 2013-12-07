@@ -46,6 +46,7 @@ class Slop
         :integer => proc { |v| value_to_integer(v) },
         :float   => proc { |v| value_to_float(v) },
         :range   => proc { |v| value_to_range(v) },
+        :regexp  => proc { |v| Regexp.new(v) },
         :count   => proc { |v| @count }
       }
 

@@ -92,6 +92,10 @@ class OptionTest < TestCase
     assert_equal %w/lee john:bill/, option_value(%w/-p lee:john:bill/, :p=, :as => Array, :limit => 2, :delimiter => ':')
   end
 
+  test "regexp type cast" do
+    assert_equal Regexp.new("foo"), option_value(%w/-p foo/, :p=, :as => Regexp)
+  end
+
   test "adding custom types" do
     opts = Slop.new
     opt = opts.on :f=, :as => :reverse
