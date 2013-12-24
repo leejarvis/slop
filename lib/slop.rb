@@ -230,12 +230,14 @@ class Slop
     # times with the same instance
     @trash.clear
 
-    if cmd = @commands[items[0]]
-      items.shift
-      return cmd.parse! items
-    end
-
     items.each_with_index do |item, index|
+      if cmd = @commands[item]
+        items.shift
+        @trash << index
+        cmd.parse! items[index..-1]
+        break
+      end
+
       @trash << index && break if item == '--'
       autocreate(items, index) if config[:autocreate]
       process_item(items, index, &block) unless @trash.include?(index)
