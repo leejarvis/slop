@@ -41,20 +41,16 @@ Configuration Options
 
 All of these options can be sent to `Slop.new` or `Slop.parse` in Hash form.
 
-* `strict` - Enable strict mode. When processing unknown options, Slop will
-  raise an `InvalidOptionError`. **default:** *false*.
-* `help` - Automatically add the `--help` option. **default:** *false*.
-* `banner` - Set the help banner text. **default:** *nil*.
-* `ignore_case` - When enabled, `-A` will look for the `-a` option if `-A`
-  does not exist. **default:** *false*.
-* `autocreate` - Autocreate options on the fly. **default:** *false*.
-* `arguments` - Force all options to expect arguments. **default:** *false*.
-* `optional_arguments` - Force all options to accept optional arguments.
-  **default:** *false*.
-* `multiple_switches` - When disabled, Slop will parse `-abc` as the option `a`
-   with the argument `bc` rather than 3 separate options. **default:** *true*.
-* `longest_flag` - The longest string flag, used to aid configuring help
-   text. **default:** *0*.
+| Option | Description | Default/Example |
+| ------ | ----------- | --------------- |
+| strict | Enable strict mode. Slop will raise an `InvalidOptionError` for unkown options. | `false` |
+| help   | Automatically add the `--help` option. | `false` |
+| banner | Set the help banner text. | `nil` |
+| ignore_case | When enabled, `-A` will look for the `-a` option if `-A` does not exist. | `false` |
+| autocreate | Autocreate options on the fly. | `false` |
+| arguments | Force all options to expect arguments. | `false` |
+| optional_arguments | Force all options to accept optional arguments. | `false` |
+| multiple_switches | When disabled, Slop will parse `-abc` as the option `a` with the argument `bc` rather than 3 separate options. | `true` |
 
 Lists
 -----
