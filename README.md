@@ -139,6 +139,26 @@ opts.to_hash(true) # Pass true to tell Slop to merge sub-command option values.
 # => { :v => nil, :add => { :v => true, :name => "Lee" } }
 ```
 
+Remaining arguments
+-------------------
+
+The *parse!*  method will remove any options and option arguments from the original Array:
+
+```ruby
+# restarguments.rb
+opts = Slop.parse! do
+  on :foo
+end
+```
+
+```
+ruby restarguments.rb --foo bar
+```
+
+```
+bar
+```
+
 Woah woah, why you hating on OptionParser?
 ------------------------------------------
 
