@@ -145,7 +145,6 @@ The *parse!*  method will remove any options and option arguments from the origi
 opts = Slop.parse! do
   on :foo
 end
-remaining_args = ARGV
 ```
 
 Example:
@@ -156,7 +155,8 @@ ruby restarguments.rb --foo bar
 
 ```
 opts.to_hash = { :foo => true }
-remaining_args =bar
+
+ARGV #=> ["bar"]
 ```
 
 Woah woah, why you hating on OptionParser?
