@@ -147,12 +147,16 @@ opts = Slop.parse! do
 end
 ```
 
+Example:
+
 ```
 ruby restarguments.rb --foo bar
 ```
 
 ```
-bar
+opts.to_hash = { :foo => true }
+
+ARGV #=> ["bar"]
 ```
 
 Woah woah, why you hating on OptionParser?
