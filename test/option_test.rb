@@ -130,6 +130,13 @@ class OptionTest < TestCase
     assert_equal "    -V,             Display the version", slop.fetch_option(:V).help
   end
 
+  test "printing options that have defaults" do
+    opts = Slop.new
+    opts.on :n, :name=, 'Your name', :default => 'Lee'
+
+    assert_equal "    -n, --name      Your name (default: Lee)", opts.fetch_option(:name).to_s
+  end
+
   test "overwriting the help text" do
     slop = Slop.new
     slop.on :foo, :help => '    -f, --foo  SOMETHING FOOEY'

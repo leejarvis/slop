@@ -138,7 +138,12 @@ class Slop
         out << (' ' * (@slop.config[:longest_flag] + 8))
       end
 
-      "#{out}#{description}"
+      if config[:default]
+        default = config[:default]
+        "#{out}#{description} (default: #{default})"
+      else
+        "#{out}#{description}"
+      end
     end
     alias help to_s
 
