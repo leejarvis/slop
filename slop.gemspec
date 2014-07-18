@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'slop'
-  s.version     = '3.5.0'
+  s.version     = '3.6.0'
   s.summary     = 'Simple Lightweight Option Parsing'
   s.description = 'A simple DSL for gathering options and parsing the command line'
   s.author      = 'Lee Jarvis'

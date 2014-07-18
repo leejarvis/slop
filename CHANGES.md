@@ -1,3 +1,9 @@
+3.6.0 (2014-06-18)
+------------------
+
+* Add example of rest arguments usage in the readme file #139
+* Default values on options are printed in the help message #134
+
 3.5.0 (2014-03-12)
 ------------------
 
