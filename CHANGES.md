@@ -1,3 +1,8 @@
+HEAD
+----
+
+* Hide option help strings with `help: false` #146
+
 3.6.0 (2014-06-18)
 ------------------
 
