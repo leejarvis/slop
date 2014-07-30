@@ -39,6 +39,7 @@ class Slop
       @count = 0
       @callback = block_given? ? block : config[:callback]
       @value = nil
+      @help = config.fetch(:help, true)
 
       @types = {
         :string  => proc { |v| v.to_s },
@@ -123,9 +124,13 @@ class Slop
       end
     end
 
+    def help?
+      @help
+    end
+
     # Returns the help String for this option.
     def to_s
-      return config[:help] if config[:help].respond_to?(:to_str)
+      return @help if @help.respond_to?(:to_str)
 
       out = "    #{short ? "-#{short}, " : ' ' * 4}"
 

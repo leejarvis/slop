@@ -431,7 +431,7 @@ class Slop
   def to_s
     heads  = options.reject(&:tail?)
     tails  = (options - heads)
-    opts = (heads + tails).select(&:help).map(&:to_s)
+    opts = (heads + tails).select(&:help?).map(&:to_s)
     optstr = opts.each_with_index.map { |o, i|
       (str = @separators[i + 1]) ? [o, str].join("\n") : o
     }.join("\n")
