@@ -118,6 +118,8 @@ opts = Slop.parse do
   end
 
   command 'add' do
+    description 'Add your name'
+
     on :v, :verbose, 'Enable verbose mode'
     on :name=, 'Your name'
 
