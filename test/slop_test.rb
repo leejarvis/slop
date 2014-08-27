@@ -144,7 +144,12 @@ class SlopTest < TestCase
     slop = Slop.new :indent => 2, :banner => false do
       on :f
     end
-    assert_equal "  -f,       ", slop.help
+    assert_equal "  -f,         ", slop.help
+
+    slop = Slop.new :indent => 2, :banner => false do
+      on :f, :foo
+    end
+    assert_equal "  -f, --foo      ", slop.help
   end
 
   test ":arguments and :optional_arguments config options" do
