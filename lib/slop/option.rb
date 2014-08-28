@@ -132,7 +132,7 @@ class Slop
     def to_s
       return @help if @help.respond_to?(:to_str)
 
-      out = "    #{short ? "-#{short}, " : ' ' * 4}"
+      out = "#{' ' * @slop.config[:indent]}#{short ? "-#{short}, " : ' ' * 4}"
 
       if long
         out << "--#{long}"

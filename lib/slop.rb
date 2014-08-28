@@ -34,7 +34,8 @@ class Slop
     :arguments => false,
     :optional_arguments => false,
     :multiple_switches => true,
-    :longest_flag => 0
+    :longest_flag => 0,
+    :indent => 4
   }
 
   class << self

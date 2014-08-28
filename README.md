@@ -51,6 +51,7 @@ All of these options can be sent to `Slop.new` or `Slop.parse` in Hash form.
 | arguments | Force all options to expect arguments. | `false` |
 | optional_arguments | Force all options to accept optional arguments. | `false` |
 | multiple_switches | When disabled, Slop will parse `-abc` as the option `a` with the argument `bc` rather than 3 separate options. | `true` |
+| indent |  Indent in help. | `4` |
 
 Lists
 -----
