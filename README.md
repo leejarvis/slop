@@ -93,6 +93,23 @@ opts[:range] #=> 1..10
 opts[:range] #=> 1..10
 ```
 
+Strict Flags
+------------
+If you want to print `--help` automatically when a required flag is left out, you can rescue `Slop::Error` like so:
+
+```
+opts = Slop.new strict: true do
+  # options here...
+end
+
+begin
+  opts.parse
+rescue Slop::Error => e
+  puts e.message
+  puts opts # print help
+end
+```
+
 Autocreate
 ----------
 
