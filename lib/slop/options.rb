@@ -1,53 +1,51 @@
-class Slop
+module Slop
   class Options
-    include Enumerable
+    attr_reader :options
+    attr_accessor :banner
 
-    attr_reader :command, :collection
-
-    # command - The Slop::Command this collection belongs to.
-    def initialize(command)
-      @command    = command
-      @collection = []
+    def initialize
+      @options = []
+      @banner  = "usage: #{$0} [options]"
     end
 
-    def add(args, &block)
-      collection << Option.build(command, args, &block)
+    def add(*flags, **config)
+      desc   = flags.pop unless flags.last.start_with?('-')
+      type   = config.delete(:type) || "string"
+      klass  = Slop.string_to_option_class(type.to_s)
+      option = klass.new(flags, desc, config)
+
+      add_option option
     end
 
-    # Find an option via its flag.
-    #
-    # Raises OptionNotFound if no option was found.
-    # Returns a Slop::Option.
-    def find(flag)
-      flag = command.clean_flag(flag)
-      each do |option|
-        return option if option.long == flag || option.short == flag
+    def method_missing(name, *args, **config, &block)
+      if respond_to_missing?(name)
+        config[:type] = name
+        add(*args, config, &block)
+      else
+        super
       end
-      raise OptionNotFound.new(command, "No such option -- `#{flag}'")
     end
 
-    # Like find, but returns nil if no option is found
-    def [](flag)
-      find(command.clean_flag(flag))
-    rescue OptionNotFound
-      nil
+    def respond_to_missing?(name, include_private = false)
+      Slop.option_defined?(name) || super
     end
 
-    def each(&block)
-      collection.each(&block)
+    def to_a
+      options.dup
     end
 
-    # Returns true if an option with this flag exists, false otherwise.
-    def exists?(flag)
-      find(command.clean_flag(flag))
-      true
-    rescue OptionNotFound
-      false
-    end
+    private
 
-    def to_hash
-      each_with_object({}) { |o, h| h[o.key.to_sym] = o.value }
-    end
+    def add_option(option)
+      options.each do |o|
+        flags = o.flags & option.flags
+        if flags.any?
+          raise ArgumentError, "duplicate flags: #{flags}"
+        end
+      end
 
+      options << option
+      option
+    end
   end
 end
