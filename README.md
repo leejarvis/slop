@@ -33,8 +33,29 @@ opts.to_hash  #=> { host: "192.168.0.1", port: 80, verbose: true, quiet: false }
 Advanced Usage
 --------------
 
-Printing Help
--------------
+This example is really just to describe how the underlying API works.
+It's not necessarily the best way to do it.
+
+```ruby
+opts = Slop::Options.new
+opts.banner = "usage: connect [options] ..."
+opts.separator ""
+opts.separator "Connection options:"
+opts.string "-H", "--hostname", "a hostname"
+opts.int "-p", "--port", "a port", default: 80
+opts.separator ""
+opts.separator "Extra options:"
+opts.array "--files", "a list of files to import"
+opts.bool "-v", "--verbose", "enable verbose mode"
+
+parser = Slop::Parser.new(opts)
+result = parser.parse(["--hostname", "192.168.0.1"])
+
+result.to_hash #=> { hostname: "192.168.0.1", port: 80,
+                 #     files: [], verbose: false }
+
+puts opts # prints out help
+```
 
 Arrays
 ------

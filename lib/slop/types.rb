@@ -18,12 +18,14 @@ module Slop
       false
     end
   end
+  BooleanOption = BoolOption
 
   class IntegerOption < Option
     def call(value)
       value =~ /\A\d+\z/ && value.to_i
     end
   end
+  IntOption = IntegerOption
 
   class ArrayOption < Option
     def call(value)
