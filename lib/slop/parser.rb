@@ -1,9 +1,10 @@
 module Slop
   class Parser
-    attr_reader :options, :used_options
+    attr_reader :options, :used_options, :config
 
-    def initialize(options)
+    def initialize(options, **config)
       @options = options
+      @config  = config
 
       reset
     end
@@ -51,14 +52,22 @@ module Slop
     def try_process(flag, arg)
       if option = matching_option(flag)
         process(option, arg)
-      elsif flag =~ /-[^-]/ && flag.size > 2
+      elsif flag =~ /\A-[^-]/ && flag.size > 2
         # try and process as a set of grouped short flags
         flags = flag.split("").drop(1).map { |f| "-#{f}" }
         last  = flags.pop
 
         flags.each { |f| try_process(f, nil) }
         try_process(last, arg) # send the argument to the last flag
+      else
+        if flag.start_with?("-") && !suppress_errors?
+          raise UnknownOption, "unknown option `#{flag}'"
+        end
       end
+    end
+
+    def suppress_errors?
+      config[:suppress_errors]
     end
 
     def matching_option(flag)

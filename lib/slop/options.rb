@@ -17,8 +17,8 @@ module Slop
       @options    = []
       @separators = []
       @banner     = "usage: #{$0} [options]"
-      @parser     = Parser.new(self)
       @config     = DEFAULT_CONFIG.merge(config)
+      @parser     = Parser.new(self, @config)
 
       yield self if block_given?
     end

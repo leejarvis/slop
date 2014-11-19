@@ -28,7 +28,7 @@ module Slop
     def ensure_call(value)
       @count += 1
 
-      if value.nil? && expects_argument? && report_errors?
+      if value.nil? && expects_argument? && !suppress_errors?
         raise Slop::MissingArgument, "missing argument for #{flag}"
       end
 
@@ -55,10 +55,6 @@ module Slop
 
     def value
       @value || config[:default]
-    end
-
-    def report_errors?
-      !suppress_errors?
     end
 
     def suppress_errors?

@@ -15,3 +15,17 @@ describe Slop::MissingArgument do
     opts.parse %w(--name)
   end
 end
+
+describe Slop::UnknownOption do
+  it "raises when an option is unknown" do
+    opts = Slop::Options.new
+    opts.string "-n", "--name"
+    assert_raises(Slop::UnknownOption) { opts.parse %w(--foo) }
+  end
+
+  it "does not raise when errors are suppressed" do
+    opts = Slop::Options.new(suppress_errors: true)
+    opts.string "-n", "--name"
+    opts.parse %w(--foo)
+  end
+end
