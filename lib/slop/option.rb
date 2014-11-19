@@ -30,7 +30,7 @@ module Slop
     end
 
     def value
-      @value
+      @value || config[:default]
     end
 
     def flag

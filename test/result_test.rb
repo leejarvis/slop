@@ -16,6 +16,12 @@ describe Slop::Result do
     assert_equal 2, @verbose.count
   end
 
+  it "handles default values" do
+    @options.string("--foo", default: "bar")
+    @result.parser.reset.parse %w()
+    assert_equal "bar", @result[:foo]
+  end
+
   describe "#[]" do
     it "returns an options value" do
       assert_equal "lee", @result["name"]
