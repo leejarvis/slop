@@ -1,9 +1,10 @@
 module Slop
   class Parser
-    attr_reader :options
+    attr_reader :options, :used_options
 
     def initialize(options)
-      @options = options
+      @options      = options
+      @used_options = []
     end
 
     def parse(strings)
@@ -14,11 +15,17 @@ module Slop
         option = matching_option(flag)
 
         if option
+          used_options << option
+
           option.call(arg)
         end
       end
 
       Result.new(self)
+    end
+
+    def unused_options
+      options.to_a - used_options
     end
 
     private
