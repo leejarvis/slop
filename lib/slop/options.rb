@@ -7,11 +7,14 @@ module Slop
     attr_reader :parser
     attr_accessor :banner
 
-    def initialize
+    def initialize(**config)
       @options    = []
       @separators = []
       @banner     = "usage: #{$0} [options]"
       @parser     = Parser.new(self)
+      @config     = config
+
+      yield self if block_given?
     end
 
     def add(*flags, **config)

@@ -5,6 +5,10 @@ require 'slop/result'
 require 'slop/types'
 
 module Slop
+  def self.parse(items = ARGV, **config, &block)
+    Options.new(config, &block).parse(items)
+  end
+
   def self.option_defined?(name)
     const_defined?(string_to_option(name.to_s))
   end
