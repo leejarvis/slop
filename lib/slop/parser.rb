@@ -41,14 +41,23 @@ module Slop
 
     private
 
+    # We've found an option, process it
+    def process(option, arg)
+      used_options << option
+      option.ensure_call(arg)
+    end
+
+    # Try and find an option to process
     def try_process(flag, arg)
       if option = matching_option(flag)
-        used_options << option
-        option.ensure_call(arg)
-      else
-        if flag =~ /-[^-]/
-          p flag.split("")[1..-1]
-        end
+        process(option, arg)
+      elsif flag =~ /-[^-]/ && flag.size > 2
+        # try and process as a set of grouped short flags
+        flags = flag.split("").drop(1).map { |f| "-#{f}" }
+        last  = flags.pop
+
+        flags.each { |f| try_process(f, nil) }
+        try_process(last, arg) # send the argument to the last flag
       end
     end
 

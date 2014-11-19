@@ -4,7 +4,7 @@ describe Slop::Parser do
   before do
     @options = Slop::Options.new
     @verbose = @options.bool "-v", "--verbose"
-    @name    = @options.string "--name"
+    @name    = @options.string "-n", "--name"
     @unused  = @options.string "--unused"
     @parser  = Slop::Parser.new(@options)
     @result  = @parser.parse %w(foo -v --name lee argument)
@@ -31,6 +31,17 @@ describe Slop::Parser do
       @result.parser.reset.parse %w(-qv)
       assert_equal true, @result.quiet?
       assert_equal true, @result.verbose?
+    end
+
+    it "sends the argument to the last flag" do
+      @result.parser.reset.parse %w(-qvn foo)
+      assert_equal "foo", @result[:name]
+    end
+
+    it "doesn't screw up single hyphen long options" do
+      @options.string "-host"
+      @result.parser.reset.parse %w(-host localhost)
+      assert_equal "localhost", @result[:host]
     end
   end
 
