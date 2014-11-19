@@ -3,11 +3,34 @@ require 'test_helper'
 describe Slop::Result do
   before do
     @options = Slop::Options.new
-    @options.bool "-v", "--verbose"
-    @options.string "--name"
-    @options.string "--unused"
+    @verbose = @options.bool "-v", "--verbose"
+    @name    = @options.string "--name"
+    @unused  = @options.string "--unused"
+    @result  = @options.parse %w(foo -v --name lee argument)
+  end
 
-    @result = @options.parse %w(foo -v --name lee argument)
+  describe "#[]" do
+    it "returns an options value" do
+      assert_equal "lee", @result["name"]
+      assert_equal "lee", @result[:name]
+      assert_equal "lee", @result["--name"]
+    end
+  end
+
+  describe "#option" do
+    it "returns an option by flag" do
+      assert_equal @verbose, @result.option("--verbose")
+      assert_equal @verbose, @result.option("-v")
+    end
+
+    it "ignores prefixed hyphens" do
+      assert_equal @verbose, @result.option("verbose")
+      assert_equal @verbose, @result.option("-v")
+    end
+
+    it "returns nil if nothing is found" do
+      assert_equal nil, @result.option("foo")
+    end
   end
 
   describe "#to_hash" do
