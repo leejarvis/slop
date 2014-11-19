@@ -54,7 +54,11 @@ module Slop
     end
 
     def value
-      @value || config[:default]
+      @value || default_value
+    end
+
+    def default_value
+      config[:default]
     end
 
     def suppress_errors?

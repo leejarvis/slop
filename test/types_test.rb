@@ -4,11 +4,16 @@ describe Slop::BoolOption do
   before do
     @options = Slop::Options.new
     @age     = @options.bool "--verbose"
+    @age     = @options.bool "--quiet"
     @result  = @options.parse %w(--verbose)
   end
 
   it "returns true if used" do
     assert_equal true, @result[:verbose]
+  end
+
+  it "returns false if not used" do
+    assert_equal false, @result[:quiet]
   end
 end
 

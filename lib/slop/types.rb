@@ -10,6 +10,10 @@ module Slop
       true
     end
 
+    def default_value
+      config[:default] || false
+    end
+
     def expects_argument?
       false
     end
