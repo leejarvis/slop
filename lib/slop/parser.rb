@@ -3,8 +3,17 @@ module Slop
     attr_reader :options, :used_options
 
     def initialize(options)
-      @options      = options
+      @options = options
+
+      reset
+    end
+
+    # Reset the parser, useful to use the same instance
+    # to parse a second time without duplicating state.
+    def reset
       @used_options = []
+
+      self
     end
 
     def parse(strings)
@@ -12,9 +21,9 @@ module Slop
       pairs << [strings.last, nil]
 
       pairs.each do |flag, arg|
-        option = matching_option(flag)
+        break if flag == '--'
 
-        if option
+        if option = matching_option(flag)
           used_options << option
 
           option.call(arg)

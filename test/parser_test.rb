@@ -10,6 +10,11 @@ describe Slop::Parser do
     @result  = @parser.parse %w(foo -v --name lee argument)
   end
 
+  it "ignores everything after --" do
+    @parser.reset.parse %w(-v -- --name lee)
+    assert_equal [@verbose], @parser.used_options
+  end
+
   describe "#used_options" do
     it "returns all options that were parsed" do
       assert_equal [@verbose, @name], @parser.used_options
