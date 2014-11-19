@@ -27,7 +27,7 @@ opts[:host]   #=> 192.168.0.1
 opts.verbose? #=> true
 opts.quiet?   #=> false
 
-opts.to_hash  #=> { host: "192.168.0.1", port: 80, verbose: true, quiet: nil }
+opts.to_hash  #=> { host: "192.168.0.1", port: 80, verbose: true, quiet: false }
 ```
 
 Advanced Usage
