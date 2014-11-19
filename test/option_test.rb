@@ -11,4 +11,14 @@ describe Slop::Option do
       assert_equal "--bar", option(%w(--bar), nil).flag
     end
   end
+
+  describe "#key" do
+    it "uses the last flag and strips trailing hyphens" do
+      assert_equal :foo, option(%w(-f --foo), nil).key
+    end
+
+    it "can be overridden" do
+      assert_equal :bar, option(%w(-f --foo), nil, key: "bar").key
+    end
+  end
 end

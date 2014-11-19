@@ -21,6 +21,10 @@ module Slop
       flags.join(", ")
     end
 
+    def key
+      (config[:key] || flags.last.sub(/\A--?/, '')).to_sym
+    end
+
     def to_s(offset: 0)
       "%-#{offset}s  %s" % [flag, desc]
     end
