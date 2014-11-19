@@ -39,6 +39,13 @@ describe Slop::Result do
     assert_equal %w(eel rab), @result.to_hash.values_at(:name, :foo)
   end
 
+  it "yields arguments to option blocks" do
+    output = nil
+    @options.string("--foo") { |v| output = v }
+    @result.parser.reset.parse %w(--foo bar)
+    assert_equal output, "bar"
+  end
+
   describe "#[]" do
     it "returns an options value" do
       assert_equal "lee", @result["name"]

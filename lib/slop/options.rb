@@ -17,11 +17,11 @@ module Slop
       yield self if block_given?
     end
 
-    def add(*flags, **config)
+    def add(*flags, **config, &block)
       desc   = flags.pop unless flags.last.start_with?('-')
       type   = config.delete(:type) || "string"
       klass  = Slop.string_to_option_class(type.to_s)
-      option = klass.new(flags, desc, config)
+      option = klass.new(flags, desc, config, &block)
 
       add_option option
     end

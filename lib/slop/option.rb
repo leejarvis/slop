@@ -4,13 +4,14 @@ module Slop
       help: true
     }
 
-    attr_reader :flags, :desc, :config, :count
+    attr_reader :flags, :desc, :config, :count, :block
     attr_writer :value
 
-    def initialize(flags, desc, **config)
+    def initialize(flags, desc, **config, &block)
       @flags  = flags
       @desc   = desc
       @config = DEFAULT_CONFIG.merge(config)
+      @block  = block
 
       reset
     end
@@ -27,6 +28,7 @@ module Slop
     def ensure_call(value)
       @count += 1
       @value = call(value)
+      block.call(@value) if block.respond_to?(:call)
     end
 
     def call(_value)
