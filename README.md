@@ -51,3 +51,52 @@ end
 # --files foo.txt,bar.rb
 # --files foo.txt --files bar.rb
 ```
+
+Custom option types
+-------------------
+
+Slop uses option type classes for every new option added. They default to the
+`StringOption`. When you type `o.array` Slop looks for an option called
+`Slop::ArrayOption`. This class must contain at least 1 method, `call`. This
+method is executed at parse time, and the return value of this method is
+used for the option value. We can use this to build custom option types:
+
+```ruby
+module Slop
+  class PathOption < Option
+    def call(value)
+      Pathname.new(value)
+    end
+  end
+end
+
+opts = Slop.parse %w(--path ~/) do |o|
+  o.path '--path', 'a custom path name'
+end
+
+p opts[:path] #=> #<Pathname:~/>
+```
+
+Custom options can also implement a `finish` method. This method by default
+does nothing, but it's executed once *all* options have been parsed. This
+allows us to go back and mutate state without having to rely on options
+being parsed in a particular order. Here's an example:
+
+```ruby
+module Slop
+  class FilesOption < ArrayOption
+    def finish(opts)
+      if opts.expand?
+        self.value = value.map { |f| File.expand_path(f) }
+      end
+    end
+  end
+end
+
+opts = Slop.parse %w(--files foo.txt,bar.rb -e) do |o|
+  o.files '--files', 'an array of files'
+  o.bool '-e', '--expand', 'if used, list of files will be expanded'
+end
+
+p opts[:files] #=> ["/full/path/foo.txt", "/full/path/bar.rb"]
+```
