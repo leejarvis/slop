@@ -53,4 +53,22 @@ describe Slop::Options do
       assert @options.respond_to?(:bar)
     end
   end
+
+  describe "#to_s" do
+    it "is prefixed with the banner" do
+      assert_match(/^usage/, @options.to_s)
+    end
+
+    it "aligns option strings" do
+      @options.add "-f", "--foo", "fooey"
+      @options.add "-s", "short"
+      assert_match(/^    -f, --foo  fooey/, @options.to_s)
+      assert_match(/^    -s         short/, @options.to_s)
+    end
+
+    it "can use a custom prefix" do
+      @options.add "-f", "--foo"
+      assert_match(/^ -f, --foo/, @options.to_s(prefix: " "))
+    end
+  end
 end

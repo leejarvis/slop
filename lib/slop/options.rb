@@ -1,11 +1,13 @@
 module Slop
   class Options
     attr_reader :options
+    attr_reader :separators
     attr_accessor :banner
 
     def initialize
-      @options = []
-      @banner  = "usage: #{$0} [options]"
+      @options    = []
+      @separators = []
+      @banner     = "usage: #{$0} [options]"
     end
 
     def add(*flags, **config)
@@ -15,6 +17,14 @@ module Slop
       option = klass.new(flags, desc, config)
 
       add_option option
+    end
+
+    def separator(string)
+      if separators[options.size]
+        separators.last << "\n#{string}"
+      else
+        separators[options.size] = string
+      end
     end
 
     def method_missing(name, *args, **config, &block)
@@ -34,7 +44,29 @@ module Slop
       options.dup
     end
 
+    def to_s(prefix: " " * 4)
+      str = banner + "\n"
+      len = longest_flag_length
+
+      options.each_with_index do |opt, i|
+        if sep = separators[i]
+          str << "#{sep}\n"
+        end
+        str << "#{prefix}#{opt.to_s(offset: len)}\n"
+      end
+
+      str
+    end
+
     private
+
+    def longest_flag_length
+      (o = longest_option) && o.flag.length || 0
+    end
+
+    def longest_option
+      options.max { |a, b| a.flag.length <=> b.flag.length }
+    end
 
     def add_option(option)
       options.each do |o|
