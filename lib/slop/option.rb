@@ -27,6 +27,11 @@ module Slop
     # It's used in the Parser.
     def ensure_call(value)
       @count += 1
+
+      if value.nil? && expects_argument? && report_errors?
+        raise Slop::MissingArgument, "missing argument for #{flag}"
+      end
+
       @value = call(value)
       block.call(@value) if block.respond_to?(:call)
     end
@@ -42,8 +47,22 @@ module Slop
     def finish(_result)
     end
 
+    # Override this if this option type does not expect an argument
+    # (i.e a boolean option type).
+    def expects_argument?
+      true
+    end
+
     def value
       @value || config[:default]
+    end
+
+    def report_errors?
+      !suppress_errors?
+    end
+
+    def suppress_errors?
+      config[:suppress_errors]
     end
 
     def flag

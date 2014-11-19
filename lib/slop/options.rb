@@ -2,9 +2,15 @@ module Slop
   class Options
     include Enumerable
 
+    DEFAULT_CONFIG = {
+      suppress_errors: false,
+      type:            "string",
+    }
+
     attr_reader :options
     attr_reader :separators
     attr_reader :parser
+    attr_reader :config
     attr_accessor :banner
 
     def initialize(**config)
@@ -12,15 +18,15 @@ module Slop
       @separators = []
       @banner     = "usage: #{$0} [options]"
       @parser     = Parser.new(self)
-      @config     = config
+      @config     = DEFAULT_CONFIG.merge(config)
 
       yield self if block_given?
     end
 
     def add(*flags, **config, &block)
       desc   = flags.pop unless flags.last.start_with?('-')
-      type   = config.delete(:type) || "string"
-      klass  = Slop.string_to_option_class(type.to_s)
+      config = self.config.merge(config)
+      klass  = Slop.string_to_option_class(config[:type].to_s)
       option = klass.new(flags, desc, config, &block)
 
       add_option option

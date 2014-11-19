@@ -52,5 +52,9 @@ module Slop
     def to_hash
       Hash[options.map { |o| [o.key, o.value] }]
     end
+
+    def to_s
+      options.to_s
+    end
   end
 end

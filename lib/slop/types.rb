@@ -9,6 +9,10 @@ module Slop
     def call(_value)
       true
     end
+
+    def expects_argument?
+      false
+    end
   end
 
   class IntegerOption < Option
