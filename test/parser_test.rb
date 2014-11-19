@@ -15,6 +15,25 @@ describe Slop::Parser do
     assert_equal [@verbose], @parser.used_options
   end
 
+  it "parses flag=argument" do
+    @options.integer "-p", "--port"
+    @result.parser.reset.parse %w(--name=bob -p=123)
+    assert_equal "bob", @result[:name]
+    assert_equal 123, @result[:port]
+  end
+
+  describe "parsing grouped short flags" do
+    before do
+      @options.bool "-q", "--quiet"
+    end
+
+    it "parses boolean flags" do
+      @result.parser.reset.parse %w(-qv)
+      assert_equal true, @result.quiet?
+      assert_equal true, @result.verbose?
+    end
+  end
+
   describe "#used_options" do
     it "returns all options that were parsed" do
       assert_equal [@verbose, @name], @parser.used_options

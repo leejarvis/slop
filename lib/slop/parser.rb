@@ -21,13 +21,13 @@ module Slop
       pairs << [strings.last, nil]
 
       pairs.each do |flag, arg|
-        break if flag == '--'
+        break if !flag || flag == '--'
 
-        if option = matching_option(flag)
-          used_options << option
-
-          option.ensure_call(arg)
+        if flag.include?("=")
+          flag, arg = flag.split("=")
         end
+
+        try_process(flag, arg)
       end
 
       Result.new(self).tap do |result|
@@ -40,6 +40,17 @@ module Slop
     end
 
     private
+
+    def try_process(flag, arg)
+      if option = matching_option(flag)
+        used_options << option
+        option.ensure_call(arg)
+      else
+        if flag =~ /-[^-]/
+          p flag.split("")[1..-1]
+        end
+      end
+    end
 
     def matching_option(flag)
       options.find { |o| o.flags.include?(flag) }
