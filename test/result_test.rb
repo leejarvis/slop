@@ -47,6 +47,13 @@ describe Slop::Result do
     end
   end
 
+  describe "#method_missing" do
+    it "checks if options have been used" do
+      assert_equal true, @result.verbose?
+      assert_equal false, @result.unused?
+    end
+  end
+
   describe "#option" do
     it "returns an option by flag" do
       assert_equal @verbose, @result.option("--verbose")

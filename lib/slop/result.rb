@@ -18,6 +18,7 @@ module Slop
     def [](flag)
       (o = option(flag)) && o.value
     end
+    alias get []
 
     # Returns an Option if it exists. Ignores any prefixed hyphens.
     def option(flag)
@@ -25,6 +26,18 @@ module Slop
       options.find do |o|
         o.flags.any? { |f| cleaned.(f) == cleaned.(flag) }
       end
+    end
+
+    def method_missing(name, *args, &block)
+      if respond_to_missing?(name)
+        (o = option(name.to_s.chomp("?"))) && used_options.include?(o)
+      else
+        super
+      end
+    end
+
+    def respond_to_missing?(name, include_private = false)
+      name.to_s.end_with?("?") || super
     end
 
     def used_options
