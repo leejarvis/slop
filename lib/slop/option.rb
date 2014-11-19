@@ -6,6 +6,15 @@ module Slop
       @flags  = flags
       @desc   = desc
       @config = config
+      @value  = nil
+    end
+
+    def call(value)
+      @value = value
+    end
+
+    def value
+      @value
     end
 
     def flag

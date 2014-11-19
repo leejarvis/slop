@@ -3,5 +3,8 @@ module Slop
   end
 
   class BoolOption < Option
+    def call(_value)
+      @value = true
+    end
   end
 end

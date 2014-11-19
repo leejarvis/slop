@@ -1,13 +1,17 @@
 module Slop
   class Options
+    include Enumerable
+
     attr_reader :options
     attr_reader :separators
+    attr_reader :parser
     attr_accessor :banner
 
     def initialize
       @options    = []
       @separators = []
       @banner     = "usage: #{$0} [options]"
+      @parser     = Parser.new(self)
     end
 
     def add(*flags, **config)
@@ -25,6 +29,14 @@ module Slop
       else
         separators[options.size] = string
       end
+    end
+
+    def parse(strings)
+      parser.parse(strings)
+    end
+
+    def each(&block)
+      options.each(&block)
     end
 
     def method_missing(name, *args, **config, &block)

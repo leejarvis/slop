@@ -1,5 +1,7 @@
 require 'slop/option'
 require 'slop/options'
+require 'slop/parser'
+require 'slop/result'
 require 'slop/types'
 
 module Slop
