@@ -42,6 +42,10 @@ describe Slop::ArrayOption do
     @result  = @options.parse %w(--files foo.txt,bar.rb)
   end
 
+  it "defaults to []" do
+    assert_equal [], @result[:d]
+  end
+
   it "parses comma separated args" do
     assert_equal %w(foo.txt bar.rb), @result[:files]
   end

@@ -33,6 +33,10 @@ module Slop
       @value.concat value.split(delimiter)
     end
 
+    def default_value
+      config[:default] || []
+    end
+
     def delimiter
       config[:delimiter] || ","
     end
