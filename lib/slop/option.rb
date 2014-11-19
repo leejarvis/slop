@@ -21,11 +21,12 @@ module Slop
     # It's used in the Parser.
     def ensure_call(value)
       @count += 1
-      call(value)
+      @value = call(value)
     end
 
     def call(value)
-      @value = value
+      raise NotImplementedError,
+        "you must override the `call' method for option #{self.class}"
     end
 
     def value
