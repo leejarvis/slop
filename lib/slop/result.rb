@@ -27,6 +27,14 @@ module Slop
       end
     end
 
+    def used_options
+      parser.used_options
+    end
+
+    def unused_options
+      parser.unused_options
+    end
+
     # Returns a hash with option key => value.
     def to_hash
       Hash[options.map { |o| [o.key, o.value] }]

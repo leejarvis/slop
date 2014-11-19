@@ -30,7 +30,9 @@ module Slop
         end
       end
 
-      Result.new(self)
+      Result.new(self).tap do |result|
+        used_options.each { |o| o.finish(result) }
+      end
     end
 
     def unused_options

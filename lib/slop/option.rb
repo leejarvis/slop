@@ -1,6 +1,7 @@
 module Slop
   class Option
     attr_reader :flags, :desc, :config, :count
+    attr_writer :value
 
     def initialize(flags, desc, **config)
       @flags  = flags
@@ -24,9 +25,15 @@ module Slop
       @value = call(value)
     end
 
-    def call(value)
+    def call(_value)
       raise NotImplementedError,
         "you must override the `call' method for option #{self.class}"
+    end
+
+    # By default this method does nothing. It's called when all options
+    # have been parsed and allows you to mutate the `@value` attribute
+    # according to other options.
+    def finish(_result)
     end
 
     def value
