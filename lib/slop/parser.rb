@@ -12,7 +12,7 @@ module Slop
     # to parse a second time without duplicating state.
     def reset
       @used_options = []
-
+      @options.each(&:reset)
       self
     end
 
@@ -26,7 +26,7 @@ module Slop
         if option = matching_option(flag)
           used_options << option
 
-          option.call(arg)
+          option.ensure_call(arg)
         end
       end
 

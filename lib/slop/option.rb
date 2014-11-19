@@ -1,12 +1,27 @@
 module Slop
   class Option
-    attr_reader :flags, :desc, :config
+    attr_reader :flags, :desc, :config, :count
 
     def initialize(flags, desc, **config)
       @flags  = flags
       @desc   = desc
       @config = config
-      @value  = nil
+
+      reset
+    end
+
+    def reset
+      @value = nil
+      @count = 0
+    end
+
+    # Since `call()` can be used/overriden in subclasses, this
+    # method is used to do general tasks like increment count. This
+    # ensures you don't *have* to call `super` when overriding `call()`.
+    # It's used in the Parser.
+    def ensure_call(value)
+      @count += 1
+      call(value)
     end
 
     def call(value)

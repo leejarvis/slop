@@ -9,6 +9,13 @@ describe Slop::Result do
     @result  = @options.parse %w(foo -v --name lee argument)
   end
 
+  it "increments option count" do
+    # test this here so it's more "full stack"
+    assert_equal 1, @verbose.count
+    @result.parser.reset.parse %w(-v --verbose)
+    assert_equal 2, @verbose.count
+  end
+
   describe "#[]" do
     it "returns an options value" do
       assert_equal "lee", @result["name"]
