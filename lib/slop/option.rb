@@ -1,12 +1,16 @@
 module Slop
   class Option
+    DEFAULT_CONFIG = {
+      help: true
+    }
+
     attr_reader :flags, :desc, :config, :count
     attr_writer :value
 
     def initialize(flags, desc, **config)
       @flags  = flags
       @desc   = desc
-      @config = config
+      @config = DEFAULT_CONFIG.merge(config)
 
       reset
     end
@@ -46,6 +50,10 @@ module Slop
 
     def key
       (config[:key] || flags.last.sub(/\A--?/, '')).to_sym
+    end
+
+    def help?
+      config[:help]
     end
 
     def to_s(offset: 0)

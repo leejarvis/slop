@@ -70,5 +70,10 @@ describe Slop::Options do
       @options.add "-f", "--foo"
       assert_match(/^ -f, --foo/, @options.to_s(prefix: " "))
     end
+
+    it "ignores options with help: false" do
+      @options.add "-x", "something", help: false
+      refute_match(/something/, @options.to_s)
+    end
   end
 end

@@ -63,7 +63,7 @@ module Slop
       str = banner + "\n"
       len = longest_flag_length
 
-      options.each_with_index do |opt, i|
+      options.select(&:help?).each_with_index do |opt, i|
         if sep = separators[i]
           str << "#{sep}\n"
         end
