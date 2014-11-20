@@ -1,6 +1,6 @@
 module Slop
-  # This class encapsulates a Parser and Option pair. The idea is that
-  # the Option class shouldn't have to deal with what happens when options
+  # This class encapsulates a Parser and Options pair. The idea is that
+  # the Options class shouldn't have to deal with what happens when options
   # are parsed, and the Parser shouldn't have to deal with the state of
   # options once parsing is complete. This keeps the API really simple; A
   # Parser parses, Options handles options, and this class handles the
