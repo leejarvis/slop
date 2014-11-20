@@ -1,6 +1,6 @@
 module Slop
   class Parser
-    attr_reader :options, :used_options, :config
+    attr_reader :options, :config
 
     def initialize(options, **config)
       @options = options
@@ -12,7 +12,6 @@ module Slop
     # Reset the parser, useful to use the same instance
     # to parse a second time without duplicating state.
     def reset
-      @used_options = []
       @options.each(&:reset)
       self
     end
@@ -36,6 +35,10 @@ module Slop
       end
     end
 
+    def used_options
+      options.select { |o| o.count > 0 }
+    end
+
     def unused_options
       options.to_a - used_options
     end
@@ -44,7 +47,6 @@ module Slop
 
     # We've found an option, process it
     def process(option, arg)
-      used_options << option
       option.ensure_call(arg)
     end
 
