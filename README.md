@@ -19,6 +19,10 @@ opts = Slop.parse do |o|
   o.integer '--port', 'custom port', default: 80
   o.bool '-v', '--verbose', 'enable verbose mode'
   o.bool '-q', '--quiet', 'surpress output (quiet mode)'
+  o.on '--version', 'print the version' do
+    puts Slop::VERSION
+    exit
+  end
 end
 
 ARGV #=> -v --host 192.168.0.1
