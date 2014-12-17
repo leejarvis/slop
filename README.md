@@ -3,6 +3,9 @@ Slop
 
 Slop is a simple option parser with an easy to remember syntax and friendly API.
 
+Version 4 of Slop is aimed at Ruby 2.0 or later. Please use
+[Version 3](https://github.com/leejarvis/slop/tree/v3) for Ruby 1.8/1.9 support.
+
 [![Build Status](https://travis-ci.org/leejarvis/slop.png?branch=master)](http://travis-ci.org/leejarvis/slop)
 
 Installation
@@ -81,7 +84,7 @@ Custom option types
 -------------------
 
 Slop uses option type classes for every new option added. They default to the
-`StringOption`. When you type `o.array` Slop looks for an option called
+`NullOption`. When you type `o.array` Slop looks for an option called
 `Slop::ArrayOption`. This class must contain at least 1 method, `call`. This
 method is executed at parse time, and the return value of this method is
 used for the option value. We can use this to build custom option types:
