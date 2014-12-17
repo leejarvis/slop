@@ -170,3 +170,57 @@ opts = Slop.parse do
   o.int '-port'
 end
 ```
+
+Printing help
+-------------
+
+The return value of `Slop.parse` is a `Slop::Result` which provides a nice
+help string to display your options. Just `puts opts` or call `opts.to_s`:
+
+```ruby
+opts = Slop.parse do |o|
+  o.string '-h', '--host', 'hostname'
+  o.int '-p', '--port', 'port (default: 80)', default: 80
+  o.string '--username'
+  o.separator ''
+  o.separator 'other options:'
+  o.bool '--quiet', 'suppress output'
+  o.on '-v', '--version' do
+    puts "1.1.1"
+  end
+end
+
+puts opts
+```
+
+Output:
+
+```
+% ruby run.rb
+usage: run.rb [options]
+    -h, --host     hostname
+    -p, --port     port (default: 80)
+    --username
+
+other options:
+    --quiet        suppress output
+    -v, --version
+```
+
+This method takes an optional `prefix` value, which defaults to `" " * 4`:
+
+```
+puts opts.to_s(prefix: "  ")
+```
+
+It'll deal with aligning your descriptions according to the longest option
+flag.
+
+Here's an example of adding your own help option:
+
+```ruby
+o.on '--help' do
+  puts o
+  exit
+end
+```

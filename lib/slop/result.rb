@@ -54,8 +54,8 @@ module Slop
     end
     alias to_h to_hash
 
-    def to_s
-      options.to_s
+    def to_s(**opts)
+      options.to_s(**opts)
     end
   end
 end
