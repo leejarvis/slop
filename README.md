@@ -4,7 +4,7 @@ Slop
 Slop is a simple option parser with an easy to remember syntax and friendly API.
 
 Version 4 of Slop is aimed at Ruby 2.0 or later. Please use
-[Version 3](https://github.com/leejarvis/slop/tree/v3) for Ruby 1.8/1.9 support.
+[Version 3](https://github.com/leejarvis/slop/tree/v3) for Ruby 1.9 support.
 
 [![Build Status](https://travis-ci.org/leejarvis/slop.png?branch=master)](http://travis-ci.org/leejarvis/slop)
 
