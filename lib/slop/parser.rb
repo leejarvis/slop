@@ -74,7 +74,8 @@ module Slop
       if option = matching_option(flag)
         process(option, arg)
       elsif flag =~ /\A-[^-]/ && flag.size > 2
-        # try and process as a set of grouped short flags
+        # try and process as a set of grouped short flags. drop(1) removes
+        # the prefixed -, then we add them back to each flag separately.
         flags = flag.split("").drop(1).map { |f| "-#{f}" }
         last  = flags.pop
 
