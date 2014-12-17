@@ -16,6 +16,8 @@ module Slop
       reset
     end
 
+    # Reset the option count and value. Used when calling .reset
+    # on the Parser.
     def reset
       @value = nil
       @count = 0
@@ -36,6 +38,8 @@ module Slop
       block.call(@value) if block.respond_to?(:call)
     end
 
+    # This method is called immediately when an option is found.
+    # Override it in sub-classes.
     def call(_value)
       raise NotImplementedError,
         "you must override the `call' method for option #{self.class}"
@@ -59,30 +63,37 @@ module Slop
       false
     end
 
+    # Returns the value for this option. Falls back to the default (or nil).
     def value
       @value || default_value
     end
 
+    # Returns the default value for this option (default is nil).
     def default_value
       config[:default]
     end
 
+    # Returns true if we should ignore errors that cause exceptions to be raised.
     def suppress_errors?
       config[:suppress_errors]
     end
 
+    # Returns all flags joined by a comma. Used by the help string.
     def flag
       flags.join(", ")
     end
 
+    # Returns the last key as a symbol. Used in Options.to_hash.
     def key
       (config[:key] || flags.last.sub(/\A--?/, '')).to_sym
     end
 
+    # Returns true if this option should be displayed in help text.
     def help?
       config[:help]
     end
 
+    # Returns the help text for this option (flags and description).
     def to_s(offset: 0)
       "%-#{offset}s  %s" % [flag, desc]
     end
