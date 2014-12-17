@@ -145,3 +145,28 @@ end
 
 p opts[:files] #=> ["/full/path/foo.txt", "/full/path/bar.rb"]
 ```
+
+Errors
+------
+
+Slop will raise errors for the following:
+
+* An option used without an argument when it expects one: `Slop::MissingArgument`
+* An option used that Slop doesn't know about: `Slop::UnknownOption`
+
+These errors inherit from `Slop::Error`, so you can rescue them all.
+Alternatively you can suppress these errors with the `suppress_errors` config
+option:
+
+```ruby
+opts = Slop.parse suppress_errors: true do
+  o.string '-name'
+end
+
+# or per option:
+
+opts = Slop.parse do
+  o.string '-host', suppress_errors: true
+  o.int '-port'
+end
+```
