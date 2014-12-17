@@ -1,11 +1,15 @@
 module Slop
   class Parser
-    attr_reader :options, :config
+
+    # Our Options instance.
+    attr_reader :options
+
+    # A Hash of configuration options.
+    attr_reader :config
 
     def initialize(options, **config)
       @options = options
       @config  = config
-
       reset
     end
 
@@ -27,11 +31,15 @@ module Slop
     # Returns a Slop::Result.
     def parse(strings)
       pairs = strings.each_cons(2).to_a
+      # this ensures we still support the last string being a flag,
+      # otherwise it'll only be used as an argument.
       pairs << [strings.last, nil]
 
       pairs.each do |flag, arg|
+        # ignore everything after '--', flag or not
         break if !flag || flag == '--'
 
+        # support `foo=bar`
         if flag.include?("=")
           flag, arg = flag.split("=")
         end

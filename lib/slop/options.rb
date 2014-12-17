@@ -7,10 +7,19 @@ module Slop
       type:            "null",
     }
 
+    # The Array of Option instances we've created.
     attr_reader :options
+
+    # An Array of separators used for the help text.
     attr_reader :separators
+
+    # Our Parser instance.
     attr_reader :parser
+
+    # A Hash of configuration options.
     attr_reader :config
+
+    # The String banner prefixed to the help string.
     attr_accessor :banner
 
     def initialize(**config)
@@ -66,6 +75,8 @@ module Slop
       options.each(&block)
     end
 
+    # Handle custom option types. Will fall back to raising an
+    # exception if an option is not defined.
     def method_missing(name, *args, **config, &block)
       if respond_to_missing?(name)
         config[:type] = name
@@ -79,6 +90,7 @@ module Slop
       Slop.option_defined?(name) || super
     end
 
+    # Return a copy of our options Array.
     def to_a
       options.dup
     end
@@ -89,9 +101,11 @@ module Slop
       len = longest_flag_length
 
       options.select(&:help?).each_with_index do |opt, i|
+        # use the index to fetch an associated separator
         if sep = separators[i]
           str << "#{sep}\n"
         end
+
         str << "#{prefix}#{opt.to_s(offset: len)}\n"
       end
 
@@ -111,6 +125,9 @@ module Slop
     def add_option(option)
       options.each do |o|
         flags = o.flags & option.flags
+
+        # Raise an error if we found an existing option with the same
+        # flags. I can't immediately see a use case for this..
         if flags.any?
           raise ArgumentError, "duplicate flags: #{flags}"
         end

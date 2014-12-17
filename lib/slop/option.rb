@@ -4,7 +4,24 @@ module Slop
       help: true
     }
 
-    attr_reader :flags, :desc, :config, :count, :block
+    # An Array of flags this option matches.
+    attr_reader :flags
+
+    # A custom description used for the help text.
+    attr_reader :desc
+
+    # A Hash of configuration options.
+    attr_reader :config
+
+    # An Integer count for the total times this option
+    # has been executed.
+    attr_reader :count
+
+    # A custom proc that yields the option value when
+    # it's executed.
+    attr_reader :block
+
+    # The end value for this option.
     attr_writer :value
 
     def initialize(flags, desc, **config, &block)
@@ -12,7 +29,6 @@ module Slop
       @desc   = desc
       @config = DEFAULT_CONFIG.merge(config)
       @block  = block
-
       reset
     end
 
