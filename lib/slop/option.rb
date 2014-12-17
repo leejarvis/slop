@@ -53,6 +53,12 @@ module Slop
       true
     end
 
+    # Override this if you want to ignore the return value for an option
+    # (i.e so Result#to_hash does not include it).
+    def null?
+      false
+    end
+
     def value
       @value || default_value
     end

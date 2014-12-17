@@ -4,7 +4,7 @@ module Slop
 
     DEFAULT_CONFIG = {
       suppress_errors: false,
-      type:            "string",
+      type:            "null",
     }
 
     attr_reader :options
@@ -23,7 +23,21 @@ module Slop
       yield self if block_given?
     end
 
-    def add(*flags, **config, &block)
+    # Add a new option. This method is an alias for adding a NullOption
+    # (i.e an option with an ignored return value).
+    #
+    # Example:
+    #
+    #   opts = Slop.parse do |o|
+    #     o.on '--version' do
+    #       puts Slop::VERSION
+    #     end
+    #   end
+    #
+    #   opts.to_hash #=> {}
+    #
+    # Returns the newly created Option subclass.
+    def on(*flags, **config, &block)
       desc   = flags.pop unless flags.last.start_with?('-')
       config = self.config.merge(config)
       klass  = Slop.string_to_option_class(config[:type].to_s)
@@ -32,6 +46,8 @@ module Slop
       add_option option
     end
 
+    # Add a separator between options. Used when displaying
+    # the help text.
     def separator(string)
       if separators[options.size]
         separators.last << "\n#{string}"
@@ -40,10 +56,12 @@ module Slop
       end
     end
 
+    # Sugar to avoid `options.parser.parse(x)`.
     def parse(strings)
       parser.parse(strings)
     end
 
+    # Implements the Enumerable interface.
     def each(&block)
       options.each(&block)
     end
@@ -51,7 +69,7 @@ module Slop
     def method_missing(name, *args, **config, &block)
       if respond_to_missing?(name)
         config[:type] = name
-        add(*args, config, &block)
+        on(*args, config, &block)
       else
         super
       end
@@ -65,6 +83,7 @@ module Slop
       options.dup
     end
 
+    # Returns the help text for this options. Used by Result#to_s.
     def to_s(prefix: " " * 4)
       str = banner + "\n"
       len = longest_flag_length

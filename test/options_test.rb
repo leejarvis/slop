@@ -5,34 +5,34 @@ describe Slop::Options do
     @options = Slop::Options.new
   end
 
-  describe "#add" do
-    it "defaults to string type" do
-      assert_kind_of Slop::StringOption, @options.add("--foo")
+  describe "#on" do
+    it "defaults to null type" do
+      assert_kind_of Slop::NullOption, @options.on("--foo")
     end
 
     it "accepts custom types" do
       module Slop; class FooOption < Option; end; end
-      assert_kind_of Slop::FooOption, @options.add("--foo", type: :foo)
+      assert_kind_of Slop::FooOption, @options.on("--foo", type: :foo)
     end
 
     it "adds multiple flags" do
-      option = @options.add("-f", "-F", "--foo")
+      option = @options.on("-f", "-F", "--foo")
       assert_equal %w(-f -F --foo), option.flags
     end
 
     it "accepts a trailing description" do
-      option = @options.add("--foo", "fooey")
+      option = @options.on("--foo", "fooey")
       assert_equal "fooey", option.desc
     end
 
     it "adds the option" do
-      option = @options.add("--foo")
+      option = @options.on("--foo")
       assert_equal [option], @options.to_a
     end
 
     it "raises an error when a duplicate flag is used" do
-      @options.add("--foo")
-      assert_raises(ArgumentError) { @options.add("--foo") }
+      @options.on("--foo")
+      assert_raises(ArgumentError) { @options.on("--foo") }
     end
   end
 
@@ -60,19 +60,19 @@ describe Slop::Options do
     end
 
     it "aligns option strings" do
-      @options.add "-f", "--foo", "fooey"
-      @options.add "-s", "short"
+      @options.on "-f", "--foo", "fooey"
+      @options.on "-s", "short"
       assert_match(/^    -f, --foo  fooey/, @options.to_s)
       assert_match(/^    -s         short/, @options.to_s)
     end
 
     it "can use a custom prefix" do
-      @options.add "-f", "--foo"
+      @options.on "-f", "--foo"
       assert_match(/^ -f, --foo/, @options.to_s(prefix: " "))
     end
 
     it "ignores options with help: false" do
-      @options.add "-x", "something", help: false
+      @options.on "-x", "something", help: false
       refute_match(/something/, @options.to_s)
     end
   end

@@ -61,3 +61,18 @@ describe Slop::ArrayOption do
   end
 end
 
+describe Slop::NullOption do
+  before do
+    @options = Slop::Options.new
+    @version = @options.null('--version')
+    @result  = @options.parse %w(--version)
+  end
+
+  it 'has a return value of true' do
+    assert_equal true, @result[:version]
+  end
+
+  it 'is not included in to_hash' do
+    assert_equal({}, @result.to_hash)
+  end
+end

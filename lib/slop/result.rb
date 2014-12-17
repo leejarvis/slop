@@ -50,7 +50,7 @@ module Slop
 
     # Returns a hash with option key => value.
     def to_hash
-      Hash[options.map { |o| [o.key, o.value] }]
+      Hash[options.reject(&:null?).map { |o| [o.key, o.value] }]
     end
     alias to_h to_hash
 

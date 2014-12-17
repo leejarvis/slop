@@ -41,4 +41,12 @@ module Slop
       config[:delimiter] || ","
     end
   end
+
+  # an option that discards the return value
+  class NullOption < BoolOption
+    def null?
+      true
+    end
+  end
+
 end
