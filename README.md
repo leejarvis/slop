@@ -37,6 +37,23 @@ opts.quiet?   #=> false
 opts.to_hash  #=> { host: "192.168.0.1", port: 80, verbose: true, quiet: false }
 ```
 
+Option types
+------------
+
+Built in Option types are as follows:
+
+```ruby
+o.string  #=> Slop::StringOption, expects an argument
+o.bool    #=> Slop::BoolOption, no argument, aliased to BooleanOption
+o.integer #=> Slop::IntegerOption, expects an argument, aliased to IntOption
+o.array   #=> Slop::ArrayOption, expects an argument
+o.null    #=> Slop::NullOption, no argument and ignored from `to_hash`
+o.on      #=> alias for o.null
+```
+
+You can see all built in types in `slop/types.rb`. Suggestions or pull requests
+for more types are welcome.
+
 Advanced Usage
 --------------
 
