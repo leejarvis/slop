@@ -1,6 +1,9 @@
+$:.unshift './lib'
+require 'slop'
+
 Gem::Specification.new do |s|
   s.name        = 'slop'
-  s.version     = '3.4.6'
+  s.version     = Slop::VERSION
   s.summary     = 'Simple Lightweight Option Parsing'
   s.description = 'A simple DSL for gathering options and parsing the command line'
   s.author      = 'Lee Jarvis'
