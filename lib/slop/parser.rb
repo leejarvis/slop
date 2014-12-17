@@ -9,13 +9,22 @@ module Slop
       reset
     end
 
-    # Reset the parser, useful to use the same instance
-    # to parse a second time without duplicating state.
+    # Reset the parser, useful to use the same instance to parse a second
+    # time without duplicating state.
     def reset
       @options.each(&:reset)
       self
     end
 
+    # Traverse `strings` and process options one by one. Anything after
+    # `--` is ignored. If a flag includes a equals (=) it will be split
+    # so that `flag, argument = s.split('=')`.
+    #
+    # The `call` method will be executed immediately for each option found.
+    # Once all options have been executed, any found options will have
+    # the `finish` method called on them.
+    #
+    # Returns a Slop::Result.
     def parse(strings)
       pairs = strings.each_cons(2).to_a
       pairs << [strings.last, nil]
@@ -35,10 +44,12 @@ module Slop
       end
     end
 
+    # Returns an Array of Option instances that were used.
     def used_options
       options.select { |o| o.count > 0 }
     end
 
+    # Returns an Array of Option instances that were not used.
     def unused_options
       options.to_a - used_options
     end
