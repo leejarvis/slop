@@ -5,6 +5,7 @@ module Slop
     DEFAULT_CONFIG = {
       suppress_errors: false,
       type:            "null",
+      banner:          true,
     }
 
     # The Array of Option instances we've created.
@@ -97,7 +98,7 @@ module Slop
 
     # Returns the help text for this options. Used by Result#to_s.
     def to_s(prefix: " " * 4)
-      str = banner + "\n"
+      str = config[:banner] ? "#{banner}\n" : ""
       len = longest_flag_length
 
       options.select(&:help?).each_with_index do |opt, i|
