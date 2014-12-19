@@ -7,6 +7,9 @@ module Slop
     # A Hash of configuration options.
     attr_reader :config
 
+    # Returns an Array of String arguments that were not parsed.
+    attr_reader :arguments
+
     def initialize(options, **config)
       @options = options
       @config  = config
@@ -16,6 +19,7 @@ module Slop
     # Reset the parser, useful to use the same instance to parse a second
     # time without duplicating state.
     def reset
+      @arguments = []
       @options.each(&:reset)
       self
     end
@@ -35,6 +39,8 @@ module Slop
       # otherwise it'll only be used as an argument.
       pairs << [strings.last, nil]
 
+      @arguments = strings.dup
+
       pairs.each do |flag, arg|
         # ignore everything after '--', flag or not
         break if !flag || flag == '--'
@@ -44,7 +50,12 @@ module Slop
           flag, arg = flag.split("=")
         end
 
-        try_process(flag, arg)
+        if opt = try_process(flag, arg)
+          # since the option was parsed, we remove it from our
+          # arguments (plus the arg if necessary)
+          arguments.delete(flag)
+          arguments.delete(arg) if opt.expects_argument?
+        end
       end
 
       Result.new(self).tap do |result|
@@ -64,9 +75,10 @@ module Slop
 
     private
 
-    # We've found an option, process it
+    # We've found an option, process and return it
     def process(option, arg)
       option.ensure_call(arg)
+      option
     end
 
     # Try and find an option to process

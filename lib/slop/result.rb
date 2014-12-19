@@ -40,13 +40,31 @@ module Slop
       name.to_s.end_with?("?") || super
     end
 
+    # Returns an Array of Option instances that were used.
     def used_options
       parser.used_options
     end
 
+    # Returns an Array of Option instances that were not used.
     def unused_options
       parser.unused_options
     end
+
+    # Example:
+    #
+    #   opts = Slop.parse do |o|
+    #     o.string '--host'
+    #     o.int '-p'
+    #   end
+    #
+    #   # ruby run.rb connect --host 123 helo
+    #   opts.arguments #=> ["connect", "helo"]
+    #
+    # Returns an Array of String arguments that were not parsed.
+    def arguments
+      parser.arguments
+    end
+    alias args arguments
 
     # Returns a hash with option key => value.
     def to_hash

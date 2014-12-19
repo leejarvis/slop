@@ -81,6 +81,22 @@ result.to_hash #=> { hostname: "192.168.0.1", port: 80,
 puts opts # prints out help
 ```
 
+Arguments
+---------
+
+It's common to want to retrieve an array of arguments that were not processed
+by the parser (i.e options or consumed arguments). You can do that with the
+`Result#arguments` method:
+
+```ruby
+args = %w(connect --host google.com GET)
+opts = Slop.parse args do |o|
+  o.string '--host'
+end
+
+p opts.arguments #=> ["connect", "GET"] # also aliased to `args`
+```
+
 Arrays
 ------
 

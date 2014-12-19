@@ -56,4 +56,10 @@ describe Slop::Parser do
       assert_equal [@unused], @parser.unused_options
     end
   end
+
+  describe "#arguments" do
+    it "returns all unparsed arguments" do
+      assert_equal %w(foo argument), @parser.arguments
+    end
+  end
 end
