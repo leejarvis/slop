@@ -240,3 +240,11 @@ o.on '--help' do
   exit
 end
 ```
+
+Commands
+--------
+
+As of version 4, Slop does not have built in support for git-style subcommands.
+You can use version 3 of Slop (see `v3` branch). I also expect there to be some
+external libraries released soon that wrap around Slop to provide support for
+this feature. I'll update this document when that happens.
