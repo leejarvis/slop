@@ -27,6 +27,13 @@ module Slop
   end
   IntOption = IntegerOption
 
+  class FloatOption < Option
+    def call(value)
+      # TODO: scientific notation, etc.
+      value =~ /\A\d*\.*\d+\z/ && value.to_f
+    end
+  end
+
   class ArrayOption < Option
     def call(value)
       @value ||= []
