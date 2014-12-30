@@ -57,6 +57,7 @@ describe Slop::ArrayOption do
     @options = Slop::Options.new
     @files   = @options.array "--files"
     @delim   = @options.array "-d", delimiter: ":"
+    @limit   = @options.array "-l", limit: 2
     @result  = @options.parse %w(--files foo.txt,bar.rb)
   end
 
@@ -76,6 +77,11 @@ describe Slop::ArrayOption do
   it "can use a custom delimiter" do
     @result.parser.reset.parse %w(-d foo.txt:bar.rb)
     assert_equal %w(foo.txt bar.rb), @result[:d]
+  end
+
+  it "can use a custom limit" do
+    @result.parser.reset.parse %w(-l foo,bar,baz)
+    assert_equal ["foo", "bar,baz"], @result[:l]
   end
 end
 
