@@ -1,10 +1,14 @@
 module Slop
+  # Cast the option argument to a String.
   class StringOption < Option
     def call(value)
       value.to_s
     end
   end
 
+  # Cast the option argument to true or false.
+  # Override default_value to default to false instead of nil.
+  # This option type does not expect an argument.
   class BoolOption < Option
     def call(_value)
       true
@@ -20,6 +24,7 @@ module Slop
   end
   BooleanOption = BoolOption
 
+  # Cast the option argument to an Integer.
   class IntegerOption < Option
     def call(value)
       value =~ /\A\d+\z/ && value.to_i
@@ -27,6 +32,7 @@ module Slop
   end
   IntOption = IntegerOption
 
+  # Cast the option argument to a Float.
   class FloatOption < Option
     def call(value)
       # TODO: scientific notation, etc.
@@ -34,6 +40,8 @@ module Slop
     end
   end
 
+  # Collect multiple items into a single Array. Support
+  # arguments separated by commas or multiple occurences.
   class ArrayOption < Option
     def call(value)
       @value ||= []
@@ -49,7 +57,8 @@ module Slop
     end
   end
 
-  # an option that discards the return value
+  # An option that discards the return value, inherits from Bool
+  # since it does not expect an argument.
   class NullOption < BoolOption
     def null?
       true
