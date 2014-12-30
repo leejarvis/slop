@@ -11,13 +11,13 @@ describe Slop::Parser do
   end
 
   it "ignores everything after --" do
-    @parser.reset.parse %w(-v -- --name lee)
+    @parser.parse %w(-v -- --name lee)
     assert_equal [@verbose], @parser.used_options
   end
 
   it "parses flag=argument" do
     @options.integer "-p", "--port"
-    @result.parser.reset.parse %w(--name=bob -p=123)
+    @result.parser.parse %w(--name=bob -p=123)
     assert_equal "bob", @result[:name]
     assert_equal 123, @result[:port]
   end
@@ -28,19 +28,19 @@ describe Slop::Parser do
     end
 
     it "parses boolean flags" do
-      @result.parser.reset.parse %w(-qv)
+      @result.parser.parse %w(-qv)
       assert_equal true, @result.quiet?
       assert_equal true, @result.verbose?
     end
 
     it "sends the argument to the last flag" do
-      @result.parser.reset.parse %w(-qvn foo)
+      @result.parser.parse %w(-qvn foo)
       assert_equal "foo", @result[:name]
     end
 
     it "doesn't screw up single hyphen long options" do
       @options.string "-host"
-      @result.parser.reset.parse %w(-host localhost)
+      @result.parser.parse %w(-host localhost)
       assert_equal "localhost", @result[:host]
     end
   end

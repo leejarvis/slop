@@ -29,7 +29,7 @@ describe Slop::IntegerOption do
   end
 
   it "returns nil for non-numbers by default" do
-    @result.parser.reset.parse %w(--age hello)
+    @result.parser.parse %w(--age hello)
     assert_equal nil, @result[:age]
   end
 end
@@ -47,7 +47,7 @@ describe Slop::FloatOption do
   end
 
   it "returns nil for non-numbers by default" do
-    @result.parser.reset.parse %w(--apr hello)
+    @result.parser.parse %w(--apr hello)
     assert_equal nil, @result[:apr]
   end
 end
@@ -70,17 +70,17 @@ describe Slop::ArrayOption do
   end
 
   it "collects multiple option values" do
-    @result.parser.reset.parse %w(--files foo.txt --files bar.rb)
+    @result.parser.parse %w(--files foo.txt --files bar.rb)
     assert_equal %w(foo.txt bar.rb), @result[:files]
   end
 
   it "can use a custom delimiter" do
-    @result.parser.reset.parse %w(-d foo.txt:bar.rb)
+    @result.parser.parse %w(-d foo.txt:bar.rb)
     assert_equal %w(foo.txt bar.rb), @result[:d]
   end
 
   it "can use a custom limit" do
-    @result.parser.reset.parse %w(-l foo,bar,baz)
+    @result.parser.parse %w(-l foo,bar,baz)
     assert_equal ["foo", "bar,baz"], @result[:l]
   end
 end

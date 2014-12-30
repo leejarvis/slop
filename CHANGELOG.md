@@ -8,6 +8,9 @@ Features:
   * Support for FloatOption #156 (Rick Hull)
   * Support for `limit` config to ArrayOption. (Lee Jarvis)
 
+Minor enhancements:
+  * Reset parser every time `parse` is called.
+
 v4.0.0 (2014-12-27)
 -------------------
 

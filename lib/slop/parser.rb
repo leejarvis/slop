@@ -34,6 +34,8 @@ module Slop
     #
     # Returns a Slop::Result.
     def parse(strings)
+      reset # reset before every parse
+
       pairs = strings.each_cons(2).to_a
       # this ensures we still support the last string being a flag,
       # otherwise it'll only be used as an argument.

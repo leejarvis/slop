@@ -22,27 +22,27 @@ describe Slop::Result do
   it "increments option count" do
     # test this here so it's more "full stack"
     assert_equal 1, @verbose.count
-    @result.parser.reset.parse %w(-v --verbose)
+    @result.parser.parse %w(-v --verbose)
     assert_equal 2, @verbose.count
   end
 
   it "handles default values" do
     @options.string("--foo", default: "bar")
-    @result.parser.reset.parse %w()
+    @result.parser.parse %w()
     assert_equal "bar", @result[:foo]
   end
 
   it "handles custom finishing" do
     @options.string "--foo"
     @options.reverse_everything "-r"
-    @result.parser.reset.parse %w(-r --name lee --foo bar)
+    @result.parser.parse %w(-r --name lee --foo bar)
     assert_equal %w(eel rab), @result.to_hash.values_at(:name, :foo)
   end
 
   it "yields arguments to option blocks" do
     output = nil
     @options.string("--foo") { |v| output = v }
-    @result.parser.reset.parse %w(--foo bar)
+    @result.parser.parse %w(--foo bar)
     assert_equal output, "bar"
   end
 
