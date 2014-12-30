@@ -34,6 +34,24 @@ describe Slop::IntegerOption do
   end
 end
 
+describe Slop::FloatOption do
+  before do
+    @options = Slop::Options.new
+    @apr     = @options.float "--apr"
+    @apr_value = 2.9
+    @result  = @options.parse %W(--apr #{@apr_value})
+  end
+
+  it "returns the value as a float" do
+    assert_equal @apr_value, @result[:apr]
+  end
+
+  it "returns nil for non-numbers by default" do
+    @result.parser.reset.parse %w(--apr hello)
+    assert_equal nil, @result[:apr]
+  end
+end
+
 describe Slop::ArrayOption do
   before do
     @options = Slop::Options.new
