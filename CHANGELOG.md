@@ -7,6 +7,8 @@ HEAD (unreleased)
 Features:
   * Support for FloatOption #156 (Rick Hull)
   * Support for `limit` config to ArrayOption. (Lee Jarvis)
+  * Support for `tail` config to add options to the bottom of
+    the help text. (Lee Jarvis)
 
 Minor enhancements:
   * Reset parser every time `parse` is called.
