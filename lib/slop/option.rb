@@ -1,7 +1,8 @@
 module Slop
   class Option
     DEFAULT_CONFIG = {
-      help: true
+      help: true,
+      tail: false,
     }
 
     # An Array of flags this option matches.
@@ -107,6 +108,17 @@ module Slop
     # Returns true if this option should be displayed in help text.
     def help?
       config[:help]
+    end
+
+    # Returns true if this option should be added to the tail of the help text.
+    def tail?
+      config[:tail]
+    end
+
+    # Returns 1 if this option should be added to the tail of the help text.
+    # Used for sorting.
+    def tail
+      tail? ? 1 : -1
     end
 
     # Returns the help text for this option (flags and description).

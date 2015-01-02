@@ -101,7 +101,7 @@ module Slop
       str = config[:banner] ? "#{banner}\n" : ""
       len = longest_flag_length
 
-      options.select(&:help?).each_with_index do |opt, i|
+      options.select(&:help?).sort_by(&:tail).each_with_index do |opt, i|
         # use the index to fetch an associated separator
         if sep = separators[i]
           str << "#{sep}\n"

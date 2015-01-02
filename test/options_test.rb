@@ -75,5 +75,11 @@ describe Slop::Options do
       @options.on "-x", "something", help: false
       refute_match(/something/, @options.to_s)
     end
+
+    it "adds 'tail' options to the bottom of the help text" do
+      @options.on "-h", "--help", tail: true
+      @options.on "-f", "--foo"
+      assert_match(/^    -h, --help/, @options.to_s.lines.last)
+    end
   end
 end
