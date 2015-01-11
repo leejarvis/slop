@@ -13,6 +13,9 @@ Features:
 Minor enhancements:
   * Reset parser every time `parse` is called.
 
+Bug fixes:
+  * Remove "--" from unprocessed arguments #157 (David Rodríguez).
+
 v4.0.0 (2014-12-27)
 -------------------
 
