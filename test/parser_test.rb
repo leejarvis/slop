@@ -61,5 +61,10 @@ describe Slop::Parser do
     it "returns all unparsed arguments" do
       assert_equal %w(foo argument), @parser.arguments
     end
+
+    it "does not return --" do
+      @parser.parse %w(-v -- --name lee)
+      assert_equal %w(--name lee), @parser.arguments
+    end
   end
 end

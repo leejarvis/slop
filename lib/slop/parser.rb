@@ -44,8 +44,13 @@ module Slop
       @arguments = strings.dup
 
       pairs.each do |flag, arg|
+        break if !flag
+
         # ignore everything after '--', flag or not
-        break if !flag || flag == '--'
+        if flag == '--'
+          arguments.delete(flag)
+          break
+        end
 
         # support `foo=bar`
         if flag.include?("=")
