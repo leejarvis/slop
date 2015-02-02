@@ -1,3 +1,5 @@
+require 'date'
+
 module Slop
   # Cast the option argument to a String.
   class StringOption < Option
@@ -37,6 +39,17 @@ module Slop
     def call(value)
       # TODO: scientific notation, etc.
       value =~ /\A\d*\.*\d+\z/ && value.to_f
+    end
+  end
+
+  # uses Date.parse to accept date arguments
+  class DateOption < Option
+    def call(value)
+      #ignores invalid dates
+	begin 
+	  Date.parse(value.to_s)
+	rescue ArgumentError
+	end
     end
   end
 
