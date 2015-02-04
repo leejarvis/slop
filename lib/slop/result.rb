@@ -20,6 +20,17 @@ module Slop
     end
     alias get []
 
+    # Set the value for an option. Raises an ArgumentError if the option
+    # does not exist.
+    def []=(flag, value)
+      if o = option(flag)
+        o.value = value
+      else
+        raise ArgumentError, "no option with flag `#{flag}'"
+      end
+    end
+    alias set []=
+
     # Returns an Option if it exists. Ignores any prefixed hyphens.
     def option(flag)
       cleaned = -> (f) { f.to_s.sub(/\A--?/, '') }
