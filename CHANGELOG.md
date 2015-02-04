@@ -6,9 +6,12 @@ HEAD (unreleased)
 
 Features:
   * Support for FloatOption #156 (Rick Hull)
-  * Support for `limit` config to ArrayOption. (Lee Jarvis)
+  * Support for `limit` config to ArrayOption.
   * Support for `tail` config to add options to the bottom of
-    the help text. (Lee Jarvis)
+    the help text.
+  * Add explicit setter (#[]=) to Result class. #162
+  * Implement flag gettings for UnknownOption and MissingArgument
+    error classes. #165 (sigurdsvela)
 
 Minor enhancements:
   * Reset parser every time `parse` is called.
