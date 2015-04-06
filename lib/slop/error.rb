@@ -12,6 +12,16 @@ module Slop
   # executed without one. Suppress with the `suppress_errors`
   # config option.
   class MissingArgument < Error
+    def initialize(msg, argument)
+      super(msg)
+      @argument = argument
+    end
+
+    #Get all the flags that matches
+    #the option with the missing argument
+    def getFlags()
+      return @argument
+    end
   end
 
   # Raised when an unknown option is parsed. Suppress
