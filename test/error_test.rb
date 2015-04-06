@@ -22,7 +22,7 @@ describe Slop::UnknownOption do
     opts.string "-n", "--name"
     assert_raises(Slop::UnknownOption) { opts.parse %w(--foo) }
 
-    #Assert returns the unknown option in quetion
+    #Assert returns the unknown option in question
     begin
       opts.parse %w(--foo)
     rescue Slop::UnknownOption => e
