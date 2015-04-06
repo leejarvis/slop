@@ -26,7 +26,7 @@ describe Slop::UnknownOption do
     begin
       opts.parse %w(--foo)
     rescue Slop::UnknownOption => e
-      assert_equal(e.getUnknowOption(), "--foo");
+      assert_equal(e.getUnknowOption(), "--foo")
     end
   end
 

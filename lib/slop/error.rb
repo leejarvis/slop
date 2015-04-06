@@ -18,12 +18,12 @@ module Slop
   # with the `suppress_errors` config option.
   class UnknownOption   < Error;
     def initialize(msg, unknownOption)
-      super(msg);
-      @unknownOption = unknownOption;
+      super(msg)
+      @unknownOption = unknownOption
     end
 
     def getUnknowOption()
-      return @unknownOption;
+      return @unknownOption
     end
   end
 end
