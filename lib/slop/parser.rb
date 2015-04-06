@@ -102,7 +102,7 @@ module Slop
         try_process(last, arg) # send the argument to the last flag
       else
         if flag.start_with?("-") && !suppress_errors?
-          raise UnknownOption, "unknown option `#{flag}'"
+          raise UnknownOption.new "unknown option `#{flag}'", "#{flag}"
         end
       end
     end
