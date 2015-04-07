@@ -12,15 +12,13 @@ module Slop
   # executed without one. Suppress with the `suppress_errors`
   # config option.
   class MissingArgument < Error
-    def initialize(msg, argument)
-      super(msg)
-      @argument = argument
-    end
+    attr_reader :flags; 
 
-    #Get all the flags that matches
-    #the option with the missing argument
-    def getFlags()
-      return @argument
+    # Get all the flags that matches
+    # the option with the missing argument
+    def initialize(msg, flags)
+      super(msg)
+      @flags = flags
     end
   end
 

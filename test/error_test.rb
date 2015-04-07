@@ -12,7 +12,7 @@ describe Slop::MissingArgument do
     begin
       opts.parse %w(--name)
     rescue Slop::MissingArgument => e
-      assert_equal(e.getFlags(), ["-n", "--name"])
+      assert_equal(e.flags, ["-n", "--name"])
     end
   end
 
