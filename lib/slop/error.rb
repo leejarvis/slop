@@ -25,13 +25,11 @@ module Slop
   # Raised when an unknown option is parsed. Suppress
   # with the `suppress_errors` config option.
   class UnknownOption   < Error;
-    def initialize(msg, unknownOption)
-      super(msg)
-      @unknownOption = unknownOption
-    end
+    attr_reader :flag
 
-    def getUnknowOption()
-      return @unknownOption
+    def initialize(msg, flag)
+      super(msg)
+      @flag = flag
     end
   end
 end
