@@ -12,7 +12,7 @@ module Slop
   # executed without one. Suppress with the `suppress_errors`
   # config option.
   class MissingArgument < Error
-    attr_reader :flags; 
+    attr_reader :flags
 
     # Get all the flags that matches
     # the option with the missing argument
