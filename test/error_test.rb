@@ -7,6 +7,13 @@ describe Slop::MissingArgument do
     opts = Slop::Options.new
     opts.string "-n", "--name"
     assert_raises(Slop::MissingArgument) { opts.parse %w(--name) }
+
+    #Assert returns the argument question
+    begin
+      opts.parse %w(--name)
+    rescue Slop::MissingArgument => e
+      assert_equal(e.flags, ["-n", "--name"])
+    end
   end
 
   it "does not raise when errors are suppressed" do
@@ -21,6 +28,13 @@ describe Slop::UnknownOption do
     opts = Slop::Options.new
     opts.string "-n", "--name"
     assert_raises(Slop::UnknownOption) { opts.parse %w(--foo) }
+
+    #Assert returns the unknown option in question
+    begin
+      opts.parse %w(--foo)
+    rescue Slop::UnknownOption => e
+      assert_equal(e.flag, "--foo")
+    end
   end
 
   it "does not raise when errors are suppressed" do

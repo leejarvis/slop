@@ -48,7 +48,7 @@ module Slop
       @count += 1
 
       if value.nil? && expects_argument? && !suppress_errors?
-        raise Slop::MissingArgument, "missing argument for #{flag}"
+        raise Slop::MissingArgument.new("missing argument for #{flag}", flags)
       end
 
       @value = call(value)
