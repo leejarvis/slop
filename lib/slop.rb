@@ -6,8 +6,7 @@ require 'slop/types'
 require 'slop/error'
 
 module Slop
-  # The current version of Slop, of course.
-  VERSION = '4.0.0'
+  VERSION = '4.1.0'
 
   # Parse an array of options (defaults to ARGV). Accepts an
   # optional hash of configuration options and block.

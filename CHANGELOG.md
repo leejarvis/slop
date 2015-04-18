@@ -1,8 +1,8 @@
 Changelog
 =========
 
-HEAD (unreleased)
------------------
+v4.1.0 (2015-04-18)
+-------------------
 
 Features:
   * Support for FloatOption #156 (Rick Hull)
