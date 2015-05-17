@@ -100,3 +100,16 @@ describe Slop::NullOption do
     assert_equal({}, @result.to_hash)
   end
 end
+
+describe Slop::RegexpOption do
+  before do
+    @options       = Slop::Options.new
+    @exclude       = @options.regexp "--exclude"
+    @exclude_value = "redirect|news"
+    @result        = @options.parse %W(--exclude #{@exclude_value})
+  end
+
+  it "returns the value as a Regexp" do
+    assert_equal Regexp.new(@exclude_value), @result[:exclude]
+  end
+end
