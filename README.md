@@ -48,6 +48,7 @@ o.bool    #=> Slop::BoolOption, no argument, aliased to BooleanOption
 o.integer #=> Slop::IntegerOption, expects an argument, aliased to IntOption
 o.float   #=> Slop::FloatOption, expects an argument
 o.array   #=> Slop::ArrayOption, expects an argument
+o.regexp  #=> Slop::RegexpOption, expects an argument
 o.null    #=> Slop::NullOption, no argument and ignored from `to_hash`
 o.on      #=> alias for o.null
 ```
