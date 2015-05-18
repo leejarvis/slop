@@ -61,6 +61,13 @@ module Slop
     end
   end
 
+  # Cast the option argument to a Regexp.
+  class RegexpOption < Option
+    def call(value)
+      Regexp.new(value)
+    end
+  end
+
   # An option that discards the return value, inherits from Bool
   # since it does not expect an argument.
   class NullOption < BoolOption
