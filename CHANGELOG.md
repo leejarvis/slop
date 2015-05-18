@@ -1,6 +1,12 @@
 Changelog
 =========
 
+HEAD
+----
+
+Features:
+  * Support for Regexp option type #167 (Laurent Arnoud)
+
 v4.1.0 (2015-04-18)
 -------------------
 
