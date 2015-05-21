@@ -2,10 +2,11 @@ require 'test_helper'
 
 describe Slop::BoolOption do
   before do
-    @options = Slop::Options.new
-    @age     = @options.bool "--verbose"
-    @age     = @options.bool "--quiet"
-    @result  = @options.parse %w(--verbose)
+    @options  = Slop::Options.new
+    @verbose  = @options.bool "--verbose"
+    @quiet    = @options.bool "--quiet"
+    @inversed = @options.bool "--inversed", default: true
+    @result   = @options.parse %w(--verbose --no-inversed)
   end
 
   it "returns true if used" do
@@ -14,6 +15,10 @@ describe Slop::BoolOption do
 
   it "returns false if not used" do
     assert_equal false, @result[:quiet]
+  end
+
+  it "can be inversed via --no- prefix" do
+    assert_equal false, @result[:inversed]
   end
 end
 

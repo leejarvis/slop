@@ -72,10 +72,10 @@ opts.int "-p", "--port", "a port", default: 80
 opts.separator ""
 opts.separator "Extra options:"
 opts.array "--files", "a list of files to import"
-opts.bool "-v", "--verbose", "enable verbose mode"
+opts.bool "-v", "--verbose", "enable verbose mode", default: true
 
 parser = Slop::Parser.new(opts)
-result = parser.parse(["--hostname", "192.168.0.1"])
+result = parser.parse(["--hostname", "192.168.0.1", "--no-verbose"])
 
 result.to_hash #=> { hostname: "192.168.0.1", port: 80,
                  #     files: [], verbose: false }

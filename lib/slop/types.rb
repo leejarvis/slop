@@ -8,10 +8,27 @@ module Slop
 
   # Cast the option argument to true or false.
   # Override default_value to default to false instead of nil.
-  # This option type does not expect an argument.
+  # This option type does not expect an argument. However, the API
+  # supports value being passed. This is to ensure it can capture
+  # an explicit false value
   class BoolOption < Option
-    def call(_value)
+    attr_accessor :explicit_value
+
+    def call(value)
+      self.explicit_value = value
       true
+    end
+
+    def value
+      if force_false?
+        false
+      else
+        super
+      end
+    end
+
+    def force_false?
+      explicit_value == false
     end
 
     def default_value
