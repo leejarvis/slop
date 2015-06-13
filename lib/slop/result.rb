@@ -33,7 +33,7 @@ module Slop
 
     # Returns an Option if it exists. Ignores any prefixed hyphens.
     def option(flag)
-      cleaned = -> (f) { f.to_s.sub(/\A--?/, '') }
+      cleaned = -> (f) { f.to_s.sub(/\A--?/, '').tr('_', '-') }
       options.find do |o|
         o.flags.any? { |f| cleaned.(f) == cleaned.(flag) }
       end
