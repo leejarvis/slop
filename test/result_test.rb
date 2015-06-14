@@ -12,16 +12,18 @@ end
 
 describe Slop::Result do
   before do
-    @options = Slop::Options.new
-    @verbose = @options.bool "-v", "--verbose"
-    @name    = @options.string "--name"
-    @unused  = @options.string "--unused"
-    @result  = @options.parse %w(foo -v --name lee argument)
+    @options     = Slop::Options.new
+    @verbose     = @options.bool "-v", "--verbose"
+    @name        = @options.string "--name"
+    @unused      = @options.string "--unused"
+    @long_option = @options.string "--long-option"
+    @result      = @options.parse %w(foo -v --name lee --long-option bar argument)
   end
 
   it "increments option count" do
     # test this here so it's more "full stack"
     assert_equal 1, @verbose.count
+    assert_equal 1, @long_option.count
     @result.parser.parse %w(-v --verbose)
     assert_equal 2, @verbose.count
   end
@@ -51,6 +53,9 @@ describe Slop::Result do
       assert_equal "lee", @result["name"]
       assert_equal "lee", @result[:name]
       assert_equal "lee", @result["--name"]
+      assert_equal "bar", @result["long_option"]
+      assert_equal "bar", @result[:long_option]
+      assert_equal "bar", @result["--long-option"]
     end
   end
 
@@ -72,6 +77,7 @@ describe Slop::Result do
     it "checks if options have been used" do
       assert_equal true, @result.verbose?
       assert_equal false, @result.unused?
+      assert_equal true, @result.long_option?
     end
   end
 
@@ -79,6 +85,7 @@ describe Slop::Result do
     it "returns an option by flag" do
       assert_equal @verbose, @result.option("--verbose")
       assert_equal @verbose, @result.option("-v")
+      assert_equal @long_option, @result.option("--long-option")
     end
 
     it "ignores prefixed hyphens" do
@@ -93,7 +100,8 @@ describe Slop::Result do
 
   describe "#to_hash" do
     it "returns option keys and values" do
-      assert_equal({ verbose: true, name: "lee", unused: nil }, @result.to_hash)
+      assert_equal({ verbose: true, name: "lee", unused: nil, long_option: "bar" },
+                   @result.to_hash)
     end
   end
 end
