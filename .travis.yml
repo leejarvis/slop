@@ -3,6 +3,7 @@ rvm:
   - 2.1
   - 2.2
   - rbx-2
+  - jruby-head
 notifications:
   email:
     on_success: change
