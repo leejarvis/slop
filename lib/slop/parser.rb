@@ -94,7 +94,7 @@ module Slop
         process(option, arg)
       elsif flag.start_with?("--no-") && option = matching_option(flag.sub("no-", ""))
         process(option, false)
-      elsif flag =~ /\A-[^-]/ && flag.size > 2
+      elsif flag =~ /\A-[^-]{2,}/
         # try and process as a set of grouped short flags. drop(1) removes
         # the prefixed -, then we add them back to each flag separately.
         flags = flag.split("").drop(1).map { |f| "-#{f}" }
