@@ -101,6 +101,21 @@ end
 p opts.arguments #=> ["connect", "GET"] # also aliased to `args`
 ```
 
+This is particularly useful when writing scripts with `ARGF`:
+
+```ruby
+opts = Slop.parse do |blah|
+  # ...
+end
+
+# make sure sloptions aren't consumed by ARGF
+ARGV.replace opts.arguments
+
+ARGF.each { |line|
+  # ...
+}
+```
+
 Arrays
 ------
 
