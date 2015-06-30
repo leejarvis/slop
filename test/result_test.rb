@@ -32,6 +32,9 @@ describe Slop::Result do
     @options.string("--foo", default: "bar")
     @result.parser.parse %w()
     assert_equal "bar", @result[:foo]
+
+    @result.parser.parse %w(--foo)
+    assert_equal "bar", @result[:foo]
   end
 
   it "handles custom finishing" do

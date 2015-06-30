@@ -47,11 +47,16 @@ module Slop
     def ensure_call(value)
       @count += 1
 
-      if value.nil? && expects_argument? && !suppress_errors?
-        raise Slop::MissingArgument.new("missing argument for #{flag}", flags)
+      if value.nil? && expects_argument?
+        if default_value
+          @value = default_value
+        elsif !suppress_errors?
+          raise Slop::MissingArgument.new("missing argument for #{flag}", flags)
+        end
+      else
+        @value = call(value)
       end
 
-      @value = call(value)
       block.call(@value) if block.respond_to?(:call)
     end
 
