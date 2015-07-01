@@ -60,10 +60,40 @@ module Slop
     # the help text.
     def separator(string)
       if separators[options.size]
-        separators.last << "\n#{string}"
+        separators.last << string
       else
-        separators[options.size] = string
+        separators[options.size] = [string]
       end
+    end
+
+    def get_separators(i, len, metavar_len, prefix)
+      return unless sep = separators[i]
+      "#{
+      sep.map do |x|
+        x.class.superclass == Slop::Option ?
+          "#{prefix}#{x.to_s(offset: len, metavar_offset: metavar_len)}" :
+          x
+      end.join("\n")
+      }\n"
+    end
+
+    # Add a duplicate option to help
+    def help_duplicate(*flags, **config)
+      desc = flags.pop unless flags.last.start_with?('-')
+      if option = self.options.find {|opt| (flags - opt.flags).empty?}
+        klass = option.class unless config[:type]
+        config = option.config.merge(config)
+        flags = option.flags
+        desc ||= option.desc
+      else
+        config = self.config.merge(config)
+        raise ArgumentError, "Options #{flags} do not exist!"\
+          unless config[:suppress_errors]
+      end
+      klass ||= Slop.string_to_option_class(config[:type].to_s)
+      dup_option ||= klass.new(flags, desc, config)
+
+      self.separator(dup_option)
     end
 
     # Sugar to avoid `options.parser.parse(x)`.
@@ -104,11 +134,18 @@ module Slop
 
       options.select(&:help?).sort_by(&:tail).each_with_index do |opt, i|
         # use the index to fetch an associated separator
-        if sep = separators[i]
-          str << "#{sep}\n"
+        if sep = get_separators(i, len, metavar_len, prefix)
+          str << sep
         end
 
         str << "#{prefix}#{opt.to_s(offset: len, metavar_offset: metavar_len)}\n"
+
+      # add any separators added after the final argument
+        if i == (options.select(&:help?).size - 1)
+          if sep = get_separators(i + 1, len, metavar_len, prefix)
+            str << sep
+          end
+        end
       end
 
       str
