@@ -66,6 +66,13 @@ describe Slop::Options do
       assert_match(/^    -s         short/, @options.to_s)
     end
 
+    it "aligns option strings with metavars" do
+      @options.on "-b", "--bar", "a bear", type: 'String'
+      @options.on "--foo", "fooey"
+      assert_match(/^    -b, --bar BAR  a bear/, @options.to_s)
+      assert_match(/^    --foo          fooey/, @options.to_s)
+    end
+
     it "can use a custom prefix" do
       @options.on "-f", "--foo"
       assert_match(/^ -f, --foo/, @options.to_s(prefix: " "))

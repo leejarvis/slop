@@ -25,4 +25,19 @@ describe Slop::Option do
       assert_equal :bar, option(%w(-f --foo), nil, key: "bar").key
     end
   end
+
+  describe "#metavar" do
+    it "will be nil unless #expects_argument?" do
+      assert_nil Slop::BoolOption.new(%w(--foo), nil).metavar
+    end
+    it "will be the uppercased name of the longest flag by default" do
+      assert_equal "FOO", Slop::Option.new(%w(--foo -f), nil).metavar
+    end
+    it "can be overridden" do
+      assert_equal "BAR", Slop::Option.new(%w(--foo), nil, metavar: 'BAR').metavar
+    end
+    it "will be surrounded by square brackets if it has a default" do
+      assert_equal "[FOO]", Slop::Option.new(%w(--foo), nil, default: "bar").metavar
+    end
+  end
 end

@@ -76,6 +76,14 @@ module Slop
     def limit
       config[:limit] || 0
     end
+
+    def metavar
+      metavar = super(check_defaults: false)
+      metavar = "#{metavar}[#{delimiter}#{metavar}...]"
+      default_value.empty? ?
+        metavar :
+        "[#{metavar}]"
+    end
   end
 
   # Cast the option argument to a Regexp.

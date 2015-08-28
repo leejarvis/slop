@@ -216,7 +216,7 @@ help string to display your options. Just `puts opts` or call `opts.to_s`:
 opts = Slop.parse do |o|
   o.string '-h', '--host', 'hostname'
   o.int '-p', '--port', 'port (default: 80)', default: 80
-  o.string '--username'
+  o.string '--username', metavar: 'USER'
   o.separator ''
   o.separator 'other options:'
   o.bool '--quiet', 'suppress output'
@@ -233,12 +233,12 @@ Output:
 ```
 % ruby run.rb
 usage: run.rb [options]
-    -h, --host     hostname
-    -p, --port     port (default: 80)
-    --username
+    -h, --host    HOST    hostname
+    -p, --port    [PORT]  port (default: 80)
+    --username    USER
 
 other options:
-    --quiet        suppress output
+    --quiet               suppress output
     -v, --version
 ```
 
