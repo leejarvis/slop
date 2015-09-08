@@ -60,8 +60,12 @@ module Slop
         if opt = try_process(flag, arg)
           # since the option was parsed, we remove it from our
           # arguments (plus the arg if necessary)
+          # delete argument first so that it doesn't mess up the index
+          if opt.expects_argument?
+            index = arg_index(flag, arg)
+            arguments.delete_at(index) if !index.nil?
+          end
           arguments.delete(flag)
-          arguments.delete(arg) if opt.expects_argument?
         end
       end
 
@@ -115,6 +119,17 @@ module Slop
 
     def matching_option(flag)
       options.find { |o| o.flags.include?(flag) }
+    end
+
+    # Returns the index of the argument corresponding to a flag.
+    def arg_index(flag, arg)
+      flag_index = arguments.index(flag)
+      return nil if flag_index.nil?
+
+      arg_index = arguments[flag_index..-1].index(arg)
+      return nil if arg_index.nil?
+
+      flag_index + arg_index
     end
   end
 end
