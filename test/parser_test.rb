@@ -66,5 +66,15 @@ describe Slop::Parser do
       @parser.parse %w(-v -- --name lee)
       assert_equal %w(--name lee), @parser.arguments
     end
+
+    it "correctly removes the option argument" do
+      @parser.parse %w(lee --name lee lee)
+      assert_equal %w(lee lee), @parser.arguments
+    end
+
+    it "correctly removes options that use =" do
+      @parser.parse %w(lee --name=lee lee)
+      assert_equal %w(lee lee), @parser.arguments
+    end
   end
 end

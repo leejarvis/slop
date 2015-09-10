@@ -53,6 +53,7 @@ module Slop
         end
 
         # support `foo=bar`
+        orig_flag = flag.dup
         if flag.include?("=")
           flag, arg = flag.split("=")
         end
@@ -60,8 +61,15 @@ module Slop
         if opt = try_process(flag, arg)
           # since the option was parsed, we remove it from our
           # arguments (plus the arg if necessary)
-          arguments.delete(flag)
-          arguments.delete(arg) if opt.expects_argument?
+          # delete argument first while we can find its index.
+          if opt.expects_argument?
+            arguments.each_with_index do |argument, i|
+              if argument == orig_flag && !orig_flag.include?("=")
+                arguments.delete_at(i + 1)
+              end
+            end
+          end
+          arguments.delete(orig_flag)
         end
       end
 
