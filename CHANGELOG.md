@@ -1,6 +1,21 @@
 Changelog
 =========
 
+v4.2.1 (2015-11-25)
+-------------------
+
+Features:
+  * Better handling of option names with multiple words. #169 (Tim Rogers)
+
+Minor enhancements:
+  * add ARGF notes to Arguments (README). #173 (Rick Hull)
+
+Bug fixes:
+  * Fix arguments removed with option arguments. #182 (Naoki Mizuno)
+  * Fix bug where true is passed to BoolOption block regardless
+    of --no- prefix. #184 (Ben Brady)
+  * only raise MissingArgument if not `default_value`. #163 (Ben Brady)
+
 v4.2.0 (2015-04-18)
 -------------------
 
