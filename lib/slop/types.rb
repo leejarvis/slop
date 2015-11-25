@@ -16,7 +16,7 @@ module Slop
 
     def call(value)
       self.explicit_value = value
-      true
+      !force_false?
     end
 
     def value
@@ -92,5 +92,4 @@ module Slop
       true
     end
   end
-
 end
