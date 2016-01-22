@@ -272,7 +272,7 @@ Upgrading from version 3
 ------------------------
 
 Slop v4 is completely non-backwards compatible. The code has been rewritten
-from the group up. If you're already using version 3 you have *have* to update
+from the ground up. If you're already using version 3 you *have* to update
 your code to use version 4. Here's an overview of the more fundamental changes:
 
 #### No more `instance_eval`
