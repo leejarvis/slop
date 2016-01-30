@@ -206,6 +206,48 @@ opts = Slop.parse do
 end
 ```
 
+Caution Regarding Exceptions
+----------------------------
+
+If more than one error exists on a command line, only the first error encountered will be reported by an exception.  The remaining errors on the command line will go unreported.  This can be frustrating on long complex command lines.  One way to avoid this frustration is to suppress the Slop exceptions, look for the problems within your main program and report all the errors back to the user at once.
+
+One way to find out about problems without using the exceptions is:
+
+```ruby
+opts = Slop::Options.new(suppress_errors: true)
+opts.string '-n', '--name', 'Hello <name>'
+
+parser = Slop::Parser.new(opts, suppress_errors: true)
+
+command_line = %w[ --xyzzy -n ]
+
+result = parser.parse(command_line)
+
+problems = []
+
+result.options.options.each do |opt|
+  if opt.count > 1
+    problems << "WARNING: #{opt.desc} #{opt.flags.inspect} entered more than once; only last value is used"
+  end
+  if opt.value.nil?
+    if opt.config.default.nil?
+      problems <<  "WARNING: Required parameter is missing: #{opt.desc} #{opt.flags.inspect}"
+    end
+  end
+end
+
+unless result.arguments.empty?
+  bad_options = result.arguments.select {|o| o.start_with?('-')}
+  unless bad_options.empty?
+    problems <<  "WARNING: Invalid parameters: #{bad_options.inspect}"
+  end
+end
+
+puts problems.join("\n") unless problems.empty?
+
+```
+
+
 Printing help
 -------------
 
