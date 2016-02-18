@@ -132,6 +132,9 @@ end
 # --files foo.txt --files bar.rb
 ```
 
+If you want to disable the built-in string-splitting, set the delimiter to
+`nil`.
+
 Custom option types
 -------------------
 
