@@ -67,6 +67,7 @@ describe Slop::ArrayOption do
   before do
     @options = Slop::Options.new
     @files   = @options.array "--files"
+    @multi   = @options.array "-M", delimiter: nil
     @delim   = @options.array "-d", delimiter: ":"
     @limit   = @options.array "-l", limit: 2
     @result  = @options.parse %w(--files foo.txt,bar.rb)
@@ -83,6 +84,11 @@ describe Slop::ArrayOption do
   it "collects multiple option values" do
     @result.parser.parse %w(--files foo.txt --files bar.rb)
     assert_equal %w(foo.txt bar.rb), @result[:files]
+  end
+
+  it "collects multiple option values with no delimiter" do
+    @result.parser.parse %w(-M foo,bar -M bar,qux)
+    assert_equal %w(foo,bar bar,qux), @result[:M]
   end
 
   it "can use a custom delimiter" do

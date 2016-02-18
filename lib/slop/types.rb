@@ -62,7 +62,11 @@ module Slop
   class ArrayOption < Option
     def call(value)
       @value ||= []
-      @value.concat value.split(delimiter, limit)
+      if delimiter
+        @value.concat value.split(delimiter, limit)
+      else
+        @value << value
+      end
     end
 
     def default_value
@@ -70,7 +74,7 @@ module Slop
     end
 
     def delimiter
-      config[:delimiter] || ","
+      config.fetch(:delimiter, ",")
     end
 
     def limit
