@@ -1,6 +1,12 @@
 Changelog
 =========
 
+Unreleased
+----------
+
+Features
+  * Allow disabling array delimiter. #189 (Mike Pastore)
+
 v4.2.1 (2015-11-25)
 -------------------
 
