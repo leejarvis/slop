@@ -1,8 +1,11 @@
 cache: bundler
+before_install:
+  - gem update bundler
 rvm:
   - 2.0.0
   - 2.1
   - 2.2
+  - 2.3.0
   - rbx-2
   - jruby-head
   - ruby-head
