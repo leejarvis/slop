@@ -55,7 +55,7 @@ describe Slop::Options do
   end
 
   describe "#to_s" do
-    it "is prefixed with the banner" do
+    it "is prefixed with the default banner" do
       assert_match(/^usage/, @options.to_s)
     end
 
@@ -80,6 +80,17 @@ describe Slop::Options do
       @options.on "-h", "--help", tail: true
       @options.on "-f", "--foo"
       assert_match(/^    -h, --help/, @options.to_s.lines.last)
+    end
+  end
+
+  describe "custom banner" do
+    it "is prefixed with defined banner" do
+      @options_config = Slop::Options.new({banner: "custom banner"})
+      assert_match(/^custom banner/, @options_config.to_s) 
+    end
+    it "banner is disabled" do
+      @options_config = Slop::Options.new({banner: false})
+      assert_match("", @options_config.to_s)
     end
   end
 end

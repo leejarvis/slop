@@ -26,7 +26,7 @@ module Slop
     def initialize(**config)
       @options    = []
       @separators = []
-      @banner     = "usage: #{$0} [options]"
+      @banner     = config[:banner].is_a?(String) ? config[:banner] : config.fetch(:banner, "usage: #{$0} [options]")
       @config     = DEFAULT_CONFIG.merge(config)
       @parser     = Parser.new(self, @config)
 
