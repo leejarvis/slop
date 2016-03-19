@@ -1,11 +1,12 @@
 Changelog
 =========
 
-Unreleased
-----------
+v4.3.0 (2016-03-19)
+-------------------
 
 Features
   * Allow disabling array delimiter. #189 (Mike Pastore)
+  * Allow passing custom banner as config. #191 (Philip Rees)
 
 v4.2.1 (2015-11-25)
 -------------------
