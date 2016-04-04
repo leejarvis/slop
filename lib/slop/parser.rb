@@ -43,7 +43,8 @@ module Slop
 
       @arguments = strings.dup
 
-      pairs.each do |flag, arg|
+      pairs.each_with_index do |pair, idx|
+        flag, arg = pair
         break if !flag
 
         # ignore everything after '--', flag or not
@@ -54,6 +55,7 @@ module Slop
 
         # support `foo=bar`
         orig_flag = flag.dup
+        orig_arg = arg
         if flag.include?("=")
           flag, arg = flag.split("=")
         end
@@ -63,6 +65,12 @@ module Slop
           # arguments (plus the arg if necessary)
           # delete argument first while we can find its index.
           if opt.expects_argument?
+
+            # if we consumed the argument, remove the next pair
+            if orig_arg == opt.value.to_s
+              pairs.delete_at(idx + 1)
+            end
+
             arguments.each_with_index do |argument, i|
               if argument == orig_flag && !orig_flag.include?("=")
                 arguments.delete_at(i + 1)
