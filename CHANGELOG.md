@@ -1,6 +1,15 @@
 Changelog
 =========
 
+unreleased
+----------
+
+Features
+  * Support parsing arguments prefixed with dashes. #192 (Andrew Clemons)
+
+Bug fixes:
+  * Retain sort order inside tail sort. #193 (Caio Chassot)
+
 v4.3.0 (2016-03-19)
 -------------------
 
