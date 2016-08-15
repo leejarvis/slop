@@ -1,8 +1,8 @@
 Changelog
 =========
 
-unreleased
-----------
+v4.4.0 (2016-08-15)
+-------------------
 
 Features
   * Support parsing arguments prefixed with dashes. #192 (Andrew Clemons)
