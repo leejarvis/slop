@@ -31,6 +31,10 @@ module Slop
   # Returns true if an option is defined.
   def self.option_defined?(name)
     const_defined?(string_to_option(name.to_s))
+  rescue NameError
+    # If a NameError is raised, it wasn't a valid constant name,
+    # and thus couldn't have been defined.
+    false
   end
 
   # Example:
