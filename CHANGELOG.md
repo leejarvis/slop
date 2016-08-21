@@ -1,6 +1,13 @@
 Changelog
 =========
 
+v4.4.1 (2016-08-21)
+-------------------
+
+Bug fixes:
+  * Handle bad constant names in `Slop.option_defined?`. #198
+    (Ellen Marie Dash)
+
 v4.4.0 (2016-08-15)
 -------------------
 
