@@ -66,6 +66,19 @@ describe Slop::Parser do
     end
   end
 
+  describe "short flags with arguments" do
+    before do
+      @options.integer "-i"
+      @options.string "-s"
+    end
+
+    it "parses the argument" do
+      @result.parser.parse %w(-i5 -sfoo)
+      assert_equal 5, @result[:i]
+      assert_equal "foo", @result[:s]
+    end
+  end
+
   describe "#used_options" do
     it "returns all options that were parsed" do
       assert_equal [@verbose, @name], @parser.used_options

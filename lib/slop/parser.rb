@@ -111,18 +111,31 @@ module Slop
       elsif flag.start_with?("--no-") && option = matching_option(flag.sub("no-", ""))
         process(option, false)
       elsif flag =~ /\A-[^-]{2,}/
-        # try and process as a set of grouped short flags. drop(1) removes
-        # the prefixed -, then we add them back to each flag separately.
-        flags = flag.split("").drop(1).map { |f| "-#{f}" }
-        last  = flags.pop
-
-        flags.each { |f| try_process(f, nil) }
-        try_process(last, arg) # send the argument to the last flag
+        try_process_smashed_arg(flag) || try_process_grouped_flags(flag, arg)
       else
         if flag.start_with?("-") && !suppress_errors?
           raise UnknownOption.new("unknown option `#{flag}'", "#{flag}")
         end
       end
+    end
+
+    # try and process a flag with a "smashed" argument, e.g.
+    # -nFoo or -i5
+    def try_process_smashed_arg(flag)
+      option = matching_option(flag[0, 2])
+      if option && option.expects_argument?
+        process(option, flag[2..-1])
+      end
+    end
+
+    # try and process as a set of grouped short flags. drop(1) removes
+    # the prefixed -, then we add them back to each flag separately.
+    def try_process_grouped_flags(flag, arg)
+      flags = flag.split("").drop(1).map { |f| "-#{f}" }
+      last  = flags.pop
+
+      flags.each { |f| try_process(f, nil) }
+      try_process(last, arg) # send the argument to the last flag
     end
 
     def suppress_errors?
