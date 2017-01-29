@@ -1,6 +1,12 @@
 Changelog
 =========
 
+unreleased
+----------
+
+Bug fixes:
+  * Fix support for parsing -x5 or -nfoo. #199
+
 v4.4.1 (2016-08-21)
 -------------------
 
