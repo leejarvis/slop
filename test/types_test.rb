@@ -41,7 +41,7 @@ describe Slop::IntegerOption do
 
   it "returns nil for non-numbers by default" do
     @result.parser.parse %w(--age hello)
-    assert_equal nil, @result[:age]
+    assert_nil @result[:age]
   end
 end
 
@@ -59,7 +59,7 @@ describe Slop::FloatOption do
 
   it "returns nil for non-numbers by default" do
     @result.parser.parse %w(--apr hello)
-    assert_equal nil, @result[:apr]
+    assert_nil @result[:apr]
   end
 end
 

@@ -97,7 +97,7 @@ describe Slop::Result do
     end
 
     it "returns nil if nothing is found" do
-      assert_equal nil, @result.option("foo")
+      assert_nil @result.option("foo")
     end
   end
 
