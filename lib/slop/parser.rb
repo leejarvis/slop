@@ -36,6 +36,9 @@ module Slop
     def parse(strings)
       reset # reset before every parse
 
+      # ignore everything after "--"
+      strings, ignored_args = partition(strings)
+
       pairs = strings.each_cons(2).to_a
       # this ensures we still support the last string being a flag,
       # otherwise it'll only be used as an argument.
@@ -46,12 +49,6 @@ module Slop
       pairs.each_with_index do |pair, idx|
         flag, arg = pair
         break if !flag
-
-        # ignore everything after '--', flag or not
-        if flag == '--'
-          arguments.delete(flag)
-          break
-        end
 
         # support `foo=bar`
         orig_flag = flag.dup
@@ -80,6 +77,8 @@ module Slop
           arguments.delete(orig_flag)
         end
       end
+
+      @arguments += ignored_args
 
       Result.new(self).tap do |result|
         used_options.each { |o| o.finish(result) }
@@ -144,6 +143,15 @@ module Slop
 
     def matching_option(flag)
       options.find { |o| o.flags.include?(flag) }
+    end
+
+    private def partition(strings)
+      if strings.include?("--")
+        partition_idx = strings.index("--")
+        [strings[0..partition_idx-1], strings[partition_idx+1..-1]]
+      else
+        [strings, []]
+      end
     end
   end
 end
