@@ -6,6 +6,7 @@ unreleased
 
 Bug fixes:
   * Fix support for parsing -x5 or -nfoo. #199
+  * Fix removing arguments after `--`. #194
 
 v4.4.1 (2016-08-21)
 -------------------
