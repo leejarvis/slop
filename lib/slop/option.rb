@@ -1,10 +1,8 @@
 module Slop
   class Option
-
     DEFAULT_CONFIG = {
       help: true,
       tail: false,
-      underscore_flags: true,
     }
 
     # An Array of flags this option matches.

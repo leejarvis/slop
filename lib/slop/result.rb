@@ -7,7 +7,6 @@ module Slop
   # result of those actions. This class contains the important most used
   # methods.
   class Result
-
     attr_reader :parser, :options
 
     def initialize(parser)
