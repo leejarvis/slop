@@ -1,6 +1,13 @@
 Changelog
 =========
 
+unreleased
+----------
+
+Features:
+  * Added config option to avoid translating flags-with-dashes into
+  underscores. #206 (@lbriais)
+
 v4.4.2 (2017-06-29)
 -------------------
 
