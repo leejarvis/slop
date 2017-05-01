@@ -6,6 +6,7 @@ module Slop
     DEFAULT_CONFIG = {
       help: true,
       tail: false,
+      friendly_symbols: true,
     }
 
     # An Array of flags this option matches.
