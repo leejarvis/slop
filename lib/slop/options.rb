@@ -3,9 +3,10 @@ module Slop
     include Enumerable
 
     DEFAULT_CONFIG = {
-      suppress_errors: false,
-      type:            "null",
-      banner:          true,
+      suppress_errors:  false,
+      type:             "null",
+      banner:           true,
+      underscore_flags: true,
     }
 
     # The Array of Option instances we've created.

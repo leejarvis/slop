@@ -21,6 +21,10 @@ describe Slop::Option do
       assert_equal :foo_bar, option(%w(-f --foo-bar), nil).key
     end
 
+    it "when specified, it won't convert dashes to underscores to make multi-word options symbol-friendly" do
+      assert_equal :'foo-bar', option(%w(-f --foo-bar), nil, underscore_flags: false).key
+    end
+
     it "can be overridden" do
       assert_equal :bar, option(%w(-f --foo), nil, key: "bar").key
     end
