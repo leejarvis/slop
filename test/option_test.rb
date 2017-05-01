@@ -22,7 +22,7 @@ describe Slop::Option do
     end
 
     it "when specified, it won't convert dashes to underscores to make multi-word options symbol-friendly" do
-      assert_equal :'foo-bar', option(%w(-f --foo-bar), nil, friendly_symbols: false).key
+      assert_equal :'foo-bar', option(%w(-f --foo-bar), nil, underscore_flags: false).key
     end
 
 

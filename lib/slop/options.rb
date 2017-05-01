@@ -6,7 +6,7 @@ module Slop
       suppress_errors:  false,
       type:             "null",
       banner:           true,
-      friendly_symbols: true,
+      underscore_flags: true,
     }
 
     # The Array of Option instances we've created.

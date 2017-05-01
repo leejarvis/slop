@@ -8,7 +8,6 @@ module Slop
   # methods.
   class Result
 
-    include Slop::TransformUtils
     attr_reader :parser, :options
 
     def initialize(parser)
@@ -35,7 +34,11 @@ module Slop
 
     # Returns an Option if it exists. Ignores any prefixed hyphens.
     def option(flag)
-      cleaned = -> (f) { symbol_friendly f.to_s.sub(/\A--?/, '') }
+      cleaned = -> (f) do
+        key = f.to_s.sub(/\A--?/, '')
+        key = key.tr '-', '_' if parser.config[:underscore_flags]
+        key.to_sym
+      end
       options.find do |o|
         o.flags.any? { |f| cleaned.(f) == cleaned.(flag) }
       end

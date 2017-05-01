@@ -1,12 +1,10 @@
 module Slop
   class Option
 
-    include Slop::TransformUtils
-
     DEFAULT_CONFIG = {
       help: true,
       tail: false,
-      friendly_symbols: true,
+      underscore_flags: true,
     }
 
     # An Array of flags this option matches.
@@ -111,7 +109,14 @@ module Slop
 
     # Returns the last key as a symbol. Used in Options.to_hash.
     def key
-      symbol_friendly(config[:key] || flags.last.sub(/\A--?/, '')).to_sym
+      key = config[:key] || flags.last.sub(/\A--?/, '')
+      key = key.tr '-', '_' if underscore_flags?
+      key.to_sym
+    end
+
+    # Returns true if this option should be displayed with dashes transformed into underscores.
+    def underscore_flags?
+      config[:underscore_flags]
     end
 
     # Returns true if this option should be displayed in help text.
