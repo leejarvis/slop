@@ -7,6 +7,8 @@ module Slop
   # result of those actions. This class contains the important most used
   # methods.
   class Result
+
+    include Slop::TransformUtils
     attr_reader :parser, :options
 
     def initialize(parser)
@@ -33,7 +35,7 @@ module Slop
 
     # Returns an Option if it exists. Ignores any prefixed hyphens.
     def option(flag)
-      cleaned = -> (f) { f.to_s.sub(/\A--?/, '').tr('_', '-') }
+      cleaned = -> (f) { symbol_friendly f.to_s.sub(/\A--?/, '') }
       options.find do |o|
         o.flags.any? { |f| cleaned.(f) == cleaned.(flag) }
       end

@@ -1,5 +1,8 @@
 module Slop
   class Option
+
+    include Slop::TransformUtils
+
     DEFAULT_CONFIG = {
       help: true,
       tail: false,
@@ -107,7 +110,7 @@ module Slop
 
     # Returns the last key as a symbol. Used in Options.to_hash.
     def key
-      (config[:key] || flags.last.sub(/\A--?/, '')).tr("-", "_").to_sym
+      symbol_friendly(config[:key] || flags.last.sub(/\A--?/, '')).to_sym
     end
 
     # Returns true if this option should be displayed in help text.

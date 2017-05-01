@@ -1,3 +1,4 @@
+require 'slop/transform_utils'
 require 'slop/option'
 require 'slop/options'
 require 'slop/parser'
