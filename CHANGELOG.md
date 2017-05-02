@@ -8,7 +8,13 @@ Features:
   * Added config option to avoid translating flags-with-dashes into
   underscores. #206 (@lbriais)
 
-v4.4.2 (2017-06-29)
+v4.4.3 (2017-05-02)
+-------------------
+
+Bug fixes:
+  * Ruby 2.0.0 support broken in v4.4.2
+
+v4.4.2 (2017-04-29)
 -------------------
 
 Bug fixes:
