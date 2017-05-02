@@ -145,7 +145,7 @@ module Slop
       options.find { |o| o.flags.include?(flag) }
     end
 
-    private def partition(strings)
+    def partition(strings)
       if strings.include?("--")
         partition_idx = strings.index("--")
         [strings[0..partition_idx-1], strings[partition_idx+1..-1]]
