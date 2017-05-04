@@ -63,6 +63,24 @@ describe Slop::FloatOption do
   end
 end
 
+describe Slop::DateOption do
+  before do
+    @options = Slop::Options.new
+    @options.date '--date'
+    @date    = Date.parse('2007-08-18')
+    @result  = @options.parse %W(--date #{@date})
+  end
+
+  it 'returns a date object' do
+    assert_equal @date, @result[:date]
+  end
+
+  it 'returns nil for unparsable dates' do
+    @result.parser.parse %w(--date someday)
+    assert_nil @result[:date]
+  end
+end
+
 describe Slop::ArrayOption do
   before do
     @options = Slop::Options.new
