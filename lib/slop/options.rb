@@ -61,10 +61,39 @@ module Slop
     # the help text.
     def separator(string)
       if separators[options.size]
-        separators.last << "\n#{string}"
+        separators.last << string
       else
-        separators[options.size] = string
+        separators[options.size] = [string]
       end
+    end
+
+    def get_separators(i, len, metavar_len, prefix)
+      return unless sep = separators[i]
+      "#{
+      sep.map do |x|
+        x.class.superclass == Slop::Option ?
+          "#{prefix}#{x.to_s(offset: len, metavar_offset: metavar_len)}" :
+          x
+      end.join("\n")
+      }\n"
+    end
+
+    # Add a duplicate option to help
+    def help_duplicate(*flags, **config)
+      if option = self.options.first {|opt| opt.flags.include? flags}
+        klass  = option.class unless config[:type]
+        config = option.config.merge(config)
+        desc   = (flags.pop unless flags.last.start_with?('-')) || option.desc
+      else
+        config = self.config.merge(config)
+        raise ArgumentError, "This option does not exist!"\
+          unless config[:suppress_errors]
+        desc   = flags.pop unless flags.last.start_with?('-')
+      end
+      klass  ||= Slop.string_to_option_class(config[:type].to_s)
+      option ||= klass.new(flags, desc, config)
+
+      self.separator(option)
     end
 
     # Sugar to avoid `options.parser.parse(x)`.
@@ -101,14 +130,22 @@ module Slop
     def to_s(prefix: " " * 4)
       str = config[:banner] ? "#{banner}\n" : ""
       len = longest_flag_length
+      metavar_len = longest_metavar_length
 
       options.select(&:help?).each_with_index.sort_by{ |o,i| [o.tail, i] }.each do |opt, i|
         # use the index to fetch an associated separator
-        if sep = separators[i]
-          str << "#{sep}\n"
+        if sep = get_separators(i, len, metavar_len, prefix)
+          str << sep
         end
 
-        str << "#{prefix}#{opt.to_s(offset: len)}\n"
+        str << "#{prefix}#{opt.to_s(offset: len, metavar_offset: metavar_len)}\n"
+
+      # add any separators added after the final argument
+        if i == (options.select(&:help?).size - 1)
+          if sep = get_separators(i + 1, len, metavar_len, prefix)
+            str << sep
+          end
+        end
       end
 
       str
@@ -122,6 +159,15 @@ module Slop
 
     def longest_option
       options.max { |a, b| a.flag.length <=> b.flag.length }
+    end
+
+    def longest_metavar_length
+      (m = longest_metavar) && m.metavar.length || 0
+    end
+
+    def longest_metavar
+      options.select(&:expects_argument?).
+        max { |a, b| a.metavar.length <=> b.metavar.length }
     end
 
     def add_option(option)
