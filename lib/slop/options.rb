@@ -101,6 +101,7 @@ module Slop
     def to_s(prefix: " " * 4)
       str = config[:banner] ? "#{banner}\n" : ""
       len = longest_flag_length
+      metavar_len = longest_metavar_length
 
       options.select(&:help?).each_with_index.sort_by{ |o,i| [o.tail, i] }.each do |opt, i|
         # use the index to fetch an associated separator
@@ -108,7 +109,7 @@ module Slop
           str << "#{sep}\n"
         end
 
-        str << "#{prefix}#{opt.to_s(offset: len)}\n"
+        str << "#{prefix}#{opt.to_s(offset: len, metavar_offset: metavar_len)}\n"
       end
 
       str
@@ -122,6 +123,15 @@ module Slop
 
     def longest_option
       options.max { |a, b| a.flag.length <=> b.flag.length }
+    end
+
+    def longest_metavar_length
+      (m = longest_metavar) && m.metavar.length || 0
+    end
+
+    def longest_metavar
+      options.select(&:expects_argument?).
+        max { |a, b| a.metavar.length <=> b.metavar.length }
     end
 
     def add_option(option)

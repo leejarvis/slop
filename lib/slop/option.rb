@@ -134,9 +134,24 @@ module Slop
       tail? ? 1 : -1
     end
 
+    # Returns a metavariable to be used as the name of a flag in help
+    def metavar(check_defaults: true)
+      if expects_argument?
+        metavar = (
+          config[:metavar] ||
+          flags.max_by(&:size).sub(/\A--?/, '').tr("-", "_").upcase
+        )
+        if check_defaults
+          metavar = "[#{metavar}]" unless default_value.nil?
+        end
+        metavar
+      end
+    end
+
     # Returns the help text for this option (flags and description).
-    def to_s(offset: 0)
-      "%-#{offset}s  %s" % [flag, desc]
+    def to_s(offset: 0, metavar_offset: 0)
+      metavar_offset += 1 unless metavar_offset.zero?
+      "%-#{offset}s %-#{metavar_offset}s %s" % [flag, metavar, desc]
     end
   end
 end
