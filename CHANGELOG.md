@@ -1,8 +1,8 @@
 Changelog
 =========
 
-unreleased
-----------
+v4.5.0 (2017-05-22)
+-------------------
 
 Features:
   * Added config option to avoid translating flags-with-dashes into
