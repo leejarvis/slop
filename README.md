@@ -39,6 +39,12 @@ opts.check_ssl_certificate? #=> true
 opts.to_hash  #=> { host: "192.168.0.1", port: 80, verbose: true, quiet: false, check_ssl_certificate: true }
 ```
 
+Note that the block we've added to the `--version` flag will be executed
+during parse time. Therefore these blocks should be reserved
+for immediately reacting to the presence of a flag. If you want to
+access other options or mutate values, check out the "Custom option types"
+section below and implement the `#finish` method.
+
 Option types
 ------------
 
