@@ -148,6 +148,7 @@ module Slop
     def partition(strings)
       if strings.include?("--")
         partition_idx = strings.index("--")
+        return [[], strings[1..-1]] if partition_idx.zero?
         [strings[0..partition_idx-1], strings[partition_idx+1..-1]]
       else
         [strings, []]

@@ -21,6 +21,12 @@ describe Slop::MissingArgument do
     opts.string "-n", "--name"
     opts.parse %w(--name)
   end
+
+  it "does not raise if '--' appears as the first argument" do
+    opts = Slop::Options.new
+    opts.string "-n", "--name"
+    opts.parse %w(-- --name)
+  end
 end
 
 describe Slop::UnknownOption do
