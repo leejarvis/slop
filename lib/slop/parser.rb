@@ -80,6 +80,15 @@ module Slop
 
       @arguments += ignored_args
 
+      if !suppress_errors?
+        unused_options.each do |o|
+          if o.config[:required]
+            pretty_flags = o.flags.map { |f| "`#{f}'" }.join(", ")
+            raise MissingRequiredOption, "missing required option #{pretty_flags}"
+          end
+        end
+      end
+
       Result.new(self).tap do |result|
         used_options.each { |o| o.finish(result) }
       end

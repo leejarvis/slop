@@ -20,6 +20,7 @@ Usage
 opts = Slop.parse do |o|
   o.string '-h', '--host', 'a hostname'
   o.integer '--port', 'custom port', default: 80
+  o.string '-l', '--login', required: true
   o.bool '-v', '--verbose', 'enable verbose mode'
   o.bool '-q', '--quiet', 'suppress output (quiet mode)'
   o.bool '-c', '--check-ssl-certificate', 'check SSL certificate for host'
@@ -197,6 +198,7 @@ Slop will raise errors for the following:
 
 * An option used without an argument when it expects one: `Slop::MissingArgument`
 * An option used that Slop doesn't know about: `Slop::UnknownOption`
+* An option marked as `required` when not provided: `Slop::MissingRequiredOption`
 
 These errors inherit from `Slop::Error`, so you can rescue them all.
 Alternatively you can suppress these errors with the `suppress_errors` config

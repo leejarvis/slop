@@ -32,4 +32,9 @@ module Slop
       @flag = flag
     end
   end
+
+  # Raised when a required option is *not* parsed.
+  # Suppress with the `suppress_errors` config option.
+  class MissingRequiredOption < Error
+  end
 end

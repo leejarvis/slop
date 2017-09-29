@@ -4,6 +4,7 @@ module Slop
       help: true,
       tail: false,
       underscore_flags: true,
+      required: false,
     }
 
     # An Array of flags this option matches.
@@ -99,6 +100,11 @@ module Slop
     # Returns true if we should ignore errors that cause exceptions to be raised.
     def suppress_errors?
       config[:suppress_errors]
+    end
+
+    # Returns true if an exception should be raised when this option isn't supplied.
+    def required?
+      config[:required]
     end
 
     # Returns all flags joined by a comma. Used by the help string.
