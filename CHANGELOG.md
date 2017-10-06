@@ -1,6 +1,12 @@
 Changelog
 =========
 
+v4.6.0 (2017-10-06)
+-------------------
+
+Features
+  * Add support for required options. #218 (William Woodruff)
+
 v4.5.0 (2017-05-22)
 -------------------
 
