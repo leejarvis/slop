@@ -36,6 +36,15 @@ describe Slop::Options do
     end
   end
 
+  describe "#separator" do
+    # TODO: Missing all other specs for #separator
+
+    it "accepts a frozen argument, even when called multiple times for the same option" do
+      @options.separator("foo".freeze)
+      @options.separator("bar".freeze)
+    end
+  end
+
   describe "#method_missing" do
     it "uses the method name as an option type" do
       option = @options.string("--name")
@@ -86,7 +95,7 @@ describe Slop::Options do
   describe "custom banner" do
     it "is prefixed with defined banner" do
       @options_config = Slop::Options.new({banner: "custom banner"})
-      assert_match(/^custom banner/, @options_config.to_s) 
+      assert_match(/^custom banner/, @options_config.to_s)
     end
     it "banner is disabled" do
       @options_config = Slop::Options.new({banner: false})
