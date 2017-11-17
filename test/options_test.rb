@@ -37,7 +37,28 @@ describe Slop::Options do
   end
 
   describe "#separator" do
-    # TODO: Missing all other specs for #separator
+    it "appends separators between options in order" do
+      @options.separator("foo")
+      @options.on("--foo")
+      @options.separator("bar")
+
+      assert_equal ["foo", "bar"], @options.separators
+    end
+
+    it "appends strings to the last separator if no options exist" do
+      @options.separator("foo")
+      @options.separator("bar")
+
+      assert_equal ["foo\nbar"], @options.separators
+    end
+
+    it "includes separators in the help text" do
+      @options.on("--foo")
+      @options.separator("bar")
+
+      help = @options.to_s.squeeze(" ")
+      assert help.end_with?("--foo \nbar\n")
+    end
 
     it "accepts a frozen argument, even when called multiple times for the same option" do
       @options.separator("foo".freeze)

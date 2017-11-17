@@ -111,6 +111,10 @@ module Slop
         str << "#{prefix}#{opt.to_s(offset: len)}\n"
       end
 
+      if sep = separators[options.size]
+        str << "#{sep}\n"
+      end
+
       str
     end
 
