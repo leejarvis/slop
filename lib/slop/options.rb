@@ -61,7 +61,7 @@ module Slop
     # the help text.
     def separator(string)
       if separators[options.size]
-        separators.last << "\n#{string}"
+        separators[-1] += "\n#{string}"
       else
         separators[options.size] = string
       end
