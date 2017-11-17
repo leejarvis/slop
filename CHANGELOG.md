@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Unreleased
+----------
+
+Bug fixes/Enhancements
+  * Fix separator so it doesn't mutate user data. #223 (Marc-André Lafortune)
+  * Add additional tests for `Options#separator` and fix issue where
+    the last separator was ignored. #222
+
 v4.6.0 (2017-10-06)
 -------------------
 
