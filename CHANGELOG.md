@@ -1,8 +1,8 @@
 Changelog
 =========
 
-Unreleased
-----------
+v4.6.1 (2017-11-20)
+-------------------
 
 Bug fixes/Enhancements
   * Fix separator so it doesn't mutate user data. #223 (Marc-André Lafortune)
