@@ -1,6 +1,11 @@
 Changelog
 =========
 
+v4.6.2 (2018-03-12)
+
+Bug fixes/Enhancements
+  * Fix equals character (=) being parsed incorrectly in some cases. #226
+
 v4.6.1 (2017-11-20)
 -------------------
 
