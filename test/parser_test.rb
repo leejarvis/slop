@@ -21,6 +21,11 @@ describe Slop::Parser do
     @result.parser.parse %w(--name=bob -p=123)
     assert_equal "bob", @result[:name]
     assert_equal 123, @result[:port]
+
+    @options.string "--foo"
+    @result.parser.parse %w(--foo = =)
+    assert_equal "=", @result[:foo]
+    assert_equal %w(=), @result.args
   end
 
   it "parses arg with leading -" do

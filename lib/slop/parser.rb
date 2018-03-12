@@ -53,8 +53,8 @@ module Slop
         # support `foo=bar`
         orig_flag = flag.dup
         orig_arg = arg
-        if flag.include?("=")
-          flag, arg = flag.split("=")
+        if match = flag.match(/([^=]+)=([^=]+)/)
+          flag, arg = match.captures
         end
 
         if opt = try_process(flag, arg)
