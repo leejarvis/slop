@@ -27,9 +27,10 @@ module Slop
     # The end value for this option.
     attr_writer :value
 
-    def initialize(flags, desc, **config, &block)
+    def initialize(flags, desc, parent, **config, &block)
       @flags  = flags
       @desc   = desc
+      @parent = parent
       @config = DEFAULT_CONFIG.merge(config)
       @block  = block
       reset
@@ -53,7 +54,12 @@ module Slop
         if default_value
           @value = default_value
         elsif !suppress_errors?
-          raise Slop::MissingArgument.new("missing argument for #{flag}", flags)
+          ex = Slop::MissingArgument.new("missing argument for #{flag}", flags)
+          if @parent.on_error_block
+            @parent.on_error_block.call(@parent, ex)
+          else
+            raise ex
+          end
         end
       else
         @value = call(value)

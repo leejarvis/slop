@@ -24,6 +24,9 @@ module Slop
     # The String banner prefixed to the help string.
     attr_accessor :banner
 
+    # The block called when there is an error caused by the provided options.
+    attr_accessor :on_error_block
+
     def initialize(**config)
       @options    = []
       @separators = []
@@ -52,7 +55,7 @@ module Slop
       desc   = flags.pop unless flags.last.start_with?('-')
       config = self.config.merge(config)
       klass  = Slop.string_to_option_class(config[:type].to_s)
-      option = klass.new(flags, desc, config, &block)
+      option = klass.new(flags, desc, self, config, &block)
 
       add_option option
     end
@@ -75,6 +78,17 @@ module Slop
     # Implements the Enumerable interface.
     def each(&block)
       options.each(&block)
+    end
+
+    # The block is called when there is an error when processing the options.
+    #
+    # You can use it to print the help or the specific error and terminate the program execution.
+    # Example:
+    #
+    #   o.on_error {|options, exception| puts exception; puts options; exit }
+    #
+    def on_error(&block)
+      @on_error_block = block
     end
 
     # Handle custom option types. Will fall back to raising an
