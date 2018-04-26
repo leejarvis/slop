@@ -6,7 +6,7 @@ describe 'on_error' do
   it "is called when there is a missing argument" do
     opts = Slop::Options.new
     opts.string "-n", "--name"
-    opts.on_error do |o, ex|
+    opts.on_error do |ex|
       raise ArgumentError.new(ex.to_s)
     end
 
@@ -20,7 +20,7 @@ describe 'on_error' do
   it "is called when there is a missing required option" do
     opts = Slop::Options.new
     opts.string "-n", "--name", required: true
-    opts.on_error do |o, ex|
+    opts.on_error do |ex|
       raise ArgumentError.new(ex.to_s)
     end
 
@@ -33,7 +33,7 @@ describe 'on_error' do
 
   it "is called when there is an unknown option" do
     opts = Slop::Options.new
-    opts.on_error do |o, ex|
+    opts.on_error do |ex|
       raise ArgumentError.new(ex.to_s)
     end
 

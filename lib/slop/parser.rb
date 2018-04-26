@@ -84,12 +84,7 @@ module Slop
         unused_options.each do |o|
           if o.config[:required]
             pretty_flags = o.flags.map { |f| "`#{f}'" }.join(", ")
-            ex = MissingRequiredOption.new("missing required option #{pretty_flags}")
-            if options.on_error_block
-              options.on_error_block.call(options, ex)
-            else
-              raise ex
-            end
+            o.on_error.call(MissingRequiredOption.new("missing required option #{pretty_flags}"))
           end
         end
       end
@@ -127,12 +122,7 @@ module Slop
         try_process_smashed_arg(flag) || try_process_grouped_flags(flag, arg)
       else
         if flag.start_with?("-") && !suppress_errors?
-          ex = UnknownOption.new("unknown option `#{flag}'", "#{flag}")
-          if options.on_error_block
-            options.on_error_block.call(options, ex)
-          else
-            raise ex
-          end
+          @options.config[:on_error].call(UnknownOption.new("unknown option `#{flag}'", "#{flag}"))
         end
       end
     end

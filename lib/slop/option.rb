@@ -27,10 +27,9 @@ module Slop
     # The end value for this option.
     attr_writer :value
 
-    def initialize(flags, desc, parent, **config, &block)
+    def initialize(flags, desc, **config, &block)
       @flags  = flags
       @desc   = desc
-      @parent = parent
       @config = DEFAULT_CONFIG.merge(config)
       @block  = block
       reset
@@ -54,12 +53,7 @@ module Slop
         if default_value
           @value = default_value
         elsif !suppress_errors?
-          ex = Slop::MissingArgument.new("missing argument for #{flag}", flags)
-          if @parent.on_error_block
-            @parent.on_error_block.call(@parent, ex)
-          else
-            raise ex
-          end
+          on_error.call(Slop::MissingArgument.new("missing argument for #{flag}", flags))
         end
       else
         @value = call(value)
@@ -73,6 +67,16 @@ module Slop
     def call(_value)
       raise NotImplementedError,
         "you must override the `call' method for option #{self.class}"
+    end
+
+    # Assing the on_error block.
+    def on_error=(value)
+      config[:on_error] = value
+    end
+
+    # Return the on_error block.
+    def on_error
+      config.fetch(:on_error)
     end
 
     # By default this method does nothing. It's called when all options
