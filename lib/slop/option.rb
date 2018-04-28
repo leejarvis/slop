@@ -69,7 +69,7 @@ module Slop
         "you must override the `call' method for option #{self.class}"
     end
 
-    # Assing the on_error block.
+    # Assign the on_error block.
     def on_error=(value)
       config[:on_error] = value
     end
