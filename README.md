@@ -206,15 +206,25 @@ Alternatively you can suppress these errors with the `suppress_errors` config
 option:
 
 ```ruby
-opts = Slop.parse suppress_errors: true do
+opts = Slop.parse suppress_errors: true do |o|
   o.string '-name'
 end
 
 # or per option:
 
-opts = Slop.parse do
+opts = Slop.parse do |o|
   o.string '-host', suppress_errors: true
   o.int '-port'
+end
+```
+
+You can also override Slop behavior on error by submitting `on_error` block:
+
+```ruby
+opts = Slop.parse do |o|
+  o.string '-host'
+  o.int '-port'
+  o.on_error { |ex| puts ex; puts o; exit }
 end
 ```
 
