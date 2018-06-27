@@ -22,8 +22,9 @@ module Slop
     end
   end
 
-  # Raised when an unknown option is parsed. Suppress
-  # with the `suppress_errors` config option.
+  # Raised when an unknown option is parsed or when trying to fetch an
+  # unexisting option via `Slop::Result#fetch`.
+  # Suppress with the `suppress_errors` config option.
   class UnknownOption < Error
     attr_reader :flag
 

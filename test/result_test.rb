@@ -62,6 +62,31 @@ describe Slop::Result do
     end
   end
 
+  describe "#fetch" do
+    it "returns an options value" do
+      assert_equal "lee", @result.fetch("--name")
+    end
+
+    it "raises Slop::UnknownOption when an option does not exists" do
+      e = assert_raises(Slop::UnknownOption) { @result.fetch("--unexisting") }
+      assert_equal "option not found: 'unexisting'", e.message
+    end
+
+    it "returns the default value of an option when a value is not provided" do
+      @options.string("--foo", default: "bar")
+      @result.parser.parse %w(--foo)
+
+      assert_equal 'bar', @result.fetch('foo')
+    end
+
+    it "returns nil when an option is not provided and it does not have a default value" do
+      @options.string("--hello")
+      @result.parser.parse %w()
+
+      assert_equal nil, @result.fetch('hello')
+    end
+  end
+
   describe "#[]=" do
     it "sets an options value" do
       assert_equal "lee", @result["name"]

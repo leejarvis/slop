@@ -14,11 +14,22 @@ module Slop
       @options = parser.options
     end
 
-    # Returns an options value, nil if the option does not exist.
+    # Returns an option's value, nil if the option does not exist.
     def [](flag)
       (o = option(flag)) && o.value
     end
     alias get []
+
+    # Returns an option's value, raises UnknownOption if the option does not exist.
+    def fetch(flag)
+      o = option(flag)
+      if o.nil?
+        cleaned_key = clean_key(flag)
+        raise UnknownOption.new("option not found: '#{cleaned_key}'", "#{cleaned_key}")
+      else
+        o.value
+      end
+    end
 
     # Set the value for an option. Raises an ArgumentError if the option
     # does not exist.
@@ -33,13 +44,8 @@ module Slop
 
     # Returns an Option if it exists. Ignores any prefixed hyphens.
     def option(flag)
-      cleaned = -> (f) do
-        key = f.to_s.sub(/\A--?/, '')
-        key = key.tr '-', '_' if parser.config[:underscore_flags]
-        key.to_sym
-      end
       options.find do |o|
-        o.flags.any? { |f| cleaned.(f) == cleaned.(flag) }
+        o.flags.any? { |f| clean_key(f) == clean_key(flag) }
       end
     end
 
@@ -89,6 +95,14 @@ module Slop
 
     def to_s(**opts)
       options.to_s(**opts)
+    end
+
+    private
+
+    def clean_key(key)
+      key = key.to_s.sub(/\A--?/, '')
+      key = key.tr '-', '_' if parser.config[:underscore_flags]
+      key.to_sym
     end
   end
 end
