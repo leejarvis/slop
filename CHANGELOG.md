@@ -2,30 +2,31 @@ Changelog
 =========
 
 v4.6.2 (2018-03-12)
+-------------------
 
 Bug fixes/Enhancements
-  * Fix equals character (=) being parsed incorrectly in some cases. #226
+  * Fix equals character (=) being parsed incorrectly in some cases. [#226](https://github.com/leejarvis/slop/issues/226)
 
 v4.6.1 (2017-11-20)
 -------------------
 
 Bug fixes/Enhancements
-  * Fix separator so it doesn't mutate user data. #223 (Marc-André Lafortune)
+  * Fix separator so it doesn't mutate user data. [#223](https://github.com/leejarvis/slop/issues/223) (Marc-André Lafortune)
   * Add additional tests for `Options#separator` and fix issue where
-    the last separator was ignored. #222
+    the last separator was ignored. [#222](https://github.com/leejarvis/slop/issues/222)
 
 v4.6.0 (2017-10-06)
 -------------------
 
 Features
-  * Add support for required options. #218 (William Woodruff)
+  * Add support for required options. [#218](https://github.com/leejarvis/slop/issues/218) (William Woodruff)
 
 v4.5.0 (2017-05-22)
 -------------------
 
 Features:
   * Added config option to avoid translating flags-with-dashes into
-  underscores. #206 (@lbriais)
+  underscores. [#206](https://github.com/leejarvis/slop/issues/206) (@lbriais)
 
 v4.4.3 (2017-05-02)
 -------------------
@@ -37,73 +38,73 @@ v4.4.2 (2017-04-29)
 -------------------
 
 Bug fixes:
-  * Fix support for parsing -x5 or -nfoo. #199
-  * Fix removing arguments after `--`. #194
+  * Fix support for parsing -x5 or -nfoo. [#199](https://github.com/leejarvis/slop/issues/199)
+  * Fix removing arguments after `--`. [#194](https://github.com/leejarvis/slop/issues/194)
 
 v4.4.1 (2016-08-21)
 -------------------
 
 Bug fixes:
-  * Handle bad constant names in `Slop.option_defined?`. #198
+  * Handle bad constant names in `Slop.option_defined?`. [#198](https://github.com/leejarvis/slop/issues/198)
     (Ellen Marie Dash)
 
 v4.4.0 (2016-08-15)
 -------------------
 
 Features
-  * Support parsing arguments prefixed with dashes. #192 (Andrew Clemons)
+  * Support parsing arguments prefixed with dashes. [#192](https://github.com/leejarvis/slop/issues/192) (Andrew Clemons)
 
 Bug fixes:
-  * Retain sort order inside tail sort. #193 (Caio Chassot)
+  * Retain sort order inside tail sort. [#193](https://github.com/leejarvis/slop/issues/193) (Caio Chassot)
 
 v4.3.0 (2016-03-19)
 -------------------
 
 Features
-  * Allow disabling array delimiter. #189 (Mike Pastore)
-  * Allow passing custom banner as config. #191 (Philip Rees)
+  * Allow disabling array delimiter. [#189](https://github.com/leejarvis/slop/issues/189) (Mike Pastore)
+  * Allow passing custom banner as config. [#191](https://github.com/leejarvis/slop/issues/191) (Philip Rees)
 
 v4.2.1 (2015-11-25)
 -------------------
 
 Features:
-  * Better handling of option names with multiple words. #169 (Tim Rogers)
+  * Better handling of option names with multiple words. [#169](https://github.com/leejarvis/slop/issues/169) (Tim Rogers)
 
 Minor enhancements:
-  * add ARGF notes to Arguments (README). #173 (Rick Hull)
+  * add ARGF notes to Arguments (README). [#173](https://github.com/leejarvis/slop/issues/173) (Rick Hull)
 
 Bug fixes:
-  * Fix arguments removed with option arguments. #182 (Naoki Mizuno)
+  * Fix arguments removed with option arguments. [#182](https://github.com/leejarvis/slop/issues/182) (Naoki Mizuno)
   * Fix bug where true is passed to BoolOption block regardless
-    of --no- prefix. #184 (Ben Brady)
-  * only raise MissingArgument if not `default_value`. #163 (Ben Brady)
+    of --no- prefix. [#184](https://github.com/leejarvis/slop/issues/184) (Ben Brady)
+  * only raise MissingArgument if not `default_value`. [#163](https://github.com/leejarvis/slop/issues/163) (Ben Brady)
 
 v4.2.0 (2015-04-18)
 -------------------
 
 Features:
-  * Support for Regexp option type #167 (Laurent Arnoud)
+  * Support for Regexp option type [#167](https://github.com/leejarvis/slop/issues/167) (Laurent Arnoud)
   * Support prefixed `--no-` for explicitly setting boolean options
-    to `false` #168
-  * Better handling of flags with multiple words #169 (Tim Rogers)
+    to `false` [#168](https://github.com/leejarvis/slop/issues/168)
+  * Better handling of flags with multiple words [#169](https://github.com/leejarvis/slop/issues/169) (Tim Rogers)
 
 v4.1.0 (2015-04-18)
 -------------------
 
 Features:
-  * Support for FloatOption #156 (Rick Hull)
+  * Support for FloatOption [#156](https://github.com/leejarvis/slop/issues/156) (Rick Hull)
   * Support for `limit` config to ArrayOption.
   * Support for `tail` config to add options to the bottom of
     the help text.
-  * Add explicit setter (#[]=) to Result class. #162
+  * Add explicit setter (#[]=) to Result class. [#162](https://github.com/leejarvis/slop/issues/162)
   * Implement flag gettings for UnknownOption and MissingArgument
-    error classes. #165 (sigurdsvela)
+    error classes. [#165](https://github.com/leejarvis/slop/issues/165) (sigurdsvela)
 
 Minor enhancements:
   * Reset parser every time `parse` is called.
 
 Bug fixes:
-  * Remove "--" from unprocessed arguments #157 (David Rodríguez).
+  * Remove "--" from unprocessed arguments [#157](https://github.com/leejarvis/slop/issues/157) (David Rodríguez).
 
 v4.0.0 (2014-12-27)
 -------------------
