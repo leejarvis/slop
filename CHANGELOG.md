@@ -1,6 +1,13 @@
 Changelog
 =========
 
+_Unreleased_
+------------
+
+Features:
+  * Add `Slop::Result#fetch`. It returns the value of given option, or raises an error if given option is not present. [#232](https://github.com/leejarvis/slop/pull/232) ([Giovanni Benussi](https://github.com/giovannibenussi))
+
+
 v4.6.2 (2018-03-12)
 -------------------
 
