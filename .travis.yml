@@ -7,7 +7,9 @@ rvm:
   - 2.2
   - 2.3.4
   - 2.4.1
-  - jruby-9.2.0.0
+  - 2.5.3
+  - 2.6.0
+  - jruby-9.2.5.0
   - jruby-head
   - ruby-head
 notifications:
