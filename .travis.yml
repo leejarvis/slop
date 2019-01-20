@@ -1,6 +1,13 @@
 cache: bundler
 before_install:
-  - gem install bundler
+  - |
+    export RVM_CURRENT=`rvm current|cut -c6-8`
+    if [ "${RVM_CURRENT}" = "2.0" ] || \
+       [ "${RVM_CURRENT}" = "2.1" ] || \
+       [ "${RVM_CURRENT}" = "2.2" ]; then
+      gem install bundler -v '< 2'
+    fi
+
 rvm:
   - 2.0.0
   - 2.1
