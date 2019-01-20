@@ -64,6 +64,12 @@ describe Slop::Options do
       @options.separator("foo".freeze)
       @options.separator("bar".freeze)
     end
+
+    it "defaults to empty string" do
+      @options.separator
+
+      assert_equal [""], @options.separators
+    end
   end
 
   describe "#method_missing" do

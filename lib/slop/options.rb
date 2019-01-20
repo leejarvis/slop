@@ -59,7 +59,7 @@ module Slop
 
     # Add a separator between options. Used when displaying
     # the help text.
-    def separator(string)
+    def separator(string = "")
       if separators[options.size]
         separators[-1] += "\n#{string}"
       else
