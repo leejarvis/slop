@@ -276,16 +276,14 @@ Commands
 --------
 
 As of version 4, Slop does not have built in support for git-style subcommands.
-You can use version 3 of Slop (see `v3` branch). I also expect there to be some
-external libraries released soon that wrap around Slop to provide support for
-this feature. I'll update this document when that happens.
+You can use version 3 of Slop (see `v3` branch).
 
 Upgrading from version 3
 ------------------------
 
-Slop v4 is completely non-backwards compatible. The code has been rewritten
-from the ground up. If you're already using version 3 you *have* to update
-your code to use version 4. Here's an overview of the more fundamental changes:
+Slop v4 is not backwards compatible. The code has been completely rewritten.
+If you're already using version 3 you *have* to update your code to use version 4.
+Here's an overview of the large changes:
 
 #### No more `instance_eval`
 
@@ -327,22 +325,22 @@ See the custom types section of the document.
 
 #### No more trailing `=`
 
-Instead, the "does this option expect an argument" question is answered by
+Instead, the "does this option expect an argument?" question is answered by
 the option type (i.e `on` and `bool` options do not expect arguments, all
-others do. They handle type conversion, too.
+others do). They handle type conversion, too.
 
 #### Hyphens are required
 
 This was a hard decision to make, but you must provide prefixed hyphens when
-declaring your flags. This makes the underlying code much nicer and much less
-ambiguous, which leads to less error prone code. It also means you can easily
-support single hyphen prefix for a long flag, i.e `-hostname` which you
-could not do before. It also provides a hidden feature, which is infinity flag
-aliases: `o.string '-f', '-x', '--foo', '--bar', 'this is insane'`
+declaring your flags. This improves the implementation nicer and makes things
+much less ambiguous, which leads to less error prone code. It also means you
+can easily support single hyphen prefix for a long flag, i.e `-hostname` which
+you could not do before. It also means you can provide infinite flag aliases:
+`o.string '-f', '-x', '--foo', '--bar', 'this is insane'`
 
 #### Strict is now on by default
 
-v3 had a `strict` option. v4 has no such option, and to suppress errors you can
+v3 had a `strict` option. v4 has no such option. To suppress errors you can
 instead provide the `suppress_errors: true` option to Slop.
 
 #### No more parse!
