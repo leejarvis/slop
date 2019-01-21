@@ -83,7 +83,7 @@ describe Slop::Result do
       @options.string("--hello")
       @result.parser.parse %w()
 
-      assert_equal nil, @result.fetch('hello')
+      assert_nil @result.fetch('hello')
     end
   end
 
