@@ -35,6 +35,12 @@ describe Slop::Parser do
     assert_equal "--sometext", @result[:text]
   end
 
+  it "parses regexp arg with leading -" do
+    @options.regexp "--pattern"
+    @result.parser.parse %w(--pattern -x)
+    assert_equal(/-x/, @result[:pattern])
+  end
+
   it "parses negative integer" do
     @options.integer "-p", "--port"
     @result.parser.parse %w(--name=bob --port -123)
