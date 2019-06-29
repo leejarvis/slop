@@ -64,7 +64,7 @@ module Slop
           if opt.expects_argument?
 
             # if we consumed the argument, remove the next pair
-            if orig_arg == opt.value.to_s
+            if consume_next_argument?(orig_flag)
               pairs.delete_at(idx + 1)
             end
 
@@ -105,6 +105,13 @@ module Slop
     end
 
     private
+
+    def consume_next_argument?(flag)
+      return false if flag.include?("=")
+      return true if flag.start_with?("--")
+      return true if /\A-[a-zA-Z]\z/ === flag
+      false
+    end
 
     # We've found an option, process and return it
     def process(option, arg)
