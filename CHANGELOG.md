@@ -1,12 +1,14 @@
 Changelog
 =========
 
-_Unreleased_
-------------
+v4.7.0 (2019-06-29)
+-------------------
 
 Features:
   * Add `Slop::Result#fetch`. It returns the value of given option, or raises an error if given option is not present. [#232](https://github.com/leejarvis/slop/pull/232) ([Giovanni Benussi](https://github.com/giovannibenussi))
   * Adding a separator without passing any arguments now creates a separator with the empty string. [#238](https://github.com/leejarvis/slop/pull/238) ([Teemu Matilainen](https://github.com/tmatilai))
+Bug fixes
+  * Ensure non-string option types have their flags consumed properly [#241] (Sutou Kouhei)
 
 
 v4.6.2 (2018-03-12)
