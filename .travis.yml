@@ -13,12 +13,14 @@ rvm:
   - 2.1
   - 2.2
   - 2.3.4
-  - 2.4.6
+  - 2.4.7
   - 2.5.5
-  - 2.6.3
+  - 2.6.4
   - jruby-9.2.8.0
   - jruby-head
   - ruby-head
+jdk:
+  - openjdk8
 notifications:
   email:
     on_success: change
