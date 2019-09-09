@@ -1,6 +1,13 @@
 Changelog
 =========
 
+Unreleased
+----------
+
+Features:
+  * Add support for prefixing integer values with `+` character
+  [#243] (Juha Ylitalo)
+
 v4.7.0 (2019-06-29)
 -------------------
 
