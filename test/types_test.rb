@@ -32,11 +32,15 @@ describe Slop::IntegerOption do
   before do
     @options = Slop::Options.new
     @age     = @options.integer "--age"
-    @result  = @options.parse %w(--age 20)
+    @minus   = @options.integer "--minus"
+    @plus    = @options.integer "--plus"
+    @result  = @options.parse %w(--age 20 --minus -10 --plus +30)
   end
 
   it "returns the value as an integer" do
     assert_equal 20, @result[:age]
+    assert_equal -10, @result[:minus]
+    assert_equal 30, @result[:plus]
   end
 
   it "returns nil for non-numbers by default" do
