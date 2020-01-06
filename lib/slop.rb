@@ -20,7 +20,7 @@ module Slop
   #
   # Returns a Slop::Result.
   def self.parse(items = ARGV, **config, &block)
-    Options.new(config, &block).parse(items)
+    Options.new(**config, &block).parse(items)
   end
 
   # Example:
