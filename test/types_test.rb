@@ -39,7 +39,7 @@ describe Slop::IntegerOption do
 
   it "returns the value as an integer" do
     assert_equal 20, @result[:age]
-    assert_equal -10, @result[:minus]
+    assert_equal (-10), @result[:minus]
     assert_equal 30, @result[:plus]
   end
 

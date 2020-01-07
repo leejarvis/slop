@@ -1,8 +1,8 @@
 require 'test_helper'
 
 describe Slop::Option do
-  def option(*args)
-    Slop::Option.new(*args)
+  def option(*args, **kwargs, &block)
+    Slop::Option.new(*args, **kwargs, &block)
   end
 
   describe "#flag" do

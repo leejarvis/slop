@@ -24,12 +24,12 @@ module Slop
     # The String banner prefixed to the help string.
     attr_accessor :banner
 
-    def initialize(**config)
+    def initialize(**config, &block)
       @options    = []
       @separators = []
       @banner     = config[:banner].is_a?(String) ? config[:banner] : config.fetch(:banner, "usage: #{$0} [options]")
       @config     = DEFAULT_CONFIG.merge(config)
-      @parser     = Parser.new(self, @config)
+      @parser     = Parser.new(self, **@config)
 
       yield self if block_given?
     end
@@ -52,7 +52,7 @@ module Slop
       desc   = flags.pop unless flags.last.start_with?('-')
       config = self.config.merge(config)
       klass  = Slop.string_to_option_class(config[:type].to_s)
-      option = klass.new(flags, desc, config, &block)
+      option = klass.new(flags, desc, **config, &block)
 
       add_option option
     end
@@ -82,7 +82,7 @@ module Slop
     def method_missing(name, *args, **config, &block)
       if respond_to_missing?(name)
         config[:type] = name
-        on(*args, config, &block)
+        on(*args, **config, &block)
       else
         super
       end
