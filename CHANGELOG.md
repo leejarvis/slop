@@ -6,7 +6,11 @@ Unreleased
 
 Features:
   * Add support for prefixing integer values with `+` character
-  [#243] (Juha Ylitalo)
+  [#243](https://github.com/leejarvis/slop/pull/243) (Juha Ylitalo)
+
+Maintenance:  
+  * Add 2.7.0 to CI and fix warnings
+  [#248](https://github.com/leejarvis/slop/pull/248) (Juha Ylitalo, Andrew Kane)
 
 v4.7.0 (2019-06-29)
 -------------------
@@ -14,6 +18,7 @@ v4.7.0 (2019-06-29)
 Features:
   * Add `Slop::Result#fetch`. It returns the value of given option, or raises an error if given option is not present. [#232](https://github.com/leejarvis/slop/pull/232) ([Giovanni Benussi](https://github.com/giovannibenussi))
   * Adding a separator without passing any arguments now creates a separator with the empty string. [#238](https://github.com/leejarvis/slop/pull/238) ([Teemu Matilainen](https://github.com/tmatilai))
+
 Bug fixes
   * Ensure non-string option types have their flags consumed properly [#241] (Sutou Kouhei)
 
