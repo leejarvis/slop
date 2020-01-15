@@ -53,7 +53,7 @@ module Slop
   class FloatOption < Option
     def call(value)
       # TODO: scientific notation, etc.
-      value =~ /\A-?\d*\.*\d+\z/ && value.to_f
+      value =~ /\A[+-]?\d*\.*\d+\z/ && value.to_f
     end
   end
 
