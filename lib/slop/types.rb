@@ -52,8 +52,7 @@ module Slop
   # Cast the option argument to a Float.
   class FloatOption < Option
     def call(value)
-      # TODO: scientific notation, etc.
-      value =~ /\A[+-]?\d*\.*\d+\z/ && value.to_f
+      value =~ /\A[+-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+-]?\d+)?\z/ && value.to_f
     end
   end
 
