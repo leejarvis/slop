@@ -54,11 +54,37 @@ describe Slop::FloatOption do
     @options = Slop::Options.new
     @apr     = @options.float "--apr"
     @apr_value = 2.9
-    @result  = @options.parse %W(--apr #{@apr_value})
+    @minus = @options.float "--minus"
+    @plus = @options.float "--plus"
+    @scientific_notation = @options.float "--scientific-notation"
+    @scientific_notation_value = 4e21
+    @result  = @options.parse %W(--apr #{@apr_value} --minus -6.1 --plus +9.4 --scientific-notation #{@scientific_notation_value})
   end
 
   it "returns the value as a float" do
     assert_equal @apr_value, @result[:apr]
+    assert_equal (-6.1), @result[:minus]
+    assert_equal 9.4, @result[:plus]
+  end
+
+  it "parses scientific notations" do
+    assert_equal @scientific_notation_value, @result[:scientific_notation]
+
+    @scientific_notation_value = 4E21
+    @result  = @options.parse %W(--scientific-notation #{@scientific_notation_value})
+    assert_equal @scientific_notation_value, @result[:scientific_notation]
+
+    @scientific_notation_value = 4.0e21
+    @result  = @options.parse %W(--scientific-notation #{@scientific_notation_value})
+    assert_equal @scientific_notation_value, @result[:scientific_notation]
+
+    @scientific_notation_value = -4e21
+    @result  = @options.parse %W(--scientific-notation #{@scientific_notation_value})
+    assert_equal @scientific_notation_value, @result[:scientific_notation]
+
+    @scientific_notation_value = 4e-21
+    @result  = @options.parse %W(--scientific-notation #{@scientific_notation_value})
+    assert_equal @scientific_notation_value, @result[:scientific_notation]
   end
 
   it "returns nil for non-numbers by default" do

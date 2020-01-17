@@ -51,9 +51,10 @@ module Slop
 
   # Cast the option argument to a Float.
   class FloatOption < Option
+    FLOAT_STRING_REGEXP = /\A[+-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+-]?\d+)?\z/.freeze
+
     def call(value)
-      # TODO: scientific notation, etc.
-      value =~ /\A-?\d*\.*\d+\z/ && value.to_f
+      value =~ FLOAT_STRING_REGEXP && value.to_f
     end
   end
 
