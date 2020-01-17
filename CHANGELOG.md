@@ -1,14 +1,16 @@
 Changelog
 =========
 
-Unreleased
-----------
+v4.8.0 (2020-01-17)
+-------------------
 
 Features:
   * Add support for prefixing integer values with `+` character
   [#243](https://github.com/leejarvis/slop/pull/243) (Juha Ylitalo)
+  * Add support for parsing floats with scientific notation
+  [#250](https://github.com/leejarvis/slop/pull/250) (Hansuk Hong)
 
-Maintenance:  
+Maintenance:
   * Add 2.7.0 to CI and fix warnings
   [#248](https://github.com/leejarvis/slop/pull/248) (Juha Ylitalo, Andrew Kane)
 
