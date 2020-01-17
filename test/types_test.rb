@@ -69,15 +69,19 @@ describe Slop::FloatOption do
 
   it "parses scientific notations" do
     assert_equal @scientific_notation_value, @result[:scientific_notation]
+
     @scientific_notation_value = 4E21
     @result  = @options.parse %W(--scientific-notation #{@scientific_notation_value})
     assert_equal @scientific_notation_value, @result[:scientific_notation]
+
     @scientific_notation_value = 4.0e21
     @result  = @options.parse %W(--scientific-notation #{@scientific_notation_value})
     assert_equal @scientific_notation_value, @result[:scientific_notation]
+
     @scientific_notation_value = -4e21
     @result  = @options.parse %W(--scientific-notation #{@scientific_notation_value})
     assert_equal @scientific_notation_value, @result[:scientific_notation]
+
     @scientific_notation_value = 4e-21
     @result  = @options.parse %W(--scientific-notation #{@scientific_notation_value})
     assert_equal @scientific_notation_value, @result[:scientific_notation]
