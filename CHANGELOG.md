@@ -1,6 +1,13 @@
 Changelog
 =========
 
+v4.8.1 (2020-03-31)
+-------------------
+
+Bug fixes:
+  * Fix keyword argument warning. [#251](https://github.com/leejarvis/slop/pull/251)
+
+
 v4.8.0 (2020-01-17)
 -------------------
 
