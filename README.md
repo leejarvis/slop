@@ -3,9 +3,6 @@ Slop
 
 Slop is a simple option parser with an easy to remember syntax and friendly API.
 
-Version 4 of Slop is aimed at Ruby 2.0 or later. Please use
-[Version 3](https://github.com/leejarvis/slop/tree/v3) for Ruby 1.9 support.
-
 [![Build Status](https://travis-ci.org/leejarvis/slop.svg?branch=master)](http://travis-ci.org/leejarvis/slop)
 
 Installation
@@ -275,87 +272,4 @@ end
 Commands
 --------
 
-As of version 4, Slop does not have built in support for git-style subcommands.
-You can use version 3 of Slop (see `v3` branch).
-
-Upgrading from version 3
-------------------------
-
-Slop v4 is not backwards compatible. The code has been completely rewritten.
-If you're already using version 3 you *have* to update your code to use version 4.
-Here's an overview of the large changes:
-
-#### No more `instance_eval`
-
-Before:
-
-```ruby
-Slop.parse do
-  on 'v', 'version' do
-    puts VERSION
-  end
-end
-```
-
-After:
-
-```ruby
-Slop.parse do |o|
-  o.on '-v', '--version' do
-    puts VERSION
-  end
-end
-```
-
-#### No more `as` for option types
-
-Instead, the type is declared in the method call. Before:
-
-```ruby
-on 'port=', as: Integer
-```
-
-After:
-
-```ruby
-o.int '--port' # or integer
-```
-
-See the custom types section of the document.
-
-#### No more trailing `=`
-
-Instead, the "does this option expect an argument?" question is answered by
-the option type (i.e `on` and `bool` options do not expect arguments, all
-others do). They handle type conversion, too.
-
-#### Hyphens are required
-
-This was a hard decision to make, but you must provide prefixed hyphens when
-declaring your flags. This improves the implementation nicer and makes things
-much less ambiguous, which leads to less error prone code. It also means you
-can easily support single hyphen prefix for a long flag, i.e `-hostname` which
-you could not do before. It also means you can provide infinite flag aliases:
-`o.string '-f', '-x', '--foo', '--bar', 'this is insane'`
-
-#### Strict is now on by default
-
-v3 had a `strict` option. v4 has no such option. To suppress errors you can
-instead provide the `suppress_errors: true` option to Slop.
-
-#### No more parse!
-
-Where v3 has both `Slop.parse` and `Slop.parse!`, v4 only has `parse`. The
-former was used to decide whether Slop should or should not mutate the
-original args (usually ARGV). This is almost never what you want, and it
-can lead to confusion. Instead, `Slop::Result` provides an `arguments`
-methods:
-
-```ruby
-opts = Slop.parse do |o|
-  o.string '--hostname', '...'
-end
-
-# ARGV is "hello --hostname foo bar"
-p opts.arguments #=> ["hello", "bar"]
-```
+Slop not longer has built in support for git-style subcommands.
