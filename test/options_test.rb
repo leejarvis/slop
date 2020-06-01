@@ -123,4 +123,47 @@ describe Slop::Options do
       assert_match("", @options_config.to_s)
     end
   end
+
+  describe '#on_error' do
+    it "is called when there is a missing argument" do
+      opts = Slop::Options.new
+      opts.string "-n", "--name"
+      opts.on_error do |ex|
+        raise ArgumentError.new(ex.to_s)
+      end
+
+      error = assert_raises(ArgumentError) do
+        opts.parse %w(--name)
+      end
+
+      assert_match(/-n, --name/, error.to_s)
+    end
+
+    it "is called when there is a missing required option" do
+      opts = Slop::Options.new
+      opts.string "-n", "--name", required: true
+      opts.on_error do |ex|
+        raise ArgumentError.new(ex.to_s)
+      end
+
+      error = assert_raises(ArgumentError) do
+        opts.parse %w()
+      end
+
+      assert_match(/missing required/, error.to_s)
+    end
+
+    it "is called when there is an unknown option" do
+      opts = Slop::Options.new
+      opts.on_error do |ex|
+        raise ArgumentError.new(ex.to_s)
+      end
+
+      error = assert_raises(ArgumentError) do
+        opts.parse %w(--name)
+      end
+
+      assert_match(/unknown option/, error.to_s)
+    end
+  end
 end
