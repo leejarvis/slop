@@ -70,6 +70,17 @@ describe Slop::Options do
 
       assert_equal [""], @options.separators
     end
+
+    it "correctly handles options with `help: false`" do
+      @options.boolean "--opt1"
+      @options.boolean "--opt2", help: false
+      @options.separator "other options"
+      @options.boolean "--opt3", help: false
+      @options.boolean "--opt4"
+
+      _usage, help = @options.to_s.squeeze(" ").split("\n", 2)
+      assert_equal "--opt1 \nother options\n --opt4", help.strip
+    end
   end
 
   describe "#method_missing" do
