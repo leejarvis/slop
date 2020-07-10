@@ -1,6 +1,13 @@
 Changelog
 =========
 
+v4.8.2 (2020-07-10)
+-------------------
+
+Bug fixes:
+  * Fix bug where separator position was messed up if using `help: false`
+    [#253](https://github.com/leejarvis/slop/issues/253)
+
 v4.8.1 (2020-03-31)
 -------------------
 
