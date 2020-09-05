@@ -105,14 +105,14 @@ module Slop
       options.select.each_with_index.sort_by{ |o,i| [o.tail, i] }.each do |opt, i|
         # use the index to fetch an associated separator
         if sep = separators[i]
-          str << "#{sep}\n"
+          str += "#{sep}\n"
         end
 
-        str << "#{prefix}#{opt.to_s(offset: len)}\n" if opt.help?
+        str += "#{prefix}#{opt.to_s(offset: len)}\n" if opt.help?
       end
 
       if sep = separators[options.size]
-        str << "#{sep}\n"
+        str += "#{sep}\n"
       end
 
       str
