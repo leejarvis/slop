@@ -20,6 +20,7 @@ rvm:
   - jruby-9.2.9.0
   - jruby-head
   - ruby-head
+  - truffleruby-head
 jdk:
   - openjdk8
 notifications:
