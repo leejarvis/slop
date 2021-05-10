@@ -18,6 +18,7 @@ opts = Slop.parse do |o|
   o.string '-h', '--host', 'a hostname'
   o.integer '--port', 'custom port', default: 80
   o.string '-l', '--login', required: true
+  o.symbol '-m', '--method', default: :get
   o.bool '-v', '--verbose', 'enable verbose mode'
   o.bool '-q', '--quiet', 'suppress output (quiet mode)'
   o.bool '-c', '--check-ssl-certificate', 'check SSL certificate for host'
@@ -27,15 +28,16 @@ opts = Slop.parse do |o|
   end
 end
 
-ARGV #=> -v --login alice --host 192.168.0.1 --check-ssl-certificate
+ARGV #=> -v --login alice --host 192.168.0.1 -m post --check-ssl-certificate
 
 opts[:host]                 #=> 192.168.0.1
 opts[:login]                #=> alice
+opts[:method]               #=> :post
 opts.verbose?               #=> true
 opts.quiet?                 #=> false
 opts.check_ssl_certificate? #=> true
 
-opts.to_hash  #=> { host: "192.168.0.1", login: "alice", port: 80, verbose: true, quiet: false, check_ssl_certificate: true }
+opts.to_hash  #=> { host: "192.168.0.1", port: 80, login: "alice", method: :post, verbose: true, quiet: false, check_ssl_certificate: true }
 ```
 
 Note that the block we've added to the `--version` flag will be executed
@@ -56,6 +58,7 @@ o.integer #=> Slop::IntegerOption, expects an argument, aliased to IntOption
 o.float   #=> Slop::FloatOption, expects an argument
 o.array   #=> Slop::ArrayOption, expects an argument
 o.regexp  #=> Slop::RegexpOption, expects an argument
+o.symbol  #=> Slop::SymbolOption, expects an argument
 o.null    #=> Slop::NullOption, no argument and ignored from `to_hash`
 o.on      #=> alias for o.null
 ```

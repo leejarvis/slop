@@ -6,6 +6,13 @@ module Slop
     end
   end
 
+  # Cast the option argument to a symbol.
+  class SymbolOption < Option
+    def call(value)
+      value.to_sym
+    end
+  end
+
   # Cast the option argument to true or false.
   # Override default_value to default to false instead of nil.
   # This option type does not expect an argument. However, the API

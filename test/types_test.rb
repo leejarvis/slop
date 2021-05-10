@@ -1,5 +1,19 @@
 require 'test_helper'
 
+describe Slop::SymbolOption do
+  before do
+    @options = Slop::Options.new
+    @age     = @options.symbol "--name"
+    @minus   = @options.symbol "--zipcode"
+    @result  = @options.parse %w(--name Foo --zipcode 12345)
+  end
+
+  it "returns the value as a symbol" do
+    assert_equal :Foo, @result[:name]
+    assert_equal :'12345', @result[:zipcode]
+  end
+end
+
 describe Slop::BoolOption do
   before do
     @options  = Slop::Options.new
