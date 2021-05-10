@@ -1,5 +1,19 @@
 require 'test_helper'
 
+describe Slop::StringOption do
+  before do
+    @options = Slop::Options.new
+    @age     = @options.string "--name"
+    @minus   = @options.string "--zipcode"
+    @result  = @options.parse %w(--name Foo --zipcode 12345)
+  end
+
+  it "returns the value as a string" do
+    assert_equal "Foo", @result[:name]
+    assert_equal "12345", @result[:zipcode]
+  end
+end
+
 describe Slop::SymbolOption do
   before do
     @options = Slop::Options.new
