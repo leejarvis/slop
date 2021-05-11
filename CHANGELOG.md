@@ -1,6 +1,12 @@
 Changelog
 =========
 
+v4.9.0 (2021-05-11)
+-------------------
+
+Features:
+  * Add SymbolOption [#263](https://github.com/leejarvis/slop/pull/263)
+
 v4.8.2 (2020-07-10)
 -------------------
 
