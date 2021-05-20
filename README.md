@@ -145,8 +145,6 @@ end
 If you want to disable the built-in string-splitting, set the delimiter to
 `nil`.
 
-
-
 Custom option types
 -------------------
 
