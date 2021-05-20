@@ -135,9 +135,11 @@ opts = Slop.parse do |o|
   o.array '--files', 'a list of files', delimiter: ','
 end
 
-# both of these will return o[:files] as ["foo.txt", "bar.rb"]:
+# Both of these will return o[:files] as ["foo.txt", "bar.rb"]:
 # --files foo.txt,bar.rb
 # --files foo.txt --files bar.rb
+# This will return o[:files] as []:
+# --files ""
 ```
 
 If you want to disable the built-in string-splitting, set the delimiter to
