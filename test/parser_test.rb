@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'shellwords'
 
 describe Slop::Parser do
   before do
@@ -26,6 +27,15 @@ describe Slop::Parser do
     @result.parser.parse %w(--foo = =)
     assert_equal "=", @result[:foo]
     assert_equal %w(=), @result.args
+  end
+
+  it "parses flag=''" do
+    @options.string "--str"
+    @options.array "--arr", default: ["array"]
+    @result.parser.parse %(--str="" --arr="").shellsplit
+
+    assert_equal "", @result[:str]
+    assert_equal [], @result[:arr]
   end
 
   it "parses arg with leading -" do
