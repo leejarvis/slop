@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'shellwords'
 
 describe Slop::Parser do
   before do
