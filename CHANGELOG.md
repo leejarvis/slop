@@ -1,6 +1,13 @@
 Changelog
 =========
 
+v4.9.1 (2021-05-28)
+-------------------
+
+Bug fixes:
+  * Fixed a bug where `flag=arg` syntax would raise an error when an
+    empty value was passed. [#266](https://github.com/leejarvis/slop/issues/266)
+
 v4.9.0 (2021-05-11)
 -------------------
 
