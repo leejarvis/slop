@@ -22,7 +22,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ruby: [ "2.7", head, jruby, truffleruby ]
+        ruby: [ "2.0", "2.1", "2.2", "2.3", "2.4", "2.5", "2.6", "2.7", head, jruby, truffleruby ]
     name: Ruby ${{ matrix.ruby }}
     steps:
       - uses: actions/checkout@v2
