@@ -3,7 +3,7 @@ Slop
 
 Slop is a simple option parser with an easy to remember syntax and friendly API.
 
-[![Build Status](https://travis-ci.org/leejarvis/slop.svg?branch=master)](http://travis-ci.org/leejarvis/slop)
+[![Build Status](https://github.com/leejarvis/slop/actions/workflows/ci.yml/badge.svg)](https://github.com/leejarvis/slop/actions/workflows/ci.yml)
 
 Installation
 ------------
