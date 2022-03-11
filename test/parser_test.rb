@@ -17,16 +17,25 @@ describe Slop::Parser do
     assert_equal ["-v", "--name", "lee"], @parser.arguments
   end
 
-  it "parses flag=argument" do
-    @options.integer "-p", "--port"
-    @result.parser.parse %w(--name=bob -p=123)
-    assert_equal "bob", @result[:name]
-    assert_equal 123, @result[:port]
+  describe "for flag=argument" do
+    it "parses names and values" do
+      @options.integer "-p", "--port"
+      @result.parser.parse %w(--name=bob -p=123)
+      assert_equal "bob", @result[:name]
+      assert_equal 123, @result[:port]
+    end
 
-    @options.string "--foo"
-    @result.parser.parse %w(--foo = =)
-    assert_equal "=", @result[:foo]
-    assert_equal %w(=), @result.args
+    it "treats an = separated by a space as a value" do
+      @options.string "--foo"
+      @result.parser.parse %w(--foo = =)
+      assert_equal "=", @result[:foo]
+      assert_equal %w(=), @result.args
+    end
+
+    it "includes = in strings" do
+      @result.parser.parse(%w(--name=b=b))
+      assert_equal "b=b", @result[:name]
+    end
   end
 
   it "parses flag=''" do
