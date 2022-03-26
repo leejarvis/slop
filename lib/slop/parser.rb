@@ -52,7 +52,7 @@ module Slop
 
         # support `foo=bar`
         orig_flag = flag.dup
-        if match = flag.match(/([^=]+)=([^=]*)/)
+        if match = flag.match(/([^=]+)=(.*)/)
           flag, arg = match.captures
         end
 
