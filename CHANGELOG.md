@@ -1,6 +1,12 @@
 Changelog
 =========
 
+v4.9.2 (2022-03-26)
+-------------------
+
+Bug fixes:
+  * Handle flag arguments that contain equals character [#275](https://github.com/leejarvis/slop/pull/275) (ConnorWGarvey)
+
 v4.9.1 (2021-05-28)
 -------------------
 
