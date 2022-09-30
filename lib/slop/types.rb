@@ -21,6 +21,8 @@ module Slop
   class BoolOption < Option
     attr_accessor :explicit_value
 
+    FALSE_VALUES = [false, 'false', 'no', 'off', '0'].freeze
+
     def call(value)
       self.explicit_value = value
       !force_false?
@@ -35,7 +37,7 @@ module Slop
     end
 
     def force_false?
-      explicit_value == false
+      FALSE_VALUES.include?(explicit_value)
     end
 
     def default_value

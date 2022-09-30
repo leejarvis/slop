@@ -22,17 +22,19 @@ opts = Slop.parse do |o|
   o.bool '-v', '--verbose', 'enable verbose mode'
   o.bool '-q', '--quiet', 'suppress output (quiet mode)'
   o.bool '-c', '--check-ssl-certificate', 'check SSL certificate for host'
+  o.bool '-k', '--use-keychain', 'store passphrase in OS keychain'
   o.on '--version', 'print the version' do
     puts Slop::VERSION
     exit
   end
 end
 
-ARGV #=> -v --login alice --host 192.168.0.1 -m post --check-ssl-certificate
+ARGV #=> -v --login alice --host 192.168.0.1 -m post --check-ssl-certificate --use-keychain false
 
 opts[:host]                 #=> 192.168.0.1
 opts[:login]                #=> alice
 opts[:method]               #=> :post
+opts[:use_keychain]         #=> false
 opts.verbose?               #=> true
 opts.quiet?                 #=> false
 opts.check_ssl_certificate? #=> true
@@ -53,7 +55,7 @@ Built in Option types are as follows:
 
 ```ruby
 o.string  #=> Slop::StringOption, expects an argument
-o.bool    #=> Slop::BoolOption, no argument, aliased to BooleanOption
+o.bool    #=> Slop::BoolOption, argument optional, aliased to BooleanOption
 o.integer #=> Slop::IntegerOption, expects an argument, aliased to IntOption
 o.float   #=> Slop::FloatOption, expects an argument
 o.array   #=> Slop::ArrayOption, expects an argument
