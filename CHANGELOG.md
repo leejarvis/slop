@@ -1,6 +1,12 @@
 Changelog
 =========
 
+v4.9.3 (2022-09-30)
+-------------------
+
+Bug fixes:
+  * Fix explicitly false boolean options and allow for additional false arguments [#276](https://github.com/leejarvis/slop/pull/276) (Eugene Otto)
+
 v4.9.2 (2022-03-26)
 -------------------
 
