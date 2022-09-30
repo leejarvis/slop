@@ -34,9 +34,11 @@ describe Slop::BoolOption do
     @verbose  = @options.bool "--verbose"
     @quiet    = @options.bool "--quiet"
     @inversed = @options.bool "--inversed", default: true
+    @explicit = @options.bool "--explicit"
     @bloc     = @options.bool("--bloc"){|val| (@bloc_val ||= []) << val}
     @result   = @options.parse %w(--verbose --no-inversed
-                                  --bloc --no-bloc)
+                                  --bloc --no-bloc
+                                  --explicit=false)
   end
 
   it "returns true if used" do
@@ -53,6 +55,10 @@ describe Slop::BoolOption do
 
   it "will invert the value passed to &block via --no- prefix" do
     assert_equal [true, false], @bloc_val
+  end
+
+  it "returns false when explicitly false" do
+    assert_equal false, @result[:explicit]
   end
 end
 
