@@ -22,6 +22,13 @@ module Slop
     attr_accessor :explicit_value
 
     FALSE_VALUES = [false, 'false', 'no', 'off', '0'].freeze
+    TRUE_VALUES = [true, 'true', 'yes', 'on', '1'].freeze
+    VALID_VALUES = (FALSE_VALUES + TRUE_VALUES).freeze
+
+    def valid?(value)
+      return true if value.is_a?(String) && value.start_with?("--")
+      value.nil? || VALID_VALUES.include?(value)
+    end
 
     def call(value)
       self.explicit_value = value
@@ -52,8 +59,14 @@ module Slop
 
   # Cast the option argument to an Integer.
   class IntegerOption < Option
+    INT_STRING_REGEXP = /\A[+-]?\d+\z/.freeze
+
+    def valid?(value)
+      value =~ INT_STRING_REGEXP
+    end
+
     def call(value)
-      value =~ /\A[+-]?\d+\z/ && value.to_i
+      value.to_i
     end
   end
   IntOption = IntegerOption
@@ -62,8 +75,12 @@ module Slop
   class FloatOption < Option
     FLOAT_STRING_REGEXP = /\A[+-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+-]?\d+)?\z/.freeze
 
+    def valid?(value)
+      value =~ FLOAT_STRING_REGEXP
+    end
+
     def call(value)
-      value =~ FLOAT_STRING_REGEXP && value.to_f
+      value.to_f
     end
   end
 
