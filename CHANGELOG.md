@@ -1,6 +1,11 @@
 Changelog
 =========
 
+v4.10.0 (2023-02-15)
+
+Features:
+  * Add support for optional type validation [#278](https://github.com/leejarvis/slop/pull/278) (Victor Gama)
+
 v4.9.3 (2022-09-30)
 -------------------
 
