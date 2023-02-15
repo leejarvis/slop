@@ -115,7 +115,7 @@ module Slop
     # be parsed into the desired type or does not conform to the expected type's
     # format
     def validate_type?
-      config[:validate_types]
+      config[:validate_type] || config[:validate_types]
     end
 
     # Returns all flags joined by a comma. Used by the help string.
