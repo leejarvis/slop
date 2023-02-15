@@ -204,6 +204,8 @@ Slop will raise errors for the following:
 * An option used without an argument when it expects one: `Slop::MissingArgument`
 * An option used that Slop doesn't know about: `Slop::UnknownOption`
 * An option marked as `required` when not provided: `Slop::MissingRequiredOption`
+* An option marked as `validate_types`, with an argument that does not match its
+type (i.e. `bla` for `integer`): `Slop::InvalidOptionValue`
 
 These errors inherit from `Slop::Error`, so you can rescue them all.
 Alternatively you can suppress these errors with the `suppress_errors` config
@@ -220,6 +222,33 @@ opts = Slop.parse do
   o.string '-host', suppress_errors: true
   o.int '-port'
 end
+```
+
+Validating Types
+----------------
+
+By default, Slop does not validate whether an argument is a valid value for a
+given option; instead, if the option has a default value, it will be used over
+the invalid argument provided.
+In order to have types (such as `integer` and `float`) validate and indicate
+that the provided value is invalid, an extra option can be either provided to
+the argument itself, or its option set:
+
+```ruby
+opts = Slop::Options.new
+opts.int "-p", "--port", "a port", default: 80, validate_types: true
+
+parser = Slop::Parser.new(opts)
+result = parser.parse(["--port", "bla"])
+# invalid value for -p, --port (Slop::InvalidOptionValue)
+
+# Or to the option set...
+opts = Slop::Options.new(validate_types: true)
+opts.int "-p", "--port", "a port", default: 80
+
+parser = Slop::Parser.new(opts)
+result = parser.parse(["--port", "bla"])
+# invalid value for -p, --port (Slop::InvalidOptionValue)
 ```
 
 Printing help
@@ -279,4 +308,4 @@ end
 Commands
 --------
 
-Slop not longer has built in support for git-style subcommands.
+Slop no longer has built in support for git-style subcommands.

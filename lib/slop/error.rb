@@ -38,4 +38,16 @@ module Slop
   # Suppress with the `suppress_errors` config option.
   class MissingRequiredOption < Error
   end
+
+  # Raised when a given option is provided by the user and does not
+  # match the expected format for that type. This is only raised if
+  # validate_types is set to true.
+  class InvalidOptionValue < Error
+    attr_reader :flag
+
+    def initialize(msg, flag)
+      super(msg)
+      @flag = flag
+    end
+  end
 end

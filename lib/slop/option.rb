@@ -56,7 +56,11 @@ module Slop
           raise Slop::MissingArgument.new("missing argument for #{flag}", flags)
         end
       else
-        @value = call(value)
+        if validate_type? && !valid?(value) && !suppress_errors?
+          raise Slop::InvalidOptionValue.new("invalid value for #{flag}", flags)
+        end
+
+        @value = valid?(value) && call(value)
       end
 
       block.call(@value) if block.respond_to?(:call)
@@ -107,6 +111,13 @@ module Slop
       config[:required]
     end
 
+    # Returns true if an exception should be raised when this option value can't
+    # be parsed into the desired type or does not conform to the expected type's
+    # format
+    def validate_type?
+      config[:validate_type] || config[:validate_types]
+    end
+
     # Returns all flags joined by a comma. Used by the help string.
     def flag
       flags.join(", ")
@@ -117,6 +128,13 @@ module Slop
       key = config[:key] || flags.last.sub(/\A--?/, '')
       key = key.tr '-', '_' if underscore_flags?
       key.to_sym
+    end
+
+    # Override this if you want to provide a custom validator for a type. This
+    # method must return whether the provided value is valid for the current
+    # argument's type
+    def valid?(value)
+      true
     end
 
     # Returns true if this option should be displayed with dashes transformed into underscores.

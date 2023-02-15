@@ -7,6 +7,7 @@ module Slop
       type:             "null",
       banner:           true,
       underscore_flags: true,
+      validate_types:   false,
     }
 
     # The Array of Option instances we've created.
@@ -23,6 +24,9 @@ module Slop
 
     # The String banner prefixed to the help string.
     attr_accessor :banner
+
+    # Whether we should validate types of values provided by the user
+    attr_accessor :validate_types
 
     def initialize(**config, &block)
       @options    = []
