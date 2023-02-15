@@ -72,8 +72,8 @@ describe Slop::InvalidOptionValue do
   end
 
   it "does not raise when errors are suppressed" do
-    opts = Slop::Options.new(validate_types: true, suppress_errors: true)
-    opts.integer "-n", "--number", default: 10
+    opts = Slop::Options.new(suppress_errors: true)
+    opts.integer "-n", "--number", default: 10, validate_type: true
     r = opts.parse %w(-n foo)
     assert_equal(10, r[:n])
   end

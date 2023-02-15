@@ -31,10 +31,10 @@ end
 describe Slop::BoolOption do
   before do
     @options  = Slop::Options.new
-    @verbose  = @options.bool "--verbose"
+    @verbose  = @options.bool "--verbose", validate_type: true
     @quiet    = @options.bool "--quiet"
     @inversed = @options.bool "--inversed", default: true
-    @explicit = @options.bool "--explicit"
+    @explicit = @options.bool "--explicit", validate_type: true
     @bloc     = @options.bool("--bloc"){|val| (@bloc_val ||= []) << val}
     @result   = @options.parse %w(--verbose --no-inversed
                                   --bloc --no-bloc
@@ -60,13 +60,19 @@ describe Slop::BoolOption do
   it "returns false when explicitly false" do
     assert_equal false, @result[:explicit]
   end
+
+  it "raises with invalid types" do
+    assert_raises(Slop::InvalidOptionValue) do
+      @result.parser.parse %w(--verbose foo)
+    end
+  end
 end
 
 describe Slop::IntegerOption do
   before do
     @options = Slop::Options.new
     @age     = @options.integer "--age"
-    @minus   = @options.integer "--minus"
+    @minus   = @options.integer "--minus", validate_type: true
     @plus    = @options.integer "--plus"
     @result  = @options.parse %w(--age 20 --minus -10 --plus +30)
   end
@@ -81,6 +87,12 @@ describe Slop::IntegerOption do
     @result.parser.parse %w(--age hello)
     assert_nil @result[:age]
   end
+
+  it "raises with invalid types" do
+    assert_raises(Slop::InvalidOptionValue) do
+      @result.parser.parse %w(--minus foo)
+    end
+  end
 end
 
 describe Slop::FloatOption do
@@ -88,7 +100,7 @@ describe Slop::FloatOption do
     @options = Slop::Options.new
     @apr     = @options.float "--apr"
     @apr_value = 2.9
-    @minus = @options.float "--minus"
+    @minus = @options.float "--minus", validate_type: true
     @plus = @options.float "--plus"
     @scientific_notation = @options.float "--scientific-notation"
     @scientific_notation_value = 4e21
@@ -124,6 +136,12 @@ describe Slop::FloatOption do
   it "returns nil for non-numbers by default" do
     @result.parser.parse %w(--apr hello)
     assert_nil @result[:apr]
+  end
+
+  it "raises with invalid types" do
+    assert_raises(Slop::InvalidOptionValue) do
+      @result.parser.parse %w(--minus foo)
+    end
   end
 end
 
