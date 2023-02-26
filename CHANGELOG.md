@@ -1,7 +1,14 @@
 Changelog
 =========
 
+v4.10.1 (2023-02-26)
+--------------------
+
+Bug fixes
+  * Fix boolean flags from being invalid when followed by arguments #279
+
 v4.10.0 (2023-02-15)
+--------------------
 
 Features:
   * Add support for optional type validation [#278](https://github.com/leejarvis/slop/pull/278) (Victor Gama)
