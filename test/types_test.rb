@@ -66,6 +66,13 @@ describe Slop::BoolOption do
       @result.parser.parse %w(--verbose foo)
     end
   end
+
+  # Like above but without validate_type
+  it "returns true if used and ignores the value" do
+    @result.parser.parse %w(--quiet foo)
+
+    assert_equal true, @result[:quiet]
+  end
 end
 
 describe Slop::IntegerOption do

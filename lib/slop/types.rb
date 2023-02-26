@@ -26,6 +26,11 @@ module Slop
     VALID_VALUES = (FALSE_VALUES + TRUE_VALUES).freeze
 
     def valid?(value)
+      # If we don't want to validate the type, then we don't care if the value
+      # is valid or not. Otherwise we would prevent boolean flags followed by
+      # arguments from being parsed correctly.
+      return true unless config[:validate_type]
+
       return true if value.is_a?(String) && value.start_with?("--")
       value.nil? || VALID_VALUES.include?(value)
     end
