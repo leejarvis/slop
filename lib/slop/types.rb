@@ -1,3 +1,5 @@
+# frozen-string-literal: true
+
 module Slop
   # Cast the option argument to a String.
   class StringOption < Option

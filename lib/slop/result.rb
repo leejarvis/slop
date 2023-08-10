@@ -1,3 +1,5 @@
+# frozen-string-literal: true
+
 module Slop
   # This class encapsulates a Parser and Options pair. The idea is that
   # the Options class shouldn't have to deal with what happens when options

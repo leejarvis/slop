@@ -1,3 +1,5 @@
+# frozen-string-literal: true
+
 $VERBOSE = true
 
 require 'slop'

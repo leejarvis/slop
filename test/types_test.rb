@@ -1,3 +1,5 @@
+# frozen-string-literal: true
+
 require 'test_helper'
 
 describe Slop::StringOption do

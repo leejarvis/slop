@@ -1,3 +1,5 @@
+# frozen-string-literal: true
+
 module Slop
   # Base error class.
   class Error < StandardError

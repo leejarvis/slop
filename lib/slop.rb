@@ -1,3 +1,5 @@
+# frozen-string-literal: true
+
 require 'slop/option'
 require 'slop/options'
 require 'slop/parser'
