@@ -37,6 +37,7 @@ opts[:method]       #=> :post
 opts[:use_keychain] #=> false
 
 # We can also check if a flag was passed (this has no bearing on the options default value):
+opts.use_keychain?          #=> true
 opts.verbose?               #=> true
 opts.quiet?                 #=> false
 opts.check_ssl_certificate? #=> true
