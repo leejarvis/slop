@@ -31,10 +31,12 @@ end
 
 ARGV #=> -v --login alice --host 192.168.0.1 -m post --check-ssl-certificate --use-keychain false
 
-opts[:host]                 #=> 192.168.0.1
-opts[:login]                #=> alice
-opts[:method]               #=> :post
-opts[:use_keychain]         #=> false
+opts[:host]         #=> 192.168.0.1
+opts[:login]        #=> alice
+opts[:method]       #=> :post
+opts[:use_keychain] #=> false
+
+# We can also check if a flag was passed (this has no bearing on the options default value):
 opts.verbose?               #=> true
 opts.quiet?                 #=> false
 opts.check_ssl_certificate? #=> true
