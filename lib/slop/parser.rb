@@ -37,49 +37,27 @@ module Slop
     # Returns a Slop::Result.
     def parse(strings)
       reset # reset before every parse
+      strings = strings.dup
 
-      # ignore everything after "--"
-      strings, ignored_args = partition(strings)
+      while (arg = strings.shift)
+        possible_value = strings.first unless strings.first == '--'
+        break if arg == "--"
 
-      pairs = strings.each_cons(2).to_a
-      # this ensures we still support the last string being a flag,
-      # otherwise it'll only be used as an argument.
-      pairs << [strings.last, nil]
+        opt_name, explicit_value = arg.split("=", 2)
 
-      @arguments = strings.dup
-
-      pairs.each_with_index do |pair, idx|
-        flag, arg = pair
-        break if !flag
-
-        # support `foo=bar`
-        orig_flag = flag.dup
-        if match = flag.match(/([^=]+)=(.*)/)
-          flag, arg = match.captures
-        end
-
-        if opt = try_process(flag, arg)
-          # since the option was parsed, we remove it from our
-          # arguments (plus the arg if necessary)
-          # delete argument first while we can find its index.
-          if opt.expects_argument?
-
-            # if we consumed the argument, remove the next pair
-            if consume_next_argument?(orig_flag)
-              pairs.delete_at(idx + 1)
-            end
-
-            arguments.each_with_index do |argument, i|
-              if argument == orig_flag && !orig_flag.include?("=")
-                arguments.delete_at(i + 1)
-              end
-            end
+        if (opt = try_process(opt_name, explicit_value || possible_value))
+          # Skip the next argument if we consumed it as the value for this arg.
+          if opt.expects_argument? && consume_next_argument?(arg)
+            strings.shift
           end
-          arguments.delete(orig_flag)
+        else
+          # If it wasn't used as an arg, add it to the arguments.
+          add_argument(arg)
+          # If we're expecting subcommands, this argument was the subcommand,
+          # and any subsequent flags/opts are _its_ property, not ours.
+          break if subcommands?
         end
       end
-
-      @arguments += ignored_args
 
       if !suppress_errors?
         unused_options.each do |o|
@@ -89,10 +67,15 @@ module Slop
           end
         end
       end
+      arguments.concat(strings)
 
       Result.new(self).tap do |result|
         used_options.each { |o| o.finish(result) }
       end
+    end
+
+    def add_argument(string)
+      arguments << string
     end
 
     # Returns an Array of Option instances that were used.
@@ -154,22 +137,16 @@ module Slop
       try_process(last, arg) # send the argument to the last flag
     end
 
+    def subcommands?
+      config[:subcommands]
+    end
+
     def suppress_errors?
       config[:suppress_errors]
     end
 
     def matching_option(flag)
       options.find { |o| o.flags.include?(flag) }
-    end
-
-    def partition(strings)
-      if strings.include?("--")
-        partition_idx = strings.index("--")
-        return [[], strings[1..-1]] if partition_idx.zero?
-        [strings[0..partition_idx-1], strings[partition_idx+1..-1]]
-      else
-        [strings, []]
-      end
     end
   end
 end

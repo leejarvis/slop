@@ -311,4 +311,23 @@ end
 Commands
 --------
 
-Slop no longer has built in support for git-style subcommands.
+You can implement git-style subcommands by passing `subcommands: true` to
+`parse`:
+
+```ruby
+argv = ["-n", "my-ns", "run", "-q"]
+global_result = Slop.parse(argv, subcommands: true) do |o|
+  o.string "-n", "--namespace", "a namespace"
+end
+
+argv = global_result.arguments
+subcommand = argv.shift
+if subcommand == "run"
+  result = Slop.parse(argv) do |o|
+    o.bool "-q", "--quiet", "suppress output"
+  end
+
+  puts global_result[:namespace] #=> "my-ns"
+  puts result[:quiet] #=> true
+end
+```

@@ -13,6 +13,18 @@ describe Slop::Parser do
     @result  = @parser.parse %w(foo -v --name lee argument)
   end
 
+  describe "in subcommands mode" do
+    before do
+      @parser = Slop::Parser.new(@options, subcommands: true)
+    end
+
+    it "stops parsing after the first argument" do
+      @parser.parse %w(-n name cmd -v)
+      assert_equal [@name], @parser.used_options
+      assert_equal ["cmd", "-v"], @parser.arguments
+    end
+  end
+
   it "ignores everything after --" do
     @parser.parse %w(-v -- -v --name lee)
     assert_equal [@verbose], @parser.used_options
