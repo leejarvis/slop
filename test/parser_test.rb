@@ -22,6 +22,13 @@ describe Slop::Parser do
     assert_equal 123, @result[:port]
   end
 
+  it "parses negative integer" do
+    @options.integer "-p", "--port"
+    @result.parser.parse %w(--name=bob --port=-123)
+    assert_equal "bob", @result[:name]
+    assert_equal(-123, @result[:port])
+  end
+
   describe "parsing grouped short flags" do
     before do
       @options.bool "-q", "--quiet"
