@@ -1,17 +1,62 @@
-TODO: flesh this out if we go with this q
-
-- Bug in question: https://github.com/leejarvis/slop/issues/179
-- I added failing tests for it already
-- Should be able to get set up with just `bundle install`
-- Run `rake test` to run the whole test suite
-- Run `rake test TEST=<path_to_test_file>` to run a specific test file
-
-The documentation below is for the Slop gem itself.
-
-Happy coding!
-
-Slop
+Slop: Ruby bug squash
 ====
+
+Slop is a command line option parsing library.
+
+Your goal is to find the root cause of the bug described below, then fix it if you have time - happy coding!
+
+## The bug
+
+When a negative number is passed in as a command line argument, it is not being parsed correctly:
+
+```
+@options = Slop::Options.new
+@options.integer "--port"
+@parser = Slop::Parser.new(@options)
+@result = @parser.parse %w(--port=-123)
+puts @result[:port]
+```
+
+Actual:
+```
+nil
+```
+
+Expected:
+```
+-123
+```
+
+## Requirements & set up
+
+- Ruby == 3.0.6
+
+Install the dependencies:
+```
+bundle install
+```
+
+## Running the tests
+
+To run the entire test suite:
+```
+rake test
+```
+
+To run a single test file:
+```
+rake test TEST=test/error_test.rb
+```
+
+To run a specific test:
+```
+rake test [TEST=test/error_test.rb] TESTOPTS="--name='/raises when an argument is missing/'"
+```
+
+The rest of the documentation below is for the Slop gem itself in case it's useful, but you will be developing locally so you won't actually need to install or use this gem outside of this repository.
+
+Slop: gem documentation
+------------
 
 Slop is a simple option parser with an easy to remember syntax and friendly API.
 
