@@ -1,4 +1,6 @@
 require 'test_helper'
+require 'pry'
+require 'pry-byebug'
 
 describe Slop::Parser do
   before do
