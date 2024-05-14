@@ -1,3 +1,15 @@
+TODO: flesh this out if we go with this q
+
+- Bug in question: https://github.com/leejarvis/slop/issues/179
+- I added failing tests for it already
+- Should be able to get set up with just `bundle install`
+- Run `rake test` to run the whole test suite
+- Run `rake test TEST=<path_to_test_file>` to run a specific test file
+
+The documentation below is for the Slop gem itself.
+
+Happy coding!
+
 Slop
 ====
 
