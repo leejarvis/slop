@@ -48,9 +48,14 @@ To run a single test file:
 rake test TEST=test/error_test.rb
 ```
 
-To run a specific test:
+To run all tests which match a regular expression across all files:
 ```
-rake test [TEST=test/error_test.rb] TESTOPTS="--name='/raises when an argument is missing/'"
+rake test TESTOPTS="--name='/raises when/'"
+```
+
+To run a specific test in a specific file (technically this would run all matching tests in the file):
+```
+rake test TEST=test/error_test.rb TESTOPTS="--name='/raises when an argument is missing/'"
 ```
 
 The rest of the documentation below is for the Slop gem itself in case it's useful, but you will be developing locally so you won't actually need to install or use this gem outside of this repository.
