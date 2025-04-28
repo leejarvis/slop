@@ -17,6 +17,20 @@ describe Slop::Parser do
     assert_equal [@verbose], @parser.used_options
   end
 
+  it "returns nil for non-integers" do
+    @options.integer "-p", "--port"
+    @result.parser.parse %w(--name=rob --port=-----)
+    assert_equal "rob", @result[:name]
+    assert_nil @result[:port]
+  end
+
+  it "returns nil for non-itegers" do
+    @options.integer "-p", "--port"
+    @result.parser.parse %w(--name=lob --port=123-)
+    assert_equal "lob", @result[:name]
+    assert_nil @result[:port]
+  end
+
   it "parses flag=argument" do
     @options.integer "-p", "--port"
     @result.parser.parse %w(--name=bob -p=123)
