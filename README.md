@@ -1,5 +1,5 @@
-Slop
-====
+Slop - Simple, Lightweight Option Parser
+========================================
 
 Slop is a simple option parser with an easy to remember syntax and friendly API.
 
@@ -307,8 +307,3 @@ o.on '--help' do
   exit
 end
 ```
-
-Commands
---------
-
-Slop no longer has built in support for git-style subcommands.
