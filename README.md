@@ -51,6 +51,24 @@ for immediately reacting to the presence of a flag. If you want to
 access other options or mutate values, check out the "Custom option types"
 section below and implement the `#finish` method.
 
+Inline argument syntax
+----------------------
+
+Options that expect an argument can be passed inline using `=` or `:` as a
+separator instead of a space:
+
+```ruby
+opts = Slop.parse %w(--name=bob --port:8080) do |o|
+  o.string '--name'
+  o.int '--port'
+end
+
+opts[:name] #=> "bob"
+opts[:port] #=> 8080
+```
+
+This works with short flags too: `-p:8080`, `-n=foo`.
+
 Option types
 ------------
 

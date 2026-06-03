@@ -19,6 +19,41 @@ describe Slop::Parser do
     assert_equal ["-v", "--name", "lee"], @parser.arguments
   end
 
+  describe "for flag:argument (colon separator)" do
+    it "parses names and values" do
+      @options.integer "-p", "--port"
+      @result.parser.parse %w(--name:bob -p:123)
+      assert_equal "bob", @result[:name]
+      assert_equal 123, @result[:port]
+    end
+
+    it "keeps extra arguments intact" do
+      @result.parser.parse %w(--name:bob extra)
+      assert_equal "bob", @result[:name]
+      assert_equal %w(extra), @result.args
+    end
+
+    it "includes colon in strings" do
+      @result.parser.parse(%w(--name:b:b))
+      assert_equal "b:b", @result[:name]
+    end
+
+    it "mixes equals and colon separators" do
+      @options.integer "-a"
+      @options.array "-b"
+      @result.parser.parse %w(--name=Olle -a:20 -b=1,2,3)
+      assert_equal "Olle", @result[:name]
+      assert_equal 20, @result[:a]
+      assert_equal %w(1 2 3), @result[:b]
+    end
+
+    it "does not consume next boolean flag" do
+      @result.parser.parse %w(--name:bob -v)
+      assert_equal "bob", @result[:name]
+      assert_equal true, @result.verbose?
+    end
+  end
+
   describe "for flag=argument" do
     it "parses names and values" do
       @options.integer "-p", "--port"
@@ -141,6 +176,11 @@ describe Slop::Parser do
 
     it "correctly removes options that use =" do
       @parser.parse %w(lee --name=lee lee)
+      assert_equal %w(lee lee), @parser.arguments
+    end
+
+    it "correctly removes options that use :" do
+      @parser.parse %w(lee --name:lee lee)
       assert_equal %w(lee lee), @parser.arguments
     end
   end

@@ -70,99 +70,66 @@ module Slop
 
     # This method is called immediately when an option is found.
     # Override it in sub-classes.
-    def call(_value)
-      raise NotImplementedError,
-        "you must override the `call' method for option #{self.class}"
-    end
+    def call(_value) = raise NotImplementedError,
+      "you must override the `call' method for option #{self.class}"
 
     # By default this method does nothing. It's called when all options
     # have been parsed and allows you to mutate the `@value` attribute
     # according to other options.
-    def finish(_result)
-    end
+    def finish(_result) = nil
 
     # Override this if this option type does not expect an argument
     # (i.e a boolean option type).
-    def expects_argument?
-      true
-    end
+    def expects_argument? = true
 
     # Override this if you want to ignore the return value for an option
     # (i.e so Result#to_hash does not include it).
-    def null?
-      false
-    end
+    def null? = false
 
     # Returns the value for this option. Falls back to the default (or nil).
-    def value
-      @value || default_value
-    end
+    def value = @value || default_value
 
     # Returns the default value for this option (default is nil).
-    def default_value
-      config[:default]
-    end
+    def default_value = config[:default]
 
     # Returns true if we should ignore errors that cause exceptions to be raised.
-    def suppress_errors?
-      config[:suppress_errors]
-    end
+    def suppress_errors? = config[:suppress_errors]
 
     # Returns true if an exception should be raised when this option isn't supplied.
-    def required?
-      config[:required]
-    end
+    def required? = config[:required]
 
     # Returns true if an exception should be raised when this option value can't
     # be parsed into the desired type or does not conform to the expected type's
     # format
-    def validate_type?
-      config[:validate_type] || config[:validate_types]
-    end
+    def validate_type? = config[:validate_type] || config[:validate_types]
 
     # Returns all flags joined by a comma. Used by the help string.
-    def flag
-      flags.join(", ")
-    end
+    def flag = flags.join(", ")
 
     # Returns the last key as a symbol. Used in Options.to_hash.
     def key
-      key = config[:key] || flags.last.sub(/\A--?/, '')
-      key = key.tr '-', '_' if underscore_flags?
-      key.to_sym
+      Slop.normalize_flag(config[:key] || flags.last, underscore: underscore_flags?)
     end
 
     # Override this if you want to provide a custom validator for a type. This
     # method must return whether the provided value is valid for the current
     # argument's type
-    def valid?(value)
-      true
-    end
+    def valid?(value) = true
 
     # Returns true if this option should be displayed with dashes transformed into underscores.
-    def underscore_flags?
-      config[:underscore_flags]
-    end
+    def underscore_flags? = config[:underscore_flags]
 
     # Returns true if this option should be displayed in help text.
-    def help?
-      config[:help]
-    end
+    def help? = config[:help]
 
     # Returns true if this option should be added to the tail of the help text.
-    def tail?
-      config[:tail]
-    end
+    def tail? = config[:tail]
 
     # Returns 1 if this option should be added to the tail of the help text.
     # Used for sorting.
-    def tail
-      tail? ? 1 : -1
-    end
+    def tail = tail? ? 1 : -1
 
     # Returns the help text for this option (flags and description).
-    def to_s(offset: 0)
-      "%-#{offset}s  %s" % [flag, desc]
-    end
+    def to_s(offset: 0) = "%-#{offset}s  %s" % [flag, desc]
   end
 end

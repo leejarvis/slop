@@ -21,9 +21,8 @@ module Slop
   #   opts.to_hash #=> { host: 'localhost' }
   #
   # Returns a Slop::Result.
-  def self.parse(items = ARGV, **config, &block)
+  def self.parse(items = ARGV, **config, &block) =
     Options.new(**config, &block).parse(items)
-  end
 
   # Example:
   #
@@ -39,15 +38,21 @@ module Slop
     false
   end
 
+  # Normalize a flag string to a symbol key.
+  def self.normalize_flag(flag, underscore: true)
+    key = flag.to_s.sub(/\A--?/, '')
+    key = key.tr('-', '_') if underscore
+    key.to_sym
+  end
+
   # Example:
   #
   #   Slop.string_to_option("string")     #=> "StringOption"
   #   Slop.string_to_option("some_thing") #=> "SomeThingOption"
   #
   # Returns a camel-cased class looking string with Option suffix.
-  def self.string_to_option(s)
+  def self.string_to_option(s) =
     s.gsub(/(?:^|_)([a-z])/) { $1.capitalize } + "Option"
-  end
 
   # Example:
   #
@@ -55,7 +60,6 @@ module Slop
   #   Slop.string_to_option_class("foo")    #=> uninitialized constant FooOption
   #
   # Returns the full qualified option class. Uses `#string_to_option`.
-  def self.string_to_option_class(s)
+  def self.string_to_option_class(s) =
     const_get(string_to_option(s))
-  end
 end

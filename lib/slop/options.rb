@@ -57,9 +57,7 @@ module Slop
     def on(*flags, **config, &block)
       desc   = flags.pop unless flags.last.start_with?('-')
       config = self.config.merge(config)
-      klass  = Slop.string_to_option_class(config[:type].to_s)
-      option = klass.new(flags, desc, **config, &block)
-
+      option = Slop.string_to_option_class(config[:type].to_s).new(flags, desc, **config, &block)
       add_option option
     end
 
@@ -74,14 +72,10 @@ module Slop
     end
 
     # Sugar to avoid `options.parser.parse(x)`.
-    def parse(strings)
-      parser.parse(strings)
-    end
+    def parse(strings) = parser.parse(strings)
 
     # Implements the Enumerable interface.
-    def each(&block)
-      options.each(&block)
-    end
+    def each(&block) = options.each(&block)
 
     # Handle custom option types. Will fall back to raising an
     # exception if an option is not defined.
@@ -99,40 +93,27 @@ module Slop
     end
 
     # Return a copy of our options Array.
-    def to_a
-      options.dup
-    end
+    def to_a = options.dup
 
     # Returns the help text for this options. Used by Result#to_s.
     def to_s(prefix: " " * 4)
       str = config[:banner] ? "#{banner}\n" : ""
       len = longest_flag_length
 
-      options.select.each_with_index.sort_by{ |o,i| [o.tail, i] }.each do |opt, i|
-        # use the index to fetch an associated separator
-        if sep = separators[i]
-          str += "#{sep}\n"
-        end
-
-        str += "#{prefix}#{opt.to_s(offset: len)}\n" if opt.help?
+      options.each_with_index.sort_by { [_1.tail, _2] }.each do |opt, i|
+        str << "#{separators[i]}\n" if separators[i]
+        str << "#{prefix}#{opt.to_s(offset: len)}\n" if opt.help?
       end
 
-      if sep = separators[options.size]
-        str += "#{sep}\n"
-      end
-
+      str << "#{separators[options.size]}\n" if separators[options.size]
       str
     end
 
     private
 
-    def longest_flag_length
-      (o = longest_option) && o.flag.length || 0
-    end
+    def longest_flag_length = (o = longest_option) && o.flag.length || 0
 
-    def longest_option
-      options.max { |a, b| a.flag.length <=> b.flag.length }
-    end
+    def longest_option = options.max_by { _1.flag.length }
 
     def add_option(option)
       options.each do |o|
@@ -140,11 +121,8 @@ module Slop
 
         # Raise an error if we found an existing option with the same
         # flags. I can't immediately see a use case for this..
-        if flags.any?
-          raise ArgumentError, "duplicate flags: #{flags}"
-        end
+        raise ArgumentError, "duplicate flags: #{flags}" if flags.any?
       end
-
       options << option
       option
     end

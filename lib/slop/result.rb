@@ -18,7 +18,7 @@ module Slop
 
     # Returns an option's value, nil if the option does not exist.
     def [](flag)
-      (o = option(flag)) && o.value
+      (o = option(flag)) && (parser.opt_values.key?(o) ? parser.opt_values[o] : o.value)
     end
     alias get []
 
@@ -29,7 +29,7 @@ module Slop
         cleaned_key = clean_key(flag)
         raise UnknownOption.new("option not found: '#{cleaned_key}'", "#{cleaned_key}")
       else
-        o.value
+        parser.opt_values.key?(o) ? parser.opt_values[o] : o.value
       end
     end
 
@@ -38,6 +38,7 @@ module Slop
     def []=(flag, value)
       if o = option(flag)
         o.value = value
+        parser.opt_values[o] = value
       else
         raise ArgumentError, "no option with flag `#{flag}'"
       end
@@ -64,14 +65,10 @@ module Slop
     end
 
     # Returns an Array of Option instances that were used.
-    def used_options
-      parser.used_options
-    end
+    def used_options = parser.used_options
 
     # Returns an Array of Option instances that were not used.
-    def unused_options
-      parser.unused_options
-    end
+    def unused_options = parser.unused_options
 
     # Example:
     #
@@ -84,27 +81,21 @@ module Slop
     #   opts.arguments #=> ["connect", "helo"]
     #
     # Returns an Array of String arguments that were not parsed.
-    def arguments
-      parser.arguments
-    end
+    def arguments = parser.arguments
     alias args arguments
 
     # Returns a hash with option key => value.
     def to_hash
-      Hash[options.reject(&:null?).map { |o| [o.key, o.value] }]
+      @options.reject(&:null?).to_h { [_1.key, parser.opt_values[_1] || _1.value] }
     end
     alias to_h to_hash
 
-    def to_s(**opts)
-      options.to_s(**opts)
-    end
+    def to_s(**opts) = options.to_s(**opts)
 
     private
 
     def clean_key(key)
-      key = key.to_s.sub(/\A--?/, '')
-      key = key.tr '-', '_' if parser.config[:underscore_flags]
-      key.to_sym
+      Slop.normalize_flag(key, underscore: parser.config[:underscore_flags])
     end
   end
 end

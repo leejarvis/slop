@@ -3,16 +3,12 @@
 module Slop
   # Cast the option argument to a String.
   class StringOption < Option
-    def call(value)
-      value.to_s
-    end
+    def call(value) = value.to_s
   end
 
   # Cast the option argument to a symbol.
   class SymbolOption < Option
-    def call(value)
-      value.to_sym
-    end
+    def call(value) = value.to_sym
   end
 
   # Cast the option argument to true or false.
@@ -32,7 +28,6 @@ module Slop
       # is valid or not. Otherwise we would prevent boolean flags followed by
       # arguments from being parsed correctly.
       return true unless config[:validate_type]
-
       return true if value.is_a?(String) && value.start_with?("--")
       value.nil? || VALID_VALUES.include?(value)
     end
@@ -50,17 +45,11 @@ module Slop
       end
     end
 
-    def force_false?
-      FALSE_VALUES.include?(explicit_value)
-    end
+    def force_false? = FALSE_VALUES.include?(explicit_value)
 
-    def default_value
-      config[:default] || false
-    end
+    def default_value = config[:default] || false
 
-    def expects_argument?
-      false
-    end
+    def expects_argument? = false
   end
   BooleanOption = BoolOption
 
@@ -68,13 +57,9 @@ module Slop
   class IntegerOption < Option
     INT_STRING_REGEXP = /\A[+-]?\d+\z/.freeze
 
-    def valid?(value)
-      value =~ INT_STRING_REGEXP
-    end
+    def valid?(value) = value.is_a?(String) && value.match?(INT_STRING_REGEXP)
 
-    def call(value)
-      value.to_i
-    end
+    def call(value) = value.to_i
   end
   IntOption = IntegerOption
 
@@ -82,13 +67,9 @@ module Slop
   class FloatOption < Option
     FLOAT_STRING_REGEXP = /\A[+-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+-]?\d+)?\z/.freeze
 
-    def valid?(value)
-      value =~ FLOAT_STRING_REGEXP
-    end
+    def valid?(value) = value.is_a?(String) && value.match?(FLOAT_STRING_REGEXP)
 
-    def call(value)
-      value.to_f
-    end
+    def call(value) = value.to_f
   end
 
   # Collect multiple items into a single Array. Support
@@ -103,31 +84,25 @@ module Slop
       end
     end
 
-    def default_value
-      config[:default] || []
-    end
+    def default_value = config[:default] || []
 
-    def delimiter
-      config.fetch(:delimiter, ",")
-    end
+    def delimiter = config.fetch(:delimiter, ",")
 
-    def limit
-      config[:limit] || 0
-    end
+    def limit = config[:limit] || 0
   end
 
   # Cast the option argument to a Regexp.
   class RegexpOption < Option
-    def call(value)
-      Regexp.new(value)
-    end
+    def call(value) = Regexp.new(value)
   end
 
-  # An option that discards the return value, inherits from Bool
-  # since it does not expect an argument.
-  class NullOption < BoolOption
-    def null?
-      true
-    end
+  # An option that discards the return value. Does not expect
+  # an argument and is excluded from #to_hash.
+  class NullOption < Option
+    def null? = true
+
+    def expects_argument? = false
+
+    def call(_value) = true
   end
 end
